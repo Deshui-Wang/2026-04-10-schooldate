@@ -1,0 +1,459 @@
+<template>
+  <div class="app-list">
+    <div class="section-header">
+      <h3>应用列表</h3>
+      <p>浏览和搜索可用的教育应用</p>
+    </div>
+
+    <!-- 搜索和筛选 -->
+    <el-card class="search-card">
+      <el-form :model="searchForm" inline>
+        <el-form-item label="应用名称">
+          <el-input v-model="searchForm.name" placeholder="请输入应用名称" clearable />
+        </el-form-item>
+        <el-form-item label="分类">
+          <el-select v-model="searchForm.category" placeholder="请选择分类" clearable>
+            <el-option label="教学管理" value="教学管理" />
+            <el-option label="学生管理" value="学生管理" />
+            <el-option label="在线学习" value="在线学习" />
+            <el-option label="考试系统" value="考试系统" />
+            <el-option label="家校沟通" value="家校沟通" />
+            <el-option label="数据分析" value="数据分析" />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="价格">
+          <el-select v-model="searchForm.price" placeholder="请选择价格" clearable>
+            <el-option label="免费" value="免费" />
+            <el-option label="付费" value="付费" />
+            <el-option label="试用" value="试用" />
+          </el-select>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="handleSearch">
+            <el-icon><Search /></el-icon>
+            搜索
+          </el-button>
+          <el-button @click="resetSearch">重置</el-button>
+        </el-form-item>
+      </el-form>
+    </el-card>
+
+    <!-- 应用列表 -->
+    <el-card class="apps-card">
+      <el-row :gutter="20">
+        <el-col :span="8" v-for="app in filteredApps" :key="app.id">
+          <el-card class="app-card" shadow="hover">
+            <div class="app-image">
+              <el-image
+                :src="app.image"
+                :alt="app.name"
+                fit="cover"
+                style="width: 100%; height: 200px;"
+              >
+                <template #error>
+                  <div class="image-slot">
+                    <el-icon><Picture /></el-icon>
+                  </div>
+                </template>
+              </el-image>
+            </div>
+            <div class="app-content">
+              <h4 class="app-name">{{ app.name }}</h4>
+              <p class="app-description">{{ app.description }}</p>
+              <div class="app-meta">
+                <el-tag :type="getCategoryType(app.category)">{{ app.category }}</el-tag>
+                <el-tag :type="getPriceType(app.price)">{{ app.price }}</el-tag>
+                <div class="app-rating">
+                  <el-rate v-model="app.rating" disabled show-score />
+                </div>
+              </div>
+              <div class="app-actions">
+                <el-button type="primary" @click="viewDetails(app)">查看详情</el-button>
+                <el-button type="success" @click="installApp(app)">安装</el-button>
+              </div>
+            </div>
+          </el-card>
+        </el-col>
+      </el-row>
+    </el-card>
+
+    <!-- 应用详情对话框 -->
+    <el-dialog
+      v-model="detailDialogVisible"
+      :title="selectedApp?.name"
+      width="800px"
+    >
+      <div v-if="selectedApp" class="app-detail">
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <el-image
+              :src="selectedApp.image"
+              :alt="selectedApp.name"
+              fit="cover"
+              style="width: 100%; height: 300px;"
+            />
+          </el-col>
+          <el-col :span="16">
+            <h3>{{ selectedApp.name }}</h3>
+            <p class="app-desc">{{ selectedApp.description }}</p>
+            <div class="app-info">
+              <p><strong>分类：</strong>{{ selectedApp.category }}</p>
+              <p><strong>价格：</strong>{{ selectedApp.price }}</p>
+              <p><strong>版本：</strong>{{ selectedApp.version }}</p>
+              <p><strong>开发商：</strong>{{ selectedApp.developer }}</p>
+              <p><strong>评分：</strong>
+                <el-rate v-model="selectedApp.rating" disabled show-score />
+              </p>
+            </div>
+            <div class="app-features">
+              <h4>功能特点：</h4>
+              <ul>
+                <li v-for="feature in selectedApp.features" :key="feature">{{ feature }}</li>
+              </ul>
+            </div>
+          </el-col>
+        </el-row>
+      </div>
+      <template #footer>
+        <el-button @click="detailDialogVisible = false">关闭</el-button>
+        <el-button type="primary" @click="installApp(selectedApp)">安装应用</el-button>
+      </template>
+    </el-dialog>
+  </div>
+</template>
+
+<script>
+import { ref, reactive, computed } from 'vue'
+import { ElMessage } from 'element-plus'
+
+export default {
+  name: 'AppList',
+  setup() {
+    const detailDialogVisible = ref(false)
+    const selectedApp = ref(null)
+
+    const searchForm = reactive({
+      name: '',
+      category: '',
+      price: ''
+    })
+
+    const apps = ref([
+      {
+        id: 1,
+        name: '在线考试系统',
+        description: '提供在线考试、自动阅卷、成绩分析等功能',
+        category: '考试系统',
+        price: '付费',
+        version: 'v2.1.0',
+        developer: '教育科技公司',
+        rating: 4.5,
+        image: 'https://via.placeholder.com/300x200?text=在线考试系统',
+        features: [
+          '支持多种题型',
+          '自动阅卷功能',
+          '成绩统计分析',
+          '防作弊机制',
+          '移动端支持'
+        ]
+      },
+      {
+        id: 2,
+        name: '家校沟通平台',
+        description: '连接学校、教师、家长，实现高效沟通',
+        category: '家校沟通',
+        price: '免费',
+        version: 'v1.5.2',
+        developer: '家校通科技',
+        rating: 4.2,
+        image: 'https://via.placeholder.com/300x200?text=家校沟通平台',
+        features: [
+          '消息推送',
+          '作业通知',
+          '成绩查询',
+          '请假申请',
+          '活动通知'
+        ]
+      },
+      {
+        id: 3,
+        name: '智能排课系统',
+        description: '智能排课，优化教学资源配置',
+        category: '教学管理',
+        price: '试用',
+        version: 'v3.0.1',
+        developer: '智能教育',
+        rating: 4.8,
+        image: 'https://via.placeholder.com/300x200?text=智能排课系统',
+        features: [
+          '智能算法排课',
+          '冲突检测',
+          '资源优化',
+          '课表导出',
+          '移动端查看'
+        ]
+      },
+      {
+        id: 4,
+        name: '学生档案管理',
+        description: '全面管理学生档案和成长记录',
+        category: '学生管理',
+        price: '免费',
+        version: 'v2.0.3',
+        developer: '档案管理公司',
+        rating: 4.3,
+        image: 'https://via.placeholder.com/300x200?text=学生档案管理',
+        features: [
+          '档案录入',
+          '成长记录',
+          '成绩跟踪',
+          '行为评价',
+          '数据导出'
+        ]
+      },
+      {
+        id: 5,
+        name: '在线学习平台',
+        description: '提供丰富的在线学习资源和工具',
+        category: '在线学习',
+        price: '付费',
+        version: 'v4.2.0',
+        developer: '学习科技',
+        rating: 4.6,
+        image: 'https://via.placeholder.com/300x200?text=在线学习平台',
+        features: [
+          '视频课程',
+          '互动练习',
+          '学习进度',
+          '知识图谱',
+          '个性化推荐'
+        ]
+      },
+      {
+        id: 6,
+        name: '数据分析工具',
+        description: '教育数据分析和可视化展示',
+        category: '数据分析',
+        price: '试用',
+        version: 'v1.8.5',
+        developer: '数据科技',
+        rating: 4.4,
+        image: 'https://via.placeholder.com/300x200?text=数据分析工具',
+        features: [
+          '数据可视化',
+          '趋势分析',
+          '报表生成',
+          '预测模型',
+          '多维度分析'
+        ]
+      }
+    ])
+
+    const filteredApps = computed(() => {
+      let result = apps.value
+
+      if (searchForm.name) {
+        result = result.filter(app => 
+          app.name.includes(searchForm.name)
+        )
+      }
+      if (searchForm.category) {
+        result = result.filter(app => 
+          app.category === searchForm.category
+        )
+      }
+      if (searchForm.price) {
+        result = result.filter(app => 
+          app.price === searchForm.price
+        )
+      }
+
+      return result
+    })
+
+    const getCategoryType = (category) => {
+      const types = {
+        '教学管理': 'primary',
+        '学生管理': 'success',
+        '在线学习': 'warning',
+        '考试系统': 'danger',
+        '家校沟通': 'info',
+        '数据分析': 'success'
+      }
+      return types[category] || 'info'
+    }
+
+    const getPriceType = (price) => {
+      const types = {
+        '免费': 'success',
+        '付费': 'danger',
+        '试用': 'warning'
+      }
+      return types[price] || 'info'
+    }
+
+    const handleSearch = () => {
+      // 搜索逻辑已在computed中处理
+    }
+
+    const resetSearch = () => {
+      Object.assign(searchForm, {
+        name: '',
+        category: '',
+        price: ''
+      })
+    }
+
+    const viewDetails = (app) => {
+      selectedApp.value = app
+      detailDialogVisible.value = true
+    }
+
+    const installApp = (app) => {
+      ElMessage.success(`正在安装 ${app.name}...`)
+    }
+
+    return {
+      detailDialogVisible,
+      selectedApp,
+      searchForm,
+      apps,
+      filteredApps,
+      getCategoryType,
+      getPriceType,
+      handleSearch,
+      resetSearch,
+      viewDetails,
+      installApp
+    }
+  }
+}
+</script>
+
+<style scoped>
+.app-list {
+  padding: 0;
+}
+
+.section-header {
+  margin-bottom: 20px;
+}
+
+.section-header h3 {
+  margin: 0 0 8px 0;
+  color: #303133;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.section-header p {
+  margin: 0;
+  color: #606266;
+  font-size: 14px;
+}
+
+.search-card,
+.apps-card {
+  margin-bottom: 20px;
+}
+
+.app-card {
+  margin-bottom: 20px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.app-card:hover {
+  transform: translateY(-2px);
+}
+
+.app-content {
+  padding: 15px;
+}
+
+.app-name {
+  margin: 0 0 10px 0;
+  color: #303133;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.app-description {
+  margin: 0 0 15px 0;
+  color: #606266;
+  font-size: 14px;
+  line-height: 1.5;
+  height: 42px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.app-meta {
+  margin-bottom: 15px;
+}
+
+.app-meta .el-tag {
+  margin-right: 8px;
+}
+
+.app-rating {
+  margin-top: 8px;
+}
+
+.app-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.app-actions .el-button {
+  flex: 1;
+}
+
+.image-slot {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background: #f5f7fa;
+  color: #909399;
+  font-size: 30px;
+}
+
+.app-detail h3 {
+  margin: 0 0 15px 0;
+  color: #303133;
+}
+
+.app-desc {
+  margin: 0 0 20px 0;
+  color: #606266;
+  line-height: 1.6;
+}
+
+.app-info p {
+  margin: 8px 0;
+  color: #606266;
+}
+
+.app-features {
+  margin-top: 20px;
+}
+
+.app-features h4 {
+  margin: 0 0 10px 0;
+  color: #303133;
+}
+
+.app-features ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.app-features li {
+  margin: 5px 0;
+  color: #606266;
+}
+</style>
