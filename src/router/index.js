@@ -38,6 +38,13 @@ import AppPurchase from '../views/app-market/AppPurchase.vue'
 // 授权中心
 import AppAuthorization from '../views/authorization-center/AppAuthorization.vue'
 
+// 智能决策
+import DecisionSupport from '../views/intelligent-decision/DecisionSupport.vue'
+import SmartDecision from '../views/intelligent-decision/SmartDecision.vue'
+import SmartMonitoring from '../views/intelligent-decision/SmartMonitoring.vue'
+import SmartRecommendation from '../views/intelligent-decision/SmartRecommendation.vue'
+import SmartAnalysis from '../views/intelligent-decision/SmartAnalysis.vue'
+
 const routes = [
   {
     path: '/',
@@ -196,6 +203,36 @@ const routes = [
     name: 'AppAuthorization',
     component: AppAuthorization,
     meta: { title: '应用授权' }
+  },
+  {
+    path: '/intelligent-decision/decision-support',
+    name: 'DecisionSupport',
+    component: DecisionSupport,
+    meta: { title: '智能决策支持' }
+  },
+  {
+    path: '/intelligent-decision/smart-recommendation',
+    name: 'SmartRecommendation',
+    component: SmartRecommendation,
+    meta: { title: '智能推荐' }
+  },
+  {
+    path: '/intelligent-decision/smart-decision',
+    name: 'SmartDecision',
+    component: SmartDecision,
+    meta: { title: '智能决策' }
+  },
+  {
+    path: '/intelligent-decision/smart-monitoring',
+    name: 'SmartMonitoring',
+    component: SmartMonitoring,
+    meta: { title: '智能监测' }
+  },
+  {
+    path: '/intelligent-decision/smart-analysis',
+    name: 'SmartAnalysis',
+    component: SmartAnalysis,
+    meta: { title: '智能分析' }
   }
 ]
 

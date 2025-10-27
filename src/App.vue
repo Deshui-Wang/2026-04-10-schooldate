@@ -50,6 +50,18 @@
               <el-menu-item index="/data-integration/web-scraping">爬虫</el-menu-item>
             </el-sub-menu>
 
+            <el-sub-menu index="/intelligent-decision">
+              <template #title>
+                <el-icon><Cpu /></el-icon>
+                <span>智能决策</span>
+              </template>
+              <el-menu-item index="/intelligent-decision/smart-recommendation">智能推荐</el-menu-item>
+              <el-menu-item index="/intelligent-decision/smart-analysis">智能分析</el-menu-item>
+              <el-menu-item index="/intelligent-decision/smart-decision">智能决策</el-menu-item>
+              <el-menu-item index="/intelligent-decision/smart-monitoring">智能监测</el-menu-item>
+              <el-menu-item index="/intelligent-decision/decision-support">决策支持</el-menu-item>
+            </el-sub-menu>
+
             <el-sub-menu index="/teacher-management">
               <template #title>
                 <el-icon><User /></el-icon>
