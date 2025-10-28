@@ -85,39 +85,49 @@
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="55" />
-        <el-table-column prop="studentId" label="学号" width="120" />
-        <el-table-column prop="studentName" label="姓名" width="100" />
-        <el-table-column prop="className" label="班级" width="120" />
-        <el-table-column prop="courseName" label="课程名称" width="150" />
-        <el-table-column prop="semester" label="学期" width="180" />
-        <el-table-column prop="usualGrade" label="平时成绩" width="100" align="center" />
-        <el-table-column prop="examGrade" label="考试成绩" width="100" align="center" />
-        <el-table-column prop="finalGrade" label="总成绩" width="100" align="center">
+        <el-table-column prop="studentId" label="学号" min-width="110" />
+        <el-table-column prop="studentName" label="姓名" min-width="90" />
+        <el-table-column prop="className" label="班级" min-width="110" />
+        <el-table-column prop="courseName" label="课程名称" min-width="130" />
+        <el-table-column prop="semester" label="学期" min-width="160" show-overflow-tooltip />
+        <el-table-column prop="usualGrade" label="平时成绩" min-width="90" align="center">
+          <template #default="{ row }">
+            <span :class="getGradeClass(row.usualGrade)">{{ row.usualGrade }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="examGrade" label="考试成绩" min-width="90" align="center">
+          <template #default="{ row }">
+            <span :class="getGradeClass(row.examGrade)">{{ row.examGrade }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="finalGrade" label="总成绩" min-width="90" align="center">
           <template #default="{ row }">
             <span :class="getGradeClass(row.finalGrade)">{{ row.finalGrade }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="gradeLevel" label="等级" width="80" align="center">
+        <el-table-column prop="gradeLevel" label="等级" min-width="80" align="center">
           <template #default="{ row }">
             <el-tag :type="getGradeLevelType(row.gradeLevel)">{{ row.gradeLevel }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="teacherName" label="任课教师" width="120" />
-        <el-table-column prop="updateTime" label="更新时间" width="150" />
-        <el-table-column label="操作" width="200" fixed="right">
+        <el-table-column prop="teacherName" label="任课教师" min-width="100" />
+        <el-table-column prop="updateTime" label="更新时间" min-width="140" />
+        <el-table-column label="操作" width="220" fixed="right">
           <template #default="{ row }">
-            <el-button type="primary" size="small" @click="handleEdit(row)">
-              <el-icon><Edit /></el-icon>
-              编辑
-            </el-button>
-            <el-button type="success" size="small" @click="handleViewDetail(row)">
-              <el-icon><View /></el-icon>
-              详情
-            </el-button>
-            <el-button type="danger" size="small" @click="handleDelete(row)">
-              <el-icon><Delete /></el-icon>
-              删除
-            </el-button>
+            <div class="operation-buttons">
+              <el-button type="primary" size="small" @click="handleEdit(row)">
+                <el-icon><Edit /></el-icon>
+                编辑
+              </el-button>
+              <el-button type="success" size="small" @click="handleViewDetail(row)">
+                <el-icon><View /></el-icon>
+                详情
+              </el-button>
+              <el-button type="danger" size="small" @click="handleDelete(row)">
+                <el-icon><Delete /></el-icon>
+                删除
+              </el-button>
+            </div>
           </template>
         </el-table-column>
       </el-table>
@@ -429,6 +439,331 @@ export default {
         gradeLevel: 'B',
         teacherName: '李老师',
         updateTime: '2024-01-14 15:20'
+      },
+      {
+        studentId: '2021004',
+        studentName: '赵六',
+        className: '一年级1班',
+        courseName: '数据结构',
+        semester: '2023-2024学年第一学期',
+        usualGrade: 95,
+        examGrade: 92,
+        finalGrade: 93,
+        gradeLevel: 'A',
+        teacherName: '张老师',
+        updateTime: '2024-01-15 10:32'
+      },
+      {
+        studentId: '2021005',
+        studentName: '钱七',
+        className: '一年级2班',
+        courseName: '算法设计',
+        semester: '2023-2024学年第一学期',
+        usualGrade: 88,
+        examGrade: 85,
+        finalGrade: 86,
+        gradeLevel: 'B',
+        teacherName: '李老师',
+        updateTime: '2024-01-14 15:25'
+      },
+      {
+        studentId: '2021006',
+        studentName: '孙八',
+        className: '一年级2班',
+        courseName: '数据库原理',
+        semester: '2023-2024学年第一学期',
+        usualGrade: 70,
+        examGrade: 75,
+        finalGrade: 74,
+        gradeLevel: 'C',
+        teacherName: '王老师',
+        updateTime: '2024-01-13 09:15'
+      },
+      {
+        studentId: '2021007',
+        studentName: '周九',
+        className: '一年级1班',
+        courseName: '计算机网络',
+        semester: '2023-2024学年第一学期',
+        usualGrade: 82,
+        examGrade: 88,
+        finalGrade: 86,
+        gradeLevel: 'B',
+        teacherName: '刘老师',
+        updateTime: '2024-01-12 14:30'
+      },
+      {
+        studentId: '2021008',
+        studentName: '吴十',
+        className: '一年级1班',
+        courseName: '软件工程',
+        semester: '2023-2024学年第一学期',
+        usualGrade: 90,
+        examGrade: 93,
+        finalGrade: 92,
+        gradeLevel: 'A',
+        teacherName: '赵老师',
+        updateTime: '2024-01-11 11:20'
+      },
+      {
+        studentId: '2022001',
+        studentName: '郑十一',
+        className: '二年级1班',
+        courseName: '数据结构',
+        semester: '2024-2025学年第一学期',
+        usualGrade: 98,
+        examGrade: 96,
+        finalGrade: 97,
+        gradeLevel: 'A',
+        teacherName: '张老师',
+        updateTime: '2024-01-20 10:00'
+      },
+      {
+        studentId: '2022002',
+        studentName: '王十二',
+        className: '二年级2班',
+        courseName: '算法设计',
+        semester: '2024-2025学年第一学期',
+        usualGrade: 78,
+        examGrade: 80,
+        finalGrade: 79,
+        gradeLevel: 'C',
+        teacherName: '李老师',
+        updateTime: '2024-01-19 16:45'
+      },
+      {
+        studentId: '2022003',
+        studentName: '冯十三',
+        className: '二年级1班',
+        courseName: '数据库原理',
+        semester: '2024-2025学年第一学期',
+        usualGrade: 87,
+        examGrade: 82,
+        finalGrade: 84,
+        gradeLevel: 'B',
+        teacherName: '王老师',
+        updateTime: '2024-01-18 09:30'
+      },
+      {
+        studentId: '2022004',
+        studentName: '陈十四',
+        className: '二年级2班',
+        courseName: '软件工程',
+        semester: '2024-2025学年第一学期',
+        usualGrade: 75,
+        examGrade: 68,
+        finalGrade: 70,
+        gradeLevel: 'C',
+        teacherName: '赵老师',
+        updateTime: '2024-01-17 14:20'
+      },
+      {
+        studentId: '2022005',
+        studentName: '褚十五',
+        className: '二年级1班',
+        courseName: '计算机网络',
+        semester: '2024-2025学年第一学期',
+        usualGrade: 93,
+        examGrade: 90,
+        finalGrade: 91,
+        gradeLevel: 'A',
+        teacherName: '刘老师',
+        updateTime: '2024-01-16 11:10'
+      },
+      {
+        studentId: '2023001',
+        studentName: '卫十六',
+        className: '三年级1班',
+        courseName: '数据结构',
+        semester: '2023-2024学年第二学期',
+        usualGrade: 88,
+        examGrade: 85,
+        finalGrade: 86,
+        gradeLevel: 'B',
+        teacherName: '张老师',
+        updateTime: '2024-06-20 10:30'
+      },
+      {
+        studentId: '2023002',
+        studentName: '蒋十七',
+        className: '三年级2班',
+        courseName: '算法设计',
+        semester: '2023-2024学年第二学期',
+        usualGrade: 92,
+        examGrade: 95,
+        finalGrade: 94,
+        gradeLevel: 'A',
+        teacherName: '李老师',
+        updateTime: '2024-06-19 15:00'
+      },
+      {
+        studentId: '2023003',
+        studentName: '沈十八',
+        className: '三年级1班',
+        courseName: '数据库原理',
+        semester: '2023-2024学年第二学期',
+        usualGrade: 65,
+        examGrade: 58,
+        finalGrade: 60,
+        gradeLevel: 'D',
+        teacherName: '王老师',
+        updateTime: '2024-06-18 09:45'
+      },
+      {
+        studentId: '2023004',
+        studentName: '韩十九',
+        className: '三年级2班',
+        courseName: '软件工程',
+        semester: '2023-2024学年第二学期',
+        usualGrade: 85,
+        examGrade: 88,
+        finalGrade: 87,
+        gradeLevel: 'B',
+        teacherName: '赵老师',
+        updateTime: '2024-06-17 13:30'
+      },
+      {
+        studentId: '2023005',
+        studentName: '杨二十',
+        className: '三年级1班',
+        courseName: '计算机网络',
+        semester: '2023-2024学年第二学期',
+        usualGrade: 91,
+        examGrade: 89,
+        finalGrade: 90,
+        gradeLevel: 'A',
+        teacherName: '刘老师',
+        updateTime: '2024-06-16 10:15'
+      },
+      {
+        studentId: '2021009',
+        studentName: '朱二十一',
+        className: '一年级2班',
+        courseName: '数据结构',
+        semester: '2023-2024学年第一学期',
+        usualGrade: 55,
+        examGrade: 52,
+        finalGrade: 53,
+        gradeLevel: 'F',
+        teacherName: '张老师',
+        updateTime: '2024-01-15 10:35'
+      },
+      {
+        studentId: '2022006',
+        studentName: '秦二十二',
+        className: '二年级2班',
+        courseName: '算法设计',
+        semester: '2024-2025学年第一学期',
+        usualGrade: 89,
+        examGrade: 91,
+        finalGrade: 90,
+        gradeLevel: 'A',
+        teacherName: '李老师',
+        updateTime: '2024-01-19 16:50'
+      },
+      {
+        studentId: '2022007',
+        studentName: '尤二十三',
+        className: '二年级1班',
+        courseName: '数据库原理',
+        semester: '2024-2025学年第一学期',
+        usualGrade: 72,
+        examGrade: 70,
+        finalGrade: 71,
+        gradeLevel: 'C',
+        teacherName: '王老师',
+        updateTime: '2024-01-18 09:35'
+      },
+      {
+        studentId: '2023006',
+        studentName: '许二十四',
+        className: '三年级2班',
+        courseName: '软件工程',
+        semester: '2023-2024学年第二学期',
+        usualGrade: 96,
+        examGrade: 98,
+        finalGrade: 97,
+        gradeLevel: 'A',
+        teacherName: '赵老师',
+        updateTime: '2024-06-17 13:35'
+      },
+      {
+        studentId: '2023007',
+        studentName: '何二十五',
+        className: '三年级1班',
+        courseName: '计算机网络',
+        semester: '2023-2024学年第二学期',
+        usualGrade: 68,
+        examGrade: 62,
+        finalGrade: 64,
+        gradeLevel: 'D',
+        teacherName: '刘老师',
+        updateTime: '2024-06-16 10:20'
+      },
+      {
+        studentId: '2021010',
+        studentName: '吕二十六',
+        className: '一年级2班',
+        courseName: '算法设计',
+        semester: '2023-2024学年第一学期',
+        usualGrade: 83,
+        examGrade: 86,
+        finalGrade: 85,
+        gradeLevel: 'B',
+        teacherName: '李老师',
+        updateTime: '2024-01-14 15:30'
+      },
+      {
+        studentId: '2021011',
+        studentName: '施二十七',
+        className: '一年级1班',
+        courseName: '数据库原理',
+        semester: '2023-2024学年第一学期',
+        usualGrade: 79,
+        examGrade: 74,
+        finalGrade: 76,
+        gradeLevel: 'C',
+        teacherName: '王老师',
+        updateTime: '2024-01-13 09:20'
+      },
+      {
+        studentId: '2022008',
+        studentName: '张二十八',
+        className: '二年级1班',
+        courseName: '计算机网络',
+        semester: '2024-2025学年第一学期',
+        usualGrade: 94,
+        examGrade: 97,
+        finalGrade: 96,
+        gradeLevel: 'A',
+        teacherName: '刘老师',
+        updateTime: '2024-01-16 11:15'
+      },
+      {
+        studentId: '2023008',
+        studentName: '孔二十九',
+        className: '三年级2班',
+        courseName: '数据结构',
+        semester: '2023-2024学年第二学期',
+        usualGrade: 81,
+        examGrade: 84,
+        finalGrade: 83,
+        gradeLevel: 'B',
+        teacherName: '张老师',
+        updateTime: '2024-06-20 10:35'
+      },
+      {
+        studentId: '2023009',
+        studentName: '曹三十',
+        className: '三年级1班',
+        courseName: '算法设计',
+        semester: '2023-2024学年第二学期',
+        usualGrade: 56,
+        examGrade: 55,
+        finalGrade: 55,
+        gradeLevel: 'F',
+        teacherName: '李老师',
+        updateTime: '2024-06-19 15:05'
       }
     ])
 
@@ -717,5 +1052,19 @@ export default {
 .grade-fail {
   color: #f56c6c;
   font-weight: 600;
+}
+
+.operation-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.operation-buttons .el-button {
+  margin: 0;
+  flex-shrink: 0;
+  padding: 7px 10px;
 }
 </style>

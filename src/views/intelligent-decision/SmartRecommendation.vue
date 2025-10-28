@@ -14,155 +14,205 @@
         </div>
       </div>
     </div>
-    <!-- 评选类型选择 -->
+    <!-- 评选配置 -->
     <el-card class="selection-card" shadow="never">
         <template #header>
           <div class="card-header">
-            <el-icon><Trophy /></el-icon>
-            <span>评选类型选择</span>
-          </div>
-        </template>
-        
-        <el-form :model="selectionConfig" label-width="120px">
-          <el-row :gutter="20">
-            <el-col :span="12">
-              <el-form-item label="评选类型">
-                <el-select v-model="selectionConfig.type" placeholder="选择评选类型" @change="onSelectionTypeChange">
-                  <el-option label="职称评选" value="title_evaluation" />
-                  <el-option label="人才评选" value="talent_evaluation" />
-                  <el-option label="优秀教师" value="excellent_teacher" />
-                  <el-option label="学科带头人" value="subject_leader" />
-                  <el-option label="教学名师" value="teaching_master" />
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="推荐数量">
-                <el-input-number v-model="selectionConfig.count" :min="1" :max="20" />
-              </el-form-item>
-            </el-col>
-          </el-row>
-          
-          <el-row :gutter="20">
-            <el-col :span="12">
-              <el-form-item label="评选级别">
-                <el-select v-model="selectionConfig.level" placeholder="选择评选级别">
-                  <el-option label="校级" value="school" />
-                  <el-option label="市级" value="city" />
-                  <el-option label="省级" value="province" />
-                  <el-option label="国家级" value="national" />
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="学科领域">
-                <el-select v-model="selectionConfig.subject" placeholder="选择学科领域" multiple>
-                  <el-option label="计算机科学" value="computer" />
-                  <el-option label="数学" value="mathematics" />
-                  <el-option label="物理" value="physics" />
-                  <el-option label="化学" value="chemistry" />
-                  <el-option label="生物" value="biology" />
-                  <el-option label="文学" value="literature" />
-                  <el-option label="历史" value="history" />
-                  <el-option label="哲学" value="philosophy" />
-                </el-select>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          
-          <el-form-item>
-            <el-button type="primary" @click="generateRecommendations" :loading="loading">
-              <el-icon><Magic /></el-icon>
-              生成智能推荐
-            </el-button>
-            <el-button @click="resetConfig">重置配置</el-button>
-          </el-form-item>
-        </el-form>
-      </el-card>
-
-      <!-- 评选标准配置 -->
-      <el-card class="criteria-card" shadow="never">
-        <template #header>
-          <div class="card-header">
             <el-icon><Setting /></el-icon>
-            <span>评选标准配置</span>
+            <span>评选配置</span>
           </div>
         </template>
         
-        <div class="criteria-content">
-          <el-row :gutter="20">
-            <el-col :span="8">
-              <div class="criteria-item">
-                <h4>教学能力 ({{ criteriaWeights.teaching }}%)</h4>
-                <el-slider v-model="criteriaWeights.teaching" :min="0" :max="100" />
-                <div class="criteria-details">
-                  <el-checkbox v-model="criteriaDetails.teaching.courseQuality">课程质量</el-checkbox>
-                  <el-checkbox v-model="criteriaDetails.teaching.studentEvaluation">学生评价</el-checkbox>
-                  <el-checkbox v-model="criteriaDetails.teaching.teachingAward">教学获奖</el-checkbox>
-                </div>
-              </div>
-            </el-col>
-            <el-col :span="8">
-              <div class="criteria-item">
-                <h4>科研能力 ({{ criteriaWeights.research }}%)</h4>
-                <el-slider v-model="criteriaWeights.research" :min="0" :max="100" />
-                <div class="criteria-details">
-                  <el-checkbox v-model="criteriaDetails.research.paperCount">论文数量</el-checkbox>
-                  <el-checkbox v-model="criteriaDetails.research.projectCount">项目数量</el-checkbox>
-                  <el-checkbox v-model="criteriaDetails.research.patentCount">专利数量</el-checkbox>
-                </div>
-              </div>
-            </el-col>
-            <el-col :span="8">
-              <div class="criteria-item">
-                <h4>管理能力 ({{ criteriaWeights.management }}%)</h4>
-                <el-slider v-model="criteriaWeights.management" :min="0" :max="100" />
-                <div class="criteria-details">
-                  <el-checkbox v-model="criteriaDetails.management.leadership">领导力</el-checkbox>
-                  <el-checkbox v-model="criteriaDetails.management.teamBuilding">团队建设</el-checkbox>
-                  <el-checkbox v-model="criteriaDetails.management.decisionMaking">决策能力</el-checkbox>
-                </div>
-              </div>
-            </el-col>
-          </el-row>
+        <div class="config-content">
+          <!-- 评选类型配置 -->
+          <div class="config-section">
+            <h3 class="section-title">评选类型配置</h3>
+            <el-form :model="selectionConfig" label-width="100px">
+              <el-row :gutter="20">
+                <el-col :span="6">
+                  <el-form-item label="评选类型">
+                    <el-select v-model="selectionConfig.type" placeholder="选择评选类型" @change="onSelectionTypeChange">
+                      <el-option label="职称评选" value="title_evaluation" />
+                      <el-option label="人才评选" value="talent_evaluation" />
+                      <el-option label="优秀教师" value="excellent_teacher" />
+                      <el-option label="学科带头人" value="subject_leader" />
+                      <el-option label="教学名师" value="teaching_master" />
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item label="推荐数量">
+                    <el-input-number v-model="selectionConfig.count" :min="1" :max="20" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item label="评选级别">
+                    <el-select v-model="selectionConfig.level" placeholder="选择评选级别">
+                      <el-option label="校级" value="school" />
+                      <el-option label="市级" value="city" />
+                      <el-option label="省级" value="province" />
+                      <el-option label="国家级" value="national" />
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item label="学科领域">
+                    <el-select v-model="selectionConfig.subject" placeholder="选择学科领域" multiple>
+                      <el-option label="计算机科学" value="computer" />
+                      <el-option label="数学" value="mathematics" />
+                      <el-option label="物理" value="physics" />
+                      <el-option label="化学" value="chemistry" />
+                      <el-option label="生物" value="biology" />
+                      <el-option label="文学" value="literature" />
+                      <el-option label="历史" value="history" />
+                      <el-option label="哲学" value="philosophy" />
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </el-form>
+          </div>
           
-          <el-row :gutter="20" style="margin-top: 20px;">
-            <el-col :span="8">
-              <div class="criteria-item">
-                <h4>创新能力 ({{ criteriaWeights.innovation }}%)</h4>
-                <el-slider v-model="criteriaWeights.innovation" :min="0" :max="100" />
-                <div class="criteria-details">
-                  <el-checkbox v-model="criteriaDetails.innovation.innovationAward">创新奖项</el-checkbox>
-                  <el-checkbox v-model="criteriaDetails.innovation.techTransfer">技术转化</el-checkbox>
-                  <el-checkbox v-model="criteriaDetails.innovation.startup">创业项目</el-checkbox>
+          <!-- 评选标准配置 -->
+          <div class="config-section">
+            <h3 class="section-title">评选标准配置</h3>
+            <el-row :gutter="12">
+              <el-col :span="4">
+                <div class="criteria-item">
+                  <h4>教学能力 ({{ criteriaWeights.teaching }}%)</h4>
+                  <el-slider v-model="criteriaWeights.teaching" :min="0" :max="100" />
+                  <div class="criteria-details">
+                    <el-checkbox v-model="criteriaDetails.teaching.courseQuality">课程质量</el-checkbox>
+                    <el-checkbox v-model="criteriaDetails.teaching.studentEvaluation">学生评价</el-checkbox>
+                    <el-checkbox v-model="criteriaDetails.teaching.teachingAward">教学获奖</el-checkbox>
+                  </div>
                 </div>
-              </div>
-            </el-col>
-            <el-col :span="8">
-              <div class="criteria-item">
-                <h4>社会影响 ({{ criteriaWeights.socialImpact }}%)</h4>
-                <el-slider v-model="criteriaWeights.socialImpact" :min="0" :max="100" />
-                <div class="criteria-details">
-                  <el-checkbox v-model="criteriaDetails.socialImpact.mediaCoverage">媒体报道</el-checkbox>
-                  <el-checkbox v-model="criteriaDetails.socialImpact.publicService">公共服务</el-checkbox>
-                  <el-checkbox v-model="criteriaDetails.socialImpact.industryInfluence">行业影响</el-checkbox>
+              </el-col>
+              <el-col :span="4">
+                <div class="criteria-item">
+                  <h4>科研能力 ({{ criteriaWeights.research }}%)</h4>
+                  <el-slider v-model="criteriaWeights.research" :min="0" :max="100" />
+                  <div class="criteria-details">
+                    <el-checkbox v-model="criteriaDetails.research.paperCount">论文数量</el-checkbox>
+                    <el-checkbox v-model="criteriaDetails.research.projectCount">项目数量</el-checkbox>
+                    <el-checkbox v-model="criteriaDetails.research.patentCount">专利数量</el-checkbox>
+                  </div>
                 </div>
-              </div>
-            </el-col>
-            <el-col :span="8">
-              <div class="criteria-item">
-                <h4>综合表现 ({{ criteriaWeights.overall }}%)</h4>
-                <el-slider v-model="criteriaWeights.overall" :min="0" :max="100" />
-                <div class="criteria-details">
-                  <el-checkbox v-model="criteriaDetails.overall.workEthic">工作态度</el-checkbox>
-                  <el-checkbox v-model="criteriaDetails.overall.colleagueRelation">同事关系</el-checkbox>
-                  <el-checkbox v-model="criteriaDetails.overall.professionalDevelopment">专业发展</el-checkbox>
+              </el-col>
+              <el-col :span="4">
+                <div class="criteria-item">
+                  <h4>管理能力 ({{ criteriaWeights.management }}%)</h4>
+                  <el-slider v-model="criteriaWeights.management" :min="0" :max="100" />
+                  <div class="criteria-details">
+                    <el-checkbox v-model="criteriaDetails.management.leadership">领导力</el-checkbox>
+                    <el-checkbox v-model="criteriaDetails.management.teamBuilding">团队建设</el-checkbox>
+                    <el-checkbox v-model="criteriaDetails.management.decisionMaking">决策能力</el-checkbox>
+                  </div>
                 </div>
-              </div>
-            </el-col>
-          </el-row>
+              </el-col>
+              <el-col :span="4">
+                <div class="criteria-item">
+                  <h4>创新能力 ({{ criteriaWeights.innovation }}%)</h4>
+                  <el-slider v-model="criteriaWeights.innovation" :min="0" :max="100" />
+                  <div class="criteria-details">
+                    <el-checkbox v-model="criteriaDetails.innovation.innovationAward">创新奖项</el-checkbox>
+                    <el-checkbox v-model="criteriaDetails.innovation.techTransfer">技术转化</el-checkbox>
+                    <el-checkbox v-model="criteriaDetails.innovation.startup">创业项目</el-checkbox>
+                  </div>
+                </div>
+              </el-col>
+              <el-col :span="4">
+                <div class="criteria-item">
+                  <h4>社会影响 ({{ criteriaWeights.socialImpact }}%)</h4>
+                  <el-slider v-model="criteriaWeights.socialImpact" :min="0" :max="100" />
+                  <div class="criteria-details">
+                    <el-checkbox v-model="criteriaDetails.socialImpact.mediaCoverage">媒体报道</el-checkbox>
+                    <el-checkbox v-model="criteriaDetails.socialImpact.publicService">公共服务</el-checkbox>
+                    <el-checkbox v-model="criteriaDetails.socialImpact.industryInfluence">行业影响</el-checkbox>
+                  </div>
+                </div>
+              </el-col>
+              <el-col :span="4">
+                <div class="criteria-item">
+                  <h4>综合表现 ({{ criteriaWeights.overall }}%)</h4>
+                  <el-slider v-model="criteriaWeights.overall" :min="0" :max="100" />
+                  <div class="criteria-details">
+                    <el-checkbox v-model="criteriaDetails.overall.workEthic">工作态度</el-checkbox>
+                    <el-checkbox v-model="criteriaDetails.overall.colleagueRelation">同事关系</el-checkbox>
+                    <el-checkbox v-model="criteriaDetails.overall.professionalDevelopment">专业发展</el-checkbox>
+                  </div>
+                </div>
+              </el-col>
+            </el-row>
+          </div>
+          
+          <!-- 操作按钮 -->
+          <div class="config-actions">
+            <el-button type="primary" size="large" @click="generateRecommendations" :disabled="!canGenerate">
+              <el-icon><Magic /></el-icon>
+              智能推荐
+            </el-button>
+            <el-button size="large" @click="resetConfig">
+              <el-icon><RefreshLeft /></el-icon>
+              重置
+            </el-button>
+          </div>
         </div>
       </el-card>
+      
+      <!-- 智能处理对话框 -->
+      <el-dialog
+        v-model="processingDialogVisible"
+        title="智能推荐处理中"
+        width="500px"
+        :close-on-click-modal="false"
+        :close-on-press-escape="false"
+        :show-close="false"
+        center
+        class="recommendation-modal"
+      >
+        <div class="processing-content">
+          <div class="processing-icon">
+            <el-icon class="rotating-icon"><Loading /></el-icon>
+          </div>
+          <h3>AI正在处理推荐请求...</h3>
+          <p class="processing-description">正在使用智能算法进行多维度分析与推荐</p>
+          
+          <div class="progress-section">
+            <div class="progress-steps">
+              <div 
+                v-for="(step, index) in processingSteps" 
+                :key="index"
+                class="step-item"
+                :class="{ 
+                  'active': currentProcessingStep === index, 
+                  'completed': currentProcessingStep > index 
+                }"
+              >
+                <div class="step-icon">
+                  <el-icon v-if="currentProcessingStep > index"><Check /></el-icon>
+                  <el-icon v-else-if="currentProcessingStep === index"><Loading /></el-icon>
+                  <span v-else>{{ index + 1 }}</span>
+                </div>
+                <div class="step-content">
+                  <div class="step-title">{{ step.title }}</div>
+                  <div class="step-desc">{{ step.description }}</div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="progress-bar">
+              <div class="progress-fill" :style="{ width: `${processingProgress}%` }"></div>
+            </div>
+            <div class="progress-text">{{ processingProgress }}%</div>
+          </div>
+          
+          <div class="processing-tips">
+            <el-icon><Lightbulb /></el-icon>
+            <span>{{ currentTip }}</span>
+          </div>
+        </div>
+      </el-dialog>
 
       <!-- 推荐结果 -->
       <el-card class="results-card" shadow="never">
@@ -184,59 +234,53 @@
               <el-tag :type="getRankType(index + 1)" size="large">{{ index + 1 }}</el-tag>
             </div>
             
+            <div class="candidate-avatar">
+              <el-avatar :size="80" :src="getAvatarUrl(candidate.name)">
+                {{ candidate.name.charAt(0) }}
+              </el-avatar>
+            </div>
+            
             <div class="candidate-info">
               <div class="candidate-header">
                 <h3>{{ candidate.name }}</h3>
                 <div class="candidate-tags">
-                  <el-tag type="primary">{{ candidate.department }}</el-tag>
-                  <el-tag type="success">{{ candidate.title }}</el-tag>
-                  <el-tag type="warning">{{ candidate.experience }}年经验</el-tag>
+                  <el-tag type="primary" size="small">{{ candidate.department }}</el-tag>
+                  <el-tag type="success" size="small">{{ candidate.title }}</el-tag>
+                  <el-tag type="warning" size="small">{{ candidate.experience }}年经验</el-tag>
                 </div>
               </div>
               
               <div class="candidate-scores">
-                <el-row :gutter="10">
-                  <el-col :span="4">
-                    <div class="score-item">
-                      <div class="score-label">教学</div>
-                      <div class="score-value">{{ candidate.scores.teaching }}</div>
-                    </div>
-                  </el-col>
-                  <el-col :span="4">
-                    <div class="score-item">
-                      <div class="score-label">科研</div>
-                      <div class="score-value">{{ candidate.scores.research }}</div>
-                    </div>
-                  </el-col>
-                  <el-col :span="4">
-                    <div class="score-item">
-                      <div class="score-label">管理</div>
-                      <div class="score-value">{{ candidate.scores.management }}</div>
-                    </div>
-                  </el-col>
-                  <el-col :span="4">
-                    <div class="score-item">
-                      <div class="score-label">创新</div>
-                      <div class="score-value">{{ candidate.scores.innovation }}</div>
-                    </div>
-                  </el-col>
-                  <el-col :span="4">
-                    <div class="score-item">
-                      <div class="score-label">影响</div>
-                      <div class="score-value">{{ candidate.scores.socialImpact }}</div>
-                    </div>
-                  </el-col>
-                  <el-col :span="4">
-                    <div class="score-item total-score">
-                      <div class="score-label">总分</div>
-                      <div class="score-value">{{ candidate.totalScore }}</div>
-                    </div>
-                  </el-col>
-                </el-row>
+                <div class="score-grid">
+                  <div class="score-item">
+                    <div class="score-label">教学</div>
+                    <div class="score-value">{{ candidate.scores.teaching }}</div>
+                  </div>
+                  <div class="score-item">
+                    <div class="score-label">科研</div>
+                    <div class="score-value">{{ candidate.scores.research }}</div>
+                  </div>
+                  <div class="score-item">
+                    <div class="score-label">管理</div>
+                    <div class="score-value">{{ candidate.scores.management }}</div>
+                  </div>
+                  <div class="score-item">
+                    <div class="score-label">创新</div>
+                    <div class="score-value">{{ candidate.scores.innovation }}</div>
+                  </div>
+                  <div class="score-item">
+                    <div class="score-label">影响</div>
+                    <div class="score-value">{{ candidate.scores.socialImpact }}</div>
+                  </div>
+                  <div class="score-item total-score">
+                    <div class="score-label">总分</div>
+                    <div class="score-value">{{ candidate.totalScore }}</div>
+                  </div>
+                </div>
               </div>
               
               <div class="candidate-highlights">
-                <h4>突出表现：</h4>
+                <h4>突出表现</h4>
                 <ul>
                   <li v-for="highlight in candidate.highlights" :key="highlight">{{ highlight }}</li>
                 </ul>
@@ -244,9 +288,9 @@
             </div>
             
             <div class="candidate-actions">
-              <el-button type="primary" @click="viewCandidateDetail(candidate)">查看详情</el-button>
-              <el-button @click="compareCandidate(candidate)">对比分析</el-button>
-              <el-button type="success" @click="selectCandidate(candidate)">选择推荐</el-button>
+              <el-button type="primary" size="small" @click="viewCandidateDetail(candidate)">查看详情</el-button>
+              <el-button size="small" @click="compareCandidate(candidate)">对比分析</el-button>
+              <el-button type="success" size="small" @click="selectCandidate(candidate)">选择推荐</el-button>
             </div>
           </div>
         </div>
@@ -311,6 +355,38 @@ export default {
         socialImpact: 5,
         overall: 5
       },
+      originalWeights: {
+        teaching: 30,
+        research: 25,
+        management: 20,
+        innovation: 15,
+        socialImpact: 5,
+        overall: 5
+      },
+      processingDialogVisible: false,
+      processingStep: 0,
+      processingComplete: false,
+      currentProcessingStep: 0,
+      processingProgress: 0,
+      currentTip: '正在初始化推荐环境...',
+      processingSteps: [
+        { title: '数据收集', description: '正在从各个系统收集候选教师数据' },
+        { title: '数据预处理', description: '清洗和标准化候选人数据' },
+        { title: '多维特征提取', description: '提取教学、科研、管理等多维特征' },
+        { title: '智能评分计算', description: '根据评选标准进行智能评分' },
+        { title: '算法推荐生成', description: '应用AI算法计算最佳推荐方案' },
+        { title: '结果优化排序', description: '优化和排序推荐结果' }
+      ],
+      tips: [
+        '正在初始化推荐环境...',
+        '正在从各个系统收集候选教师数据...',
+        '正在清洗和标准化候选人数据...',
+        '正在提取多维特征...',
+        '正在根据评选标准进行智能评分...',
+        '正在应用AI算法生成推荐...',
+        '正在优化和排序推荐结果...',
+        '推荐即将完成...'
+      ],
       criteriaDetails: {
         teaching: {
           courseQuality: true,
@@ -352,6 +428,12 @@ export default {
       }
     }
   },
+  computed: {
+    canGenerate() {
+      // 检查评选类型是否已选择
+      return !!this.selectionConfig.type
+    }
+  },
   methods: {
     onSelectionTypeChange() {
       // 根据评选类型调整默认权重
@@ -365,24 +447,52 @@ export default {
       
       if (typeWeights[this.selectionConfig.type]) {
         this.criteriaWeights = { ...typeWeights[this.selectionConfig.type] }
+        this.originalWeights = { ...typeWeights[this.selectionConfig.type] }
       }
     },
     
-    generateRecommendations() {
-      if (!this.selectionConfig.type) {
-        this.$message.warning('请选择评选类型')
+    async generateRecommendations() {
+      if (!this.canGenerate) {
+        this.$message.warning('请先选择评选类型')
         return
       }
       
-      this.loading = true
+      // 打开处理对话框
+      this.processingDialogVisible = true
+      this.currentProcessingStep = 0
+      this.processingProgress = 0
+      this.processingComplete = false
+      this.currentTip = this.tips[0]
       
-      // 模拟AI推荐算法
+      // 更新提示信息
+      const tipTimer = setInterval(() => {
+        const tipIndex = Math.floor(Math.random() * this.tips.length)
+        this.currentTip = this.tips[tipIndex]
+      }, 300)
+      
+      // 模拟智能处理过程
+      const totalSteps = this.processingSteps.length
+      const stepDuration = 1500
+      
+      for (let i = 0; i < totalSteps; i++) {
+        this.currentProcessingStep = i
+        this.processingProgress = Math.round(((i + 1) / totalSteps) * 100)
+        
+        await new Promise(resolve => setTimeout(resolve, stepDuration))
+      }
+      
+      clearInterval(tipTimer)
+      
+      // 延迟关闭弹窗并显示结果
       setTimeout(() => {
+        // 生成推荐结果
         this.recommendations = this.generateMockCandidates()
         this.updateStats()
-        this.loading = false
-        this.$message.success(`成功推荐 ${this.recommendations.length} 位候选人`)
-      }, 2000)
+        
+        // 关闭弹窗
+        this.processingDialogVisible = false
+        this.$message.success('推荐完成！')
+      }, 500)
     },
     
     generateMockCandidates() {
@@ -510,9 +620,41 @@ export default {
         socialImpact: 5,
         overall: 5
       }
+      this.originalWeights = {
+        teaching: 30,
+        research: 25,
+        management: 20,
+        innovation: 15,
+        socialImpact: 5,
+        overall: 5
+      }
       this.recommendations = []
       this.stats = { totalCandidates: 0, avgScore: 0, highScoreCount: 0, recommendationRate: 0 }
       this.$message.success('配置已重置')
+    },
+    
+    getAvatarUrl(name) {
+      // 从本地 teacher 文件夹中选择头像
+      // 基于名字的字符编码确保每个教师都有固定的头像
+      const teacherAvatars = [
+        '/images/teacher/083.png',
+        '/images/teacher/28.png',
+        '/images/teacher/66.jpg',
+        '/images/teacher/7b.jpeg',
+        '/images/teacher/85.jpeg',
+        '/images/teacher/c5.png',
+        '/images/teacher/cc.png'
+      ]
+      
+      // 将名字转换为数字来选择头像（确保每个教师都有固定的头像）
+      let hash = 0
+      for (let i = 0; i < name.length; i++) {
+        hash = ((hash << 5) - hash) + name.charCodeAt(i)
+        hash = hash & hash // Convert to 32bit integer
+      }
+      
+      const index = Math.abs(hash) % teacherAvatars.length
+      return teacherAvatars[index]
     }
   }
 }
@@ -592,31 +734,69 @@ export default {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
-.criteria-content {
+.config-content {
   padding: 20px 0;
 }
 
-.criteria-item {
-  padding: 20px;
-  background: #fafafa;
-  border-radius: 8px;
+.config-section {
   margin-bottom: 20px;
 }
 
-.criteria-item h4 {
-  margin: 0 0 15px 0;
-  color: #303133;
+.config-section:last-of-type {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.section-title {
+  margin: 0 0 20px 0;
   font-size: 16px;
+  font-weight: 600;
+  color: #303133;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-title::before {
+  content: '';
+  display: block;
+  width: 3px;
+  height: 16px;
+  background: #409EFF;
+  border-radius: 2px;
+}
+
+.config-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  margin-top: 30px;
+  padding-top: 10px;
+}
+
+.criteria-item {
+  padding: 12px;
+  background: #fafafa;
+  border-radius: 8px;
+  margin-bottom: 0;
+}
+
+.criteria-item h4 {
+  margin: 0 0 10px 0;
+  color: #303133;
+  font-size: 13px;
   font-weight: 600;
 }
 
 .criteria-details {
-  margin-top: 15px;
+  margin-top: 10px;
 }
 
 .criteria-details .el-checkbox {
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
+  font-size: 12px;
 }
 
 .empty-state {
@@ -626,57 +806,101 @@ export default {
 
 .recommendations-list {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   gap: 20px;
 }
 
 .candidate-item {
+  position: relative;
+  flex: 0 0 calc((100% - 40px) / 3);
+  max-width: calc((100% - 40px) / 3);
+  min-width: 300px;
   display: flex;
-  align-items: flex-start;
-  padding: 20px;
+  flex-direction: column;
+  padding: 16px;
   background: #fff;
-  border-radius: 8px;
+  border-radius: 12px;
   border: 1px solid #e4e7ed;
   transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* 响应式布局 */
+@media screen and (max-width: 1400px) {
+  .candidate-item {
+    flex: 0 0 calc((100% - 20px) / 2);
+    max-width: calc((100% - 20px) / 2);
+    min-width: 320px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .candidate-item {
+    flex: 0 0 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
 }
 
 .candidate-item:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  transform: translateY(-4px);
 }
 
 .candidate-rank {
-  margin-right: 20px;
-  flex-shrink: 0;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 10;
+}
+
+.candidate-avatar {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
+  margin-top: 8px;
 }
 
 .candidate-info {
   flex: 1;
-  margin-right: 20px;
 }
 
 .candidate-header {
-  margin-bottom: 15px;
+  text-align: center;
+  margin-bottom: 12px;
 }
 
 .candidate-header h3 {
-  margin: 0 0 10px 0;
+  margin: 0 0 8px 0;
   color: #303133;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
 }
 
+.candidate-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+}
+
 .candidate-tags .el-tag {
-  margin-right: 8px;
+  margin: 0;
 }
 
 .candidate-scores {
-  margin-bottom: 15px;
+  margin-bottom: 12px;
+}
+
+.score-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
 }
 
 .score-item {
   text-align: center;
-  padding: 10px;
+  padding: 8px 4px;
   background: #f8f9fa;
   border-radius: 6px;
 }
@@ -684,43 +908,48 @@ export default {
 .score-item.total-score {
   background: #e8f4fd;
   border: 1px solid #409EFF;
+  grid-column: span 5;
 }
 
 .score-label {
-  font-size: 12px;
+  font-size: 11px;
   color: #909399;
-  margin-bottom: 5px;
+  margin-bottom: 4px;
 }
 
 .score-value {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
   color: #303133;
 }
 
+.candidate-highlights {
+  margin-bottom: 12px;
+}
+
 .candidate-highlights h4 {
-  margin: 0 0 10px 0;
+  margin: 0 0 8px 0;
   color: #303133;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
 }
 
 .candidate-highlights ul {
   margin: 0;
-  padding-left: 20px;
+  padding-left: 18px;
 }
 
 .candidate-highlights li {
-  margin-bottom: 5px;
+  margin-bottom: 4px;
   color: #606266;
-  font-size: 14px;
+  font-size: 12px;
+  line-height: 1.5;
 }
 
 .candidate-actions {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
-  flex-shrink: 0;
+  flex-direction: row-reverse;
+  gap: 8px;
 }
 
 .stat-item {
@@ -748,9 +977,206 @@ export default {
   margin: 10px 0;
 }
 
+.criteria-item .el-slider {
+  margin: 8px 0;
+}
+
 .el-checkbox-group {
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+
+/* 推荐弹窗样式 */
+.recommendation-modal :deep(.el-dialog) {
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.recommendation-modal :deep(.el-dialog__header) {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 20px 24px;
+  margin: 0;
+}
+
+.recommendation-modal :deep(.el-dialog__title) {
+  color: white;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.recommendation-modal :deep(.el-dialog__body) {
+  padding: 0;
+}
+
+.processing-content {
+  padding: 32px 24px;
+  text-align: center;
+}
+
+.processing-icon {
+  margin-bottom: 20px;
+}
+
+.rotating-icon {
+  font-size: 48px;
+  color: #667eea;
+  animation: rotate 2s linear infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.processing-content h3 {
+  margin: 0 0 12px 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.processing-description {
+  margin: 0 0 32px 0;
+  color: #718096;
+  font-size: 14px;
+}
+
+.progress-section {
+  margin-bottom: 24px;
+}
+
+.progress-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.step-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.step-item.active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  transform: scale(1.02);
+}
+
+.step-item.completed {
+  background: #f0f9ff;
+  border: 1px solid #0ea5e9;
+}
+
+.step-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.step-item:not(.active):not(.completed) .step-icon {
+  background: #e2e8f0;
+  color: #718096;
+}
+
+.step-item.active .step-icon {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.step-item.completed .step-icon {
+  background: #0ea5e9;
+  color: white;
+}
+
+.step-content {
+  flex: 1;
+  text-align: left;
+}
+
+.step-title {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.step-desc {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: #e2e8f0;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 4px;
+  transition: width 0.5s ease;
+  position: relative;
+}
+
+.progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.progress-text {
+  font-size: 16px;
+  font-weight: 600;
+  color: #667eea;
+}
+
+.processing-tips {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: #f8fafc;
+  border-radius: 8px;
+  color: #4a5568;
+  font-size: 14px;
+}
+
+.processing-tips .el-icon {
+  color: #f6ad55;
+  font-size: 16px;
 }
 </style>

@@ -53,79 +53,86 @@
       </el-form>
     </el-card>
 
-    <!-- 操作按钮 -->
-    <el-card class="action-card">
-      <div class="action-buttons">
-        <el-button type="primary" @click="handleCreateActivity">
-          <el-icon><Plus /></el-icon>
-          创建活动
-        </el-button>
-        <el-button type="success" @click="handleStartDiscussion">
-          <el-icon><ChatDotRound /></el-icon>
-          发起讨论
-        </el-button>
-        <el-button type="warning" @click="handleParticipationAnalysis">
-          <el-icon><TrendCharts /></el-icon>
-          参与度分析
-        </el-button>
-        <el-button type="info" @click="handleExport">
-          <el-icon><Download /></el-icon>
-          导出数据
-        </el-button>
-      </div>
-    </el-card>
+    <!-- 操作按钮和互动统计合并区域 -->
+    <el-row :gutter="20" class="action-stats-row">
+      <!-- 互动统计卡片区域 -->
+      <el-col :span="16">
+        <el-row :gutter="20" class="stats-row">
+          <el-col :span="6">
+            <el-card class="stat-card">
+              <div class="stat-content">
+                <div class="stat-icon discussion">
+                  <el-icon><ChatDotRound /></el-icon>
+                </div>
+                <div class="stat-info">
+                  <div class="stat-value">{{ interactionStats.discussions }}</div>
+                  <div class="stat-label">讨论次数</div>
+                </div>
+              </div>
+            </el-card>
+          </el-col>
+          <el-col :span="6">
+            <el-card class="stat-card">
+              <div class="stat-content">
+                <div class="stat-icon participation">
+                  <el-icon><User /></el-icon>
+                </div>
+                <div class="stat-info">
+                  <div class="stat-value">{{ interactionStats.participants }}</div>
+                  <div class="stat-label">参与人数</div>
+                </div>
+              </div>
+            </el-card>
+          </el-col>
+          <el-col :span="6">
+            <el-card class="stat-card">
+              <div class="stat-content">
+                <div class="stat-icon questions">
+                  <el-icon><QuestionFilled /></el-icon>
+                </div>
+                <div class="stat-info">
+                  <div class="stat-value">{{ interactionStats.questions }}</div>
+                  <div class="stat-label">提问次数</div>
+                </div>
+              </div>
+            </el-card>
+          </el-col>
+          <el-col :span="6">
+            <el-card class="stat-card">
+              <div class="stat-content">
+                <div class="stat-icon answers">
+                  <el-icon><ChatLineRound /></el-icon>
+                </div>
+                <div class="stat-info">
+                  <div class="stat-value">{{ interactionStats.answers }}</div>
+                  <div class="stat-label">回答次数</div>
+                </div>
+              </div>
+            </el-card>
+          </el-col>
+        </el-row>
+      </el-col>
 
-    <!-- 互动统计卡片 -->
-    <el-row :gutter="20" class="stats-row">
-      <el-col :span="6">
-        <el-card class="stat-card">
-          <div class="stat-content">
-            <div class="stat-icon discussion">
+      <!-- 操作按钮区域 -->
+      <el-col :span="8">
+        <el-card class="action-card">
+          <div class="action-buttons">
+            <el-button type="primary" @click="handleCreateActivity">
+              <el-icon><Plus /></el-icon>
+              创建活动
+            </el-button>
+            <el-button type="success" @click="handleStartDiscussion">
               <el-icon><ChatDotRound /></el-icon>
-            </div>
-            <div class="stat-info">
-              <div class="stat-value">{{ interactionStats.discussions }}</div>
-              <div class="stat-label">讨论次数</div>
-            </div>
-          </div>
-        </el-card>
-      </el-col>
-      <el-col :span="6">
-        <el-card class="stat-card">
-          <div class="stat-content">
-            <div class="stat-icon participation">
-              <el-icon><User /></el-icon>
-            </div>
-            <div class="stat-info">
-              <div class="stat-value">{{ interactionStats.participants }}</div>
-              <div class="stat-label">参与人数</div>
-            </div>
-          </div>
-        </el-card>
-      </el-col>
-      <el-col :span="6">
-        <el-card class="stat-card">
-          <div class="stat-content">
-            <div class="stat-icon questions">
-              <el-icon><QuestionFilled /></el-icon>
-            </div>
-            <div class="stat-info">
-              <div class="stat-value">{{ interactionStats.questions }}</div>
-              <div class="stat-label">提问次数</div>
-            </div>
-          </div>
-        </el-card>
-      </el-col>
-      <el-col :span="6">
-        <el-card class="stat-card">
-          <div class="stat-content">
-            <div class="stat-icon answers">
-              <el-icon><ChatLineRound /></el-icon>
-            </div>
-            <div class="stat-info">
-              <div class="stat-value">{{ interactionStats.answers }}</div>
-              <div class="stat-label">回答次数</div>
-            </div>
+              发起讨论
+            </el-button>
+            <el-button type="warning" @click="handleParticipationAnalysis">
+              <el-icon><TrendCharts /></el-icon>
+              参与度分析
+            </el-button>
+            <el-button type="info" @click="handleExport">
+              <el-icon><Download /></el-icon>
+              导出数据
+            </el-button>
           </div>
         </el-card>
       </el-col>
@@ -141,45 +148,47 @@
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="55" />
-        <el-table-column prop="activityId" label="活动ID" width="100" />
-        <el-table-column prop="courseName" label="课程名称" width="150" />
-        <el-table-column prop="className" label="班级" width="120" />
-        <el-table-column prop="activityType" label="活动类型" width="120">
+        <el-table-column prop="activityId" label="活动ID" min-width="90" />
+        <el-table-column prop="courseName" label="课程名称" min-width="130" show-overflow-tooltip />
+        <el-table-column prop="className" label="班级" min-width="110" />
+        <el-table-column prop="activityType" label="活动类型" min-width="110" align="center">
           <template #default="{ row }">
             <el-tag :type="getActivityTypeColor(row.activityType)">
               {{ row.activityType }}
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="activityTitle" label="活动标题" width="200" />
-        <el-table-column prop="startTime" label="开始时间" width="150" />
-        <el-table-column prop="duration" label="持续时间" width="100" />
-        <el-table-column prop="participantCount" label="参与人数" width="100" />
-        <el-table-column prop="interactionCount" label="互动次数" width="100" />
-        <el-table-column prop="teacherName" label="任课教师" width="120" />
-        <el-table-column prop="status" label="状态" width="100">
+        <el-table-column prop="activityTitle" label="活动标题" min-width="180" show-overflow-tooltip />
+        <el-table-column prop="startTime" label="开始时间" min-width="130" />
+        <el-table-column prop="duration" label="持续时间" min-width="90" align="center" />
+        <el-table-column prop="participantCount" label="参与人数" min-width="90" align="center" />
+        <el-table-column prop="interactionCount" label="互动次数" min-width="90" align="center" />
+        <el-table-column prop="teacherName" label="任课教师" min-width="110" />
+        <el-table-column prop="status" label="状态" min-width="90" align="center">
           <template #default="{ row }">
             <el-tag :type="getStatusType(row.status)">{{ row.status }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="250" fixed="right">
+        <el-table-column label="操作" width="280" fixed="right">
           <template #default="{ row }">
-            <el-button type="primary" size="small" @click="handleView(row)">
-              <el-icon><View /></el-icon>
-              查看
-            </el-button>
-            <el-button type="success" size="small" @click="handleJoin(row)">
-              <el-icon><ChatDotRound /></el-icon>
-              参与
-            </el-button>
-            <el-button type="warning" size="small" @click="handleEdit(row)">
-              <el-icon><Edit /></el-icon>
-              编辑
-            </el-button>
-            <el-button type="danger" size="small" @click="handleDelete(row)">
-              <el-icon><Delete /></el-icon>
-              删除
-            </el-button>
+            <div class="operation-buttons">
+              <el-button type="primary" size="small" @click="handleView(row)">
+                <el-icon><View /></el-icon>
+                查看
+              </el-button>
+              <el-button type="success" size="small" @click="handleJoin(row)">
+                <el-icon><ChatDotRound /></el-icon>
+                参与
+              </el-button>
+              <el-button type="warning" size="small" @click="handleEdit(row)">
+                <el-icon><Edit /></el-icon>
+                编辑
+              </el-button>
+              <el-button type="danger" size="small" @click="handleDelete(row)">
+                <el-icon><Delete /></el-icon>
+                删除
+              </el-button>
+            </div>
           </template>
         </el-table-column>
       </el-table>
@@ -493,6 +502,227 @@ export default {
         interactionCount: 18,
         teacherName: '王老师',
         status: '已完成'
+      },
+      {
+        activityId: 'ACT004',
+        courseName: '软件工程',
+        className: '二年级2班',
+        activityType: '问答互动',
+        activityTitle: '需求分析实践演练',
+        startTime: '2024-01-12 09:00',
+        duration: 40,
+        participantCount: 32,
+        interactionCount: 28,
+        teacherName: '赵老师',
+        status: '已完成'
+      },
+      {
+        activityId: 'ACT005',
+        courseName: '计算机网络',
+        className: '一年级2班',
+        activityType: '课堂讨论',
+        activityTitle: 'TCP/IP协议栈工作原理',
+        startTime: '2024-01-11 14:00',
+        duration: 35,
+        participantCount: 27,
+        interactionCount: 19,
+        teacherName: '周老师',
+        status: '已完成'
+      },
+      {
+        activityId: 'ACT006',
+        courseName: '算法设计',
+        className: '三年级1班',
+        activityType: '实验操作',
+        activityTitle: '动态规划算法实现',
+        startTime: '2024-01-10 10:00',
+        duration: 50,
+        participantCount: 29,
+        interactionCount: 24,
+        teacherName: '李老师',
+        status: '已完成'
+      },
+      {
+        activityId: 'ACT007',
+        courseName: '数据结构',
+        className: '二年级1班',
+        activityType: '小组合作',
+        activityTitle: '二叉树的遍历算法设计',
+        startTime: '2024-01-09 08:30',
+        duration: 45,
+        participantCount: 26,
+        interactionCount: 21,
+        teacherName: '张老师',
+        status: '已完成'
+      },
+      {
+        activityId: 'ACT008',
+        courseName: '软件工程',
+        className: '三年级2班',
+        activityType: '案例分析',
+        activityTitle: '敏捷开发流程实践',
+        startTime: '2024-01-16 09:00',
+        duration: 55,
+        participantCount: 30,
+        interactionCount: 26,
+        teacherName: '赵老师',
+        status: '进行中'
+      },
+      {
+        activityId: 'ACT009',
+        courseName: '计算机网络',
+        className: '三年级1班',
+        activityType: '问答互动',
+        activityTitle: 'HTTP协议深入解析',
+        startTime: '2024-01-08 14:30',
+        duration: 30,
+        participantCount: 31,
+        interactionCount: 17,
+        teacherName: '周老师',
+        status: '已完成'
+      },
+      {
+        activityId: 'ACT010',
+        courseName: '数据库原理',
+        className: '一年级1班',
+        activityType: '课堂讨论',
+        activityTitle: 'SQL查询优化技巧',
+        startTime: '2024-01-07 11:00',
+        duration: 40,
+        participantCount: 28,
+        interactionCount: 16,
+        teacherName: '王老师',
+        status: '已完成'
+      },
+      {
+        activityId: 'ACT011',
+        courseName: '算法设计',
+        className: '一年级2班',
+        activityType: '实验操作',
+        activityTitle: '贪心算法应用实践',
+        startTime: '2024-01-06 10:00',
+        duration: 50,
+        participantCount: 27,
+        interactionCount: 20,
+        teacherName: '李老师',
+        status: '已完成'
+      },
+      {
+        activityId: 'ACT012',
+        courseName: '数据结构',
+        className: '三年级2班',
+        activityType: '小组合作',
+        activityTitle: '图的遍历算法实现',
+        startTime: '2024-01-17 08:00',
+        duration: 45,
+        participantCount: 29,
+        interactionCount: 23,
+        teacherName: '张老师',
+        status: '进行中'
+      },
+      {
+        activityId: 'ACT013',
+        courseName: '软件工程',
+        className: '二年级1班',
+        activityType: '案例分析',
+        activityTitle: '系统设计模式应用',
+        startTime: '2024-01-05 14:00',
+        duration: 60,
+        participantCount: 25,
+        interactionCount: 19,
+        teacherName: '赵老师',
+        status: '已完成'
+      },
+      {
+        activityId: 'ACT014',
+        courseName: '计算机网络',
+        className: '一年级1班',
+        activityType: '问答互动',
+        activityTitle: '网络安全防护措施讨论',
+        startTime: '2024-01-18 09:30',
+        duration: 35,
+        participantCount: 30,
+        interactionCount: 27,
+        teacherName: '周老师',
+        status: '进行中'
+      },
+      {
+        activityId: 'ACT015',
+        courseName: '数据库原理',
+        className: '二年级2班',
+        activityType: '课堂讨论',
+        activityTitle: '数据库事务处理机制',
+        startTime: '2024-01-04 15:00',
+        duration: 40,
+        participantCount: 28,
+        interactionCount: 18,
+        teacherName: '王老师',
+        status: '已完成'
+      },
+      {
+        activityId: 'ACT016',
+        courseName: '算法设计',
+        className: '三年级1班',
+        activityType: '实验操作',
+        activityTitle: '回溯算法经典应用',
+        startTime: '2024-01-03 10:30',
+        duration: 55,
+        participantCount: 32,
+        interactionCount: 25,
+        teacherName: '李老师',
+        status: '已完成'
+      },
+      {
+        activityId: 'ACT017',
+        courseName: '数据结构',
+        className: '一年级2班',
+        activityType: '小组合作',
+        activityTitle: '哈希表实现与应用',
+        startTime: '2024-01-19 08:30',
+        duration: 45,
+        participantCount: 26,
+        interactionCount: 22,
+        teacherName: '张老师',
+        status: '进行中'
+      },
+      {
+        activityId: 'ACT018',
+        courseName: '软件工程',
+        className: '三年级2班',
+        activityType: '案例分析',
+        activityTitle: '代码重构实战演练',
+        startTime: '2024-01-02 14:00',
+        duration: 50,
+        participantCount: 29,
+        interactionCount: 24,
+        teacherName: '赵老师',
+        status: '已完成'
+      },
+      {
+        activityId: 'ACT019',
+        courseName: '计算机网络',
+        className: '二年级1班',
+        activityType: '问答互动',
+        activityTitle: 'Web服务器工作原理探讨',
+        startTime: '2024-01-01 11:00',
+        duration: 30,
+        participantCount: 31,
+        interactionCount: 16,
+        teacherName: '周老师',
+        status: '已完成'
+      },
+      {
+        activityId: 'ACT020',
+        courseName: '数据库原理',
+        className: '三年级1班',
+        activityType: '课堂讨论',
+        activityTitle: '索引优化策略分析',
+        startTime: '2024-01-20 09:00',
+        duration: 35,
+        participantCount: 30,
+        interactionCount: 21,
+        teacherName: '王老师',
+        status: '进行中'
       }
     ])
 
@@ -719,11 +949,23 @@ export default {
 
 .action-buttons {
   display: flex;
-  gap: 12px;
+  flex-direction: row;
+  gap: 10px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.action-buttons .el-button {
+  width: 100%;
+  justify-content: flex-start;
+}
+
+.action-stats-row {
+  margin-bottom: 20px;
 }
 
 .stats-row {
-  margin-bottom: 20px;
+  margin-bottom: 0;
 }
 
 .stat-card {
@@ -817,5 +1059,19 @@ export default {
   font-size: 24px;
   font-weight: 600;
   color: #1f2937;
+}
+
+.operation-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.operation-buttons .el-button {
+  margin: 0;
+  flex-shrink: 0;
+  padding: 7px 10px;
 }
 </style>

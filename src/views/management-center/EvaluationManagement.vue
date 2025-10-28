@@ -86,37 +86,35 @@
       </template>
 
       <el-table :data="filteredEvaluations" stripe>
-        <el-table-column prop="evaluationCode" label="评价编号" width="120" />
-        <el-table-column prop="evaluationName" label="评价名称" width="200" />
-        <el-table-column prop="evaluationType" label="评价类型" width="120" />
-        <el-table-column prop="evaluationTarget" label="评价对象" width="100" />
-        <el-table-column prop="courseName" label="课程名称" width="150" />
-        <el-table-column prop="teacherName" label="教师姓名" width="100" />
-        <el-table-column prop="semester" label="学期" width="100" />
-        <el-table-column prop="startDate" label="开始时间" width="120" />
-        <el-table-column prop="endDate" label="结束时间" width="120" />
-        <el-table-column prop="participantCount" label="参与人数" width="100" />
-        <el-table-column prop="averageScore" label="平均分" width="80">
+        <el-table-column prop="evaluationCode" label="评价编号" min-width="120" />
+        <el-table-column prop="evaluationName" label="评价名称" min-width="200" />
+        <el-table-column prop="evaluationType" label="评价类型" min-width="120" />
+        <el-table-column prop="evaluationTarget" label="评价对象" min-width="100" />
+        <el-table-column prop="courseName" label="课程名称" min-width="150" />
+        <el-table-column prop="teacherName" label="教师姓名" min-width="100" />
+        <el-table-column prop="semester" label="学期" min-width="100" />
+        <el-table-column prop="startDate" label="开始时间" min-width="120" />
+        <el-table-column prop="endDate" label="结束时间" min-width="120" />
+        <el-table-column prop="participantCount" label="参与人数" min-width="100" />
+        <el-table-column prop="averageScore" label="平均分" min-width="80">
           <template #default="scope">
             <span v-if="scope.row.averageScore">{{ scope.row.averageScore.toFixed(1) }}</span>
             <span v-else>-</span>
           </template>
         </el-table-column>
-        <el-table-column prop="status" label="状态" width="100">
+        <el-table-column prop="status" label="状态" min-width="100">
           <template #default="scope">
             <el-tag :type="getStatusType(scope.row.status)">
               {{ scope.row.status }}
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="250" fixed="right" align="left">
+        <el-table-column label="操作" width="180" fixed="right" align="left">
           <template #default="scope">
             <div class="operation-buttons">
               <el-button size="small" @click="viewEvaluation(scope.row)">查看</el-button>
-              <el-button size="small" @click="editEvaluation(scope.row)">编辑</el-button>
               <el-button size="small" type="success" @click="viewResults(scope.row)">结果</el-button>
               <el-button size="small" type="warning" @click="manageEvaluation(scope.row)">管理</el-button>
-              <el-button size="small" type="danger" @click="deleteEvaluation(scope.row)">删除</el-button>
             </div>
           </template>
         </el-table-column>
@@ -127,7 +125,7 @@
 
 <script>
 import { ref, reactive } from 'vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessage } from 'element-plus'
 
 export default {
   name: 'EvaluationManagement',
@@ -443,34 +441,12 @@ export default {
       ElMessage.info(`查看评价 ${row.evaluationName} 详细信息`)
     }
 
-    const editEvaluation = (row) => {
-      ElMessage.info(`编辑评价 ${row.evaluationName}`)
-    }
-
     const viewResults = (row) => {
       ElMessage.info(`查看评价结果 ${row.evaluationName}`)
     }
 
     const manageEvaluation = (row) => {
       ElMessage.info(`管理评价 ${row.evaluationName}`)
-    }
-
-    const deleteEvaluation = (row) => {
-      ElMessageBox.confirm(
-        `确定要删除评价 "${row.evaluationName}" 吗？`,
-        '确认删除',
-        {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }
-      ).then(() => {
-        const index = evaluations.value.findIndex(item => item.id === row.id)
-        if (index > -1) {
-          evaluations.value.splice(index, 1)
-          ElMessage.success('删除成功')
-        }
-      })
     }
 
     return {
@@ -485,10 +461,8 @@ export default {
       getStatusType,
       addEvaluation,
       viewEvaluation,
-      editEvaluation,
       viewResults,
-      manageEvaluation,
-      deleteEvaluation
+      manageEvaluation
     }
   }
 }

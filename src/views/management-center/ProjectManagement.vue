@@ -84,44 +84,42 @@
       </template>
 
       <el-table :data="filteredProjects" stripe>
-        <el-table-column prop="projectCode" label="项目编号" width="120" />
-        <el-table-column prop="projectName" label="项目名称" width="200" />
-        <el-table-column prop="projectType" label="项目类型" width="120" />
-        <el-table-column prop="manager" label="负责人" width="100" />
-        <el-table-column prop="department" label="所属部门" width="120" />
-        <el-table-column prop="startDate" label="开始日期" width="120" />
-        <el-table-column prop="endDate" label="结束日期" width="120" />
-        <el-table-column prop="budget" label="预算(万元)" width="120">
+        <el-table-column prop="projectCode" label="项目编号" min-width="120" />
+        <el-table-column prop="projectName" label="项目名称" min-width="180" show-overflow-tooltip />
+        <el-table-column prop="projectType" label="项目类型" min-width="120" />
+        <el-table-column prop="manager" label="负责人" min-width="100" />
+        <el-table-column prop="department" label="所属部门" min-width="120" />
+        <el-table-column prop="startDate" label="开始日期" min-width="110" />
+        <el-table-column prop="endDate" label="结束日期" min-width="110" />
+        <el-table-column prop="budget" label="预算(万元)" min-width="120">
           <template #default="scope">
             <span>{{ scope.row.budget.toFixed(1) }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="progress" label="进度" width="100">
+        <el-table-column prop="progress" label="进度" min-width="120">
           <template #default="scope">
             <el-progress :percentage="scope.row.progress" :stroke-width="8" />
           </template>
         </el-table-column>
-        <el-table-column prop="priority" label="优先级" width="100">
+        <el-table-column prop="priority" label="优先级" min-width="100">
           <template #default="scope">
             <el-tag :type="getPriorityType(scope.row.priority)">
               {{ scope.row.priority }}
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="status" label="状态" width="100">
+        <el-table-column prop="status" label="状态" min-width="100">
           <template #default="scope">
             <el-tag :type="getStatusType(scope.row.status)">
               {{ scope.row.status }}
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="250" fixed="right" align="left">
+        <el-table-column label="操作" width="180" fixed="right" align="left">
           <template #default="scope">
             <div class="operation-buttons">
               <el-button size="small" @click="viewProject(scope.row)">查看</el-button>
               <el-button size="small" @click="editProject(scope.row)">编辑</el-button>
-              <el-button size="small" type="success" @click="manageProject(scope.row)">管理</el-button>
-              <el-button size="small" type="warning" @click="reportProject(scope.row)">报告</el-button>
               <el-button size="small" type="danger" @click="deleteProject(scope.row)">删除</el-button>
             </div>
           </template>
@@ -459,14 +457,6 @@ export default {
       ElMessage.info(`编辑项目 ${row.projectName}`)
     }
 
-    const manageProject = (row) => {
-      ElMessage.info(`管理项目 ${row.projectName}`)
-    }
-
-    const reportProject = (row) => {
-      ElMessage.info(`项目报告 ${row.projectName}`)
-    }
-
     const deleteProject = (row) => {
       ElMessageBox.confirm(
         `确定要删除项目 "${row.projectName}" 吗？`,
@@ -498,8 +488,6 @@ export default {
       addProject,
       viewProject,
       editProject,
-      manageProject,
-      reportProject,
       deleteProject
     }
   }

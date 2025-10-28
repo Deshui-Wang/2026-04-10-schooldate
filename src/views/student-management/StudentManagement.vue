@@ -80,29 +80,29 @@
       </template>
 
       <el-table :data="pagedStudents" stripe>
-        <el-table-column prop="studentId" label="学号" width="120" />
-        <el-table-column prop="name" label="姓名" width="120" />
-        <el-table-column prop="gender" label="性别" width="80">
+        <el-table-column prop="studentId" label="学号" min-width="100" />
+        <el-table-column prop="name" label="姓名" min-width="90" />
+        <el-table-column prop="gender" label="性别" min-width="75" align="center">
           <template #default="scope">
             <el-tag :type="scope.row.gender === '男' ? 'primary' : 'success'">
               {{ scope.row.gender }}
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="college" label="学院" width="140" />
-        <el-table-column prop="major" label="专业" width="180" />
-        <el-table-column prop="className" label="班级" width="120" />
-        <el-table-column prop="phone" label="电话" width="150" />
-        <el-table-column prop="parentName" label="家长姓名" width="120" />
-        <el-table-column prop="status" label="状态" width="100">
+        <el-table-column prop="college" label="学院" min-width="130" />
+        <el-table-column prop="major" label="专业" min-width="160" show-overflow-tooltip />
+        <el-table-column prop="className" label="班级" min-width="110" />
+        <el-table-column prop="phone" label="电话" min-width="130" />
+        <el-table-column prop="parentName" label="家长姓名" min-width="100" />
+        <el-table-column prop="status" label="状态" min-width="90" align="center">
           <template #default="scope">
             <el-tag :type="getStatusType(scope.row.status)">
               {{ scope.row.status }}
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="enrollDate" label="入学日期" width="120" />
-        <el-table-column label="操作" width="220" fixed="right" align="left">
+        <el-table-column prop="enrollDate" label="入学日期" min-width="110" />
+        <el-table-column label="操作" width="230" fixed="right" align="left">
           <template #default="scope">
             <div class="operation-buttons">
               <el-button size="small" @click="viewDetails(scope.row)">查看</el-button>
@@ -1178,7 +1178,7 @@ export default {
 .operation-buttons {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px;
+  gap: 6px;
   align-items: center;
   justify-content: flex-start;
 }
@@ -1186,5 +1186,6 @@ export default {
 .operation-buttons .el-button {
   margin: 0;
   flex-shrink: 0;
+  padding: 7px 10px;
 }
 </style>

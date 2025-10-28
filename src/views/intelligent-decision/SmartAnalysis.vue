@@ -20,7 +20,7 @@
     </div>
 
     <!-- 教师选择区域 -->
-    <el-card class="teacher-selection-card" v-if="!selectedTeacher">
+    <el-card class="teacher-selection-card" v-if="!selectedTeacher" shadow="never">
       <template #header>
         <div class="card-header">
           <h3>选择分析对象</h3>
@@ -82,7 +82,7 @@
     </el-card>
 
     <!-- 分析配置区域 -->
-    <el-card class="analysis-config-card" v-if="selectedTeacher && !isAnalyzing">
+    <el-card class="analysis-config-card" v-if="selectedTeacher && !isAnalyzing" shadow="never">
       <template #header>
         <div class="card-header">
           <h3>分析配置</h3>
@@ -150,7 +150,7 @@
     </el-card>
 
     <!-- 分析进度区域 -->
-    <el-card class="analysis-progress-card" v-if="isAnalyzing">
+    <el-card class="analysis-progress-card" v-if="isAnalyzing" shadow="never">
       <template #header>
         <div class="card-header">
           <h3>分析进行中</h3>
@@ -198,7 +198,7 @@
 
     <!-- 分析结果区域 -->
     <div class="analysis-results" v-if="analysisResults">
-      <el-card class="results-summary-card">
+      <el-card class="results-summary-card" shadow="never">
         <template #header>
           <div class="card-header">
             <h3>分析概览</h3>
@@ -272,7 +272,7 @@
       </el-card>
       
       <div class="detailed-results">
-        <el-card class="dimension-result-card" v-for="dimension in analysisResults.dimensions" :key="dimension.key">
+        <el-card class="dimension-result-card" v-for="dimension in analysisResults.dimensions" :key="dimension.key" shadow="never">
           <template #header>
             <div class="card-header">
               <h3>{{ dimension.name }}</h3>
@@ -614,49 +614,49 @@ export default {
 
 <style scoped>
 .smart-analysis-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 24px;
+  min-height: 100vh;
 }
 
 /* 页面标题 */
 .page-header {
-  margin-bottom: 32px;
+  margin-bottom: 24px;
 }
 
 .header-content {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
 .title-section {
-  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .page-title {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin: 0 0 8px 0;
-  font-size: 32px;
+  margin: 0;
+  font-size: 28px;
   font-weight: 700;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #1a202c;
 }
 
 .title-icon {
-  font-size: 36px;
   color: #667eea;
+  font-size: 32px;
 }
 
 .page-subtitle {
   margin: 0;
-  color: #6b7280;
+  color: #718096;
   font-size: 16px;
-  line-height: 1.5;
 }
 
 .header-actions {

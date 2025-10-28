@@ -73,35 +73,49 @@
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="55" />
-        <el-table-column prop="homeworkId" label="作业ID" width="100" />
-        <el-table-column prop="courseName" label="课程名称" width="150" />
-        <el-table-column prop="homeworkTitle" label="作业标题" width="200" />
-        <el-table-column prop="className" label="班级" width="120" />
-        <el-table-column prop="teacherName" label="任课教师" width="120" />
-        <el-table-column prop="publishDate" label="发布时间" width="120" />
-        <el-table-column prop="deadline" label="截止时间" width="120" />
-        <el-table-column prop="totalStudents" label="总人数" width="80" />
-        <el-table-column prop="submittedCount" label="已提交" width="80" />
-        <el-table-column prop="gradedCount" label="已批改" width="80" />
-        <el-table-column prop="status" label="状态" width="100">
+        <el-table-column prop="homeworkId" label="作业ID" min-width="100" />
+        <el-table-column prop="courseName" label="课程名称" min-width="130" />
+        <el-table-column prop="homeworkTitle" label="作业标题" min-width="180" show-overflow-tooltip />
+        <el-table-column prop="className" label="班级" min-width="110" />
+        <el-table-column prop="teacherName" label="任课教师" min-width="100" />
+        <el-table-column prop="publishDate" label="发布时间" min-width="110" />
+        <el-table-column prop="deadline" label="截止时间" min-width="110" />
+        <el-table-column prop="totalStudents" label="总人数" min-width="80" align="center" />
+        <el-table-column prop="submittedCount" label="已提交" min-width="80" align="center">
+          <template #default="{ row }">
+            <span :style="{ color: row.submittedCount === row.totalStudents ? '#67c23a' : '#e6a23c' }">
+              {{ row.submittedCount }}
+            </span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="gradedCount" label="已批改" min-width="80" align="center">
+          <template #default="{ row }">
+            <span :style="{ color: row.gradedCount === row.submittedCount && row.submittedCount > 0 ? '#67c23a' : '#909399' }">
+              {{ row.gradedCount }}
+            </span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="status" label="状态" min-width="90" align="center">
           <template #default="{ row }">
             <el-tag :type="getStatusType(row.status)">{{ row.status }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="200" fixed="right">
+        <el-table-column label="操作" width="230" fixed="right">
           <template #default="{ row }">
-            <el-button type="primary" size="small" @click="handleView(row)">
-              <el-icon><View /></el-icon>
-              查看
-            </el-button>
-            <el-button type="success" size="small" @click="handleGrade(row)">
-              <el-icon><Edit /></el-icon>
-              批改
-            </el-button>
-            <el-button type="danger" size="small" @click="handleDelete(row)">
-              <el-icon><Delete /></el-icon>
-              删除
-            </el-button>
+            <div class="operation-buttons">
+              <el-button type="primary" size="small" @click="handleView(row)">
+                <el-icon><View /></el-icon>
+                查看
+              </el-button>
+              <el-button type="success" size="small" @click="handleGrade(row)">
+                <el-icon><Edit /></el-icon>
+                批改
+              </el-button>
+              <el-button type="danger" size="small" @click="handleDelete(row)">
+                <el-icon><Delete /></el-icon>
+                删除
+              </el-button>
+            </div>
           </template>
         </el-table-column>
       </el-table>
@@ -344,6 +358,240 @@ export default {
         submittedCount: 20,
         gradedCount: 15,
         status: '已截止'
+      },
+      {
+        homeworkId: 'HW004',
+        courseName: '软件工程',
+        homeworkTitle: '需求分析文档编写',
+        className: '三年级1班',
+        teacherName: '赵老师',
+        publishDate: '2024-01-12',
+        deadline: '2024-01-25',
+        totalStudents: 28,
+        submittedCount: 25,
+        gradedCount: 18,
+        status: '进行中'
+      },
+      {
+        homeworkId: 'HW005',
+        courseName: '计算机网络',
+        homeworkTitle: 'TCP/IP协议分析实验',
+        className: '二年级2班',
+        teacherName: '刘老师',
+        publishDate: '2024-01-05',
+        deadline: '2024-01-15',
+        totalStudents: 32,
+        submittedCount: 32,
+        gradedCount: 32,
+        status: '已批改'
+      },
+      {
+        homeworkId: 'HW006',
+        courseName: '数据结构',
+        homeworkTitle: '栈和队列应用',
+        className: '一年级2班',
+        teacherName: '张老师',
+        publishDate: '2024-01-18',
+        deadline: '2024-01-28',
+        totalStudents: 29,
+        submittedCount: 12,
+        gradedCount: 5,
+        status: '进行中'
+      },
+      {
+        homeworkId: 'HW007',
+        courseName: '算法设计',
+        homeworkTitle: '动态规划算法练习',
+        className: '三年级2班',
+        teacherName: '李老师',
+        publishDate: '2024-01-03',
+        deadline: '2024-01-12',
+        totalStudents: 26,
+        submittedCount: 24,
+        gradedCount: 20,
+        status: '已截止'
+      },
+      {
+        homeworkId: 'HW008',
+        courseName: '数据库原理',
+        homeworkTitle: '数据库设计与ER图绘制',
+        className: '二年级1班',
+        teacherName: '王老师',
+        publishDate: '2024-01-14',
+        deadline: '2024-01-26',
+        totalStudents: 25,
+        submittedCount: 22,
+        gradedCount: 15,
+        status: '进行中'
+      },
+      {
+        homeworkId: 'HW009',
+        courseName: '软件工程',
+        homeworkTitle: 'UML类图设计与实现',
+        className: '一年级1班',
+        teacherName: '赵老师',
+        publishDate: '2024-01-01',
+        deadline: '2024-01-10',
+        totalStudents: 30,
+        submittedCount: 30,
+        gradedCount: 28,
+        status: '已批改'
+      },
+      {
+        homeworkId: 'HW010',
+        courseName: '计算机网络',
+        homeworkTitle: 'HTTP协议抓包实验',
+        className: '三年级1班',
+        teacherName: '刘老师',
+        publishDate: '2024-01-20',
+        deadline: '2024-02-05',
+        totalStudents: 28,
+        submittedCount: 8,
+        gradedCount: 2,
+        status: '进行中'
+      },
+      {
+        homeworkId: 'HW011',
+        courseName: '算法设计',
+        homeworkTitle: '贪心算法解决背包问题',
+        className: '一年级2班',
+        teacherName: '李老师',
+        publishDate: '2024-01-08',
+        deadline: '2024-01-18',
+        totalStudents: 29,
+        submittedCount: 0,
+        gradedCount: 0,
+        status: '未开始'
+      },
+      {
+        homeworkId: 'HW012',
+        courseName: '数据结构',
+        homeworkTitle: '二叉树遍历实现',
+        className: '二年级2班',
+        teacherName: '张老师',
+        publishDate: '2024-01-06',
+        deadline: '2024-01-13',
+        totalStudents: 32,
+        submittedCount: 31,
+        gradedCount: 30,
+        status: '已批改'
+      },
+      {
+        homeworkId: 'HW013',
+        courseName: '数据库原理',
+        homeworkTitle: '事务处理与并发控制',
+        className: '三年级2班',
+        teacherName: '王老师',
+        publishDate: '2024-01-16',
+        deadline: '2024-01-30',
+        totalStudents: 26,
+        submittedCount: 18,
+        gradedCount: 10,
+        status: '进行中'
+      },
+      {
+        homeworkId: 'HW014',
+        courseName: '软件工程',
+        homeworkTitle: '系统测试用例设计',
+        className: '二年级1班',
+        teacherName: '赵老师',
+        publishDate: '2024-01-04',
+        deadline: '2024-01-11',
+        totalStudents: 25,
+        submittedCount: 25,
+        gradedCount: 23,
+        status: '已批改'
+      },
+      {
+        homeworkId: 'HW015',
+        courseName: '计算机网络',
+        homeworkTitle: '路由算法仿真实验',
+        className: '一年级1班',
+        teacherName: '刘老师',
+        publishDate: '2024-01-22',
+        deadline: '2024-02-08',
+        totalStudents: 30,
+        submittedCount: 5,
+        gradedCount: 0,
+        status: '进行中'
+      },
+      {
+        homeworkId: 'HW016',
+        courseName: '算法设计',
+        homeworkTitle: '分治算法解决最大子数组问题',
+        className: '三年级1班',
+        teacherName: '李老师',
+        publishDate: '2024-01-09',
+        deadline: '2024-01-17',
+        totalStudents: 28,
+        submittedCount: 27,
+        gradedCount: 25,
+        status: '已批改'
+      },
+      {
+        homeworkId: 'HW017',
+        courseName: '数据库原理',
+        homeworkTitle: '索引优化与查询性能分析',
+        className: '二年级2班',
+        teacherName: '王老师',
+        publishDate: '2024-01-11',
+        deadline: '2024-01-24',
+        totalStudents: 32,
+        submittedCount: 30,
+        gradedCount: 28,
+        status: '进行中'
+      },
+      {
+        homeworkId: 'HW018',
+        courseName: '软件工程',
+        homeworkTitle: '敏捷开发实践报告',
+        className: '一年级2班',
+        teacherName: '赵老师',
+        publishDate: '2024-01-02',
+        deadline: '2024-01-09',
+        totalStudents: 29,
+        submittedCount: 29,
+        gradedCount: 29,
+        status: '已批改'
+      },
+      {
+        homeworkId: 'HW019',
+        courseName: '计算机网络',
+        homeworkTitle: 'DNS查询实验报告',
+        className: '三年级2班',
+        teacherName: '刘老师',
+        publishDate: '2024-01-17',
+        deadline: '2024-02-03',
+        totalStudents: 26,
+        submittedCount: 15,
+        gradedCount: 8,
+        status: '进行中'
+      },
+      {
+        homeworkId: 'HW020',
+        courseName: '数据结构',
+        homeworkTitle: '图论算法实现与可视化',
+        className: '二年级1班',
+        teacherName: '张老师',
+        publishDate: '2024-01-07',
+        deadline: '2024-01-14',
+        totalStudents: 25,
+        submittedCount: 24,
+        gradedCount: 22,
+        status: '已批改'
+      },
+      {
+        homeworkId: 'HW021',
+        courseName: '算法设计',
+        homeworkTitle: '回溯算法解决N皇后问题',
+        className: '一年级1班',
+        teacherName: '李老师',
+        publishDate: '2024-01-19',
+        deadline: '2024-02-01',
+        totalStudents: 30,
+        submittedCount: 20,
+        gradedCount: 12,
+        status: '进行中'
       }
     ])
 
@@ -555,5 +803,19 @@ export default {
   display: flex;
   justify-content: flex-end;
   gap: 12px;
+}
+
+.operation-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.operation-buttons .el-button {
+  margin: 0;
+  flex-shrink: 0;
+  padding: 7px 10px;
 }
 </style>

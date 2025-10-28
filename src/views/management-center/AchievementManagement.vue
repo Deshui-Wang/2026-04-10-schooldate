@@ -76,29 +76,29 @@
       </template>
 
       <el-table :data="filteredAchievements" stripe>
-        <el-table-column prop="achievementCode" label="成果编号" width="120" />
-        <el-table-column prop="achievementName" label="成果名称" width="200" />
-        <el-table-column prop="achievementType" label="成果类型" width="120" />
-        <el-table-column prop="teacherName" label="教师姓名" width="100" />
-        <el-table-column prop="college" label="所属学院" width="120" />
-        <el-table-column prop="publishDate" label="发表/获得日期" width="140" />
-        <el-table-column prop="publisher" label="发表机构/颁发机构" width="180" />
-        <el-table-column prop="level" label="级别" width="100">
+        <el-table-column prop="achievementCode" label="成果编号" min-width="120" />
+        <el-table-column prop="achievementName" label="成果名称" min-width="200" />
+        <el-table-column prop="achievementType" label="成果类型" min-width="120" />
+        <el-table-column prop="teacherName" label="教师姓名" min-width="100" />
+        <el-table-column prop="college" label="所属学院" min-width="120" />
+        <el-table-column prop="publishDate" label="发表/获得日期" min-width="140" />
+        <el-table-column prop="publisher" label="发表机构/颁发机构" min-width="180" />
+        <el-table-column prop="level" label="级别" min-width="100">
           <template #default="scope">
             <el-tag :type="getLevelType(scope.row.level)">
               {{ scope.row.level }}
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="status" label="状态" width="100">
+        <el-table-column prop="status" label="状态" min-width="100">
           <template #default="scope">
             <el-tag :type="getStatusType(scope.row.status)">
               {{ scope.row.status }}
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="score" label="积分" width="80" />
-        <el-table-column label="操作" width="220" fixed="right" align="left">
+        <el-table-column prop="score" label="积分" min-width="80" />
+        <el-table-column label="操作" width="250" fixed="right" align="left">
           <template #default="scope">
             <div class="operation-buttons">
               <el-button size="small" @click="viewAchievement(scope.row)">查看</el-button>

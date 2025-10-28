@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <el-container>
+    <el-container class="warp">
       <!-- 顶部导航栏 -->
       <el-header class="header">
         <div class="header-left">
@@ -22,7 +22,7 @@
         </div>
       </el-header>
 
-      <el-container>
+      <el-container class="content">
         <!-- 左侧菜单 -->
         <el-aside width="240px" class="sidebar">
           <el-menu
@@ -131,6 +131,15 @@ export default {
 /* 全局样式重置和现代化字体 */
 * {
   box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+.warp{
+  height: 100%;
+}
+.content{
+  overflow: auto;
 }
 
 #app {
@@ -227,7 +236,6 @@ export default {
 .sidebar {
   background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(20px);
-  height: calc(100vh - 80px);
   border-right: 1px solid rgba(0, 0, 0, 0.06);
   box-shadow: 4px 0 24px rgba(0, 0, 0, 0.06);
 }
@@ -236,13 +244,13 @@ export default {
   border: none;
   height: 100%;
   background: transparent;
+  padding: 4px 12px;
 }
 
 .sidebar-menu .el-menu-item,
 .sidebar-menu .el-sub-menu__title {
   height: 56px;
   line-height: 56px;
-  margin: 4px 12px;
   border-radius: 12px;
   transition: all 0.3s ease;
   color: #4a5568;
@@ -272,7 +280,6 @@ export default {
 .main-content {
   background: #f5f7fb;
   padding: 32px;
-  height: calc(100vh - 80px);
   overflow-y: auto;
 }
 
@@ -471,20 +478,6 @@ export default {
   }
 }
 
-/* 横屏适配 */
-@media (orientation: landscape) and (max-height: 600px) {
-  .header {
-    height: 50px;
-  }
-  
-  .sidebar {
-    height: calc(100vh - 50px);
-  }
-  
-  .main-content {
-    height: calc(100vh - 50px);
-  }
-}
 
 /* 高分辨率屏幕适配 */
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {

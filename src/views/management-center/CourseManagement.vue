@@ -75,17 +75,17 @@
       </template>
 
       <el-table :data="filteredCourses" stripe>
-        <el-table-column prop="courseCode" label="课程代码" width="120" fixed="left" />
-        <el-table-column prop="courseName" label="课程名称" width="200" />
-        <el-table-column prop="college" label="学院" width="150" />
-        <el-table-column prop="major" label="专业" width="190" />
-        <el-table-column prop="courseType" label="课程类型" width="120" />
-        <el-table-column prop="credits" label="学分" width="80" />
-        <el-table-column prop="hours" label="学时" width="80" />
-        <el-table-column prop="teacherName" label="授课教师" width="120" />
-        <el-table-column prop="classroom" label="教室" width="120" />
-        <el-table-column prop="semester" label="学期" width="100" />
-        <el-table-column prop="status" label="状态" width="100">
+        <el-table-column prop="courseCode" label="课程代码" min-width="120" fixed="left" />
+        <el-table-column prop="courseName" label="课程名称" min-width="200" />
+        <el-table-column prop="college" label="学院" min-width="150" />
+        <el-table-column prop="major" label="专业" min-width="190" />
+        <el-table-column prop="courseType" label="课程类型" min-width="120" />
+        <el-table-column prop="credits" label="学分" min-width="80" />
+        <el-table-column prop="hours" label="学时" min-width="80" />
+        <el-table-column prop="teacherName" label="授课教师" min-width="120" />
+        <el-table-column prop="classroom" label="教室" min-width="120" />
+        <el-table-column prop="semester" label="学期" min-width="100" />
+        <el-table-column prop="status" label="状态" min-width="100">
           <template #default="scope">
             <el-tag :type="scope.row.status === '正常' ? 'success' : 'danger'">
               {{ scope.row.status }}

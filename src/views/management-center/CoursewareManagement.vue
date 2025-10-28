@@ -87,24 +87,24 @@
       </template>
 
       <el-table :data="filteredCoursewares" stripe>
-        <el-table-column prop="coursewareName" label="课件名称" width="200" fixed="left" />
-        <el-table-column prop="courseName" label="所属课程" width="150" />
-        <el-table-column prop="college" label="学院" width="120" />
-        <el-table-column prop="major" label="专业" width="150" />
-        <el-table-column prop="coursewareType" label="课件类型" width="120" />
-        <el-table-column prop="fileSize" label="文件大小" width="100" />
-        <el-table-column prop="fileFormat" label="文件格式" width="100" />
-        <el-table-column prop="uploader" label="上传者" width="100" />
-        <el-table-column prop="uploadTime" label="上传时间" width="120" />
-        <el-table-column prop="downloadCount" label="下载次数" width="100" />
-        <el-table-column prop="status" label="状态" width="100">
+        <el-table-column prop="coursewareName" label="课件名称" min-width="200" fixed="left" />
+        <el-table-column prop="courseName" label="所属课程" min-width="150" />
+        <el-table-column prop="college" label="学院" min-width="120" />
+        <el-table-column prop="major" label="专业" min-width="150" />
+        <el-table-column prop="coursewareType" label="课件类型" min-width="120" />
+        <el-table-column prop="fileSize" label="文件大小" min-width="100" />
+        <el-table-column prop="fileFormat" label="文件格式" min-width="100" />
+        <el-table-column prop="uploader" label="上传者" min-width="100" />
+        <el-table-column prop="uploadTime" label="上传时间" min-width="120" />
+        <el-table-column prop="downloadCount" label="下载次数" min-width="100" />
+        <el-table-column prop="status" label="状态" min-width="100">
           <template #default="scope">
             <el-tag :type="getStatusType(scope.row.status)">
               {{ scope.row.status }}
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="280" fixed="right">
+        <el-table-column label="操作" width="250" fixed="right">
           <template #default="scope">
             <div class="operation-buttons">
               <el-button size="small" @click="previewCourseware(scope.row)">预览</el-button>

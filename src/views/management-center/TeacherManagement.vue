@@ -70,34 +70,33 @@
       </template>
 
       <el-table :data="filteredTeachers" stripe>
-        <el-table-column prop="id" label="工号" width="100" />
-        <el-table-column prop="name" label="姓名" width="120" />
-        <el-table-column prop="gender" label="性别" width="80">
+        <el-table-column prop="id" label="工号" min-width="100" />
+        <el-table-column prop="name" label="姓名" min-width="120" />
+        <el-table-column prop="gender" label="性别" min-width="80">
           <template #default="scope">
             <el-tag :type="scope.row.gender === '男' ? 'primary' : 'success'">
               {{ scope.row.gender }}
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="subject" label="科目" width="100" />
-        <el-table-column prop="education" label="学历" width="100" />
-        <el-table-column prop="department" label="部门" width="120" />
-        <el-table-column prop="phone" label="电话" width="150" />
-        <el-table-column prop="email" label="邮箱" width="200" />
-        <el-table-column prop="status" label="状态" width="100">
+        <el-table-column prop="subject" label="科目" min-width="100" />
+        <el-table-column prop="education" label="学历" min-width="100" />
+        <el-table-column prop="department" label="部门" min-width="120" />
+        <el-table-column prop="phone" label="电话" min-width="150" show-overflow-tooltip />
+        <el-table-column prop="email" label="邮箱" min-width="200" show-overflow-tooltip />
+        <el-table-column prop="status" label="状态" min-width="100">
           <template #default="scope">
             <el-tag :type="scope.row.status === '在职' ? 'success' : 'danger'">
               {{ scope.row.status }}
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="hireDate" label="入职日期" width="120" />
-        <el-table-column label="操作" width="280" fixed="right">
+        <el-table-column prop="hireDate" label="入职日期" min-width="120" />
+        <el-table-column label="操作" width="230" fixed="right">
           <template #default="scope">
             <el-button size="small" @click="editTeacher(scope.row)">编辑</el-button>
             <el-button size="small" type="info" @click="viewDetails(scope.row)">详情</el-button>
             <el-button size="small" type="warning" @click="authorizeTeacher(scope.row)">授权修改</el-button>
-            <el-button size="small" type="danger" @click="deleteTeacher(scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -250,10 +249,10 @@
         </div>
 
         <el-table :data="pendingTeachers" style="width: 100%" max-height="500">
-          <el-table-column prop="name" label="教师姓名" width="120" />
-          <el-table-column prop="subject" label="科目" width="100" />
-          <el-table-column prop="department" label="部门" width="120" />
-          <el-table-column label="修改内容" min-width="200">
+          <el-table-column prop="name" label="教师姓名" min-width="120" />
+          <el-table-column prop="subject" label="科目" min-width="100" />
+          <el-table-column prop="department" label="部门" min-width="120" />
+          <el-table-column label="修改内容" min-width="300" show-overflow-tooltip>
             <template #default="{ row }">
               <div class="change-content">
                 <div v-for="change in row.changes" :key="change.field" class="change-item">
@@ -265,8 +264,8 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="submitTime" label="提交时间" width="150" />
-          <el-table-column label="操作" width="200" fixed="right">
+          <el-table-column prop="submitTime" label="提交时间" min-width="150" />
+          <el-table-column label="操作" width="240" fixed="right">
             <template #default="{ row }">
               <el-button type="success" size="small" @click="approveTeacher(row)">
                 通过

@@ -75,27 +75,27 @@
       </template>
 
       <el-table :data="filteredAssets" stripe>
-        <el-table-column prop="assetCode" label="资产编号" width="120" />
-        <el-table-column prop="assetName" label="资产名称" width="180" />
-        <el-table-column prop="assetType" label="资产类型" width="120" />
-        <el-table-column prop="brand" label="品牌型号" width="150" />
-        <el-table-column prop="purchaseDate" label="采购日期" width="120" />
-        <el-table-column prop="purchasePrice" label="采购价格" width="100">
+        <el-table-column prop="assetCode" label="资产编号" min-width="120" />
+        <el-table-column prop="assetName" label="资产名称" min-width="180" />
+        <el-table-column prop="assetType" label="资产类型" min-width="120" />
+        <el-table-column prop="brand" label="品牌型号" min-width="150" />
+        <el-table-column prop="purchaseDate" label="采购日期" min-width="120" />
+        <el-table-column prop="purchasePrice" label="采购价格" min-width="100">
           <template #default="scope">
             <span>¥{{ scope.row.purchasePrice.toLocaleString() }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="department" label="使用部门" width="120" />
-        <el-table-column prop="responsiblePerson" label="责任人" width="100" />
-        <el-table-column prop="location" label="存放位置" width="120" />
-        <el-table-column prop="status" label="状态" width="100">
+        <el-table-column prop="department" label="使用部门" min-width="120" />
+        <el-table-column prop="responsiblePerson" label="责任人" min-width="100" />
+        <el-table-column prop="location" label="存放位置" min-width="120" />
+        <el-table-column prop="status" label="状态" min-width="100">
           <template #default="scope">
             <el-tag :type="getStatusType(scope.row.status)">
               {{ scope.row.status }}
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="230" fixed="right" align="left">
+        <el-table-column label="操作" width="250" fixed="right" align="left">
           <template #default="scope">
             <div class="operation-buttons">
               <el-button size="small" @click="viewAsset(scope.row)">查看</el-button>

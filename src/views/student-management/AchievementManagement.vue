@@ -54,79 +54,86 @@
       </el-form>
     </el-card>
 
-    <!-- 操作按钮 -->
-    <el-card class="action-card">
-      <div class="action-buttons">
-        <el-button type="primary" @click="handleAddAchievement">
-          <el-icon><Plus /></el-icon>
-          添加成果
-        </el-button>
-        <el-button type="success" @click="handleBatchImport">
-          <el-icon><Upload /></el-icon>
-          批量导入
-        </el-button>
-        <el-button type="warning" @click="handleAchievementAnalysis">
-          <el-icon><TrendCharts /></el-icon>
-          成果分析
-        </el-button>
-        <el-button type="info" @click="handleExport">
-          <el-icon><Download /></el-icon>
-          导出数据
-        </el-button>
-      </div>
-    </el-card>
+    <!-- 操作按钮和成果统计合并区域 -->
+    <el-row :gutter="20" class="action-stats-row">
+      <!-- 成果统计卡片区域 -->
+      <el-col :span="16">
+        <el-row :gutter="20" class="stats-row">
+          <el-col :span="6">
+            <el-card class="stat-card">
+              <div class="stat-content">
+                <div class="stat-icon paper">
+                  <el-icon><Document /></el-icon>
+                </div>
+                <div class="stat-info">
+                  <div class="stat-value">{{ achievementStats.papers }}</div>
+                  <div class="stat-label">论文发表</div>
+                </div>
+              </div>
+            </el-card>
+          </el-col>
+          <el-col :span="6">
+            <el-card class="stat-card">
+              <div class="stat-content">
+                <div class="stat-icon patent">
+                  <el-icon><Trophy /></el-icon>
+                </div>
+                <div class="stat-info">
+                  <div class="stat-value">{{ achievementStats.patents }}</div>
+                  <div class="stat-label">专利申请</div>
+                </div>
+              </div>
+            </el-card>
+          </el-col>
+          <el-col :span="6">
+            <el-card class="stat-card">
+              <div class="stat-content">
+                <div class="stat-icon scholarship">
+                  <el-icon><Medal /></el-icon>
+                </div>
+                <div class="stat-info">
+                  <div class="stat-value">{{ achievementStats.scholarships }}</div>
+                  <div class="stat-label">奖学金</div>
+                </div>
+              </div>
+            </el-card>
+          </el-col>
+          <el-col :span="6">
+            <el-card class="stat-card">
+              <div class="stat-content">
+                <div class="stat-icon competition">
+                  <el-icon><TrophyBase /></el-icon>
+                </div>
+                <div class="stat-info">
+                  <div class="stat-value">{{ achievementStats.competitions }}</div>
+                  <div class="stat-label">竞赛获奖</div>
+                </div>
+              </div>
+            </el-card>
+          </el-col>
+        </el-row>
+      </el-col>
 
-    <!-- 成果统计卡片 -->
-    <el-row :gutter="20" class="stats-row">
-      <el-col :span="6">
-        <el-card class="stat-card">
-          <div class="stat-content">
-            <div class="stat-icon paper">
-              <el-icon><Document /></el-icon>
-            </div>
-            <div class="stat-info">
-              <div class="stat-value">{{ achievementStats.papers }}</div>
-              <div class="stat-label">论文发表</div>
-            </div>
-          </div>
-        </el-card>
-      </el-col>
-      <el-col :span="6">
-        <el-card class="stat-card">
-          <div class="stat-content">
-            <div class="stat-icon patent">
-              <el-icon><Trophy /></el-icon>
-            </div>
-            <div class="stat-info">
-              <div class="stat-value">{{ achievementStats.patents }}</div>
-              <div class="stat-label">专利申请</div>
-            </div>
-          </div>
-        </el-card>
-      </el-col>
-      <el-col :span="6">
-        <el-card class="stat-card">
-          <div class="stat-content">
-            <div class="stat-icon scholarship">
-              <el-icon><Medal /></el-icon>
-            </div>
-            <div class="stat-info">
-              <div class="stat-value">{{ achievementStats.scholarships }}</div>
-              <div class="stat-label">奖学金</div>
-            </div>
-          </div>
-        </el-card>
-      </el-col>
-      <el-col :span="6">
-        <el-card class="stat-card">
-          <div class="stat-content">
-            <div class="stat-icon competition">
-              <el-icon><TrophyBase /></el-icon>
-            </div>
-            <div class="stat-info">
-              <div class="stat-value">{{ achievementStats.competitions }}</div>
-              <div class="stat-label">竞赛获奖</div>
-            </div>
+      <!-- 操作按钮区域 -->
+      <el-col :span="8">
+        <el-card class="action-card">
+          <div class="action-buttons">
+            <el-button type="primary" @click="handleAddAchievement">
+              <el-icon><Plus /></el-icon>
+              添加成果
+            </el-button>
+            <el-button type="success" @click="handleBatchImport">
+              <el-icon><Upload /></el-icon>
+              批量导入
+            </el-button>
+            <el-button type="warning" @click="handleAchievementAnalysis">
+              <el-icon><TrendCharts /></el-icon>
+              成果分析
+            </el-button>
+            <el-button type="info" @click="handleExport">
+              <el-icon><Download /></el-icon>
+              导出数据
+            </el-button>
           </div>
         </el-card>
       </el-col>
@@ -142,48 +149,50 @@
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="55" />
-        <el-table-column prop="studentId" label="学号" width="120" />
-        <el-table-column prop="studentName" label="姓名" width="100" />
-        <el-table-column prop="className" label="班级" width="120" />
-        <el-table-column prop="achievementType" label="成果类型" width="120">
+        <el-table-column prop="studentId" label="学号" min-width="110" />
+        <el-table-column prop="studentName" label="姓名" min-width="90" />
+        <el-table-column prop="className" label="班级" min-width="110" />
+        <el-table-column prop="achievementType" label="成果类型" min-width="110">
           <template #default="{ row }">
             <el-tag :type="getAchievementTypeColor(row.achievementType)">
               {{ row.achievementType }}
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="title" label="成果标题" width="250" />
-        <el-table-column prop="level" label="级别" width="100">
+        <el-table-column prop="title" label="成果标题" min-width="200" show-overflow-tooltip />
+        <el-table-column prop="level" label="级别" min-width="90">
           <template #default="{ row }">
             <el-tag :type="getLevelType(row.level)">{{ row.level }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="awardDate" label="获得日期" width="120" />
-        <el-table-column prop="organization" label="颁发机构" width="150" />
-        <el-table-column prop="status" label="状态" width="100">
+        <el-table-column prop="awardDate" label="获得日期" min-width="110" />
+        <el-table-column prop="organization" label="颁发机构" min-width="140" show-overflow-tooltip />
+        <el-table-column prop="status" label="状态" min-width="90">
           <template #default="{ row }">
             <el-tag :type="getStatusType(row.status)">{{ row.status }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="score" label="积分" width="80" align="center" />
-        <el-table-column label="操作" width="250" fixed="right">
+        <el-table-column prop="score" label="积分" min-width="80" align="center" />
+        <el-table-column label="操作" width="300" fixed="right">
           <template #default="{ row }">
-            <el-button type="primary" size="small" @click="handleView(row)">
-              <el-icon><View /></el-icon>
-              查看
-            </el-button>
-            <el-button type="success" size="small" @click="handleEdit(row)">
-              <el-icon><Edit /></el-icon>
-              编辑
-            </el-button>
-            <el-button type="warning" size="small" @click="handleVerify(row)">
-              <el-icon><Check /></el-icon>
-              审核
-            </el-button>
-            <el-button type="danger" size="small" @click="handleDelete(row)">
-              <el-icon><Delete /></el-icon>
-              删除
-            </el-button>
+            <div class="operation-buttons">
+              <el-button type="primary" size="small" @click="handleView(row)">
+                <el-icon><View /></el-icon>
+                查看
+              </el-button>
+              <el-button type="success" size="small" @click="handleEdit(row)">
+                <el-icon><Edit /></el-icon>
+                编辑
+              </el-button>
+              <el-button type="warning" size="small" @click="handleVerify(row)">
+                <el-icon><Check /></el-icon>
+                审核
+              </el-button>
+              <el-button type="danger" size="small" @click="handleDelete(row)">
+                <el-icon><Delete /></el-icon>
+                删除
+              </el-button>
+            </div>
           </template>
         </el-table-column>
       </el-table>
@@ -475,10 +484,10 @@ export default {
 
     // 成果统计
     const achievementStats = reactive({
-      papers: 12,
-      patents: 8,
-      scholarships: 25,
-      competitions: 18
+      papers: 8,
+      patents: 6,
+      scholarships: 8,
+      competitions: 7
     })
 
     // 成果列表数据
@@ -530,15 +539,387 @@ export default {
         organization: 'Oracle公司',
         status: '已审核',
         score: 25
+      },
+      {
+        studentId: '2021005',
+        studentName: '陈七',
+        className: '一年级1班',
+        achievementType: '专利申请',
+        title: '一种智能医疗辅助诊断系统',
+        level: '国家级',
+        awardDate: '2024-02-18',
+        organization: '国家知识产权局',
+        status: '已审核',
+        score: 45
+      },
+      {
+        studentId: '2021006',
+        studentName: '刘八',
+        className: '一年级2班',
+        achievementType: '论文发表',
+        title: '区块链技术在数据安全中的应用',
+        level: '省级',
+        awardDate: '2024-03-02',
+        organization: '省科学技术协会',
+        status: '已审核',
+        score: 35
+      },
+      {
+        studentId: '2021007',
+        studentName: '杨九',
+        className: '二年级1班',
+        achievementType: '竞赛获奖',
+        title: '蓝桥杯全国软件和信息技术专业人才大赛',
+        level: '国家级',
+        awardDate: '2024-03-15',
+        organization: '工信部',
+        status: '已审核',
+        score: 40
+      },
+      {
+        studentId: '2021008',
+        studentName: '周十',
+        className: '三年级1班',
+        achievementType: '奖学金',
+        title: '国家奖学金',
+        level: '国家级',
+        awardDate: '2024-01-20',
+        organization: '教育部',
+        status: '已审核',
+        score: 50
+      },
+      {
+        studentId: '2021009',
+        studentName: '吴一一',
+        className: '一年级1班',
+        achievementType: '技能证书',
+        title: 'AWS云计算架构师认证',
+        level: '国际级',
+        awardDate: '2024-04-10',
+        organization: 'Amazon公司',
+        status: '已审核',
+        score: 30
+      },
+      {
+        studentId: '2021010',
+        studentName: '郑一二',
+        className: '一年级2班',
+        achievementType: '论文发表',
+        title: '人工智能在自动驾驶中的研究进展',
+        level: '市级',
+        awardDate: '2024-04-25',
+        organization: '市科学技术协会',
+        status: '待审核',
+        score: 20
+      },
+      {
+        studentId: '2021011',
+        studentName: '孙一三',
+        className: '二年级1班',
+        achievementType: '竞赛获奖',
+        title: '挑战杯全国大学生创业计划竞赛',
+        level: '国家级',
+        awardDate: '2024-05-08',
+        organization: '共青团中央',
+        status: '已审核',
+        score: 45
+      },
+      {
+        studentId: '2021012',
+        studentName: '朱一四',
+        className: '三年级1班',
+        achievementType: '专利申请',
+        title: '面向工业4.0的智能制造系统',
+        level: '省级',
+        awardDate: '2024-05-20',
+        organization: '省知识产权局',
+        status: '已审核',
+        score: 35
+      },
+      {
+        studentId: '2021013',
+        studentName: '马一五',
+        className: '三年级2班',
+        achievementType: '奖学金',
+        title: '校长奖学金',
+        level: '校级',
+        awardDate: '2024-06-01',
+        organization: '学校',
+        status: '已审核',
+        score: 15
+      },
+      {
+        studentId: '2021014',
+        studentName: '胡一六',
+        className: '一年级2班',
+        achievementType: '技能证书',
+        title: 'PMP项目管理专业人士认证',
+        level: '国际级',
+        awardDate: '2024-06-15',
+        organization: 'PMI',
+        status: '已审核',
+        score: 28
+      },
+      {
+        studentId: '2021015',
+        studentName: '林一七',
+        className: '二年级1班',
+        achievementType: '论文发表',
+        title: '基于机器学习的网络安全威胁检测',
+        level: '国家级',
+        awardDate: '2024-07-01',
+        organization: '中国计算机学会',
+        status: '已审核',
+        score: 48
+      },
+      {
+        studentId: '2021016',
+        studentName: '何一八',
+        className: '一年级1班',
+        achievementType: '竞赛获奖',
+        title: '互联网+大学生创新创业大赛',
+        level: '省级',
+        awardDate: '2024-07-20',
+        organization: '教育厅',
+        status: '已审核',
+        score: 30
+      },
+      {
+        studentId: '2021017',
+        studentName: '冯一九',
+        className: '三年级2班',
+        achievementType: '专利申请',
+        title: '一种智能家居控制系统',
+        level: '市级',
+        awardDate: '2024-08-05',
+        organization: '市知识产权局',
+        status: '待审核',
+        score: 20
+      },
+      {
+        studentId: '2021018',
+        studentName: '谢二一',
+        className: '二年级1班',
+        achievementType: '奖学金',
+        title: '一等学业奖学金',
+        level: '校级',
+        awardDate: '2024-09-01',
+        organization: '学校',
+        status: '已审核',
+        score: 20
+      },
+      {
+        studentId: '2021019',
+        studentName: '黄二二',
+        className: '三年级1班',
+        achievementType: '技能证书',
+        title: 'CISSP信息安全认证',
+        level: '国际级',
+        awardDate: '2024-09-15',
+        organization: 'ISC2',
+        status: '已审核',
+        score: 35
+      },
+      {
+        studentId: '2021020',
+        studentName: '许二三',
+        className: '一年级2班',
+        achievementType: '论文发表',
+        title: '大数据技术在智慧城市中的应用',
+        level: '省级',
+        awardDate: '2024-10-01',
+        organization: '省大数据产业协会',
+        status: '已审核',
+        score: 30
+      },
+      {
+        studentId: '2021021',
+        studentName: '邓二四',
+        className: '一年级1班',
+        achievementType: '竞赛获奖',
+        title: 'ACM国际大学生程序设计竞赛',
+        level: '国际级',
+        awardDate: '2024-10-20',
+        organization: 'ACM',
+        status: '已审核',
+        score: 55
+      },
+      {
+        studentId: '2021022',
+        studentName: '韩二五',
+        className: '二年级1班',
+        achievementType: '专利申请',
+        title: '基于物联网的环境监测系统',
+        level: '国家级',
+        awardDate: '2024-11-05',
+        organization: '国家知识产权局',
+        status: '已审核',
+        score: 42
+      },
+      {
+        studentId: '2021023',
+        studentName: '唐二六',
+        className: '三年级2班',
+        achievementType: '奖学金',
+        title: '二等学业奖学金',
+        level: '校级',
+        awardDate: '2024-11-18',
+        organization: '学校',
+        status: '已审核',
+        score: 12
+      },
+      {
+        studentId: '2021024',
+        studentName: '冯二七',
+        className: '三年级1班',
+        achievementType: '技能证书',
+        title: 'Certified Kubernetes Administrator',
+        level: '国际级',
+        awardDate: '2024-12-01',
+        organization: 'Cloud Native Computing Foundation',
+        status: '已审核',
+        score: 32
+      },
+      {
+        studentId: '2021025',
+        studentName: '程二八',
+        className: '一年级2班',
+        achievementType: '论文发表',
+        title: '边缘计算在5G网络中的架构设计',
+        level: '市级',
+        awardDate: '2024-12-10',
+        organization: '市电子学会',
+        status: '待审核',
+        score: 18
+      },
+      {
+        studentId: '2021026',
+        studentName: '姜二九',
+        className: '一年级1班',
+        achievementType: '竞赛获奖',
+        title: '全国大学生数学建模竞赛',
+        level: '国家级',
+        awardDate: '2024-12-25',
+        organization: '高教司',
+        status: '已审核',
+        score: 38
+      },
+      {
+        studentId: '2021027',
+        studentName: '沈三一',
+        className: '三年级1班',
+        achievementType: '奖学金',
+        title: '创新创业奖学金',
+        level: '院级',
+        awardDate: '2024-01-10',
+        organization: '学院',
+        status: '已审核',
+        score: 10
+      },
+      {
+        studentId: '2021028',
+        studentName: '吕三二',
+        className: '二年级1班',
+        achievementType: '技能证书',
+        title: 'Docker容器技术认证',
+        level: '国际级',
+        awardDate: '2025-01-15',
+        organization: 'Docker公司',
+        status: '已审核',
+        score: 25
+      },
+      {
+        studentId: '2021029',
+        studentName: '颜三三',
+        className: '三年级2班',
+        achievementType: '专利申请',
+        title: '智能农业物联网监控装置',
+        level: '省级',
+        awardDate: '2025-02-01',
+        organization: '省知识产权局',
+        status: '已审核',
+        score: 30
+      },
+      {
+        studentId: '2021030',
+        studentName: '尤三四',
+        className: '一年级1班',
+        achievementType: '论文发表',
+        title: '量子计算及其在密码学中的应用',
+        level: '校级',
+        awardDate: '2025-02-20',
+        organization: '学校学报',
+        status: '待审核',
+        score: 15
+      },
+      {
+        studentId: '2021031',
+        studentName: '卢三五',
+        className: '一年级2班',
+        achievementType: '竞赛获奖',
+        title: '中国大学生计算机设计大赛',
+        level: '国家级',
+        awardDate: '2025-03-10',
+        organization: '教育部',
+        status: '已审核',
+        score: 35
+      },
+      {
+        studentId: '2021032',
+        studentName: '白三六',
+        className: '二年级1班',
+        achievementType: '奖学金',
+        title: '国家助学金',
+        level: '国家级',
+        awardDate: '2025-03-25',
+        organization: '教育部',
+        status: '已审核',
+        score: 25
+      },
+      {
+        studentId: '2021033',
+        studentName: '章三七',
+        className: '三年级1班',
+        achievementType: '技能证书',
+        title: 'Microsoft Azure认证专家',
+        level: '国际级',
+        awardDate: '2025-04-05',
+        organization: 'Microsoft公司',
+        status: '已审核',
+        score: 30
+      },
+      {
+        studentId: '2021034',
+        studentName: '盛三八',
+        className: '一年级1班',
+        achievementType: '专利申请',
+        title: '基于深度学习的智能问答系统',
+        level: '国家级',
+        awardDate: '2025-04-20',
+        organization: '国家知识产权局',
+        status: '已审核',
+        score: 40
+      },
+      {
+        studentId: '2021035',
+        studentName: '齐三九',
+        className: '三年级2班',
+        achievementType: '论文发表',
+        title: '云计算与边缘计算协同架构研究',
+        level: '省级',
+        awardDate: '2025-05-01',
+        organization: '省云计算协会',
+        status: '已审核',
+        score: 28
       }
     ])
 
     // 分析数据
     const analysisData = reactive({
-      totalAchievements: 63,
-      avgScore: 36.2,
-      excellentStudents: 15,
-      growthRate: 23.5
+      totalAchievements: 35,
+      avgScore: 31.8,
+      excellentStudents: 12,
+      growthRate: 28.3
     })
 
     // 获取成果类型颜色
@@ -775,18 +1156,29 @@ export default {
 }
 
 .search-card,
-.action-card,
 .table-card {
   margin-bottom: 20px;
 }
 
 .action-buttons {
   display: flex;
-  gap: 12px;
+  flex-direction: row;
+  gap: 10px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.action-buttons .el-button {
+  width: 100%;
+  justify-content: flex-start;
+}
+
+.action-stats-row {
+  margin-bottom: 20px;
 }
 
 .stats-row {
-  margin-bottom: 20px;
+  margin-bottom: 0;
 }
 
 .stat-card {
@@ -884,5 +1276,19 @@ export default {
   font-size: 24px;
   font-weight: 600;
   color: #1f2937;
+}
+
+.operation-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.operation-buttons .el-button {
+  margin: 0;
+  flex-shrink: 0;
+  padding: 7px 10px;
 }
 </style>

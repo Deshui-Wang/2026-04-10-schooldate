@@ -7,7 +7,7 @@
 
     <!-- 采购统计 -->
     <el-row :gutter="20" class="stats-row">
-      <el-col :span="6">
+      <el-col :xs="12" :sm="6" :md="6" class="stat-col">
         <el-card class="stat-card">
           <div class="stat-content">
             <div class="stat-number">{{ purchaseStats.totalOrders }}</div>
@@ -15,7 +15,7 @@
           </div>
         </el-card>
       </el-col>
-      <el-col :span="6">
+      <el-col :xs="12" :sm="6" :md="6" class="stat-col">
         <el-card class="stat-card">
           <div class="stat-content">
             <div class="stat-number">{{ purchaseStats.totalAmount }}</div>
@@ -23,7 +23,7 @@
           </div>
         </el-card>
       </el-col>
-      <el-col :span="6">
+      <el-col :xs="12" :sm="6" :md="6" class="stat-col">
         <el-card class="stat-card">
           <div class="stat-content">
             <div class="stat-number">{{ purchaseStats.activeApps }}</div>
@@ -31,7 +31,7 @@
           </div>
         </el-card>
       </el-col>
-      <el-col :span="6">
+      <el-col :xs="12" :sm="6" :md="6" class="stat-col">
         <el-card class="stat-card">
           <div class="stat-content">
             <div class="stat-number">{{ purchaseStats.pendingOrders }}</div>
@@ -46,39 +46,45 @@
       <template #header>
         <div class="card-header">
           <span>采购订单</span>
-          <el-button type="primary" @click="createOrder">
+          <el-button type="success" plain class="create-order-btn" @click="createOrder">
             <el-icon><Plus /></el-icon>
             创建订单
           </el-button>
         </div>
       </template>
 
-      <el-table :data="orders" stripe>
-        <el-table-column prop="orderId" label="订单号" width="150" />
-        <el-table-column prop="appName" label="应用名称" width="200" />
-        <el-table-column prop="licenseType" label="授权类型" width="120">
+      <el-table :data="orders" stripe class="responsive-table">
+        <el-table-column prop="orderId" label="订单号" min-width="120" />
+        <el-table-column prop="appName" label="应用名称" min-width="140" />
+        <el-table-column prop="licenseType" label="授权类型" min-width="100">
           <template #default="scope">
-            <el-tag :type="getLicenseType(scope.row.licenseType)">
+            <el-tag :type="getLicenseType(scope.row.licenseType)" size="small">
               {{ scope.row.licenseType }}
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="userCount" label="用户数" width="100" />
-        <el-table-column prop="price" label="价格(元)" width="120" />
-        <el-table-column prop="status" label="状态" width="120">
+        <el-table-column prop="userCount" label="用户数" min-width="80" class-name="hide-column-sm" />
+        <el-table-column prop="price" label="价格(元)" min-width="100" class-name="hide-column-sm">
           <template #default="scope">
-            <el-tag :type="getStatusType(scope.row.status)">
+            {{ scope.row.price.toLocaleString() }}
+          </template>
+        </el-table-column>
+        <el-table-column prop="status" label="状态" min-width="80">
+          <template #default="scope">
+            <el-tag :type="getStatusType(scope.row.status)" size="small">
               {{ scope.row.status }}
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="orderDate" label="下单日期" width="120" />
-        <el-table-column prop="expireDate" label="到期日期" width="120" />
-        <el-table-column label="操作" width="200">
+        <el-table-column prop="orderDate" label="下单日期" min-width="110" class-name="hide-column-md" />
+        <el-table-column prop="expireDate" label="到期日期" min-width="110" class-name="hide-column-md" />
+        <el-table-column label="操作" min-width="180" fixed="right">
           <template #default="scope">
-            <el-button size="small" @click="viewOrder(scope.row)">查看</el-button>
-            <el-button size="small" type="success" @click="renewOrder(scope.row)">续费</el-button>
-            <el-button size="small" type="danger" @click="cancelOrder(scope.row)">取消</el-button>
+            <div class="action-buttons">
+              <el-button size="small" type="info" @click="viewOrder(scope.row)" text>查看</el-button>
+              <el-button size="small" type="warning" @click="renewOrder(scope.row)" text>续费</el-button>
+              <el-button size="small" type="danger" @click="cancelOrder(scope.row)" text>取消</el-button>
+            </div>
           </template>
         </el-table-column>
       </el-table>
@@ -368,5 +374,85 @@ export default {
 
 .card-header .el-icon {
   margin-right: 8px;
+}
+
+.create-order-btn {
+  border-radius: 4px;
+}
+
+/* 响应式表格样式 */
+.responsive-table {
+  width: 100%;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.action-buttons .el-button {
+  padding: 6px 16px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.action-buttons .el-button:hover {
+  opacity: 0.8;
+  transform: translateY(-1px);
+}
+
+/* 统计卡片响应式 */
+.stat-col {
+  margin-bottom: 12px;
+}
+
+@media (max-width: 768px) {
+  .stat-number {
+    font-size: 24px;
+  }
+  
+  .stat-content {
+    padding: 15px;
+  }
+}
+
+@media (min-width: 769px) {
+  .stat-col {
+    margin-bottom: 0;
+  }
+}
+
+/* 表格响应式 */
+@media (max-width: 1200px) {
+  .hide-column-md {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .hide-column-sm {
+    display: none;
+  }
+  
+  .action-buttons {
+    flex-direction: column;
+  }
+  
+  .action-buttons .el-button {
+    width: 100%;
+  }
+  
+  .responsive-table {
+    font-size: 12px;
+  }
+}
+
+/* 对话框响应式 */
+@media (max-width: 768px) {
+  :deep(.el-dialog) {
+    width: 90% !important;
+    margin: 0 auto;
+  }
 }
 </style>

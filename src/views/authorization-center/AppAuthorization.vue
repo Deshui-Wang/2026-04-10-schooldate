@@ -53,28 +53,28 @@
         </div>
       </template>
 
-      <el-table :data="authorizations" stripe>
-        <el-table-column prop="appName" label="应用名称" width="200" />
-        <el-table-column prop="version" label="版本" width="120" />
-        <el-table-column prop="licenseType" label="授权类型" width="120">
+      <el-table :data="authorizations" stripe style="width: 100%">
+        <el-table-column prop="appName" label="应用名称" min-width="180" show-overflow-tooltip />
+        <el-table-column prop="version" label="版本" min-width="90" />
+        <el-table-column prop="licenseType" label="授权类型" min-width="110">
           <template #default="scope">
             <el-tag :type="getLicenseType(scope.row.licenseType)">
               {{ scope.row.licenseType }}
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="userCount" label="用户数" width="100" />
-        <el-table-column prop="status" label="状态" width="120">
+        <el-table-column prop="userCount" label="用户数" min-width="90" align="center" />
+        <el-table-column prop="status" label="状态" min-width="100">
           <template #default="scope">
             <el-tag :type="getStatusType(scope.row.status)">
               {{ scope.row.status }}
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="installDate" label="安装日期" width="120" />
-        <el-table-column prop="expireDate" label="到期日期" width="120" />
-        <el-table-column prop="lastUsed" label="最后使用" width="150" />
-        <el-table-column label="操作" width="250">
+        <el-table-column prop="installDate" label="安装日期" min-width="115" />
+        <el-table-column prop="expireDate" label="到期日期" min-width="115" />
+        <el-table-column prop="lastUsed" label="最后使用" min-width="140" />
+        <el-table-column label="操作" width="280" fixed="right">
           <template #default="scope">
             <el-button size="small" @click="viewDetails(scope.row)">详情</el-button>
             <el-button size="small" type="success" @click="renewAuth(scope.row)">续费</el-button>
@@ -89,7 +89,7 @@
     <el-dialog
       v-model="userDialogVisible"
       :title="`${selectedApp?.appName} - 用户权限管理`"
-      width="800px"
+      width="1200px"
     >
       <div v-if="selectedApp" class="user-management">
         <div class="user-stats">
@@ -126,17 +126,17 @@
             </el-button>
           </div>
           
-          <el-table :data="selectedApp.users" stripe>
-            <el-table-column prop="username" label="用户名" width="150" />
-            <el-table-column prop="name" label="姓名" width="120" />
-            <el-table-column prop="role" label="角色" width="120">
+          <el-table :data="selectedApp.users" stripe style="width: 100%">
+            <el-table-column prop="username" label="用户名" min-width="120" />
+            <el-table-column prop="name" label="姓名" min-width="100" />
+            <el-table-column prop="role" label="角色" min-width="100">
               <template #default="scope">
                 <el-tag :type="getRoleType(scope.row.role)">
                   {{ scope.row.role }}
                 </el-tag>
               </template>
             </el-table-column>
-            <el-table-column prop="permissions" label="权限" width="200">
+            <el-table-column prop="permissions" label="权限" min-width="180" show-overflow-tooltip>
               <template #default="scope">
                 <el-tag
                   v-for="permission in scope.row.permissions"
@@ -148,8 +148,8 @@
                 </el-tag>
               </template>
             </el-table-column>
-            <el-table-column prop="lastLogin" label="最后登录" width="150" />
-            <el-table-column label="操作" width="120">
+            <el-table-column prop="lastLogin" label="最后登录" min-width="140" />
+            <el-table-column label="操作" width="150" fixed="right">
               <template #default="scope">
                 <el-button size="small" @click="editUser(scope.row)">编辑</el-button>
                 <el-button size="small" type="danger" @click="removeUser(scope.row)">移除</el-button>

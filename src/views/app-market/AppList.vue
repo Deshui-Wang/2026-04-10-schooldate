@@ -29,7 +29,7 @@
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="handleSearch">
+          <el-button type="primary" class="search-btn" @click="handleSearch">
             <el-icon><Search /></el-icon>
             搜索
           </el-button>
@@ -41,17 +41,17 @@
     <!-- 应用列表 -->
     <el-card class="apps-card">
       <el-row :gutter="20">
-        <el-col :span="8" v-for="app in filteredApps" :key="app.id">
+        <el-col :span="6" v-for="app in filteredApps" :key="app.id">
           <el-card class="app-card" shadow="hover">
             <div class="app-image">
               <el-image
                 :src="app.image"
                 :alt="app.name"
                 fit="cover"
-                style="width: 100%; height: 200px;"
+                style="width: 100%; height: 200px; border-radius: 7px;"
               >
                 <template #error>
-                  <div class="image-slot">
+                  <div class="image-slot" style="border-radius: 7px;">
                     <el-icon><Picture /></el-icon>
                   </div>
                 </template>
@@ -68,8 +68,8 @@
                 </div>
               </div>
               <div class="app-actions">
-                <el-button type="primary" @click="viewDetails(app)">查看详情</el-button>
-                <el-button type="success" @click="installApp(app)">安装</el-button>
+                <el-button type="primary" class="view-detail-btn" @click="viewDetails(app)">查看详情</el-button>
+                <el-button type="success" class="install-btn" @click="installApp(app)">安装</el-button>
               </div>
             </div>
           </el-card>
@@ -90,7 +90,7 @@
               :src="selectedApp.image"
               :alt="selectedApp.name"
               fit="cover"
-              style="width: 100%; height: 300px;"
+              style="width: 100%; height: 300px; border-radius: 7px;"
             />
           </el-col>
           <el-col :span="16">
@@ -148,7 +148,7 @@ export default {
         version: 'v2.1.0',
         developer: '教育科技公司',
         rating: 4.5,
-        image: 'https://via.placeholder.com/300x200?text=在线考试系统',
+        image: '/images/applist/808.jpg',
         features: [
           '支持多种题型',
           '自动阅卷功能',
@@ -166,7 +166,7 @@ export default {
         version: 'v1.5.2',
         developer: '家校通科技',
         rating: 4.2,
-        image: 'https://via.placeholder.com/300x200?text=家校沟通平台',
+        image: '/images/applist/banner2.png',
         features: [
           '消息推送',
           '作业通知',
@@ -184,7 +184,7 @@ export default {
         version: 'v3.0.1',
         developer: '智能教育',
         rating: 4.8,
-        image: 'https://via.placeholder.com/300x200?text=智能排课系统',
+        image: '/images/applist/banner1.png',
         features: [
           '智能算法排课',
           '冲突检测',
@@ -202,7 +202,7 @@ export default {
         version: 'v2.0.3',
         developer: '档案管理公司',
         rating: 4.3,
-        image: 'https://via.placeholder.com/300x200?text=学生档案管理',
+        image: '/images/applist/97.png',
         features: [
           '档案录入',
           '成长记录',
@@ -220,7 +220,7 @@ export default {
         version: 'v4.2.0',
         developer: '学习科技',
         rating: 4.6,
-        image: 'https://via.placeholder.com/300x200?text=在线学习平台',
+        image: '/images/applist/212.jpg',
         features: [
           '视频课程',
           '互动练习',
@@ -238,13 +238,139 @@ export default {
         version: 'v1.8.5',
         developer: '数据科技',
         rating: 4.4,
-        image: 'https://via.placeholder.com/300x200?text=数据分析工具',
+        image: '/images/applist/84.png',
         features: [
           '数据可视化',
           '趋势分析',
           '报表生成',
           '预测模型',
           '多维度分析'
+        ]
+      },
+      {
+        id: 7,
+        name: '智能作业批改',
+        description: 'AI自动批改作业，提高教学效率',
+        category: '教学管理',
+        price: '付费',
+        version: 'v2.3.1',
+        developer: '智能教学科技',
+        rating: 4.7,
+        image: '/images/applist/42.jpeg',
+        features: [
+          '智能识别字迹',
+          '自动评分',
+          '错误分析',
+          '批改报告',
+          '教师审核'
+        ]
+      },
+      {
+        id: 8,
+        name: '课堂互动工具',
+        description: '增强课堂互动，提高学生参与度',
+        category: '教学管理',
+        price: '免费',
+        version: 'v1.9.0',
+        developer: '互动教育',
+        rating: 4.5,
+        image: '/images/applist/24.png',
+        features: [
+          '签到打卡',
+          '在线投票',
+          '答题互动',
+          '小组讨论',
+          '课堂笔记'
+        ]
+      },
+      {
+        id: 9,
+        name: '成长记录册',
+        description: '记录学生成长历程，生成个性化档案',
+        category: '学生管理',
+        price: '免费',
+        version: 'v3.2.0',
+        developer: '成长科技',
+        rating: 4.6,
+        image: '/images/applist/0f0.jpeg',
+        features: [
+          '成长轨迹',
+          '照片视频',
+          '作品展示',
+          '评价记录',
+          '家长分享'
+        ]
+      },
+      {
+        id: 10,
+        name: '班级管理助手',
+        description: '轻松管理班级日常事务',
+        category: '教学管理',
+        price: '试用',
+        version: 'v2.5.3',
+        developer: '班级管理',
+        rating: 4.4,
+        image: '/images/applist/20.jpeg',
+        features: [
+          '班级通知',
+          '值日安排',
+          '活动组织',
+          '物资管理',
+          '通讯录'
+        ]
+      },
+      {
+        id: 11,
+        name: '在线答疑系统',
+        description: '24小时在线答疑，及时解答学生问题',
+        category: '在线学习',
+        price: '付费',
+        version: 'v1.7.2',
+        developer: '答疑科技',
+        rating: 4.8,
+        image: '/images/applist/68.jpg',
+        features: [
+          '即时答疑',
+          '预约辅导',
+          '录屏回看',
+          '错题集',
+          'AI推荐'
+        ]
+      },
+      {
+        id: 12,
+        name: '考试监督系统',
+        description: '远程监考，确保考试公平公正',
+        category: '考试系统',
+        price: '付费',
+        version: 'v3.1.4',
+        developer: '监考科技',
+        rating: 4.3,
+        image: '/images/applist/814.jpg',
+        features: [
+          '人脸识别',
+          '行为监测',
+          '屏幕监控',
+          '异常警告',
+          '录像回放'
+        ]
+      },
+      {
+        id: 13,
+        name: '教育资源库',
+        description: '海量教学资源，随时随地获取',
+        category: '在线学习',
+        price: '试用',
+        version: 'v2.0.8',
+        developer: '资源库科技',
+        rating: 4.6,
+        image: '/images/applist/banner3.jpeg',
+        features: [
+          '课件下载',
+          '试卷题库',
+          '视频教学',
+          '素材库',
+          '在线编辑'
         ]
       }
     ])
@@ -387,6 +513,7 @@ export default {
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
 }
 
@@ -455,5 +582,42 @@ export default {
 .app-features li {
   margin: 5px 0;
   color: #606266;
+}
+
+/* 按钮样式优化 - 浅色系 */
+.search-btn {
+  background-color: #e6f4ff;
+  border-color: #409eff;
+  color: #ffffff;
+}
+
+.search-btn:hover {
+  background-color: #b3d8ff;
+  border-color: #409eff;
+  color: #409eff;
+}
+
+.view-detail-btn {
+  background-color: #f5f9ff;
+  border-color: #6fb3ff;
+  color: #ffffff;
+}
+
+.view-detail-btn:hover {
+  background-color: #e6f4ff;
+  border-color: #6fb3ff;
+  color: #6fb3ff;
+}
+
+.install-btn {
+  background-color: #e8f8f5;
+  border-color: #67c23a;
+  color: #67c23a;
+}
+
+.install-btn:hover {
+  background-color: #c2e7b8;
+  border-color: #67c23a;
+  color: #67c23a;
 }
 </style>

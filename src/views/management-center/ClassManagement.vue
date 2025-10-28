@@ -75,15 +75,15 @@
       </template>
 
       <el-table :data="filteredClasses" stripe>
-        <el-table-column prop="college" label="学院" width="170" />
-        <el-table-column prop="major" label="专业" width="210" />
-        <el-table-column prop="className" label="班级名称" width="170" />
-        <el-table-column prop="grade" label="年级" width="120" />
-        <el-table-column prop="teacherName" label="班主任" width="120" />
-        <el-table-column prop="studentCount" label="学生人数" width="100" />
-        <el-table-column prop="maxStudents" label="最大人数" width="100" />
-        <el-table-column prop="classroom" label="教室" width="120" />
-        <el-table-column prop="status" label="状态" width="100">
+        <el-table-column prop="college" label="学院" min-width="170" />
+        <el-table-column prop="major" label="专业" min-width="210" />
+        <el-table-column prop="className" label="班级名称" min-width="170" />
+        <el-table-column prop="grade" label="年级" min-width="120" />
+        <el-table-column prop="teacherName" label="班主任" min-width="120" />
+        <el-table-column prop="studentCount" label="学生人数" min-width="100" />
+        <el-table-column prop="maxStudents" label="最大人数" min-width="100" />
+        <el-table-column prop="classroom" label="教室" min-width="120" />
+        <el-table-column prop="status" label="状态" min-width="100">
           <template #default="scope">
             <el-tag :type="scope.row.status === '正常' ? 'success' : 'danger'">
               {{ scope.row.status }}

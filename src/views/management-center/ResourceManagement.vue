@@ -86,24 +86,24 @@
         </div>
       </template>
 
-      <el-table :data="filteredResources" stripe>
-        <el-table-column prop="resourceName" label="资源名称" width="200" fixed="left" />
-        <el-table-column prop="courseName" label="所属课程" width="150" />
-        <el-table-column prop="college" label="学院" width="120" />
-        <el-table-column prop="major" label="专业" width="150" />
-        <el-table-column prop="resourceType" label="资源类型" width="120" />
-        <el-table-column prop="questionCount" label="题目数量" width="100" />
-        <el-table-column prop="difficulty" label="难度等级" width="100">
+      <el-table :data="filteredResources" stripe style="width: 100%">
+        <el-table-column prop="resourceName" label="资源名称" min-width="200" fixed="left" show-overflow-tooltip />
+        <el-table-column prop="courseName" label="所属课程" min-width="120" show-overflow-tooltip />
+        <el-table-column prop="college" label="学院" min-width="100" />
+        <el-table-column prop="major" label="专业" min-width="140" show-overflow-tooltip />
+        <el-table-column prop="resourceType" label="资源类型" min-width="100" />
+        <el-table-column prop="questionCount" label="题目数量" min-width="90" align="right" />
+        <el-table-column prop="difficulty" label="难度等级" min-width="100">
           <template #default="scope">
             <el-tag :type="getDifficultyType(scope.row.difficulty)">
               {{ scope.row.difficulty }}
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="creator" label="创建者" width="100" />
-        <el-table-column prop="createTime" label="创建时间" width="120" />
-        <el-table-column prop="usageCount" label="使用次数" width="100" />
-        <el-table-column prop="status" label="状态" width="100">
+        <el-table-column prop="creator" label="创建者" min-width="90" />
+        <el-table-column prop="createTime" label="创建时间" min-width="110" />
+        <el-table-column prop="usageCount" label="使用次数" min-width="90" align="right" />
+        <el-table-column prop="status" label="状态" min-width="90">
           <template #default="scope">
             <el-tag :type="getStatusType(scope.row.status)">
               {{ scope.row.status }}
@@ -623,7 +623,7 @@ export default {
 .operation-buttons {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px;
+  gap: 6px;
   align-items: center;
   justify-content: flex-start;
 }
@@ -631,5 +631,6 @@ export default {
 .operation-buttons .el-button {
   margin: 0;
   flex-shrink: 0;
+  padding: 8px 12px;
 }
 </style>

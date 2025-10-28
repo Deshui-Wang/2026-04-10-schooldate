@@ -52,79 +52,86 @@
       </el-form>
     </el-card>
 
-    <!-- 操作按钮 -->
-    <el-card class="action-card">
-      <div class="action-buttons">
-        <el-button type="primary" @click="handleCreateEvaluation">
-          <el-icon><Plus /></el-icon>
-          创建评价
-        </el-button>
-        <el-button type="success" @click="handleBatchEvaluation">
-          <el-icon><Edit /></el-icon>
-          批量评价
-        </el-button>
-        <el-button type="warning" @click="handleEvaluationAnalysis">
-          <el-icon><TrendCharts /></el-icon>
-          评价分析
-        </el-button>
-        <el-button type="info" @click="handleExport">
-          <el-icon><Download /></el-icon>
-          导出报告
-        </el-button>
-      </div>
-    </el-card>
+    <!-- 操作按钮和评价统计卡片 -->
+    <el-row :gutter="20" class="action-stats-row">
+      <!-- 评价统计卡片区域 -->
+      <el-col :span="16">
+        <el-row :gutter="15">
+          <el-col :span="6">
+            <el-card class="stat-card">
+              <div class="stat-content">
+                <div class="stat-icon pending">
+                  <el-icon><Clock /></el-icon>
+                </div>
+                <div class="stat-info">
+                  <div class="stat-value">{{ evaluationStats.pending }}</div>
+                  <div class="stat-label">待评价</div>
+                </div>
+              </div>
+            </el-card>
+          </el-col>
+          <el-col :span="6">
+            <el-card class="stat-card">
+              <div class="stat-content">
+                <div class="stat-icon completed">
+                  <el-icon><Check /></el-icon>
+                </div>
+                <div class="stat-info">
+                  <div class="stat-value">{{ evaluationStats.completed }}</div>
+                  <div class="stat-label">已评价</div>
+                </div>
+              </div>
+            </el-card>
+          </el-col>
+          <el-col :span="6">
+            <el-card class="stat-card">
+              <div class="stat-content">
+                <div class="stat-icon confirmed">
+                  <el-icon><CircleCheck /></el-icon>
+                </div>
+                <div class="stat-info">
+                  <div class="stat-value">{{ evaluationStats.confirmed }}</div>
+                  <div class="stat-label">已确认</div>
+                </div>
+              </div>
+            </el-card>
+          </el-col>
+          <el-col :span="6">
+            <el-card class="stat-card">
+              <div class="stat-content">
+                <div class="stat-icon total">
+                  <el-icon><Document /></el-icon>
+                </div>
+                <div class="stat-info">
+                  <div class="stat-value">{{ evaluationStats.total }}</div>
+                  <div class="stat-label">总评价数</div>
+                </div>
+              </div>
+            </el-card>
+          </el-col>
+        </el-row>
+      </el-col>
 
-    <!-- 评价统计卡片 -->
-    <el-row :gutter="20" class="stats-row">
-      <el-col :span="6">
-        <el-card class="stat-card">
-          <div class="stat-content">
-            <div class="stat-icon pending">
-              <el-icon><Clock /></el-icon>
-            </div>
-            <div class="stat-info">
-              <div class="stat-value">{{ evaluationStats.pending }}</div>
-              <div class="stat-label">待评价</div>
-            </div>
-          </div>
-        </el-card>
-      </el-col>
-      <el-col :span="6">
-        <el-card class="stat-card">
-          <div class="stat-content">
-            <div class="stat-icon completed">
-              <el-icon><Check /></el-icon>
-            </div>
-            <div class="stat-info">
-              <div class="stat-value">{{ evaluationStats.completed }}</div>
-              <div class="stat-label">已评价</div>
-            </div>
-          </div>
-        </el-card>
-      </el-col>
-      <el-col :span="6">
-        <el-card class="stat-card">
-          <div class="stat-content">
-            <div class="stat-icon confirmed">
-              <el-icon><CircleCheck /></el-icon>
-            </div>
-            <div class="stat-info">
-              <div class="stat-value">{{ evaluationStats.confirmed }}</div>
-              <div class="stat-label">已确认</div>
-            </div>
-          </div>
-        </el-card>
-      </el-col>
-      <el-col :span="6">
-        <el-card class="stat-card">
-          <div class="stat-content">
-            <div class="stat-icon total">
-              <el-icon><Document /></el-icon>
-            </div>
-            <div class="stat-info">
-              <div class="stat-value">{{ evaluationStats.total }}</div>
-              <div class="stat-label">总评价数</div>
-            </div>
+      <!-- 操作按钮区域 -->
+      <el-col :span="8">
+        <el-card class="action-card">
+          <div class="action-buttons">
+            <el-button type="primary" @click="handleCreateEvaluation">
+              <el-icon><Plus /></el-icon>
+              创建评价
+            </el-button>
+            <el-button type="success" @click="handleBatchEvaluation">
+              <el-icon><Edit /></el-icon>
+              批量评价
+            </el-button>
+            <el-button type="warning" @click="handleEvaluationAnalysis">
+              <el-icon><TrendCharts /></el-icon>
+              评价分析
+            </el-button>
+            <el-button type="info" @click="handleExport">
+              <el-icon><Download /></el-icon>
+              导出报告
+            </el-button>
           </div>
         </el-card>
       </el-col>
@@ -140,52 +147,54 @@
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="55" />
-        <el-table-column prop="studentId" label="学号" width="120" />
-        <el-table-column prop="studentName" label="姓名" width="100" />
-        <el-table-column prop="className" label="班级" width="120" />
-        <el-table-column prop="evaluationType" label="评价类型" width="120">
+        <el-table-column prop="studentId" label="学号" min-width="110" />
+        <el-table-column prop="studentName" label="姓名" min-width="90" />
+        <el-table-column prop="className" label="班级" min-width="110" />
+        <el-table-column prop="evaluationType" label="评价类型" min-width="110" align="center">
           <template #default="{ row }">
             <el-tag :type="getEvaluationTypeColor(row.evaluationType)">
               {{ row.evaluationType }}
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="evaluationPeriod" label="评价周期" width="150" />
-        <el-table-column prop="overallScore" label="综合得分" width="100" align="center">
+        <el-table-column prop="evaluationPeriod" label="评价周期" min-width="140" show-overflow-tooltip />
+        <el-table-column prop="overallScore" label="综合得分" min-width="90" align="center">
           <template #default="{ row }">
             <span :class="getScoreClass(row.overallScore)">{{ row.overallScore }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="gradeLevel" label="等级" width="80" align="center">
+        <el-table-column prop="gradeLevel" label="等级" min-width="80" align="center">
           <template #default="{ row }">
             <el-tag :type="getGradeLevelType(row.gradeLevel)">{{ row.gradeLevel }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="evaluator" label="评价人" width="120" />
-        <el-table-column prop="evaluationDate" label="评价日期" width="120" />
-        <el-table-column prop="status" label="状态" width="100">
+        <el-table-column prop="evaluator" label="评价人" min-width="110" />
+        <el-table-column prop="evaluationDate" label="评价日期" min-width="110" />
+        <el-table-column prop="status" label="状态" min-width="90" align="center">
           <template #default="{ row }">
             <el-tag :type="getStatusType(row.status)">{{ row.status }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="250" fixed="right">
+        <el-table-column label="操作" width="280" fixed="right">
           <template #default="{ row }">
-            <el-button type="primary" size="small" @click="handleView(row)">
-              <el-icon><View /></el-icon>
-              查看
-            </el-button>
-            <el-button type="success" size="small" @click="handleEdit(row)">
-              <el-icon><Edit /></el-icon>
-              编辑
-            </el-button>
-            <el-button type="warning" size="small" @click="handleConfirm(row)">
-              <el-icon><CircleCheck /></el-icon>
-              确认
-            </el-button>
-            <el-button type="danger" size="small" @click="handleDelete(row)">
-              <el-icon><Delete /></el-icon>
-              删除
-            </el-button>
+            <div class="operation-buttons">
+              <el-button type="primary" size="small" @click="handleView(row)">
+                <el-icon><View /></el-icon>
+                查看
+              </el-button>
+              <el-button type="success" size="small" @click="handleEdit(row)">
+                <el-icon><Edit /></el-icon>
+                编辑
+              </el-button>
+              <el-button type="warning" size="small" @click="handleConfirm(row)">
+                <el-icon><CircleCheck /></el-icon>
+                确认
+              </el-button>
+              <el-button type="danger" size="small" @click="handleDelete(row)">
+                <el-icon><Delete /></el-icon>
+                删除
+              </el-button>
+            </div>
           </template>
         </el-table-column>
       </el-table>
@@ -464,57 +473,69 @@ export default {
     // 评价统计
     const evaluationStats = reactive({
       pending: 15,
-      completed: 45,
-      confirmed: 30,
-      total: 90
+      completed: 20,
+      confirmed: 15,
+      total: 50
     })
 
     // 评价列表数据
     const evaluationList = ref([
-      {
-        studentId: '2021001',
-        studentName: '张三',
-        className: '一年级1班',
-        evaluationType: '学期评价',
-        evaluationPeriod: '2023-2024学年第一学期',
-        overallScore: 85,
-        gradeLevel: 'B',
-        evaluator: '张老师',
-        evaluationDate: '2024-01-15',
-        status: '已评价'
-      },
-      {
-        studentId: '2021002',
-        studentName: '李四',
-        className: '一年级1班',
-        evaluationType: '学期评价',
-        evaluationPeriod: '2023-2024学年第一学期',
-        overallScore: 92,
-        gradeLevel: 'A',
-        evaluator: '张老师',
-        evaluationDate: '2024-01-15',
-        status: '已确认'
-      },
-      {
-        studentId: '2021003',
-        studentName: '王五',
-        className: '一年级2班',
-        evaluationType: '课程评价',
-        evaluationPeriod: '数据结构课程',
-        overallScore: 78,
-        gradeLevel: 'B',
-        evaluator: '李老师',
-        evaluationDate: '2024-01-14',
-        status: '待评价'
-      }
+      { studentId: '2021001', studentName: '张三', className: '一年级1班', evaluationType: '学期评价', evaluationPeriod: '2024-2025学年第一学期', overallScore: 85, gradeLevel: 'B', evaluator: '张老师', evaluationDate: '2024-09-15', status: '已评价' },
+      { studentId: '2021002', studentName: '李四', className: '一年级1班', evaluationType: '学期评价', evaluationPeriod: '2024-2025学年第一学期', overallScore: 92, gradeLevel: 'A', evaluator: '张老师', evaluationDate: '2024-09-15', status: '已确认' },
+      { studentId: '2021003', studentName: '王五', className: '一年级2班', evaluationType: '课程评价', evaluationPeriod: '数据结构课程', overallScore: 78, gradeLevel: 'B', evaluator: '李老师', evaluationDate: '2024-10-10', status: '待评价' },
+      { studentId: '2021004', studentName: '赵六', className: '一年级2班', evaluationType: '综合表现评价', evaluationPeriod: '2024年3月', overallScore: 88, gradeLevel: 'B', evaluator: '王老师', evaluationDate: '2024-03-20', status: '已确认' },
+      { studentId: '2021005', studentName: '陈七', className: '二年级1班', evaluationType: '学期评价', evaluationPeriod: '2023-2024学年第二学期', overallScore: 91, gradeLevel: 'A', evaluator: '刘老师', evaluationDate: '2024-07-05', status: '已确认' },
+      { studentId: '2021006', studentName: '周八', className: '一年级1班', evaluationType: '课程评价', evaluationPeriod: '算法设计课程', overallScore: 83, gradeLevel: 'B', evaluator: '李老师', evaluationDate: '2024-11-05', status: '已评价' },
+      { studentId: '2021007', studentName: '吴九', className: '一年级2班', evaluationType: '学期评价', evaluationPeriod: '2024-2025学年第一学期', overallScore: 76, gradeLevel: 'C', evaluator: '王老师', evaluationDate: '2024-09-20', status: '待评价' },
+      { studentId: '2021008', studentName: '郑十', className: '三年级1班', evaluationType: '实习评价', evaluationPeriod: '2024年暑期实习', overallScore: 89, gradeLevel: 'B', evaluator: '张老师', evaluationDate: '2024-08-25', status: '已确认' },
+      { studentId: '2021009', studentName: '孙十一', className: '二年级1班', evaluationType: '综合表现评价', evaluationPeriod: '2024年4月', overallScore: 94, gradeLevel: 'A', evaluator: '刘老师', evaluationDate: '2024-04-15', status: '已确认' },
+      { studentId: '2021010', studentName: '黄十二', className: '一年级1班', evaluationType: '课程评价', evaluationPeriod: '操作系统课程', overallScore: 80, gradeLevel: 'B', evaluator: '陈老师', evaluationDate: '2024-10-20', status: '已评价' },
+      { studentId: '2021011', studentName: '林十三', className: '一年级2班', evaluationType: '学期评价', evaluationPeriod: '2024-2025学年第一学期', overallScore: 87, gradeLevel: 'B', evaluator: '李老师', evaluationDate: '2024-09-18', status: '待评价' },
+      { studentId: '2021012', studentName: '吴十四', className: '三年级2班', evaluationType: '毕业评价', evaluationPeriod: '2024-2025学年毕业评价', overallScore: 85, gradeLevel: 'B', evaluator: '赵老师', evaluationDate: '2024-12-01', status: '待评价' },
+      { studentId: '2021013', studentName: '钱十五', className: '二年级1班', evaluationType: '实习评价', evaluationPeriod: '2024年春季实习', overallScore: 90, gradeLevel: 'A', evaluator: '王老师', evaluationDate: '2024-05-30', status: '已确认' },
+      { studentId: '2021014', studentName: '许十六', className: '一年级1班', evaluationType: '课程评价', evaluationPeriod: '计算机网络课程', overallScore: 82, gradeLevel: 'B', evaluator: '张老师', evaluationDate: '2024-11-10', status: '已评价' },
+      { studentId: '2021015', studentName: '马十七', className: '二年级2班', evaluationType: '学期评价', evaluationPeriod: '2023-2024学年第一学期', overallScore: 86, gradeLevel: 'B', evaluator: '刘老师', evaluationDate: '2024-01-15', status: '已确认' },
+      { studentId: '2021016', studentName: '朱十八', className: '一年级2班', evaluationType: '综合表现评价', evaluationPeriod: '2024年2月', overallScore: 79, gradeLevel: 'C', evaluator: '李老师', evaluationDate: '2024-02-28', status: '待评价' },
+      { studentId: '2021017', studentName: '胡十九', className: '一年级1班', evaluationType: '课程评价', evaluationPeriod: '数据库原理课程', overallScore: 91, gradeLevel: 'A', evaluator: '陈老师', evaluationDate: '2024-10-25', status: '已评价' },
+      { studentId: '2021018', studentName: '冯二十', className: '二年级1班', evaluationType: '学期评价', evaluationPeriod: '2024-2025学年第一学期', overallScore: 88, gradeLevel: 'B', evaluator: '王老师', evaluationDate: '2024-09-25', status: '待评价' },
+      { studentId: '2021019', studentName: '彭二一', className: '三年级1班', evaluationType: '实习评价', evaluationPeriod: '2024年秋季实习', overallScore: 87, gradeLevel: 'B', evaluator: '张老师', evaluationDate: '2024-11-20', status: '已确认' },
+      { studentId: '2021020', studentName: '蒋二二', className: '一年级2班', evaluationType: '课程评价', evaluationPeriod: '软件工程课程', overallScore: 84, gradeLevel: 'B', evaluator: '李老师', evaluationDate: '2024-11-05', status: '已评价' },
+      { studentId: '2021021', studentName: '韩二三', className: '一年级1班', evaluationType: '学期评价', evaluationPeriod: '2024-2025学年第一学期', overallScore: 93, gradeLevel: 'A', evaluator: '刘老师', evaluationDate: '2024-09-30', status: '已确认' },
+      { studentId: '2021022', studentName: '唐二四', className: '二年级2班', evaluationType: '综合表现评价', evaluationPeriod: '2024年5月', overallScore: 81, gradeLevel: 'B', evaluator: '陈老师', evaluationDate: '2024-05-20', status: '待评价' },
+      { studentId: '2021023', studentName: '梁二五', className: '三年级2班', evaluationType: '毕业评价', evaluationPeriod: '2024-2025学年毕业评价', overallScore: 90, gradeLevel: 'A', evaluator: '赵老师', evaluationDate: '2024-12-05', status: '待评价' },
+      { studentId: '2021024', studentName: '袁二六', className: '一年级1班', evaluationType: '课程评价', evaluationPeriod: '程序设计基础课程', overallScore: 77, gradeLevel: 'C', evaluator: '张老师', evaluationDate: '2024-10-10', status: '已评价' },
+      { studentId: '2021025', studentName: '于二七', className: '二年级1班', evaluationType: '学期评价', evaluationPeriod: '2024-2025学年第一学期', overallScore: 89, gradeLevel: 'B', evaluator: '王老师', evaluationDate: '2024-09-28', status: '待评价' },
+      { studentId: '2021026', studentName: '徐二八', className: '一年级2班', evaluationType: '实习评价', evaluationPeriod: '2024年寒假实习', overallScore: 86, gradeLevel: 'B', evaluator: '李老师', evaluationDate: '2024-03-01', status: '已确认' },
+      { studentId: '2021027', studentName: '薛二九', className: '一年级1班', evaluationType: '课程评价', evaluationPeriod: '计算机组成原理课程', overallScore: 92, gradeLevel: 'A', evaluator: '陈老师', evaluationDate: '2024-11-15', status: '已确认' },
+      { studentId: '2021030', studentName: '叶三十', className: '三年级1班', evaluationType: '学期评价', evaluationPeriod: '2023-2024学年第二学期', overallScore: 85, gradeLevel: 'B', evaluator: '张老师', evaluationDate: '2024-07-10', status: '已评价' },
+      { studentId: '2021031', studentName: '叶三一', className: '一年级2班', evaluationType: '综合表现评价', evaluationPeriod: '2024年6月', overallScore: 83, gradeLevel: 'B', evaluator: '刘老师', evaluationDate: '2024-06-20', status: '已评价' },
+      { studentId: '2021032', studentName: '张四五', className: '二年级2班', evaluationType: '课程评价', evaluationPeriod: '人工智能课程', overallScore: 88, gradeLevel: 'B', evaluator: '王老师', evaluationDate: '2024-11-20', status: '已评价' },
+      { studentId: '2021033', studentName: '李五六', className: '一年级1班', evaluationType: '学期评价', evaluationPeriod: '2024-2025学年第一学期', overallScore: 90, gradeLevel: 'A', evaluator: '李老师', evaluationDate: '2024-10-05', status: '已确认' },
+      { studentId: '2021034', studentName: '王六七', className: '一年级2班', evaluationType: '实习评价', evaluationPeriod: '2024年暑期实习', overallScore: 84, gradeLevel: 'B', evaluator: '陈老师', evaluationDate: '2024-08-15', status: '待评价' },
+      { studentId: '2021035', studentName: '刘七八', className: '三年级2班', evaluationType: '毕业评价', evaluationPeriod: '2024-2025学年毕业评价', overallScore: 87, gradeLevel: 'B', evaluator: '赵老师', evaluationDate: '2024-12-10', status: '待评价' },
+      { studentId: '2021036', studentName: '陈八九', className: '二年级1班', evaluationType: '课程评价', evaluationPeriod: '编译原理课程', overallScore: 81, gradeLevel: 'B', evaluator: '张老师', evaluationDate: '2024-10-30', status: '已评价' },
+      { studentId: '2021037', studentName: '杨九一', className: '一年级1班', evaluationType: '综合表现评价', evaluationPeriod: '2024年7月', overallScore: 95, gradeLevel: 'A', evaluator: '王老师', evaluationDate: '2024-07-25', status: '已确认' },
+      { studentId: '2021038', studentName: '黄九二', className: '一年级2班', evaluationType: '学期评价', evaluationPeriod: '2024-2025学年第一学期', overallScore: 82, gradeLevel: 'B', evaluator: '刘老师', evaluationDate: '2024-09-22', status: '待评价' },
+      { studentId: '2021039', studentName: '周九三', className: '二年级2班', evaluationType: '实习评价', evaluationPeriod: '2024年秋季实习', overallScore: 89, gradeLevel: 'B', evaluator: '李老师', evaluationDate: '2024-11-28', status: '已评价' },
+      { studentId: '2021040', studentName: '吴九四', className: '一年级1班', evaluationType: '课程评价', evaluationPeriod: '移动应用开发课程', overallScore: 86, gradeLevel: 'B', evaluator: '陈老师', evaluationDate: '2024-11-12', status: '已评价' },
+      { studentId: '2021041', studentName: '郑九五', className: '三年级1班', evaluationType: '学期评价', evaluationPeriod: '2023-2024学年第一学期', overallScore: 88, gradeLevel: 'B', evaluator: '张老师', evaluationDate: '2024-01-20', status: '已确认' },
+      { studentId: '2021042', studentName: '孙九六', className: '一年级2班', evaluationType: '综合表现评价', evaluationPeriod: '2024年8月', overallScore: 79, gradeLevel: 'C', evaluator: '王老师', evaluationDate: '2024-08-30', status: '待评价' },
+      { studentId: '2021043', studentName: '张七一', className: '二年级1班', evaluationType: '课程评价', evaluationPeriod: 'Web开发技术课程', overallScore: 91, gradeLevel: 'A', evaluator: '刘老师', evaluationDate: '2024-10-28', status: '已确认' },
+      { studentId: '2021044', studentName: '李七二', className: '一年级1班', evaluationType: '学期评价', evaluationPeriod: '2024-2025学年第一学期', overallScore: 93, gradeLevel: 'A', evaluator: '李老师', evaluationDate: '2024-10-02', status: '待评价' },
+      { studentId: '2021045', studentName: '王七三', className: '三年级2班', evaluationType: '毕业评价', evaluationPeriod: '2024-2025学年毕业评价', overallScore: 85, gradeLevel: 'B', evaluator: '赵老师', evaluationDate: '2024-12-12', status: '待评价' },
+      { studentId: '2021046', studentName: '刘七四', className: '一年级2班', evaluationType: '实习评价', evaluationPeriod: '2024年春季实习', overallScore: 87, gradeLevel: 'B', evaluator: '陈老师', evaluationDate: '2024-06-01', status: '已评价' },
+      { studentId: '2021047', studentName: '陈七五', className: '二年级2班', evaluationType: '课程评价', evaluationPeriod: '信息安全课程', overallScore: 83, gradeLevel: 'B', evaluator: '张老师', evaluationDate: '2024-11-08', status: '已评价' },
+      { studentId: '2021048', studentName: '杨七六', className: '一年级1班', evaluationType: '学期评价', evaluationPeriod: '2024-2025学年第一学期', overallScore: 94, gradeLevel: 'A', evaluator: '王老师', evaluationDate: '2024-09-27', status: '已确认' },
+      { studentId: '2021049', studentName: '黄七七', className: '二年级1班', evaluationType: '综合表现评价', evaluationPeriod: '2024年9月', overallScore: 81, gradeLevel: 'B', evaluator: '刘老师', evaluationDate: '2024-09-30', status: '已评价' },
+      { studentId: '2021050', studentName: '周七八', className: '一年级2班', evaluationType: '课程评价', evaluationPeriod: '云计算技术课程', overallScore: 89, gradeLevel: 'B', evaluator: '李老师', evaluationDate: '2024-11-25', status: '待评价' }
     ])
 
     // 分析数据
     const analysisData = reactive({
-      avgScore: 82.5,
-      excellentRate: 28.6,
-      goodRate: 45.2,
-      improvementRate: 26.2
+      avgScore: 86.2,
+      excellentRate: 22.0,
+      goodRate: 62.0,
+      improvementRate: 16.0
     })
 
     // 计算综合得分
@@ -787,11 +808,23 @@ export default {
 
 .action-buttons {
   display: flex;
-  gap: 12px;
+  flex-direction: row;
+  gap: 10px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.action-buttons .el-button {
+  width: 100%;
+  justify-content: flex-start;
+}
+
+.action-stats-row {
+  margin-bottom: 20px;
 }
 
 .stats-row {
-  margin-bottom: 20px;
+  margin-bottom: 0;
 }
 
 .stat-card {
@@ -911,5 +944,19 @@ export default {
 .score-fail {
   color: #f56c6c;
   font-weight: 600;
+}
+
+.operation-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.operation-buttons .el-button {
+  margin: 0;
+  flex-shrink: 0;
+  padding: 7px 10px;
 }
 </style>
