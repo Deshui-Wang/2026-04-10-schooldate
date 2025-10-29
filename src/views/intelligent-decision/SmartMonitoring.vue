@@ -1,26 +1,9 @@
 <template>
   <div class="smart-monitoring">
     <!-- 页面头部 -->
-    <div class="page-header">
-      <div class="header-content">
-        <div class="title-section">
-          <h1 class="page-title">
-            <el-icon class="title-icon"><Monitor /></el-icon>
-            智能监测
-          </h1>
-          <p class="page-subtitle">教师成长过程数据多维管理与智能异常检测</p>
-        </div>
-        <div class="header-actions">
-          <el-button type="primary" @click="refreshMonitoring">
-            <el-icon><Refresh /></el-icon>
-            刷新监测
-          </el-button>
-          <el-button @click="exportReport">
-            <el-icon><Download /></el-icon>
-            导出报告
-          </el-button>
-        </div>
-      </div>
+    <div class="section-header">
+      <h3>智能监测</h3>
+      <p>教师成长过程数据多维管理与智能异常检测</p>
     </div>
 
     <!-- 监测概览 -->
@@ -79,57 +62,14 @@
       </el-col>
     </el-row>
 
-    <!-- 监测配置 -->
-    <el-card class="config-card" shadow="never">
-      <template #header>
-        <div class="card-header">
-          <el-icon><Setting /></el-icon>
-          <span>监测配置</span>
-        </div>
-      </template>
-      <el-row :gutter="20">
-        <el-col :span="6">
-          <el-form-item label="监测维度">
-            <el-select v-model="config.monitoringDimensions" multiple placeholder="选择监测维度">
-              <el-option label="教学表现" value="teaching" />
-              <el-option label="科研产出" value="research" />
-              <el-option label="工作态度" value="attitude" />
-              <el-option label="成长轨迹" value="growth" />
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
-          <el-form-item label="异常阈值">
-            <el-input-number v-model="config.threshold" :min="0" :max="100" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
-          <el-form-item label="监测频率">
-            <el-select v-model="config.frequency" placeholder="选择监测频率">
-              <el-option label="实时监测" value="realtime" />
-              <el-option label="每日监测" value="daily" />
-              <el-option label="每周监测" value="weekly" />
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
-          <el-form-item label="预警方式">
-            <el-select v-model="config.alertMethod" multiple placeholder="选择预警方式">
-              <el-option label="系统通知" value="system" />
-              <el-option label="邮件通知" value="email" />
-              <el-option label="短信通知" value="sms" />
-            </el-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
-    </el-card>
+    
 
     <!-- 异常检测结果 -->
     <el-card class="anomaly-card" shadow="never">
       <template #header>
         <div class="card-header">
           <el-icon><Warning /></el-icon>
-          <span>异常检测结果</span>
+          <span>异常教师</span>
           <el-tag type="danger" class="ml-2">{{ anomalyList.length }} 个异常</el-tag>
         </div>
       </template>
@@ -222,71 +162,42 @@
       </div>
     </el-card>
 
-    <!-- 教师成长轨迹 -->
-    <el-card class="growth-track-card" shadow="never">
-      <template #header>
-        <div class="card-header">
-          <el-icon><TrendCharts /></el-icon>
-          <span>教师成长轨迹</span>
-        </div>
-      </template>
-      
-      <div class="growth-filters">
-        <el-select v-model="selectedTeacher" placeholder="选择教师" @change="updateGrowthChart">
-          <el-option 
-            v-for="teacher in teachers" 
-            :key="teacher.id"
-            :label="teacher.name"
-            :value="teacher.id"
-          />
-        </el-select>
-        <el-select v-model="growthPeriod" placeholder="选择时间范围" @change="updateGrowthChart">
-          <el-option label="最近3个月" value="3m" />
-          <el-option label="最近6个月" value="6m" />
-          <el-option label="最近1年" value="1y" />
-        </el-select>
-      </div>
-      
-      <div class="growth-chart-container">
-        <div class="growth-chart">
-          <div class="chart-placeholder">
-            <el-icon><TrendCharts /></el-icon>
-            <p>成长轨迹图表</p>
-            <p>教学能力、科研产出、工作态度变化趋势</p>
-          </div>
-        </div>
-        <div class="growth-metrics">
-          <div class="metric-item">
-            <div class="metric-label">教学能力</div>
-            <div class="metric-value">{{ growthMetrics.teaching }}</div>
-            <div class="metric-change positive">+5.2%</div>
-          </div>
-          <div class="metric-item">
-            <div class="metric-label">科研产出</div>
-            <div class="metric-value">{{ growthMetrics.research }}</div>
-            <div class="metric-change negative">-2.1%</div>
-          </div>
-          <div class="metric-item">
-            <div class="metric-label">工作态度</div>
-            <div class="metric-value">{{ growthMetrics.attitude }}</div>
-            <div class="metric-change positive">+3.8%</div>
-          </div>
-        </div>
-      </div>
-    </el-card>
-
     <!-- 预警设置 -->
     <el-card class="alert-settings-card" shadow="never">
       <template #header>
         <div class="card-header">
           <el-icon><Bell /></el-icon>
-          <span>预警设置</span>
+          <span>监测任务</span>
+          <div style="margin-left: auto;">
+            <el-button type="primary" @click="showConfigDialog = true">
+              监测配置
+            </el-button>
+          </div>
         </div>
       </template>
       
-      <el-table :data="alertSettings" stripe>
-        <el-table-column prop="dimension" label="监测维度" width="120" />
-        <el-table-column prop="threshold" label="预警阈值" width="100" align="center">
+      <el-table :data="alertSettings" stripe table-layout="auto" style="width: 100%">
+        <el-table-column prop="name" label="监测名称" :min-width="160">
+          <template #default="scope">
+            <span>{{ scope.row.name }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="dimension" label="监测维度" :min-width="260">
+          <template #default="scope">
+            <div v-if="Array.isArray(scope.row.dimension)" class="dimension-tags">
+              <el-tag 
+                v-for="(dim, idx) in scope.row.dimension" 
+                :key="idx"
+                size="small"
+                class="dimension-tag"
+              >
+                {{ dim }}
+              </el-tag>
+            </div>
+            <span v-else>{{ scope.row.dimension }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="threshold" label="预警阈值" :min-width="140" align="center">
           <template #default="scope">
             <el-input-number 
               v-model="scope.row.threshold" 
@@ -296,12 +207,12 @@
             />
           </template>
         </el-table-column>
-        <el-table-column prop="enabled" label="启用状态" width="100" align="center">
+        <el-table-column prop="enabled" label="启用状态" :min-width="120" align="center">
           <template #default="scope">
             <el-switch v-model="scope.row.enabled" />
           </template>
         </el-table-column>
-        <el-table-column prop="alertMethods" label="预警方式" width="200">
+        <el-table-column prop="alertMethods" label="预警方式" :min-width="260">
           <template #default="scope">
             <el-checkbox-group v-model="scope.row.alertMethods">
               <el-checkbox label="system">系统通知</el-checkbox>
@@ -310,15 +221,98 @@
             </el-checkbox-group>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="120">
+        <el-table-column label="操作" :width="140" fixed="right">
           <template #default="scope">
-            <el-button size="small" @click="saveAlertSetting(scope.row)">
-              保存
+            <el-button size="small" type="danger" plain @click="deleteAlertSetting(scope.$index, scope.row)">
+              删除
             </el-button>
           </template>
         </el-table-column>
       </el-table>
     </el-card>
+
+    <!-- 监测配置对话框 -->
+    <el-dialog v-model="showConfigDialog" width="680px" class="config-dialog" :show-close="false">
+      <div class="config-dialog-content">
+        <h3 class="config-dialog-title">监测配置</h3>
+        
+        <div class="config-form">
+          <div class="form-item">
+            <label class="form-label">监测名称</label>
+            <el-input 
+              v-model="config.monitoringName" 
+              placeholder="监测名称" 
+              class="form-input"
+              clearable
+              @blur="checkNameDuplicate"
+              @input="clearNameError"
+            />
+            <div v-if="nameError" class="error-hint">{{ nameError }}</div>
+          </div>
+
+          <div class="form-item">
+            <label class="form-label">监测维度</label>
+            <el-select 
+              v-model="config.monitoringDimensions" 
+              multiple 
+              placeholder="监测维度"
+              class="form-input"
+              clearable
+            >
+              <el-option 
+                v-for="dim in dimensionOptions" 
+                :key="dim" 
+                :label="dim" 
+                :value="dim" 
+              />
+            </el-select>
+          </div>
+
+          <div class="form-item">
+            <label class="form-label">异常阈值</label>
+            <el-input-number 
+              v-model="config.threshold" 
+              :min="0" 
+              :max="100" 
+              class="form-input"
+              placeholder="异常阈值"
+            />
+          </div>
+
+          <div class="form-item">
+            <label class="form-label">监测频率</label>
+            <el-select 
+              v-model="config.frequency" 
+              placeholder="监测频率"
+              class="form-input"
+            >
+              <el-option label="实时监测" value="realtime" />
+              <el-option label="每日监测" value="daily" />
+              <el-option label="每周监测" value="weekly" />
+            </el-select>
+          </div>
+
+          <div class="form-item">
+            <label class="form-label">预警方式</label>
+            <el-select 
+              v-model="config.alertMethod" 
+              multiple 
+              placeholder="预警方式"
+              class="form-input"
+            >
+              <el-option label="系统通知" value="system" />
+              <el-option label="邮件通知" value="email" />
+              <el-option label="短信通知" value="sms" />
+            </el-select>
+          </div>
+        </div>
+
+        <div class="config-dialog-footer">
+          <el-button class="btn-cancel" @click="handleCancelConfig">取消</el-button>
+          <el-button class="btn-save" @click="handleSaveConfig">保存配置</el-button>
+        </div>
+      </div>
+    </el-dialog>
 
     <!-- 异常详情对话框 -->
     <el-dialog v-model="showDetailDialog" title="异常详情" width="800px">
@@ -359,14 +353,32 @@
 </template>
 
 <script>
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
 
 export default {
   name: 'SmartMonitoring',
   setup() {
+    const dimensionOptions = ref([
+      '教学表现',
+      '科研产出',
+      '工作态度',
+      '成长轨迹',
+      '工作量',
+      '学生作业合格率',
+      '学生成绩合格率',
+      '学生出勤率',
+      '学生课堂互动情况',
+      '课件生产量',
+      '课程生产量',
+      '智能数字作品量',
+      '学生评价平均分值',
+      '督导评价平均分值'
+    ])
+
     const config = reactive({
-      monitoringDimensions: ['teaching', 'research', 'attitude', 'growth'],
+      monitoringName: '',
+      monitoringDimensions: ['教学表现', '科研产出', '工作态度', '成长轨迹'],
       threshold: 75,
       frequency: 'daily',
       alertMethod: ['system', 'email']
@@ -377,23 +389,6 @@ export default {
       warning: 12,
       danger: 3,
       total: 171
-    })
-
-    const selectedTeacher = ref(1)
-    const growthPeriod = ref('3m')
-
-    const teachers = ref([
-      { id: 1, name: '张教授' },
-      { id: 2, name: '李老师' },
-      { id: 3, name: '王老师' },
-      { id: 4, name: '陈老师' },
-      { id: 5, name: '刘老师' }
-    ])
-
-    const growthMetrics = reactive({
-      teaching: 85.2,
-      research: 78.9,
-      attitude: 92.1
     })
 
     const anomalyList = ref([
@@ -458,33 +453,60 @@ export default {
 
     const alertSettings = ref([
       {
-        dimension: '教学表现',
+        name: '教学质量监测',
+        dimension: ['教学表现', '学生评价平均分值'],
         threshold: 75,
         enabled: true,
         alertMethods: ['system', 'email']
       },
       {
-        dimension: '科研产出',
+        name: '科研效率监测',
+        dimension: ['科研产出', '课程生产量'],
         threshold: 70,
         enabled: true,
         alertMethods: ['system', 'email', 'sms']
       },
       {
-        dimension: '工作态度',
+        name: '工作态度监测',
+        dimension: ['工作态度'],
         threshold: 80,
         enabled: true,
         alertMethods: ['system']
       },
       {
-        dimension: '成长轨迹',
+        name: '学生成长监测',
+        dimension: ['成长轨迹', '学生出勤率'],
         threshold: 65,
         enabled: false,
         alertMethods: ['system']
+      },
+      {
+        name: '教学负荷监测',
+        dimension: ['工作量', '课件生产量'],
+        threshold: 75,
+        enabled: true,
+        alertMethods: ['system', 'email']
+      },
+      {
+        name: '出勤与成绩监测',
+        dimension: ['学生作业合格率', '学生成绩合格率', '学生出勤率'],
+        threshold: 80,
+        enabled: true,
+        alertMethods: ['system', 'email']
+      },
+      {
+        name: '综合表现监测',
+        dimension: ['督导评价平均分值', '学生课堂互动情况'],
+        threshold: 80,
+        enabled: true,
+        alertMethods: ['system', 'email']
       }
     ])
 
     const showDetailDialog = ref(false)
     const selectedAnomaly = ref(null)
+    const showConfigDialog = ref(false)
+    const nameError = ref('')
 
     const refreshMonitoring = () => {
       ElMessage.success('监测数据已刷新')
@@ -516,21 +538,282 @@ export default {
       }
     }
 
-    const updateGrowthChart = () => {
-      ElMessage.info('正在更新成长轨迹图表...')
+    const PERSIST_ALERT_KEY = 'smart_monitoring_alert_settings'
+    const PERSIST_CONFIG_KEY = 'smart_monitoring_config'
+
+    const persistAlertSettings = () => {
+      try {
+        localStorage.setItem(PERSIST_ALERT_KEY, JSON.stringify(alertSettings.value))
+      } catch (e) {
+        // ignore
+      }
+    }
+
+    const persistConfig = () => {
+      try {
+        localStorage.setItem(PERSIST_CONFIG_KEY, JSON.stringify(config))
+      } catch (e) {
+        // ignore
+      }
+    }
+
+    const loadPersisted = () => {
+      try {
+        const rawAlert = localStorage.getItem(PERSIST_ALERT_KEY)
+        if (rawAlert) {
+          const parsed = JSON.parse(rawAlert)
+          if (Array.isArray(parsed)) {
+            // 兼容性处理：将旧的字符串格式 dimension 转换为数组格式
+            parsed.forEach(item => {
+              if (item.dimension && !Array.isArray(item.dimension)) {
+                item.dimension = [item.dimension]
+              } else if (!item.dimension) {
+                item.dimension = []
+              }
+            })
+            alertSettings.value = parsed
+          }
+        }
+      } catch (e) {
+        // ignore
+      }
+      try {
+        const rawCfg = localStorage.getItem(PERSIST_CONFIG_KEY)
+        if (rawCfg) {
+          const parsedCfg = JSON.parse(rawCfg)
+          Object.assign(config, parsedCfg || {})
+        }
+      } catch (e) {
+        // ignore
+      }
+    }
+
+    const validateConfig = () => {
+      const hasName = !!(config.monitoringName && String(config.monitoringName).trim().length)
+      const hasDims = Array.isArray(config.monitoringDimensions) && config.monitoringDimensions.length > 0
+      if (!hasName && !hasDims) {
+        ElMessage.warning('请输入监测名称或至少选择一个监测维度')
+        return false
+      }
+      if (!Array.isArray(config.alertMethod) || config.alertMethod.length === 0) {
+        ElMessage.warning('请至少选择一种预警方式')
+        return false
+      }
+      if (config.threshold < 0 || config.threshold > 100) {
+        ElMessage.warning('阈值需在 0-100 之间')
+        return false
+      }
+      return true
     }
 
     const saveAlertSetting = (setting) => {
+      // 简单校验单行
+      if (setting.threshold < 0 || setting.threshold > 100) {
+        ElMessage.warning('阈值需在 0-100 之间')
+        return
+      }
+      if (!Array.isArray(setting.alertMethods) || setting.alertMethods.length === 0) {
+        ElMessage.warning('请至少选择一种预警方式')
+        return
+      }
+      persistAlertSettings()
       ElMessage.success('预警设置已保存')
     }
 
+    const deleteAlertSetting = (index, row) => {
+      if (index > -1) {
+        alertSettings.value.splice(index, 1)
+        persistAlertSettings()
+        ElMessage.success('已删除该预警设置')
+      }
+    }
+
+    const seedAlertNamesAndExpandDimensions = () => {
+      const sampleNames = [
+        '教学质量监测',
+        '课堂互动监测',
+        '科研效率监测',
+        '学生成长监测',
+        '教学负荷监测',
+        '出勤与成绩监测',
+        '课程资源监测',
+        '综合表现监测'
+      ]
+      const usedPairs = new Set(
+        alertSettings.value.map(it => `${it.name || ''}@@${it.dimension}`)
+      )
+
+      // 为缺少名称的行补充模拟名称
+      let nameIdx = 0
+      alertSettings.value.forEach(item => {
+        if (!item.name || !String(item.name).trim().length) {
+          item.name = sampleNames[nameIdx % sampleNames.length]
+          nameIdx += 1
+        }
+      })
+
+      // 适当为每个名称增加更多维度的行（1-2条），避免重复
+      const allDims = dimensionOptions.value
+      const extraRows = []
+      const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min
+      const byName = {}
+      alertSettings.value.forEach(it => {
+        byName[it.name] = byName[it.name] || new Set()
+        byName[it.name].add(it.dimension)
+      })
+      Object.keys(byName).forEach(name => {
+        const existingDims = byName[name]
+        const candidateDims = allDims.filter(d => !existingDims.has(d))
+        const toAdd = Math.min(getRandomInt(1, 2), candidateDims.length)
+        for (let i = 0; i < toAdd; i++) {
+          const dim = candidateDims[i]
+          const pairKey = `${name}@@${dim}`
+          if (!usedPairs.has(pairKey)) {
+            usedPairs.add(pairKey)
+            extraRows.push({
+              name,
+              dimension: dim,
+              threshold: 70,
+              enabled: true,
+              alertMethods: ['system', 'email']
+            })
+          }
+        }
+      })
+      if (extraRows.length) {
+        alertSettings.value.push(...extraRows)
+      }
+      persistAlertSettings()
+    }
+
+    const checkNameDuplicate = () => {
+      const name = (config.monitoringName || '').trim()
+      if (!name) {
+        nameError.value = ''
+        return false
+      }
+      const exists = alertSettings.value.some(it => it.name === name)
+      if (exists) {
+        nameError.value = `监测名称"${name}"已存在，请使用其他名称`
+        return true
+      }
+      nameError.value = ''
+      return false
+    }
+
+    const clearNameError = () => {
+      nameError.value = ''
+    }
+
+    const handleCancelConfig = () => {
+      nameError.value = ''
+      showConfigDialog.value = false
+    }
+
+    const handleSaveConfig = () => {
+      // 先检查重名
+      if (checkNameDuplicate()) {
+        ElMessage.warning('监测名称重复，请修改后再保存')
+        return
+      }
+      // 验证配置
+      if (!validateConfig()) {
+        return
+      }
+      // 执行保存
+      const success = saveMonitoringConfig()
+      if (success) {
+        // 保存成功后关闭弹窗并清空错误
+        nameError.value = ''
+        showConfigDialog.value = false
+        // 清空配置表单（可选）
+        config.monitoringName = ''
+        config.monitoringDimensions = []
+      }
+    }
+
+    const saveMonitoringConfig = () => {
+      const name = (config.monitoringName || '').trim()
+      const dimensions = config.monitoringDimensions || []
+      
+      // 如果填写了监测名称，将所有选中的维度作为数组保存为一条记录
+      if (name && dimensions.length > 0) {
+        // 再次检查监测名称是否已存在（双重校验）
+        const exists = alertSettings.value.some(it => it.name === name)
+        if (exists) {
+          nameError.value = `监测名称"${name}"已存在，请使用其他名称`
+          ElMessage.warning(`监测名称"${name}"已存在，请使用其他名称`)
+          return false
+        }
+        // 新增记录（将所有维度作为数组保存）
+        alertSettings.value.unshift({
+          name: name,
+          dimension: [...dimensions],
+          threshold: config.threshold,
+          enabled: true,
+          alertMethods: [...config.alertMethod]
+        })
+      } else if (dimensions.length > 0) {
+        // 如果没有填写监测名称，但有选择维度，创建一个默认名称（带时间戳确保唯一）
+        const defaultName = `监测配置 ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`
+        const exists = alertSettings.value.some(it => it.name === defaultName)
+        if (exists) {
+          // 如果默认名称也重复（理论上不会），添加时间戳确保唯一
+          const uniqueName = `监测配置 ${Date.now()}`
+          alertSettings.value.unshift({
+            name: uniqueName,
+            dimension: [...dimensions],
+            threshold: config.threshold,
+            enabled: true,
+            alertMethods: [...config.alertMethod]
+          })
+        } else {
+          alertSettings.value.unshift({
+            name: defaultName,
+            dimension: [...dimensions],
+            threshold: config.threshold,
+            enabled: true,
+            alertMethods: [...config.alertMethod]
+          })
+        }
+      } else {
+        return false
+      }
+      persistAlertSettings()
+      persistConfig()
+      ElMessage.success('监测配置已保存并应用到预警设置')
+      return true
+    }
+
+    onMounted(() => {
+      loadPersisted()
+      // 若存在空名称，进行一次模拟补全
+      const hasEmptyName = alertSettings.value.some(it => !it.name || !String(it.name).trim().length)
+      if (hasEmptyName) {
+        const sampleNames = [
+          '教学质量监测',
+          '课堂互动监测',
+          '科研效率监测',
+          '学生成长监测',
+          '教学负荷监测',
+          '出勤与成绩监测',
+          '综合表现监测'
+        ]
+        let nameIdx = 0
+        alertSettings.value.forEach(item => {
+          if (!item.name || !String(item.name).trim().length) {
+            item.name = sampleNames[nameIdx % sampleNames.length]
+            nameIdx += 1
+          }
+        })
+        persistAlertSettings()
+      }
+    })
+
     return {
       config,
+      dimensionOptions,
       overviewStats,
-      selectedTeacher,
-      growthPeriod,
-      teachers,
-      growthMetrics,
       anomalyList,
       alertSettings,
       showDetailDialog,
@@ -541,8 +824,14 @@ export default {
       viewDetails,
       handleAnomaly,
       ignoreAnomaly,
-      updateGrowthChart,
-      saveAlertSetting
+      saveAlertSetting,
+      showConfigDialog,
+      nameError,
+      deleteAlertSetting,
+      checkNameDuplicate,
+      clearNameError,
+      handleCancelConfig,
+      handleSaveConfig
     }
   }
 }
@@ -553,50 +842,21 @@ export default {
   min-height: 100vh;
 }
 
-.page-header {
-  margin-bottom: 24px;
+.section-header {
+  margin-bottom: 20px;
 }
 
-.header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: white;
-  padding: 24px;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+.section-header h3 {
+  margin: 0 0 8px 0;
+  color: #303133;
+  font-size: 20px;
+  font-weight: 600;
 }
 
-.title-section {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.page-title {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+.section-header p {
   margin: 0;
-  font-size: 28px;
-  font-weight: 700;
-  color: #1a202c;
-}
-
-.title-icon {
-  color: #667eea;
-  font-size: 32px;
-}
-
-.page-subtitle {
-  margin: 0;
-  color: #718096;
-  font-size: 16px;
-}
-
-.header-actions {
-  display: flex;
-  gap: 12px;
+  color: #606266;
+  font-size: 14px;
 }
 
 .overview-cards {
@@ -658,7 +918,7 @@ export default {
   color: #718096;
 }
 
-.config-card, .anomaly-card, .growth-track-card, .alert-settings-card {
+.config-card, .anomaly-card, .alert-settings-card {
   margin-bottom: 24px;
   border-radius: 12px;
   border: none;
@@ -679,8 +939,8 @@ export default {
 }
 
 .anomaly-list {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
 }
 
@@ -816,79 +1076,8 @@ export default {
 
 .anomaly-actions {
   display: flex;
-  gap: 12px;
-}
-
-.growth-filters {
-  display: flex;
-  gap: 16px;
-  margin-bottom: 20px;
-}
-
-.growth-chart-container {
-  display: flex;
-  gap: 32px;
-}
-
-.growth-chart {
-  flex: 1;
-  height: 300px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #f8fafc;
-  border-radius: 8px;
-}
-
-.chart-placeholder {
-  text-align: center;
-  color: #718096;
-}
-
-.chart-placeholder .el-icon {
-  font-size: 48px;
-  margin-bottom: 16px;
-}
-
-.growth-metrics {
-  width: 200px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.metric-item {
-  text-align: center;
-  padding: 16px;
-  background: white;
-  border-radius: 8px;
-  border: 1px solid #e2e8f0;
-}
-
-.metric-label {
-  font-size: 14px;
-  color: #718096;
-  margin-bottom: 8px;
-}
-
-.metric-value {
-  font-size: 20px;
-  font-weight: bold;
-  color: #2d3748;
-  margin-bottom: 4px;
-}
-
-.metric-change {
-  font-size: 12px;
-  font-weight: 500;
-}
-
-.metric-change.positive {
-  color: #43e97b;
-}
-
-.metric-change.negative {
-  color: #ff6b6b;
+  justify-content: flex-end;
+  gap: 1px;
 }
 
 .anomaly-detail {
@@ -923,5 +1112,179 @@ export default {
 
 .ml-2 {
   margin-left: 8px;
+}
+
+.dimension-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.dimension-tag {
+  margin: 0;
+}
+
+/* 监测配置弹窗样式 */
+.config-dialog :deep(.el-dialog) {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.config-dialog :deep(.el-dialog__header) {
+  display: none;
+}
+
+.config-dialog :deep(.el-dialog__body) {
+  padding: 0;
+}
+
+.config-dialog-content {
+  background: white;
+  padding: 40px 40px 32px;
+}
+
+.config-dialog-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1a237e;
+  margin: 0 0 32px 0;
+  letter-spacing: 0.5px;
+}
+
+.config-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.form-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-label {
+  font-size: 14px;
+  color: #606266;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.form-input {
+  width: 100%;
+}
+
+.form-input :deep(.el-input__wrapper) {
+  border-radius: 8px;
+  border: 1px solid #e4e7ed;
+  box-shadow: none;
+  transition: all 0.3s;
+  min-height: 42px;
+}
+
+.form-input :deep(.el-input__wrapper:hover) {
+  border-color: #c0c4cc;
+}
+
+.form-input :deep(.el-input__wrapper.is-focus) {
+  border-color: #667eea;
+  box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+}
+
+.form-input :deep(.el-input__inner) {
+  padding: 0 16px;
+  font-size: 14px;
+  color: #303133;
+}
+
+.form-input :deep(.el-select__wrapper) {
+  border-radius: 8px;
+  border: 1px solid #e4e7ed;
+  box-shadow: none;
+  transition: all 0.3s;
+  min-height: 42px;
+}
+
+.form-input :deep(.el-select__wrapper:hover) {
+  border-color: #c0c4cc;
+}
+
+.form-input :deep(.el-select.is-focused .el-select__wrapper) {
+  border-color: #667eea;
+  box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+}
+
+.form-input :deep(.el-input-number) {
+  width: 100%;
+}
+
+.form-input :deep(.el-input-number__input) {
+  border-radius: 8px;
+  border: 1px solid #e4e7ed;
+  min-height: 42px;
+}
+
+.form-input :deep(.el-input-number__input:hover) {
+  border-color: #c0c4cc;
+}
+
+.form-input :deep(.el-input-number.is-focus .el-input-number__input) {
+  border-color: #667eea;
+  box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+}
+
+.error-hint {
+  color: #f56c6c;
+  font-size: 12px;
+  line-height: 1.5;
+  padding-top: 4px;
+  margin-top: 2px;
+}
+
+.config-dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.btn-cancel {
+  background: white;
+  border: 1px solid #dcdfe6;
+  color: #606266;
+  border-radius: 8px;
+  padding: 10px 24px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+.btn-cancel:hover {
+  background: #f5f7fa;
+  border-color: #c0c4cc;
+  color: #303133;
+}
+
+.btn-save {
+  background: #667eea;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  padding: 10px 24px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+.btn-save:hover {
+  background: #5568d3;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.btn-save:active {
+  transform: translateY(0);
 }
 </style>

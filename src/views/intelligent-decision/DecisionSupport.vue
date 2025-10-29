@@ -1,13 +1,8 @@
 <template>
   <div class="decision-support">
-    <div class="page-header">
-      <div class="header-content">
-        <h1 class="page-title">
-          <el-icon class="title-icon"><Lightbulb /></el-icon>
-          智能决策支持
-        </h1>
-        <p class="page-subtitle">基于AI的智能决策建议与方案推荐</p>
-      </div>
+    <div class="section-header">
+      <h3>智能决策支持</h3>
+      <p>基于AI的智能决策建议与方案推荐</p>
     </div>
 
     <div class="decision-content">
@@ -1027,46 +1022,21 @@ export default {
   animation: fadeInUp 0.8s ease-out;
 }
 
-.page-header {
-  margin-bottom: 40px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%);
-  backdrop-filter: blur(20px);
-  border-radius: 20px;
-  padding: 32px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+.section-header {
+  margin-bottom: 20px;
 }
 
-.header-content {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+.section-header h3 {
+  margin: 0 0 8px 0;
+  color: #303133;
+  font-size: 20px;
+  font-weight: 600;
 }
 
-.page-title {
+.section-header p {
   margin: 0;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  font-size: 36px;
-  font-weight: 800;
-  letter-spacing: -1px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.title-icon {
-  font-size: 32px;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
-}
-
-.page-subtitle {
-  margin: 0;
-  color: #64748b;
-  font-size: 18px;
-  font-weight: 500;
+  color: #606266;
+  font-size: 14px;
 }
 
 .decision-content {

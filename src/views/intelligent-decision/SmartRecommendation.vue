@@ -1,18 +1,9 @@
 <template>
   <div class="smart-recommendation">
     <!-- 页面头部 -->
-    <div class="page-header">
-      <div class="header-content">
-        <div class="title-section">
-          <h1 class="page-title">
-            <el-icon class="title-icon"><Star /></el-icon>
-            智能推荐
-          </h1>
-          <p class="page-subtitle">基于AI算法的职称评选和人才推荐系统</p>
-        </div>
-        <div class="header-actions">
-        </div>
-      </div>
+    <div class="section-header">
+      <h3>智能推荐</h3>
+      <p>基于AI算法的职称评选和人才推荐系统</p>
     </div>
     <!-- 评选配置 -->
     <el-card class="selection-card" shadow="never">
@@ -214,6 +205,161 @@
         </div>
       </el-dialog>
 
+      <!-- AI智能分析对话框 -->
+      <el-dialog
+        v-model="analysisDialogVisible"
+        :title="`AI智能分析报告 - ${currentCandidate?.name || ''}`"
+        width="700px"
+        :close-on-click-modal="false"
+        center
+        class="analysis-modal"
+      >
+        <!-- 分析进行中 -->
+        <div v-if="analysisInProgress" class="processing-content">
+          <div class="processing-icon">
+            <el-icon class="rotating-icon"><Loading /></el-icon>
+          </div>
+          <h3>AI正在深度分析候选人...</h3>
+          <p class="processing-description">正在使用智能算法进行多维度分析与评估</p>
+          
+          <div class="progress-section">
+            <div class="progress-steps">
+              <div 
+                v-for="(step, index) in analysisSteps" 
+                :key="index"
+                class="step-item"
+                :class="{ 
+                  'active': currentAnalysisStep === index, 
+                  'completed': currentAnalysisStep > index 
+                }"
+              >
+                <div class="step-icon">
+                  <el-icon v-if="currentAnalysisStep > index"><Check /></el-icon>
+                  <el-icon v-else-if="currentAnalysisStep === index"><Loading /></el-icon>
+                  <span v-else>{{ index + 1 }}</span>
+                </div>
+                <div class="step-content">
+                  <div class="step-title">{{ step.title }}</div>
+                  <div class="step-desc">{{ step.description }}</div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="progress-bar">
+              <div class="progress-fill" :style="{ width: `${analysisProgress}%` }"></div>
+            </div>
+            <div class="progress-text">{{ analysisProgress }}%</div>
+          </div>
+        </div>
+
+        <!-- 分析报告 -->
+        <div v-else class="analysis-report">
+          <div class="report-header">
+            <div class="candidate-summary">
+              <el-avatar :size="60" :src="getAvatarUrl(currentCandidate?.name || '')">
+                {{ currentCandidate?.name?.charAt(0) }}
+              </el-avatar>
+              <div class="summary-info">
+                <h3>{{ currentCandidate?.name }}</h3>
+                <p>{{ currentCandidate?.department }} · {{ currentCandidate?.title }}</p>
+              </div>
+            </div>
+            <div class="overall-score">
+              <div class="score-label">综合评分</div>
+              <div class="score-value">{{ currentCandidate?.totalScore }}</div>
+              <div class="score-rank">{{ getScoreLevel(currentCandidate?.totalScore || 0) }}</div>
+            </div>
+          </div>
+
+          <div class="report-sections">
+            <!-- 分项评分 -->
+            <div class="section">
+              <h4 class="section-title">
+                <el-icon><PieChart /></el-icon>
+                分项评分详情
+              </h4>
+              <div class="score-breakdown">
+                <div class="breakdown-item" v-for="(score, key) in currentCandidate?.scores" :key="key">
+                  <div class="breakdown-header">
+                    <span class="breakdown-label">{{ getScoreLabel(key) }}</span>
+                    <span class="breakdown-value">{{ score}}分</span>
+                  </div>
+                  <el-progress 
+                    :percentage="score" 
+                    :color="getScoreColor(score)"
+                    :stroke-width="8"
+                    :show-text="false"
+                  />
+                  <div class="breakdown-detail">{{ getScoreAnalysis(key, score) }}</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- AI推荐理由 -->
+            <div class="section">
+              <h4 class="section-title">
+                <el-icon><ChatLineRound /></el-icon>
+                AI推荐理由
+              </h4>
+              <div class="recommendation-reasons">
+                <div 
+                  v-for="(reason, index) in analysisReport?.recommendationReasons" 
+                  :key="index"
+                  class="reason-item"
+                >
+                  <div class="reason-number">{{ index + 1 }}</div>
+                  <div class="reason-content">
+                    <div class="reason-title">{{ reason.title }}</div>
+                    <div class="reason-text">{{ reason.description }}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 优势分析 -->
+            <div class="section">
+              <h4 class="section-title">
+                <el-icon><TrendCharts /></el-icon>
+                优势分析
+              </h4>
+              <div class="advantages-list">
+                <div 
+                  v-for="(advantage, index) in analysisReport?.advantages" 
+                  :key="index"
+                  class="advantage-item"
+                >
+                  <el-icon class="advantage-icon"><CircleCheck /></el-icon>
+                  <span>{{ advantage }}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 提升建议 -->
+            <div class="section">
+              <h4 class="section-title">
+                <el-icon><Lightbulb /></el-icon>
+                提升建议
+              </h4>
+              <div class="suggestions-list">
+                <div 
+                  v-for="(suggestion, index) in analysisReport?.suggestions" 
+                  :key="index"
+                  class="suggestion-item"
+                >
+                  <el-icon class="suggestion-icon"><TrendCharts /></el-icon>
+                  <span>{{ suggestion }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="report-footer">
+            <el-button type="primary" @click="closeAnalysis">关闭</el-button>
+            <el-button type="success" @click="selectCandidateFromAnalysis">确认推荐</el-button>
+          </div>
+        </div>
+      </el-dialog>
+
       <!-- 推荐结果 -->
       <el-card class="results-card" shadow="never">
         <template #header>
@@ -288,9 +434,9 @@
             </div>
             
             <div class="candidate-actions">
-              <el-button type="primary" size="small" @click="viewCandidateDetail(candidate)">查看详情</el-button>
-              <el-button size="small" @click="compareCandidate(candidate)">对比分析</el-button>
-              <el-button type="success" size="small" @click="selectCandidate(candidate)">选择推荐</el-button>
+              <el-button type="primary" size="small" @click="viewCandidateDetail(candidate)">查看</el-button>
+              <el-button size="small" @click="compareCandidate(candidate)">分析</el-button>
+              <el-button type="success" size="small" @click="selectCandidate(candidate)">推荐</el-button>
             </div>
           </div>
         </div>
@@ -332,10 +478,55 @@
           </el-col>
         </el-row>
       </el-card>
+
+      <!-- 智能推荐历史 -->
+      <el-card class="history-card" shadow="never">
+        <template #header>
+          <div class="card-header">
+            <el-icon><Clock /></el-icon>
+            <span>智能推荐历史</span>
+            <el-tag type="info" style="margin-left: 10px;">{{ recommendationHistory.length }} 条记录</el-tag>
+          </div>
+        </template>
+
+        <div v-if="recommendationHistory.length === 0" class="empty-state">
+          <el-empty description="暂无历史记录" />
+        </div>
+
+        <div v-else class="history-list">
+          <div v-for="(item, idx) in recommendationHistory" :key="item.id || idx" class="history-item">
+            <div class="history-header">
+              <span class="history-time">{{ new Date(item.timestamp).toLocaleString() }}</span>
+              <el-tag size="small">{{ getTypeLabel(item.config.type) }}</el-tag>
+              <el-tag size="small">{{ getLevelLabel(item.config.level) }}</el-tag>
+              <el-tag size="small">{{ item.recommendations.length }}人</el-tag>
+            </div>
+            <div class="history-recommendations">
+              <div class="history-avatars">
+                <el-avatar
+                  v-for="(cand, i) in item.recommendations"
+                  :key="i"
+                  :size="32"
+                  :src="getAvatarUrl(cand.name)"
+                  style="margin-right: 6px;"
+                >{{ cand.name?.charAt(0) }}</el-avatar>
+              </div>
+              <div class="history-topline" v-if="item.recommendations[0]">
+                <span class="topline-name">{{ item.recommendations[0].name }}</span>
+                <span class="topline-score">{{ item.recommendations[0].totalScore }}分</span>
+              </div>
+            </div>
+            <div class="history-actions">
+              <el-button size="small" @click="recommendations = item.recommendations; updateStats(); $message.success('已载入该次推荐结果')">载入结果</el-button>
+            </div>
+          </div>
+        </div>
+      </el-card>
   </div>
 </template>
 
 <script>
+import { addRecommendedCandidate, setRecommendedCandidates } from '@/store/recommendationStore.js'
 export default {
   name: 'SmartRecommendation',
   data() {
@@ -425,8 +616,27 @@ export default {
         avgScore: 0,
         highScoreCount: 0,
         recommendationRate: 0
-      }
+      },
+      // 智能推荐历史（前端本地持久化）
+      recommendationHistory: [],
+      analysisDialogVisible: false,
+      analysisInProgress: false,
+      currentAnalysisStep: 0,
+      analysisProgress: 0,
+      currentCandidate: null,
+      analysisReport: null,
+      analysisSteps: [
+        { title: '基础信息分析', description: '分析候选人基本信息和履历' },
+        { title: '教学能力评估', description: '深入分析教学成果和课程质量' },
+        { title: '科研实力评估', description: '评估学术研究和创新成果' },
+        { title: '管理能力分析', description: '分析领导力和团队管理能力' },
+        { title: '综合能力评价', description: '整合多维度进行综合评价' },
+        { title: '生成推荐报告', description: '生成AI推荐理由和评估报告' }
+      ]
     }
+  },
+  created() {
+    this.loadRecommendationHistory()
   },
   computed: {
     canGenerate() {
@@ -488,11 +698,41 @@ export default {
         // 生成推荐结果
         this.recommendations = this.generateMockCandidates()
         this.updateStats()
+        // 保存本次推荐到历史
+        this.saveRecommendationHistory()
         
         // 关闭弹窗
         this.processingDialogVisible = false
         this.$message.success('推荐完成！')
       }, 500)
+    },
+    
+    // 保存推荐历史（前端模拟：写入 localStorage）
+    saveRecommendationHistory() {
+      try {
+        const historyItem = {
+          id: Date.now(),
+          timestamp: new Date().toISOString(),
+          config: { ...this.selectionConfig },
+          weights: { ...this.criteriaWeights },
+          recommendations: JSON.parse(JSON.stringify(this.recommendations))
+        }
+        this.recommendationHistory.unshift(historyItem)
+        // 仅前端本地持久化
+        localStorage.setItem('smart_recommendation_history', JSON.stringify(this.recommendationHistory))
+      } catch (e) {
+        // ignore
+      }
+    },
+    
+    // 加载历史记录（组件创建时）
+    loadRecommendationHistory() {
+      try {
+        const raw = localStorage.getItem('smart_recommendation_history')
+        this.recommendationHistory = raw ? JSON.parse(raw) : []
+      } catch (e) {
+        this.recommendationHistory = []
+      }
     },
     
     generateMockCandidates() {
@@ -589,9 +829,195 @@ export default {
       // 这里可以打开详情弹窗或跳转到详情页面
     },
     
-    compareCandidate(candidate) {
-      this.$message.info(`对比分析 ${candidate.name}`)
-      // 这里可以打开对比分析功能
+    async compareCandidate(candidate) {
+      this.currentCandidate = candidate
+      this.analysisDialogVisible = true
+      this.analysisInProgress = true
+      this.currentAnalysisStep = 0
+      this.analysisProgress = 0
+      
+      // 模拟AI分析过程
+      const totalSteps = this.analysisSteps.length
+      const stepDuration = 1200
+      
+      for (let i = 0; i < totalSteps; i++) {
+        this.currentAnalysisStep = i
+        this.analysisProgress = Math.round(((i + 1) / totalSteps) * 100)
+        await new Promise(resolve => setTimeout(resolve, stepDuration))
+      }
+      
+      // 生成分析报告
+      this.analysisReport = this.generateAnalysisReport(candidate)
+      this.analysisInProgress = false
+    },
+
+    generateAnalysisReport(candidate) {
+      // 根据候选人信息生成个性化的分析报告
+      const recommendationReasons = this.generateRecommendationReasons(candidate)
+      const advantages = this.generateAdvantages(candidate)
+      const suggestions = this.generateSuggestions(candidate)
+      
+      return {
+        recommendationReasons,
+        advantages,
+        suggestions
+      }
+    },
+
+    generateRecommendationReasons(candidate) {
+      const reasons = []
+      
+      // 根据分数生成推荐理由
+      if (candidate.scores.teaching >= 90) {
+        reasons.push({
+          title: '卓越的教学能力',
+          description: `在15年教学工作中，始终致力于提升教学质量，课程质量评分达到${candidate.scores.teaching}分。${candidate.highlights.find(h => h.includes('教学成果奖') || h.includes('优秀教师')) ? '曾获得国家级教学成果奖，是教学领域的佼佼者。' : '在教学方法和课程改革方面表现突出，深受学生好评。'}`
+        })
+      }
+      
+      if (candidate.scores.research >= 85) {
+        reasons.push({
+          title: '突出的科研实力',
+          description: `科研能力评分${candidate.scores.research}分，${candidate.highlights.find(h => h.includes('论文')) || '在学术研究方面贡献突出。'}学术成果丰富，具有较强的科研潜力。`
+        })
+      }
+      
+      if (candidate.scores.management >= 80) {
+        reasons.push({
+          title: '优秀的管理能力',
+          description: `管理能力评分${candidate.scores.management}分，在${candidate.department}担任重要管理角色，具有较强的团队领导和协调能力。`
+        })
+      }
+      
+      if (candidate.scores.innovation >= 85) {
+        reasons.push({
+          title: '显著的创新能力',
+          description: `创新能力评分${candidate.scores.innovation}分，${candidate.highlights.find(h => h.includes('专利') || h.includes('技术转化') || h.includes('创业')) || '在技术创新和成果转化方面表现突出'}，具有前瞻性的研究视野。`
+        })
+      }
+      
+      // 综合优势
+      if (candidate.totalScore >= 85) {
+        reasons.push({
+          title: '综合素质优秀',
+          description: `综合评分${candidate.totalScore}分，在教学、科研、管理等多个方面协调发展，是该评选类型理想的候选人。`
+        })
+      }
+      
+      return reasons
+    },
+
+    generateAdvantages(candidate) {
+      const advantages = []
+      
+      if (candidate.scores.teaching >= 90) {
+        advantages.push('教学经验丰富，教学方法先进')
+      }
+      if (candidate.scores.research >= 85) {
+        advantages.push('科研成果丰硕，学术影响力强')
+      }
+      if (candidate.experience >= 10) {
+        advantages.push(`${candidate.experience}年工作经验，专业基础扎实`)
+      }
+      if (candidate.scores.innovation >= 85) {
+        advantages.push('创新能力突出，有前瞻性思维')
+      }
+      if (candidate.highlights.some(h => h.includes('奖'))) {
+        advantages.push('多次获得重要奖项和荣誉')
+      }
+      if (candidate.scores.management >= 80) {
+        advantages.push('具备良好的领导和管理能力')
+      }
+      
+      return advantages.length > 0 ? advantages : ['各方面表现均衡，综合素质良好']
+    },
+
+    generateSuggestions(candidate) {
+      const suggestions = []
+      
+      if (candidate.scores.teaching < 85) {
+        suggestions.push('建议加强教学方法和课程创新，提升教学质量评价')
+      }
+      if (candidate.scores.research < 85) {
+        suggestions.push('建议增加科研投入，发表更多高质量的学术论文')
+      }
+      if (candidate.scores.innovation < 80) {
+        suggestions.push('建议提升创新能力，关注学科前沿和技术转化')
+      }
+      if (candidate.scores.socialImpact < 70) {
+        suggestions.push('建议增强社会影响力，参与更多公共服务活动')
+      }
+      if (candidate.experience < 10) {
+        suggestions.push('建议积累更多工作经验，提升专业能力')
+      }
+      
+      return suggestions.length > 0 ? suggestions : ['继续保持当前优势，在薄弱环节寻求突破']
+    },
+
+    getScoreLabel(key) {
+      const labels = {
+        teaching: '教学能力',
+        research: '科研能力',
+        management: '管理能力',
+        innovation: '创新能力',
+        socialImpact: '社会影响'
+      }
+      return labels[key] || key
+    },
+
+    getScoreColor(score) {
+      if (score >= 90) return '#67c23a'
+      if (score >= 80) return '#409eff'
+      if (score >= 70) return '#e6a23c'
+      return '#f56c6c'
+    },
+
+    getScoreAnalysis(key, score) {
+      if (score >= 90) return '优秀'
+      if (score >= 80) return '良好'
+      if (score >= 70) return '中等'
+      return '待提升'
+    },
+
+    getScoreLevel(score) {
+      if (score >= 90) return '优秀'
+      if (score >= 85) return '良好'
+      if (score >= 80) return '中等'
+      return '一般'
+    },
+
+    // 历史标签映射
+    getTypeLabel(key) {
+      const map = {
+        title_evaluation: '职称评选',
+        talent_evaluation: '人才评选',
+        excellent_teacher: '优秀教师',
+        subject_leader: '学科带头人',
+        teaching_master: '教学名师'
+      }
+      return map[key] || key
+    },
+    getLevelLabel(level) {
+      const map = {
+        school: '校级',
+        city: '市级',
+        province: '省级',
+        national: '国家级'
+      }
+      return map[level] || level
+    },
+
+    closeAnalysis() {
+      this.analysisDialogVisible = false
+      this.analysisReport = null
+      this.currentCandidate = null
+    },
+
+    selectCandidateFromAnalysis() {
+      if (this.currentCandidate) {
+        this.selectCandidate(this.currentCandidate)
+        this.closeAnalysis()
+      }
     },
     
     selectCandidate(candidate) {
@@ -601,7 +1027,19 @@ export default {
         type: 'success'
       }).then(() => {
         this.$message.success(`已推荐 ${candidate.name}`)
-        // 这里可以保存推荐结果
+        // 写入全局共享（单个追加）
+        try {
+          addRecommendedCandidate({
+            id: candidate.id,
+            name: candidate.name,
+            department: candidate.department,
+            title: candidate.title,
+            score: candidate.totalScore ?? candidate.score ?? 0,
+            avatar: this.getAvatarUrl(candidate.name)
+          })
+        } catch (e) {
+          // ignore
+        }
       })
     },
     
@@ -665,50 +1103,21 @@ export default {
   min-height: 100vh;
 }
 
-.page-header {
-  margin-bottom: 24px;
+.section-header {
+  margin-bottom: 20px;
 }
 
-.header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: white;
-  padding: 24px;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+.section-header h3 {
+  margin: 0 0 8px 0;
+  color: #303133;
+  font-size: 20px;
+  font-weight: 600;
 }
 
-.title-section {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.page-title {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+.section-header p {
   margin: 0;
-  font-size: 28px;
-  font-weight: 700;
-  color: #1a202c;
-}
-
-.title-icon {
-  font-size: 24px;
-  color: #667eea;
-}
-
-.page-subtitle {
-  margin: 0;
-  color: #718096;
-  font-size: 16px;
-}
-
-.header-actions {
-  display: flex;
-  gap: 12px;
+  color: #606266;
+  font-size: 14px;
 }
 
 .card-header {
@@ -1178,5 +1587,337 @@ export default {
 .processing-tips .el-icon {
   color: #f6ad55;
   font-size: 16px;
+}
+
+/* AI分析对话框样式 */
+.analysis-modal :deep(.el-dialog) {
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.analysis-modal :deep(.el-dialog__header) {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 20px 24px;
+  margin: 0;
+}
+
+.analysis-modal :deep(.el-dialog__title) {
+  color: white;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.analysis-modal :deep(.el-dialog__body) {
+  padding: 0;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.analysis-report {
+  padding: 24px;
+}
+
+.report-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 12px;
+  margin-bottom: 24px;
+}
+
+.candidate-summary {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.summary-info h3 {
+  margin: 0 0 4px 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #303133;
+}
+
+.summary-info p {
+  margin: 0;
+  color: #909399;
+  font-size: 14px;
+}
+
+.overall-score {
+  text-align: center;
+  padding: 16px 24px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.score-label {
+  font-size: 14px;
+  color: #909399;
+  margin-bottom: 8px;
+}
+
+.score-value {
+  font-size: 36px;
+  font-weight: 700;
+  color: #409EFF;
+  margin-bottom: 4px;
+}
+
+.score-rank {
+  font-size: 14px;
+  color: #67c23a;
+  font-weight: 600;
+}
+
+.report-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.section {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 16px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #303133;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #f0f2f5;
+}
+
+.section-title .el-icon {
+  font-size: 18px;
+  color: #409EFF;
+}
+
+/* 分项评分 */
+.score-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.breakdown-item {
+  padding: 12px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.breakdown-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.breakdown-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #303133;
+}
+
+.breakdown-value {
+  font-size: 14px;
+  font-weight: 700;
+  color: #409EFF;
+}
+
+.breakdown-detail {
+  font-size: 12px;
+  color: #909399;
+  margin-top: 4px;
+}
+
+/* AI推荐理由 */
+.recommendation-reasons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.reason-item {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border-left: 3px solid #409EFF;
+}
+
+.reason-number {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  background: #409EFF;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.reason-content {
+  flex: 1;
+}
+
+.reason-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #303133;
+  margin-bottom: 4px;
+}
+
+.reason-text {
+  font-size: 13px;
+  color: #606266;
+  line-height: 1.6;
+}
+
+/* 优势分析 */
+.advantages-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.advantage-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  background: #f0f9ff;
+  border-radius: 6px;
+  border-left: 3px solid #67c23a;
+}
+
+.advantage-icon {
+  color: #67c23a;
+  font-size: 16px;
+}
+
+.advantage-item span {
+  font-size: 14px;
+  color: #303133;
+}
+
+/* 提升建议 */
+.suggestions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.suggestion-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  background: #fef9e7;
+  border-radius: 6px;
+  border-left: 3px solid #e6a23c;
+}
+
+.suggestion-icon {
+  color: #e6a23c;
+  font-size: 16px;
+}
+
+.suggestion-item span {
+  font-size: 14px;
+  color: #303133;
+}
+
+/* 报告底部按钮 */
+.report-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #e4e7ed;
+}
+
+/* 智能推荐历史样式 */
+.history-card {
+  margin-bottom: 24px;
+  border-radius: 12px;
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.history-item {
+  background: #fafafa;
+  border-radius: 8px;
+  padding: 12px 16px;
+  border: 1px solid #e4e7ed;
+}
+
+.history-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  margin-bottom: 8px;
+  color: #909399;
+}
+
+.history-time {
+  color: #409EFF;
+  font-weight: 600;
+}
+
+.history-recommendations {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.history-avatars {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.history-topline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.topline-name {
+  font-size: 14px;
+  color: #303133;
+  font-weight: 600;
+}
+
+.topline-score {
+  font-size: 13px;
+  color: #409EFF;
+}
+
+.history-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 8px;
 }
 </style>

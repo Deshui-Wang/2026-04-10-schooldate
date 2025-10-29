@@ -1,23 +1,59 @@
 <template>
   <div class="smart-decision">
     <!-- 页面头部 -->
-    <div class="page-header">
-      <div class="header-content">
-        <div class="title-section">
-          <h1 class="page-title">
-            <el-icon class="title-icon"><Trophy /></el-icon>
-            智能决策
-          </h1>
-          <p class="page-subtitle">基于AI技术的候选人能力对比分析与智能评选</p>
+    <div class="section-header">
+      <h3>智能决策</h3>
+      <p>基于AI技术的候选人能力对比分析与智能评选</p>
+    </div>
+
+    <!-- 候选人选择区域 -->
+    <el-card class="candidates-card" shadow="never">
+      <template #header>
+        <div class="card-header">
+          <el-icon><User /></el-icon>
+          <span>候选人</span>
+          <el-tag type="info" class="ml-2">{{ selectedCandidates.length }} 位候选人</el-tag>
+          <span class="header-right-note">候选人来自【<router-link to="/intelligent-decision/smart-recommendation" class="header-link">智能推荐</router-link>】</span>
         </div>
-        <div class="header-actions">
-          <el-button @click="exportReport">
-            <el-icon><Document /></el-icon>
-            导出报告
-          </el-button>
+      </template>
+      
+      <!-- 候选人列表 -->
+      <div v-if="filteredCandidates.length > 0" class="candidates-grid">
+        <div 
+          v-for="candidate in filteredCandidates" 
+          :key="candidate.id"
+          class="candidate-item"
+          :class="{ 'selected': selectedCandidates.includes(candidate.id) }"
+          @click="toggleCandidate(candidate.id)"
+        >
+          <div class="candidate-avatar">
+            <el-avatar :size="50" :src="candidate.avatar">
+              {{ candidate.name.charAt(0) }}
+            </el-avatar>
+          </div>
+          <div class="candidate-info">
+            <h4 v-html="highlightText(candidate.name)"></h4>
+            <p v-html="highlightText(candidate.department)"></p>
+            <p v-html="highlightText(candidate.title)"></p>
+          </div>
+          <div class="candidate-score">
+            <span>{{ candidate.score }}</span>
+          </div>
         </div>
       </div>
-    </div>
+      
+      <!-- 搜索无结果状态 -->
+      <div v-else-if="searchKeyword" class="search-empty-state">
+        <el-empty description="未找到匹配的候选人">
+          <template #image>
+            <el-icon size="60" color="#cbd5e0"><Search /></el-icon>
+          </template>
+          <el-button type="primary" @click="searchKeyword = ''">
+            清除搜索条件
+          </el-button>
+        </el-empty>
+      </div>
+    </el-card>
 
     <!-- 分析配置区域 -->
     <el-card class="config-card" shadow="never">
@@ -69,110 +105,62 @@
       </el-row>
     </el-card>
 
-    <!-- 候选人选择区域 -->
-    <el-card class="candidates-card" shadow="never">
-      <template #header>
-        <div class="card-header">
-          <el-icon><User /></el-icon>
-          <span>候选人选择</span>
-          <el-tag type="info" class="ml-2">{{ selectedCandidates.length }} 位候选人</el-tag>
-        </div>
-      </template>
-      
-      <!-- 搜索框 -->
-      <div class="candidates-search">
-        <el-input
-          v-model="searchKeyword"
-          placeholder="搜索候选人姓名、部门或职位..."
-          clearable
-          class="search-input"
-        >
-          <template #prefix>
-            <el-icon><Search /></el-icon>
-          </template>
-        </el-input>
-        <div class="search-stats">
-          <span class="stats-text">
-            共 {{ availableCandidates.length }} 位候选人，
-            已选择 {{ selectedCandidates.length }} 位
-            <span v-if="searchKeyword" class="filtered-count">
-              （筛选出 {{ filteredCandidates.length }} 位）
-            </span>
-          </span>
-        </div>
-        
-        <!-- 快捷操作 -->
-        <div class="quick-actions">
-          <el-button 
-            size="small" 
-            type="primary" 
-            plain
-            @click="selectAllFiltered"
-            :disabled="filteredCandidates.length === 0"
-          >
-            全选当前结果
-          </el-button>
-          <el-button 
-            size="small" 
-            type="info" 
-            plain
-            @click="clearSelection"
-            :disabled="selectedCandidates.length === 0"
-          >
-            清除选择
-          </el-button>
-          <el-button 
-            size="small" 
-            type="success" 
-            plain
-            @click="selectTopCandidates"
-            :disabled="filteredCandidates.length === 0"
-          >
-            选择前3名
-          </el-button>
-        </div>
-      </div>
-      
-      <!-- 候选人列表 -->
-      <div v-if="filteredCandidates.length > 0" class="candidates-grid">
-        <div 
-          v-for="candidate in filteredCandidates" 
-          :key="candidate.id"
-          class="candidate-item"
-          :class="{ 'selected': selectedCandidates.includes(candidate.id) }"
-          @click="toggleCandidate(candidate.id)"
-        >
-          <div class="candidate-avatar">
-            <el-avatar :size="50" :src="candidate.avatar">
-              {{ candidate.name.charAt(0) }}
-            </el-avatar>
-          </div>
-          <div class="candidate-info">
-            <h4 v-html="highlightText(candidate.name)"></h4>
-            <p v-html="highlightText(candidate.department)"></p>
-            <p v-html="highlightText(candidate.title)"></p>
-          </div>
-          <div class="candidate-score">
-            <span>{{ candidate.score }}</span>
-          </div>
-        </div>
-      </div>
-      
-      <!-- 搜索无结果状态 -->
-      <div v-else-if="searchKeyword" class="search-empty-state">
-        <el-empty description="未找到匹配的候选人">
-          <template #image>
-            <el-icon size="60" color="#cbd5e0"><Search /></el-icon>
-          </template>
-          <el-button type="primary" @click="searchKeyword = ''">
-            清除搜索条件
-          </el-button>
-        </el-empty>
-      </div>
-    </el-card>
-
     <!-- 分析结果区域 -->
     <div v-if="analysisResults" class="analysis-results">
+      <!-- 智能决策结果 -->
+      <el-card class="decision-result-card" shadow="never">
+        <template #header>
+          <div class="card-header">
+            <el-icon><Trophy /></el-icon>
+            <span>智能决策结果</span>
+          </div>
+        </template>
+        
+        <div class="decision-results">
+          <div class="winner-section">
+            <div class="winner-card">
+              <div class="winner-rank">🏆</div>
+              <div class="winner-info">
+                <h3>{{ analysisResults.winner.name }}</h3>
+                <p>{{ analysisResults.winner.department }}</p>
+                <div class="winner-score">{{ analysisResults.winner.totalScore }} 分</div>
+              </div>
+            </div>
+            <div class="winner-reasons">
+              <h4>推荐理由：</h4>
+              <ul>
+                <li v-for="reason in analysisResults.winner.reasons" :key="reason">
+                  {{ reason }}
+                </li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="ranking-list">
+            <h4>完整排名：</h4>
+            <div class="ranking-items">
+              <div 
+                v-for="(candidate, index) in analysisResults.ranking" 
+                :key="candidate.id"
+                class="ranking-item"
+                :class="{ 'top-three': index < 3 }"
+              >
+                <div class="rank-number">{{ index + 1 }}</div>
+                <div class="candidate-info">
+                  <span class="name">{{ candidate.name }}</span>
+                  <span class="score">{{ candidate.totalScore }}分</span>
+                </div>
+                <div class="rank-badge" v-if="index < 3">
+                  <el-icon v-if="index === 0"><Trophy /></el-icon>
+                  <el-icon v-else-if="index === 1"><Medal /></el-icon>
+                  <el-icon v-else><Award /></el-icon>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </el-card>
+
       <!-- 综合评分对比 -->
       <el-card class="score-comparison-card" shadow="never">
         <template #header>
@@ -365,59 +353,7 @@
         </el-table>
       </el-card>
 
-      <!-- 智能决策结果 -->
-      <el-card class="decision-result-card" shadow="never">
-        <template #header>
-          <div class="card-header">
-            <el-icon><Trophy /></el-icon>
-            <span>智能决策结果</span>
-          </div>
-        </template>
-        
-        <div class="decision-results">
-          <div class="winner-section">
-            <div class="winner-card">
-              <div class="winner-rank">🏆</div>
-              <div class="winner-info">
-                <h3>{{ analysisResults.winner.name }}</h3>
-                <p>{{ analysisResults.winner.department }}</p>
-                <div class="winner-score">{{ analysisResults.winner.totalScore }} 分</div>
-              </div>
-            </div>
-            <div class="winner-reasons">
-              <h4>推荐理由：</h4>
-              <ul>
-                <li v-for="reason in analysisResults.winner.reasons" :key="reason">
-                  {{ reason }}
-                </li>
-              </ul>
-            </div>
-          </div>
-          
-          <div class="ranking-list">
-            <h4>完整排名：</h4>
-            <div class="ranking-items">
-              <div 
-                v-for="(candidate, index) in analysisResults.ranking" 
-                :key="candidate.id"
-                class="ranking-item"
-                :class="{ 'top-three': index < 3 }"
-              >
-                <div class="rank-number">{{ index + 1 }}</div>
-                <div class="candidate-info">
-                  <span class="name">{{ candidate.name }}</span>
-                  <span class="score">{{ candidate.totalScore }}分</span>
-                </div>
-                <div class="rank-badge" v-if="index < 3">
-                  <el-icon v-if="index === 0"><Trophy /></el-icon>
-                  <el-icon v-else-if="index === 1"><Medal /></el-icon>
-                  <el-icon v-else><Award /></el-icon>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </el-card>
+      
 
       <!-- 决策建议 -->
       <el-card class="suggestions-card" shadow="never">
@@ -447,9 +383,9 @@
 
     <!-- 空状态 -->
     <div v-else class="empty-state">
-      <el-empty description="请先选择候选人并开始分析">
+      <el-empty description="针对候选人进行智能分析">
         <el-button type="primary" @click="startAnalysis" :disabled="selectedCandidates.length === 0">
-          开始分析
+          开始AI智能分析
         </el-button>
       </el-empty>
     </div>
@@ -511,9 +447,10 @@
 </template>
 
 <script>
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive, computed, watch } from 'vue'
 import { ElMessage } from 'element-plus'
 import RadarChart from '@/components/RadarChart.vue'
+import { useRecommendedCandidates } from '@/store/recommendationStore.js'
 
 export default {
   name: 'SmartDecision',
@@ -531,58 +468,60 @@ export default {
     const selectedCandidates = ref([])
     const searchKeyword = ref('')
 
-    const availableCandidates = ref([
-      {
-        id: 1,
-        name: '张教授',
-        department: '计算机学院',
-        title: '副教授',
-        score: 91.5,
-        avatar: ''
-      },
-      {
-        id: 2,
-        name: '李老师',
-        department: '数学学院',
-        title: '讲师',
-        score: 88.5,
-        avatar: ''
-      },
-      {
-        id: 3,
-        name: '王老师',
-        department: '物理学院',
-        title: '副教授',
-        score: 90.0,
-        avatar: ''
-      },
-      {
-        id: 4,
-        name: '陈老师',
-        department: '化学学院',
-        title: '讲师',
-        score: 86.0,
-        avatar: ''
-      },
-      {
-        id: 5,
-        name: '刘老师',
-        department: '生物学院',
-        title: '副教授',
-        score: 88.0,
-        avatar: ''
-      },
-      {
-        id: 6,
-        name: '赵老师',
-        department: '英语学院',
-        title: '讲师',
-        score: 84.5,
-        avatar: ''
-      }
-    ])
+    const availableCandidates = ref([])
 
     const analysisResults = ref(null)
+
+    // 读取“智能推荐”页的候选人（全局共享）并合并到可选列表，自动选中
+    const recommendedCandidates = useRecommendedCandidates()
+
+    const ensureUniqueId = () => {
+      // 生成一个新的唯一 id（基于现有最大 id + 1）
+      const ids = availableCandidates.value.map(c => c.id)
+      const maxId = ids.length ? Math.max(...ids) : 0
+      return maxId + 1
+    }
+
+    const mergeRecommendedIntoAvailable = (incoming) => {
+      if (!Array.isArray(incoming)) return
+      incoming.forEach(rec => {
+        // 优先按 name 匹配到现有候选人，否则新增
+        const existing = availableCandidates.value.find(c => c.name === rec.name)
+        if (existing) {
+          // 更新基础信息
+          existing.department = rec.department || existing.department
+          existing.title = rec.title || existing.title
+          existing.score = typeof rec.score === 'number' ? rec.score : (existing.score || 0)
+          existing.avatar = rec.avatar || existing.avatar
+          // 自动选择
+          if (!selectedCandidates.value.includes(existing.id)) {
+            selectedCandidates.value.push(existing.id)
+          }
+        } else {
+          const newId = ensureUniqueId()
+          const appended = {
+            id: newId,
+            name: rec.name,
+            department: rec.department || '',
+            title: rec.title || '',
+            score: typeof rec.score === 'number' ? rec.score : 0,
+            avatar: rec.avatar || ''
+          }
+          availableCandidates.value.push(appended)
+          if (!selectedCandidates.value.includes(appended.id)) {
+            selectedCandidates.value.push(appended.id)
+          }
+        }
+      })
+    }
+
+    // 初始合并一次
+    mergeRecommendedIntoAvailable(recommendedCandidates.value)
+
+    // 监听后续变更
+    watch(recommendedCandidates, (val) => {
+      mergeRecommendedIntoAvailable(val)
+    }, { deep: true })
     
     // 弹窗相关数据
     const showAnalysisModal = ref(false)
@@ -897,50 +836,21 @@ export default {
   min-height: 100vh;
 }
 
-.page-header {
-  margin-bottom: 24px;
+.section-header {
+  margin-bottom: 20px;
 }
 
-.header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: white;
-  padding: 24px;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+.section-header h3 {
+  margin: 0 0 8px 0;
+  color: #303133;
+  font-size: 20px;
+  font-weight: 600;
 }
 
-.title-section {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.page-title {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+.section-header p {
   margin: 0;
-  font-size: 28px;
-  font-weight: 700;
-  color: #1a202c;
-}
-
-.title-icon {
-  color: #667eea;
-  font-size: 32px;
-}
-
-.page-subtitle {
-  margin: 0;
-  color: #718096;
-  font-size: 16px;
-}
-
-.header-actions {
-  display: flex;
-  gap: 12px;
+  color: #606266;
+  font-size: 14px;
 }
 
 .config-card, .candidates-card, .score-comparison-card, 
@@ -958,6 +868,22 @@ export default {
   gap: 8px;
   font-weight: 600;
   color: #2d3748;
+}
+
+.header-right-note {
+  margin-left: auto;
+  font-weight: 400;
+  color: #718096;
+  font-size: 14px;
+}
+
+.header-right-note .header-link {
+  color: #409EFF;
+  text-decoration: none;
+}
+
+.header-right-note .header-link:hover {
+  text-decoration: underline;
 }
 
 .candidates-search {
@@ -1054,9 +980,9 @@ export default {
 }
 
 .candidate-item.selected {
-  border-color: #667eea;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  border-color: #A5B4FC; /* lighter indigo */
+  background: linear-gradient(135deg, #EEF2FF 0%, #F5F3FF 100%); /* soft indigo/purple */
+  color: #2d3748; /* dark text for readability */
 }
 
 .candidate-avatar {
@@ -1085,7 +1011,7 @@ export default {
 }
 
 .candidate-item.selected .candidate-score {
-  color: white;
+  color: #5A67D8; /* softer indigo for contrast on light bg */
 }
 
 .score-chart {

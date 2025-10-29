@@ -5,7 +5,7 @@
       <el-header class="header">
         <div class="header-left">
           <img src="/images/logo.png" alt="平台Logo" class="logo-img" />
-          <h2 class="logo">智能管理平台</h2>
+          <h2 class="logo">教师档案智能管理平台</h2>
         </div>
         <div class="header-right">
           <el-dropdown>
@@ -158,7 +158,6 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 32px;
   position: relative;
   z-index: 1000;
 }
