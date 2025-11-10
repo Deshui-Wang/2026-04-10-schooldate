@@ -79,47 +79,178 @@
     <el-dialog
       v-model="dialogVisible"
       :title="isEdit ? '编辑数据库连接' : '添加数据库连接'"
-      width="600px"
+      width="700px"
+      class="database-connection-dialog"
+      :close-on-click-modal="false"
     >
-      <el-form :model="form" :rules="rules" ref="formRef" label-width="100px">
-        <el-form-item label="连接名称" prop="name">
-          <el-input v-model="form.name" placeholder="请输入连接名称" />
-        </el-form-item>
-        <el-form-item label="数据库类型" prop="type">
-          <el-select v-model="form.type" placeholder="请选择数据库类型">
-            <el-option label="MySQL" value="mysql" />
-            <el-option label="PostgreSQL" value="postgresql" />
-            <el-option label="Oracle" value="oracle" />
-            <el-option label="SQL Server" value="sqlserver" />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="主机地址" prop="host">
-          <el-input v-model="form.host" placeholder="请输入主机地址" />
-        </el-form-item>
-        <el-form-item label="端口" prop="port">
-          <el-input-number v-model="form.port" :min="1" :max="65535" />
-        </el-form-item>
-        <el-form-item label="数据库名" prop="database">
-          <el-input v-model="form.database" placeholder="请输入数据库名" />
-        </el-form-item>
-        <el-form-item label="用户名" prop="username">
-          <el-input v-model="form.username" placeholder="请输入用户名" />
-        </el-form-item>
-        <el-form-item label="密码" prop="password">
-          <el-input v-model="form.password" type="password" placeholder="请输入密码" />
-        </el-form-item>
-        <el-form-item label="描述">
-          <el-input
-            v-model="form.description"
-            type="textarea"
-            :rows="3"
-            placeholder="请输入描述"
-          />
-        </el-form-item>
-      </el-form>
+      <template #header>
+        <div class="dialog-header">
+          <div class="header-icon">
+            <el-icon><Connection /></el-icon>
+          </div>
+          <div class="header-title">
+            <h3>{{ isEdit ? '编辑数据库连接' : '添加数据库连接' }}</h3>
+            <p>{{ isEdit ? '修改数据库连接配置信息' : '配置新的数据库连接对接规则' }}</p>
+          </div>
+        </div>
+      </template>
+      
+      <div class="dialog-content">
+        <el-form :model="form" :rules="rules" ref="formRef" label-width="120px" class="db-form">
+          <!-- 基本信息 -->
+          <div class="form-section">
+            <div class="section-title">
+              <el-icon><Document /></el-icon>
+              <span>基本信息</span>
+            </div>
+            <el-form-item label="连接名称" prop="name">
+              <el-input 
+                v-model="form.name" 
+                placeholder="请输入连接名称，如：学生数据库"
+                clearable
+              >
+                <template #prefix>
+                  <el-icon><Edit /></el-icon>
+                </template>
+              </el-input>
+            </el-form-item>
+            <el-form-item label="数据库类型" prop="type">
+              <el-select 
+                v-model="form.type" 
+                placeholder="请选择数据库类型"
+                style="width: 100%"
+              >
+                <el-option label="MySQL" value="MySQL">
+                  <span style="float: left">
+                    <el-tag type="success" size="small" style="margin-right: 8px">MySQL</el-tag>
+                    <span>MySQL数据库</span>
+                  </span>
+                  <span style="float: right; color: #8492a6; font-size: 13px">默认端口: 3306</span>
+                </el-option>
+                <el-option label="PostgreSQL" value="PostgreSQL">
+                  <span style="float: left">
+                    <el-tag type="primary" size="small" style="margin-right: 8px">PostgreSQL</el-tag>
+                    <span>PostgreSQL数据库</span>
+                  </span>
+                  <span style="float: right; color: #8492a6; font-size: 13px">默认端口: 5432</span>
+                </el-option>
+                <el-option label="Oracle" value="Oracle">
+                  <span style="float: left">
+                    <el-tag type="warning" size="small" style="margin-right: 8px">Oracle</el-tag>
+                    <span>Oracle数据库</span>
+                  </span>
+                  <span style="float: right; color: #8492a6; font-size: 13px">默认端口: 1521</span>
+                </el-option>
+                <el-option label="SQL Server" value="SQL Server">
+                  <span style="float: left">
+                    <el-tag type="info" size="small" style="margin-right: 8px">SQL Server</el-tag>
+                    <span>SQL Server数据库</span>
+                  </span>
+                  <span style="float: right; color: #8492a6; font-size: 13px">默认端口: 1433</span>
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </div>
+
+          <!-- 连接配置 -->
+          <div class="form-section">
+            <div class="section-title">
+              <el-icon><Link /></el-icon>
+              <span>连接配置</span>
+            </div>
+            <el-form-item label="主机地址" prop="host">
+              <el-input 
+                v-model="form.host" 
+                placeholder="请输入数据库主机地址，如：192.168.1.100"
+                clearable
+              >
+                <template #prefix>
+                  <el-icon><Monitor /></el-icon>
+                </template>
+              </el-input>
+            </el-form-item>
+            <el-form-item label="端口" prop="port">
+              <el-input-number 
+                v-model="form.port" 
+                :min="1" 
+                :max="65535"
+                placeholder="请输入端口号"
+                style="width: 100%"
+              />
+            </el-form-item>
+            <el-form-item label="数据库名" prop="database">
+              <el-input 
+                v-model="form.database" 
+                placeholder="请输入数据库名称"
+                clearable
+              >
+                <template #prefix>
+                  <el-icon><Connection /></el-icon>
+                </template>
+              </el-input>
+            </el-form-item>
+          </div>
+
+          <!-- 认证信息 -->
+          <div class="form-section">
+            <div class="section-title">
+              <el-icon><Lock /></el-icon>
+              <span>认证信息</span>
+            </div>
+            <el-form-item label="用户名" prop="username">
+              <el-input 
+                v-model="form.username" 
+                placeholder="请输入数据库用户名"
+                clearable
+              >
+                <template #prefix>
+                  <el-icon><User /></el-icon>
+                </template>
+              </el-input>
+            </el-form-item>
+            <el-form-item label="密码" prop="password">
+              <el-input 
+                v-model="form.password" 
+                type="password" 
+                placeholder="请输入数据库密码"
+                show-password
+                clearable
+              >
+                <template #prefix>
+                  <el-icon><Lock /></el-icon>
+                </template>
+              </el-input>
+            </el-form-item>
+          </div>
+
+          <!-- 其他信息 -->
+          <div class="form-section">
+            <div class="section-title">
+              <el-icon><InfoFilled /></el-icon>
+              <span>其他信息</span>
+            </div>
+            <el-form-item label="描述">
+              <el-input
+                v-model="form.description"
+                type="textarea"
+                :rows="4"
+                placeholder="请输入数据库连接的描述信息，包括用途、注意事项等"
+                maxlength="200"
+                show-word-limit
+              />
+            </el-form-item>
+          </div>
+        </el-form>
+      </div>
+
       <template #footer>
-        <el-button @click="dialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="submitForm">确定</el-button>
+        <div class="dialog-footer">
+          <el-button @click="dialogVisible = false" size="large">取消</el-button>
+          <el-button type="primary" @click="submitForm" size="large">
+            <el-icon><Check /></el-icon>
+            {{ isEdit ? '保存修改' : '确认添加' }}
+          </el-button>
+        </div>
       </template>
     </el-dialog>
   </div>
@@ -128,9 +259,33 @@
 <script>
 import { ref, reactive } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import { 
+  InfoFilled, 
+  Plus, 
+  Connection, 
+  Document, 
+  Edit, 
+  Link, 
+  Monitor, 
+  Lock, 
+  User, 
+  Check 
+} from '@element-plus/icons-vue'
 
 export default {
   name: 'DatabaseConnection',
+  components: {
+    InfoFilled,
+    Plus,
+    Connection,
+    Document,
+    Edit,
+    Link,
+    Monitor,
+    Lock,
+    User,
+    Check
+  },
   setup() {
     const dialogVisible = ref(false)
     const isEdit = ref(false)
@@ -345,5 +500,215 @@ export default {
 .rules-content li {
   margin: 5px 0;
   color: #606266;
+}
+
+/* 对话框样式优化 */
+:deep(.database-connection-dialog) {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+:deep(.database-connection-dialog .el-dialog__header) {
+  padding: 0;
+  border-bottom: none;
+}
+
+:deep(.database-connection-dialog .el-dialog__body) {
+  padding: 0;
+}
+
+:deep(.database-connection-dialog .el-dialog__footer) {
+  padding: 20px 24px;
+  border-top: 1px solid #f0f0f0;
+  background-color: #fafafa;
+}
+
+.dialog-header {
+  display: flex;
+  align-items: center;
+  padding: 24px 24px 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #ffffff;
+}
+
+.header-icon {
+  width: 48px;
+  height: 48px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 16px;
+  flex-shrink: 0;
+}
+
+.header-icon .el-icon {
+  font-size: 24px;
+  color: #ffffff;
+}
+
+.header-title {
+  flex: 1;
+}
+
+.header-title h3 {
+  margin: 0 0 4px 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.header-title p {
+  margin: 0;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.dialog-content {
+  padding: 24px;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.dialog-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.dialog-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.dialog-content::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.dialog-content::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+.db-form {
+  padding: 0;
+}
+
+.form-section {
+  margin-bottom: 28px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.form-section:last-of-type {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #303133;
+}
+
+.section-title .el-icon {
+  margin-right: 8px;
+  color: #409eff;
+  font-size: 18px;
+}
+
+:deep(.db-form .el-form-item) {
+  margin-bottom: 20px;
+}
+
+:deep(.db-form .el-form-item__label) {
+  font-weight: 500;
+  color: #606266;
+  padding-right: 16px;
+}
+
+:deep(.db-form .el-input__wrapper) {
+  border-radius: 6px;
+  box-shadow: 0 0 0 1px #dcdfe6 inset;
+  transition: all 0.3s;
+}
+
+:deep(.db-form .el-input__wrapper:hover) {
+  box-shadow: 0 0 0 1px #c0c4cc inset;
+}
+
+:deep(.db-form .el-input.is-focus .el-input__wrapper) {
+  box-shadow: 0 0 0 1px #409eff inset;
+}
+
+:deep(.db-form .el-select .el-input__wrapper) {
+  cursor: pointer;
+}
+
+:deep(.db-form .el-textarea__inner) {
+  border-radius: 6px;
+  border: 1px solid #dcdfe6;
+  transition: all 0.3s;
+}
+
+:deep(.db-form .el-textarea__inner:hover) {
+  border-color: #c0c4cc;
+}
+
+:deep(.db-form .el-textarea__inner:focus) {
+  border-color: #409eff;
+}
+
+:deep(.db-form .el-input__prefix) {
+  color: #909399;
+}
+
+:deep(.db-form .el-input-number) {
+  width: 100%;
+}
+
+:deep(.db-form .el-input-number .el-input__wrapper) {
+  width: 100%;
+}
+
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.dialog-footer .el-button {
+  min-width: 100px;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+.dialog-footer .el-button--primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+}
+
+.dialog-footer .el-button--primary:hover {
+  background: linear-gradient(135deg, #5568d3 0%, #6a3d8f 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.dialog-footer .el-button--primary .el-icon {
+  margin-right: 4px;
+}
+
+/* 下拉选项样式优化 */
+:deep(.el-select-dropdown__item) {
+  padding: 12px 20px;
+  height: auto;
+}
+
+:deep(.el-select-dropdown__item:hover) {
+  background-color: #f5f7fa;
 }
 </style>

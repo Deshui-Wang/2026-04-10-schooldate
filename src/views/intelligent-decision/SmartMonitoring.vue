@@ -232,10 +232,25 @@
     </el-card>
 
     <!-- 监测配置对话框 -->
-    <el-dialog v-model="showConfigDialog" width="680px" class="config-dialog" :show-close="false">
-      <div class="config-dialog-content">
-        <h3 class="config-dialog-title">监测配置</h3>
-        
+    <el-dialog 
+      v-model="showConfigDialog" 
+      width="680px" 
+      class="config-dialog" 
+      :close-on-click-modal="false"
+    >
+      <template #header>
+        <div class="dialog-header">
+          <div class="header-icon">
+            <el-icon><Setting /></el-icon>
+          </div>
+          <div class="header-title">
+            <h3>监测配置</h3>
+            <p>配置智能监测任务的参数和预警规则</p>
+          </div>
+        </div>
+      </template>
+      
+      <div class="dialog-content">
         <div class="config-form">
           <div class="form-item">
             <label class="form-label">监测名称</label>
@@ -246,7 +261,11 @@
               clearable
               @blur="checkNameDuplicate"
               @input="clearNameError"
-            />
+            >
+              <template #prefix>
+                <el-icon><Document /></el-icon>
+              </template>
+            </el-input>
             <div v-if="nameError" class="error-hint">{{ nameError }}</div>
           </div>
 
@@ -306,12 +325,17 @@
             </el-select>
           </div>
         </div>
-
-        <div class="config-dialog-footer">
-          <el-button class="btn-cancel" @click="handleCancelConfig">取消</el-button>
-          <el-button class="btn-save" @click="handleSaveConfig">保存配置</el-button>
-        </div>
       </div>
+
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button @click="handleCancelConfig" size="large">取消</el-button>
+          <el-button type="primary" @click="handleSaveConfig" size="large">
+            <el-icon><Check /></el-icon>
+            保存配置
+          </el-button>
+        </div>
+      </template>
     </el-dialog>
 
     <!-- 异常详情对话框 -->
@@ -355,9 +379,33 @@
 <script>
 import { ref, reactive, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
+import { 
+  User, 
+  Warning, 
+  CircleClose, 
+  DataAnalysis, 
+  View, 
+  Tools, 
+  Check, 
+  Bell, 
+  Setting, 
+  Document 
+} from '@element-plus/icons-vue'
 
 export default {
   name: 'SmartMonitoring',
+  components: {
+    User,
+    Warning,
+    CircleClose,
+    DataAnalysis,
+    View,
+    Tools,
+    Check,
+    Bell,
+    Setting,
+    Document
+  },
   setup() {
     const dimensionOptions = ref([
       '教学表现',
@@ -1125,30 +1173,90 @@ export default {
 }
 
 /* 监测配置弹窗样式 */
-.config-dialog :deep(.el-dialog) {
+:deep(.config-dialog) {
   border-radius: 12px;
   overflow: hidden;
 }
 
-.config-dialog :deep(.el-dialog__header) {
-  display: none;
+:deep(.config-dialog .el-dialog__header) {
+  padding: 0;
+  border-bottom: none;
 }
 
-.config-dialog :deep(.el-dialog__body) {
+:deep(.config-dialog .el-dialog__body) {
   padding: 0;
 }
 
-.config-dialog-content {
-  background: white;
-  padding: 40px 40px 32px;
+:deep(.config-dialog .el-dialog__footer) {
+  padding: 20px 24px;
+  border-top: 1px solid #f0f0f0;
+  background-color: #fafafa;
 }
 
-.config-dialog-title {
+.dialog-header {
+  display: flex;
+  align-items: center;
+  padding: 24px 24px 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #ffffff;
+}
+
+.header-icon {
+  width: 48px;
+  height: 48px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 16px;
+  flex-shrink: 0;
+}
+
+.header-icon .el-icon {
+  font-size: 24px;
+  color: #ffffff;
+}
+
+.header-title {
+  flex: 1;
+}
+
+.header-title h3 {
+  margin: 0 0 4px 0;
   font-size: 20px;
-  font-weight: 700;
-  color: #1a237e;
-  margin: 0 0 32px 0;
-  letter-spacing: 0.5px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.header-title p {
+  margin: 0;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.dialog-content {
+  padding: 24px;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.dialog-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.dialog-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.dialog-content::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.dialog-content::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
 }
 
 .config-form {
@@ -1175,20 +1283,17 @@ export default {
 }
 
 .form-input :deep(.el-input__wrapper) {
-  border-radius: 8px;
-  border: 1px solid #e4e7ed;
-  box-shadow: none;
+  border-radius: 6px;
+  box-shadow: 0 0 0 1px #dcdfe6 inset;
   transition: all 0.3s;
-  min-height: 42px;
 }
 
 .form-input :deep(.el-input__wrapper:hover) {
-  border-color: #c0c4cc;
+  box-shadow: 0 0 0 1px #c0c4cc inset;
 }
 
-.form-input :deep(.el-input__wrapper.is-focus) {
-  border-color: #667eea;
-  box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+.form-input :deep(.el-input.is-focus .el-input__wrapper) {
+  box-shadow: 0 0 0 1px #409eff inset;
 }
 
 .form-input :deep(.el-input__inner) {
@@ -1197,40 +1302,44 @@ export default {
   color: #303133;
 }
 
+.form-input :deep(.el-select .el-input__wrapper) {
+  cursor: pointer;
+}
+
 .form-input :deep(.el-select__wrapper) {
-  border-radius: 8px;
-  border: 1px solid #e4e7ed;
-  box-shadow: none;
+  border-radius: 6px;
+  box-shadow: 0 0 0 1px #dcdfe6 inset;
   transition: all 0.3s;
-  min-height: 42px;
 }
 
 .form-input :deep(.el-select__wrapper:hover) {
-  border-color: #c0c4cc;
+  box-shadow: 0 0 0 1px #c0c4cc inset;
 }
 
 .form-input :deep(.el-select.is-focused .el-select__wrapper) {
-  border-color: #667eea;
-  box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+  box-shadow: 0 0 0 1px #409eff inset;
 }
 
 .form-input :deep(.el-input-number) {
   width: 100%;
 }
 
-.form-input :deep(.el-input-number__input) {
-  border-radius: 8px;
-  border: 1px solid #e4e7ed;
-  min-height: 42px;
+.form-input :deep(.el-input-number .el-input__wrapper) {
+  width: 100%;
+  border-radius: 6px;
+  box-shadow: 0 0 0 1px #dcdfe6 inset;
 }
 
-.form-input :deep(.el-input-number__input:hover) {
-  border-color: #c0c4cc;
+.form-input :deep(.el-input-number .el-input__wrapper:hover) {
+  box-shadow: 0 0 0 1px #c0c4cc inset;
 }
 
-.form-input :deep(.el-input-number.is-focus .el-input-number__input) {
-  border-color: #667eea;
-  box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+.form-input :deep(.el-input-number.is-focus .el-input__wrapper) {
+  box-shadow: 0 0 0 1px #409eff inset;
+}
+
+.form-input :deep(.el-input__prefix) {
+  color: #909399;
 }
 
 .error-hint {
@@ -1241,50 +1350,41 @@ export default {
   margin-top: 2px;
 }
 
-.config-dialog-footer {
+.dialog-footer {
   display: flex;
   justify-content: flex-end;
   gap: 12px;
-  margin-top: 32px;
-  padding-top: 24px;
-  border-top: 1px solid #f0f0f0;
 }
 
-.btn-cancel {
-  background: white;
-  border: 1px solid #dcdfe6;
-  color: #606266;
-  border-radius: 8px;
-  padding: 10px 24px;
-  font-size: 14px;
+.dialog-footer .el-button {
+  min-width: 100px;
+  border-radius: 6px;
   font-weight: 500;
   transition: all 0.3s;
 }
 
-.btn-cancel:hover {
-  background: #f5f7fa;
-  border-color: #c0c4cc;
-  color: #303133;
-}
-
-.btn-save {
-  background: #667eea;
+.dialog-footer .el-button--primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   border: none;
-  color: white;
-  border-radius: 8px;
-  padding: 10px 24px;
-  font-size: 14px;
-  font-weight: 500;
-  transition: all 0.3s;
 }
 
-.btn-save:hover {
-  background: #5568d3;
+.dialog-footer .el-button--primary:hover {
+  background: linear-gradient(135deg, #5568d3 0%, #6a3d8f 100%);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
 }
 
-.btn-save:active {
-  transform: translateY(0);
+.dialog-footer .el-button--primary .el-icon {
+  margin-right: 4px;
+}
+
+/* 下拉选项样式优化 */
+:deep(.el-select-dropdown__item) {
+  padding: 12px 20px;
+  height: auto;
+}
+
+:deep(.el-select-dropdown__item:hover) {
+  background-color: #f5f7fa;
 }
 </style>

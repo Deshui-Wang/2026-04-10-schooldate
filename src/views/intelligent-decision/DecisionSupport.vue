@@ -11,8 +11,8 @@
         <el-col :span="6">
           <el-card class="decision-card">
             <div class="card-content">
-              <div class="card-icon">
-                <el-icon><Lightbulb /></el-icon>
+              <div class="card-icon suggestion">
+                <el-icon><ReadingLamp /></el-icon>
               </div>
               <div class="card-info">
                 <h3>决策建议</h3>
@@ -25,7 +25,7 @@
         <el-col :span="6">
           <el-card class="decision-card">
             <div class="card-content">
-              <div class="card-icon">
+              <div class="card-icon adopted">
                 <el-icon><Check /></el-icon>
               </div>
               <div class="card-info">
@@ -39,7 +39,7 @@
         <el-col :span="6">
           <el-card class="decision-card">
             <div class="card-content">
-              <div class="card-icon">
+              <div class="card-icon success-rate">
                 <el-icon><TrendCharts /></el-icon>
               </div>
               <div class="card-info">
@@ -53,7 +53,7 @@
         <el-col :span="6">
           <el-card class="decision-card">
             <div class="card-content">
-              <div class="card-icon">
+              <div class="card-icon satisfaction">
                 <el-icon><Star /></el-icon>
               </div>
               <div class="card-info">
@@ -66,113 +66,79 @@
         </el-col>
       </el-row>
 
-      <!-- 决策场景 -->
-      <el-card class="scenarios-card">
+      <!-- 评选类型配置 -->
+      <el-card class="evaluation-type-card">
         <template #header>
           <div class="card-header">
-            <h3>决策场景</h3>
-            <el-button type="primary" @click="createScenario">
-              <el-icon><Plus /></el-icon>
-              新建场景
-            </el-button>
+            <h3>评选类型</h3>
           </div>
         </template>
         
-        <el-row :gutter="24">
-          <el-col :span="8" v-for="scenario in scenarios" :key="scenario.id">
-            <div class="scenario-item" @click="viewScenario(scenario)">
-              <div class="scenario-icon">
-                <el-icon><component :is="scenario.icon" /></el-icon>
+        <div class="evaluation-types-list">
+          <div 
+            class="evaluation-type-item" 
+            v-for="type in evaluationTypes" 
+            :key="type.value"
+            :class="{ 'has-config': type.selectedAssessmentItems && type.selectedAssessmentItems.length > 0 }"
+          >
+            <div class="type-content">
+              <div class="type-header">
+                <h4>{{ type.label }}</h4>
+                <el-tag 
+                  v-if="type.selectedAssessmentItems && type.selectedAssessmentItems.length > 0"
+                  type="success" 
+                  size="small"
+                  class="config-badge"
+                >
+                  <el-icon><Check /></el-icon>
+                  已配置
+                </el-tag>
               </div>
-              <div class="scenario-content">
-                <h4>{{ scenario.name }}</h4>
-                <p>{{ scenario.description }}</p>
-                <div class="scenario-stats">
-                  <span class="stat-item">
-                    <el-icon><Lightbulb /></el-icon>
-                    {{ scenario.suggestions }} 建议
-                  </span>
-                  <span class="stat-item">
-                    <el-icon><Check /></el-icon>
-                    {{ scenario.adopted }} 采纳
-                  </span>
+              <p>{{ type.description }}</p>
+              <div v-if="type.selectedAssessmentItems && type.selectedAssessmentItems.length > 0" class="assessment-items-preview">
+                <div class="preview-header">
+                  <span class="preview-label">已选考核内容（{{ type.selectedAssessmentItems.length }}项）：</span>
+                </div>
+                <div class="preview-tags">
+                  <el-tag 
+                    v-for="(item, index) in type.selectedAssessmentItems.slice(0, 3)" 
+                    :key="index"
+                    size="small"
+                    type="info"
+                    class="assessment-tag"
+                  >
+                    {{ item }}
+                  </el-tag>
+                  <el-tag 
+                    v-if="type.selectedAssessmentItems.length > 3"
+                    size="small"
+                    type="info"
+                    class="assessment-tag more-tag"
+                  >
+                    +{{ type.selectedAssessmentItems.length - 3 }}项
+                  </el-tag>
                 </div>
               </div>
-              <div class="scenario-status">
-                <el-tag :type="getStatusType(scenario.status)">{{ scenario.status }}</el-tag>
-              </div>
             </div>
-          </el-col>
-        </el-row>
-      </el-card>
-
-      <!-- 决策建议列表 -->
-      <el-card class="suggestions-card">
-        <template #header>
-          <div class="card-header">
-            <h3>决策建议</h3>
-            <div class="header-actions">
-              <el-select v-model="selectedCategory" placeholder="选择分类" style="width: 150px">
-                <el-option label="全部" value="all" />
-                <el-option label="教学优化" value="teaching" />
-                <el-option label="学生管理" value="student" />
-                <el-option label="资源分配" value="resource" />
-                <el-option label="系统优化" value="system" />
-              </el-select>
-              <el-button type="primary" @click="generateSuggestions">
-                <el-icon><Refresh /></el-icon>
-                生成建议
-              </el-button>
-              <el-button type="success" @click="openConditionDialog">
-                <el-icon><Setting /></el-icon>
-                条件配置
-              </el-button>
-            </div>
-          </div>
-        </template>
-        
-        <div class="suggestions-list">
-          <div class="suggestion-item" v-for="(suggestion, index) in filteredSuggestions" :key="index">
-            <div class="suggestion-priority">
-              <el-tag :type="getPriorityType(suggestion.priority)" size="small">
-                {{ suggestion.priority }}
-              </el-tag>
-            </div>
-            <div class="suggestion-content">
-              <h4>{{ suggestion.title }}</h4>
-              <p>{{ suggestion.description }}</p>
-              <div class="suggestion-meta">
-                <span class="meta-item">
-                  <el-icon><Calendar /></el-icon>
-                  {{ suggestion.createTime }}
-                </span>
-                <span class="meta-item">
-                  <el-icon><User /></el-icon>
-                  {{ suggestion.category }}
-                </span>
-                <span class="meta-item">
-                  <el-icon><TrendCharts /></el-icon>
-                  预期效果: {{ suggestion.expectedEffect }}
-                </span>
-              </div>
-            </div>
-            <div class="suggestion-actions">
-              <el-button type="success" size="small" @click="adoptSuggestion(suggestion)">
-                <el-icon><Check /></el-icon>
-                采纳
-              </el-button>
-              <el-button size="small" @click="viewDetails(suggestion)">
-                <el-icon><View /></el-icon>
-                详情
-              </el-button>
-              <el-button type="danger" size="small" @click="rejectSuggestion(suggestion)">
-                <el-icon><Close /></el-icon>
-                拒绝
+            <div class="type-actions">
+              <el-button 
+                size="small"
+                @click.stop="editEvaluationType(type)"
+                class="edit-btn"
+              >
+                <el-icon><Edit /></el-icon>
+                {{ type.selectedAssessmentItems && type.selectedAssessmentItems.length > 0 ? '修改' : '编辑' }}
               </el-button>
             </div>
           </div>
         </div>
       </el-card>
+
+      <!-- 决策场景 -->
+      <DecisionScenarios />
+
+      <!-- 决策建议列表 -->
+      <DecisionSuggestions @suggestion-adopted="handleSuggestionAdopted" />
 
       <!-- 决策历史 -->
       <el-card class="history-card">
@@ -218,240 +184,75 @@
       </el-card>
     </div>
 
-    <!-- 新建场景弹层 -->
+    <!-- 新增/编辑评选配置弹层 -->
     <el-dialog
-      v-model="showCreateDialog"
-      title="新建决策场景"
+      v-model="showEvaluationDialog"
+      :title="isEditMode ? '编辑评选类型' : '配置评选类型'"
       width="600px"
-      :before-close="handleClose"
-      class="create-scenario-dialog"
+      :before-close="handleEvaluationClose"
+      class="evaluation-dialog"
     >
       <el-form
-        ref="scenarioFormRef"
-        :model="scenarioForm"
-        :rules="scenarioRules"
+        ref="evaluationFormRef"
+        :model="evaluationForm"
+        :rules="evaluationRules"
         label-width="100px"
-        class="scenario-form"
+        class="evaluation-form"
       >
-        <el-form-item label="场景名称" prop="name">
-          <el-input
-            v-model="scenarioForm.name"
-            placeholder="请输入场景名称"
-            maxlength="50"
-            show-word-limit
-          />
-        </el-form-item>
-
-        <el-form-item label="场景描述" prop="description">
-          <el-input
-            v-model="scenarioForm.description"
-            type="textarea"
-            :rows="3"
-            placeholder="请描述该决策场景的用途和目标"
-            maxlength="200"
-            show-word-limit
-          />
-        </el-form-item>
-
-        <el-form-item label="场景类型" prop="type">
-          <el-select v-model="scenarioForm.type" placeholder="请选择场景类型" style="width: 100%">
-            <el-option label="教学优化" value="teaching" />
-            <el-option label="学生管理" value="student" />
-            <el-option label="资源分配" value="resource" />
-            <el-option label="系统优化" value="system" />
-            <el-option label="课程规划" value="curriculum" />
-            <el-option label="评估改进" value="evaluation" />
-            <el-option label="其他" value="other" />
+        <el-form-item label="评选类型" prop="value">
+          <el-select
+            v-model="evaluationForm.value"
+            placeholder="请选择评选类型"
+            :disabled="isEditMode"
+            style="width: 100%"
+            @change="onEvaluationTypeChange"
+          >
+            <el-option
+              v-for="type in evaluationTypes"
+              :key="type.value"
+              :label="type.label"
+              :value="type.value"
+            />
           </el-select>
         </el-form-item>
 
-        <el-form-item label="优先级" prop="priority">
-          <el-radio-group v-model="scenarioForm.priority">
-            <el-radio label="high">高</el-radio>
-            <el-radio label="medium">中</el-radio>
-            <el-radio label="low">低</el-radio>
-          </el-radio-group>
-        </el-form-item>
-
-        <el-form-item label="触发条件">
-          <el-checkbox-group v-model="scenarioForm.triggers">
-            <el-checkbox label="data_change">数据变化</el-checkbox>
-            <el-checkbox label="time_schedule">定时触发</el-checkbox>
-            <el-checkbox label="manual">手动触发</el-checkbox>
-            <el-checkbox label="threshold">阈值触发</el-checkbox>
-          </el-checkbox-group>
-        </el-form-item>
-
-        <el-form-item label="分析维度">
-          <el-checkbox-group v-model="scenarioForm.dimensions">
-            <el-checkbox label="performance">绩效分析</el-checkbox>
-            <el-checkbox label="behavior">行为分析</el-checkbox>
-            <el-checkbox label="trend">趋势分析</el-checkbox>
-            <el-checkbox label="comparison">对比分析</el-checkbox>
-            <el-checkbox label="prediction">预测分析</el-checkbox>
-          </el-checkbox-group>
-        </el-form-item>
-
-        <el-form-item label="通知设置">
-          <el-switch
-            v-model="scenarioForm.notifications"
-            active-text="启用通知"
-            inactive-text="禁用通知"
-          />
-        </el-form-item>
-
-        <el-form-item label="备注">
+        <el-form-item label="类型描述">
           <el-input
-            v-model="scenarioForm.notes"
+            :model-value="currentTypeDescription"
             type="textarea"
             :rows="2"
-            placeholder="其他备注信息（可选）"
-            maxlength="100"
-            show-word-limit
+            readonly
+            disabled
           />
+        </el-form-item>
+
+        <el-form-item label="考核内容" required>
+          <div class="assessment-items-container">
+            <el-checkbox-group v-model="evaluationForm.selectedAssessmentItems">
+              <div
+                v-for="(item, index) in availableAssessmentItems"
+                :key="index"
+                class="assessment-checkbox-item"
+              >
+                <el-checkbox :label="item">
+                  {{ item }}
+                </el-checkbox>
+              </div>
+            </el-checkbox-group>
+            <div v-if="availableAssessmentItems.length === 0" class="empty-assessment-tip">
+              请先选择评选类型
+            </div>
+          </div>
         </el-form-item>
       </el-form>
 
       <template #footer>
         <div class="dialog-footer">
-          <el-button @click="handleClose">取消</el-button>
-          <el-button type="primary" @click="handleSubmit" :loading="submitting">
+          <el-button @click="handleEvaluationClose">取消</el-button>
+          <el-button @click="resetEvaluationForm" v-if="!isEditMode">重置</el-button>
+          <el-button type="primary" @click="saveEvaluationType" :loading="savingEvaluation">
             <el-icon><Check /></el-icon>
-            创建场景
-          </el-button>
-        </div>
-      </template>
-    </el-dialog>
-
-    <!-- 生成建议条件配置弹层 -->
-    <el-dialog
-      v-model="showConditionDialog"
-      title="生成建议条件配置"
-      width="700px"
-      :before-close="handleConditionClose"
-      class="condition-dialog"
-    >
-      <el-form
-        ref="conditionFormRef"
-        :model="conditionForm"
-        :rules="conditionRules"
-        label-width="120px"
-        class="condition-form"
-      >
-        <el-form-item label="建议类型" prop="suggestionType">
-          <el-select v-model="conditionForm.suggestionType" placeholder="选择建议类型" style="width: 100%">
-            <el-option label="教学优化建议" value="teaching" />
-            <el-option label="学生管理建议" value="student" />
-            <el-option label="资源分配建议" value="resource" />
-            <el-option label="系统优化建议" value="system" />
-            <el-option label="课程规划建议" value="curriculum" />
-            <el-option label="评估改进建议" value="evaluation" />
-          </el-select>
-        </el-form-item>
-
-        <el-form-item label="优先级范围" prop="priorityRange">
-          <el-checkbox-group v-model="conditionForm.priorityRange">
-            <el-checkbox label="high">高优先级</el-checkbox>
-            <el-checkbox label="medium">中优先级</el-checkbox>
-            <el-checkbox label="low">低优先级</el-checkbox>
-          </el-checkbox-group>
-        </el-form-item>
-
-        <el-form-item label="数据来源">
-          <el-checkbox-group v-model="conditionForm.dataSources">
-            <el-checkbox label="student_performance">学生表现数据</el-checkbox>
-            <el-checkbox label="teacher_feedback">教师反馈数据</el-checkbox>
-            <el-checkbox label="system_logs">系统日志数据</el-checkbox>
-            <el-checkbox label="survey_results">调研结果数据</el-checkbox>
-            <el-checkbox label="historical_data">历史决策数据</el-checkbox>
-          </el-checkbox-group>
-        </el-form-item>
-
-        <el-form-item label="分析维度">
-          <el-checkbox-group v-model="conditionForm.analysisDimensions">
-            <el-checkbox label="performance">绩效分析</el-checkbox>
-            <el-checkbox label="behavior">行为分析</el-checkbox>
-            <el-checkbox label="trend">趋势分析</el-checkbox>
-            <el-checkbox label="comparison">对比分析</el-checkbox>
-            <el-checkbox label="prediction">预测分析</el-checkbox>
-          </el-checkbox-group>
-        </el-form-item>
-
-        <el-form-item label="时间范围" prop="timeRange">
-          <el-date-picker
-            v-model="conditionForm.timeRange"
-            type="daterange"
-            range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-            format="YYYY-MM-DD"
-            value-format="YYYY-MM-DD"
-            style="width: 100%"
-          />
-        </el-form-item>
-
-        <el-form-item label="建议数量" prop="suggestionCount">
-          <el-input-number
-            v-model="conditionForm.suggestionCount"
-            :min="1"
-            :max="20"
-            controls-position="right"
-            style="width: 200px"
-          />
-          <span style="margin-left: 10px; color: #909399;">建议生成数量</span>
-        </el-form-item>
-
-        <el-form-item label="算法模型">
-          <el-radio-group v-model="conditionForm.algorithmModel">
-            <el-radio label="rule_based">基于规则</el-radio>
-            <el-radio label="machine_learning">机器学习</el-radio>
-            <el-radio label="deep_learning">深度学习</el-radio>
-            <el-radio label="hybrid">混合模型</el-radio>
-          </el-radio-group>
-        </el-form-item>
-
-        <el-form-item label="置信度阈值" prop="confidenceThreshold">
-          <el-slider
-            v-model="conditionForm.confidenceThreshold"
-            :min="0.5"
-            :max="1.0"
-            :step="0.05"
-            show-input
-            :format-tooltip="formatConfidenceTooltip"
-          />
-        </el-form-item>
-
-        <el-form-item label="特殊条件">
-          <el-input
-            v-model="conditionForm.specialConditions"
-            type="textarea"
-            :rows="3"
-            placeholder="请输入特殊生成条件，如特定场景、约束条件等"
-            maxlength="200"
-            show-word-limit
-          />
-        </el-form-item>
-
-        <el-form-item label="自动执行">
-          <el-switch
-            v-model="conditionForm.autoExecute"
-            active-text="启用自动执行"
-            inactive-text="手动执行"
-          />
-        </el-form-item>
-      </el-form>
-
-      <template #footer>
-        <div class="dialog-footer">
-          <el-button @click="handleConditionClose">取消</el-button>
-          <el-button @click="resetConditionForm">重置</el-button>
-          <el-button type="primary" @click="saveConditionConfig" :loading="savingCondition">
-            <el-icon><Check /></el-icon>
-            保存配置
-          </el-button>
-          <el-button type="success" @click="generateWithConditions" :loading="generatingWithConditions">
-            <el-icon><Magic /></el-icon>
-            生成建议
+            {{ isEditMode ? '确认修改' : '确认配置' }}
           </el-button>
         </div>
       </template>
@@ -462,173 +263,231 @@
 <script>
 import { ref, computed, nextTick } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import { 
+  ReadingLamp, 
+  Check, 
+  TrendCharts, 
+  Star,
+  Download,
+  Notebook,
+  School,
+  DataAnalysis,
+  Briefcase,
+  Management,
+  Edit
+} from '@element-plus/icons-vue'
+import { 
+  useEvaluationTypes,
+  updateEvaluationType
+} from '@/store/decisionStore.js'
+import DecisionSuggestions from './DecisionSuggestions.vue'
+import DecisionScenarios from './DecisionScenarios.vue'
 
 export default {
   name: 'DecisionSupport',
+  components: {
+    ReadingLamp,
+    Check,
+    TrendCharts,
+    Star,
+    Download,
+    Notebook,
+    School,
+    DataAnalysis,
+    Briefcase,
+    Management,
+    Edit,
+    DecisionSuggestions,
+    DecisionScenarios
+  },
   setup() {
-    const selectedCategory = ref('all')
-    const showCreateDialog = ref(false)
-    const submitting = ref(false)
-    const scenarioFormRef = ref()
-    
-    // 条件配置相关
-    const showConditionDialog = ref(false)
-    const savingCondition = ref(false)
-    const generatingWithConditions = ref(false)
-    const conditionFormRef = ref()
-    
-    // 场景表单数据
-    const scenarioForm = ref({
-      name: '',
-      description: '',
-      type: '',
-      priority: 'medium',
-      triggers: [],
-      dimensions: [],
-      notifications: true,
-      notes: ''
+    // 评选类型图标映射
+    const evaluationIconMap = ref({
+      Notebook,
+      School,
+      DataAnalysis,
+      Briefcase,
+      Management
     })
     
-    // 表单验证规则
-    const scenarioRules = ref({
-      name: [
-        { required: true, message: '请输入场景名称', trigger: 'blur' },
-        { min: 2, max: 50, message: '场景名称长度在 2 到 50 个字符', trigger: 'blur' }
-      ],
-      description: [
-        { required: true, message: '请输入场景描述', trigger: 'blur' },
-        { min: 10, max: 200, message: '场景描述长度在 10 到 200 个字符', trigger: 'blur' }
-      ],
-      type: [
-        { required: true, message: '请选择场景类型', trigger: 'change' }
-      ],
-      priority: [
-        { required: true, message: '请选择优先级', trigger: 'change' }
+    // 评选类型配置 - 从 store 获取
+    const evaluationTypes = useEvaluationTypes()
+    
+    // 切换评选类型选择状态
+    const toggleEvaluationType = (type) => {
+      type.selected = !type.selected
+      const selectedCount = evaluationTypes.value.filter(t => t.selected).length
+      if (type.selected) {
+        ElMessage.success(`已选择"${type.label}"`)
+      } else {
+        ElMessage.info(`已取消选择"${type.label}"`)
+      }
+    }
+    
+    // 重置评选类型选择
+    const resetEvaluationTypes = () => {
+      evaluationTypes.value.forEach(type => {
+        type.selected = false
+      })
+      ElMessage.info('已重置评选类型选择')
+    }
+    
+    // 评选配置对话框
+    const showEvaluationDialog = ref(false)
+    const savingEvaluation = ref(false)
+    const evaluationFormRef = ref(null)
+    const isEditMode = ref(false)
+    const editingTypeIndex = ref(-1)
+    
+    // 评选表单数据
+    const evaluationForm = ref({
+      value: '',
+      selectedAssessmentItems: []
+    })
+    
+    // 当前选中的评选类型
+    const currentEvaluationType = computed(() => {
+      return evaluationTypes.value.find(type => type.value === evaluationForm.value.value) || null
+    })
+    
+    // 当前类型的描述
+    const currentTypeDescription = computed(() => {
+      return currentEvaluationType.value?.description || ''
+    })
+    
+    // 可用的考核内容选项（根据选中的类型）
+    const availableAssessmentItems = computed(() => {
+      return currentEvaluationType.value?.assessmentItems || []
+    })
+    
+    // 评选类型改变时的处理
+    const onEvaluationTypeChange = () => {
+      // 重置选中的考核内容
+      evaluationForm.value.selectedAssessmentItems = []
+      
+      // 如果是在编辑模式，加载该类型已选中的考核内容
+      if (isEditMode.value && currentEvaluationType.value) {
+        const type = evaluationTypes.value.find(t => t.value === evaluationForm.value.value)
+        if (type && type.selectedAssessmentItems) {
+          evaluationForm.value.selectedAssessmentItems = [...type.selectedAssessmentItems]
+        }
+      }
+    }
+    
+    // 颜色预设
+    const colorPresets = ref([
+      { label: '紫色渐变', value: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' },
+      { label: '粉色渐变', value: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)' },
+      { label: '蓝色渐变', value: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)' },
+      { label: '绿色渐变', value: 'linear-gradient(135deg, #43e97b 0%, #38d9a9 100%)' },
+      { label: '橙黄渐变', value: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)' },
+      { label: '红橙渐变', value: 'linear-gradient(135deg, #fa8bff 0%, #2bd2ff 100%)' },
+      { label: '青蓝渐变', value: 'linear-gradient(135deg, #2af598 0%, #009efd 100%)' },
+      { label: '紫红渐变', value: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)' }
+    ])
+    
+    // 评选表单验证规则
+    const evaluationRules = ref({
+      value: [
+        { required: true, message: '请选择评选类型', trigger: 'change' }
       ]
     })
     
-    // 条件表单数据
-    const conditionForm = ref({
-      suggestionType: '',
-      priorityRange: ['high', 'medium'],
-      dataSources: ['student_performance', 'teacher_feedback'],
-      analysisDimensions: ['performance', 'trend'],
-      timeRange: [],
-      suggestionCount: 5,
-      algorithmModel: 'hybrid',
-      confidenceThreshold: 0.8,
-      specialConditions: '',
-      autoExecute: false
-    })
-    
-    // 条件表单验证规则
-    const conditionRules = ref({
-      suggestionType: [
-        { required: true, message: '请选择建议类型', trigger: 'change' }
-      ],
-      priorityRange: [
-        { required: true, message: '请选择至少一个优先级范围', trigger: 'change' }
-      ],
-      timeRange: [
-        { required: true, message: '请选择时间范围', trigger: 'change' }
-      ],
-      suggestionCount: [
-        { required: true, message: '请输入建议数量', trigger: 'blur' }
-      ]
-    })
-    
-    const scenarios = ref([
-      {
-        id: 1,
-        name: '教学优化',
-        description: '基于学生学习数据优化教学策略',
-        icon: 'School',
-        suggestions: 12,
-        adopted: 8,
-        status: '活跃'
-      },
-      {
-        id: 2,
-        name: '学生管理',
-        description: '智能分析学生行为，提供管理建议',
-        icon: 'User',
-        suggestions: 8,
-        adopted: 5,
-        status: '活跃'
-      },
-      {
-        id: 3,
-        name: '资源分配',
-        description: '优化教学资源配置，提高利用效率',
-        icon: 'Box',
-        suggestions: 6,
-        adopted: 4,
-        status: '正常'
-      },
-      {
-        id: 4,
-        name: '系统优化',
-        description: '基于使用数据优化系统性能',
-        icon: 'Setting',
-        suggestions: 4,
-        adopted: 3,
-        status: '正常'
-      },
-      {
-        id: 5,
-        name: '课程规划',
-        description: '智能推荐课程安排和内容调整',
-        icon: 'Calendar',
-        suggestions: 10,
-        adopted: 7,
-        status: '活跃'
-      },
-      {
-        id: 6,
-        name: '评估改进',
-        description: '分析评估结果，提供改进建议',
-        icon: 'TrendCharts',
-        suggestions: 7,
-        adopted: 5,
-        status: '正常'
+    // 重置评选表单
+    const resetEvaluationForm = () => {
+      evaluationForm.value = {
+        value: '',
+        selectedAssessmentItems: []
       }
-    ])
-
-    const suggestions = ref([
-      {
-        title: '优化数学课程教学节奏',
-        description: '根据学生掌握情况，建议调整数学课程的教学进度，增加练习时间',
-        category: 'teaching',
-        priority: '高',
-        createTime: '2024-01-15 14:30',
-        expectedEffect: '提高15%学习效果'
-      },
-      {
-        title: '调整班级座位安排',
-        description: '基于学生互动数据分析，建议重新安排座位以促进学习交流',
-        category: 'student',
-        priority: '中',
-        createTime: '2024-01-15 13:20',
-        expectedEffect: '提升20%课堂参与度'
-      },
-      {
-        title: '增加实验设备投入',
-        description: '根据实验课程需求分析，建议增加物理实验设备配置',
-        category: 'resource',
-        priority: '高',
-        createTime: '2024-01-15 12:15',
-        expectedEffect: '改善30%实验效果'
-      },
-      {
-        title: '优化系统响应速度',
-        description: '基于用户使用数据分析，建议优化系统查询性能',
-        category: 'system',
-        priority: '中',
-        createTime: '2024-01-15 11:45',
-        expectedEffect: '提升40%响应速度'
+      isEditMode.value = false
+      editingTypeIndex.value = -1
+      nextTick(() => {
+        if (evaluationFormRef.value) {
+          evaluationFormRef.value.clearValidate()
+        }
+      })
+    }
+    
+    // 关闭评选对话框
+    const handleEvaluationClose = () => {
+      resetEvaluationForm()
+      showEvaluationDialog.value = false
+    }
+    
+    // 打开新增评选对话框
+    const openAddEvaluationDialog = () => {
+      resetEvaluationForm()
+      showEvaluationDialog.value = true
+    }
+    
+    // 编辑评选类型
+    const editEvaluationType = (type) => {
+      const index = evaluationTypes.value.findIndex(t => t.value === type.value)
+      if (index === -1) return
+      
+      isEditMode.value = true
+      editingTypeIndex.value = index
+      
+      // 填充表单数据
+      evaluationForm.value = {
+        value: type.value,
+        selectedAssessmentItems: type.selectedAssessmentItems && type.selectedAssessmentItems.length > 0
+          ? [...type.selectedAssessmentItems]
+          : []
       }
-    ])
-
+      
+      showEvaluationDialog.value = true
+    }
+    
+    // 保存评选类型（新增或编辑）
+    const saveEvaluationType = async () => {
+      if (!evaluationFormRef.value) return
+      
+      try {
+        await evaluationFormRef.value.validate()
+        
+        // 验证是否选择了考核内容
+        if (!evaluationForm.value.selectedAssessmentItems || evaluationForm.value.selectedAssessmentItems.length === 0) {
+          ElMessage.warning('请至少选择一个考核内容')
+          savingEvaluation.value = false
+          return
+        }
+        
+        savingEvaluation.value = true
+        
+        // 模拟保存延迟
+        await new Promise(resolve => setTimeout(resolve, 500))
+        
+        const selectedType = currentEvaluationType.value
+        if (!selectedType) {
+          ElMessage.error('未找到选中的评选类型')
+          savingEvaluation.value = false
+          return
+        }
+        
+        // 使用 store 的更新方法保存数据（会自动保存到 localStorage）
+        const success = updateEvaluationType(selectedType.value, {
+          selectedAssessmentItems: [...evaluationForm.value.selectedAssessmentItems]
+        })
+        
+        if (success) {
+          // 确保数据已保存（由于 evaluationTypes 是响应式引用，修改会自动更新视图）
+          console.log(`已保存评选类型"${selectedType.label}"的考核内容配置:`, evaluationForm.value.selectedAssessmentItems)
+          
+          ElMessage.success(`成功${isEditMode.value ? '修改' : '配置'}评选类型"${selectedType.label}"，已选择 ${evaluationForm.value.selectedAssessmentItems.length} 项考核内容`)
+          
+          handleEvaluationClose()
+        } else {
+          ElMessage.error('保存失败，未找到对应的评选类型')
+        }
+      } catch (error) {
+        console.error('表单验证失败:', error)
+        ElMessage.error('保存失败，请检查表单填写是否完整')
+      } finally {
+        savingEvaluation.value = false
+      }
+    }
+    
     const decisionHistory = ref([
       {
         date: '2024-01-14 16:30',
@@ -656,32 +515,6 @@ export default {
       }
     ])
 
-    const filteredSuggestions = computed(() => {
-      if (selectedCategory.value === 'all') {
-        return suggestions.value
-      }
-      return suggestions.value.filter(s => s.category === selectedCategory.value)
-    })
-
-    const getStatusType = (status) => {
-      const statusMap = {
-        '活跃': 'success',
-        '正常': 'primary',
-        '维护': 'warning',
-        '停用': 'info'
-      }
-      return statusMap[status] || 'info'
-    }
-
-    const getPriorityType = (priority) => {
-      const priorityMap = {
-        '高': 'danger',
-        '中': 'warning',
-        '低': 'success'
-      }
-      return priorityMap[priority] || 'info'
-    }
-
     const getDecisionType = (decision) => {
       const decisionMap = {
         '已采纳': 'success',
@@ -701,316 +534,41 @@ export default {
       return resultMap[result] || 'info'
     }
 
-    const createScenario = () => {
-      showCreateDialog.value = true
-      // 重置表单
-      resetForm()
-    }
-
-    const resetForm = () => {
-      scenarioForm.value = {
-        name: '',
-        description: '',
-        type: '',
-        priority: 'medium',
-        triggers: [],
-        dimensions: [],
-        notifications: true,
-        notes: ''
-      }
-      // 清除验证
-      nextTick(() => {
-        if (scenarioFormRef.value) {
-          scenarioFormRef.value.clearValidate()
-        }
-      })
-    }
-
-    const handleClose = () => {
-      if (submitting.value) {
-        ElMessage.warning('正在提交中，请稍候...')
-        return
-      }
-      
-      ElMessageBox.confirm(
-        '确定要关闭吗？未保存的数据将丢失。',
-        '提示',
-        {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning',
-        }
-      ).then(() => {
-        showCreateDialog.value = false
-        resetForm()
-      }).catch(() => {
-        // 用户取消
-      })
-    }
-
-    const handleSubmit = async () => {
-      if (!scenarioFormRef.value) return
-      
-      try {
-        await scenarioFormRef.value.validate()
-        submitting.value = true
-        
-        // 模拟提交延迟
-        await new Promise(resolve => setTimeout(resolve, 1500))
-        
-        // 创建新场景
-        const newScenario = {
-          id: Date.now(),
-          name: scenarioForm.value.name,
-          description: scenarioForm.value.description,
-          icon: getScenarioIcon(scenarioForm.value.type),
-          suggestions: 0,
-          adopted: 0,
-          status: '正常',
-          type: scenarioForm.value.type,
-          priority: scenarioForm.value.priority,
-          triggers: scenarioForm.value.triggers,
-          dimensions: scenarioForm.value.dimensions,
-          notifications: scenarioForm.value.notifications,
-          notes: scenarioForm.value.notes,
-          createTime: new Date().toLocaleString()
-        }
-        
-        scenarios.value.unshift(newScenario)
-        
-        ElMessage.success(`场景"${scenarioForm.value.name}"创建成功！`)
-        showCreateDialog.value = false
-        resetForm()
-        
-      } catch (error) {
-        console.error('表单验证失败:', error)
-        ElMessage.error('请检查表单填写是否完整')
-      } finally {
-        submitting.value = false
-      }
-    }
-
-    const getScenarioIcon = (type) => {
-      const iconMap = {
-        'teaching': 'School',
-        'student': 'User',
-        'resource': 'Box',
-        'system': 'Setting',
-        'curriculum': 'Calendar',
-        'evaluation': 'TrendCharts',
-        'other': 'Document'
-      }
-      return iconMap[type] || 'Document'
-    }
-
-    const viewScenario = (scenario) => {
-      ElMessage.info(`查看场景: ${scenario.name}`)
-    }
-
-    const generateSuggestions = () => {
-      ElMessage.success('正在生成新的决策建议...')
-    }
-
-    const adoptSuggestion = (suggestion) => {
-      ElMessage.success(`已采纳建议: ${suggestion.title}`)
-    }
-
-    const viewDetails = (suggestion) => {
-      ElMessage.info(`查看详情: ${suggestion.title}`)
-    }
-
-    const rejectSuggestion = (suggestion) => {
-      ElMessage.warning(`已拒绝建议: ${suggestion.title}`)
+    // 处理建议采纳事件
+    const handleSuggestionAdopted = (historyItem) => {
+      decisionHistory.value.unshift(historyItem)
     }
 
     const exportHistory = () => {
       ElMessage.success('决策历史导出功能开发中...')
     }
 
-    // 条件配置相关方法
-    const openConditionDialog = () => {
-      showConditionDialog.value = true
-      // 设置默认时间范围为最近30天
-      const endDate = new Date()
-      const startDate = new Date()
-      startDate.setDate(startDate.getDate() - 30)
-      conditionForm.value.timeRange = [
-        startDate.toISOString().split('T')[0],
-        endDate.toISOString().split('T')[0]
-      ]
-    }
-
-    const handleConditionClose = () => {
-      if (savingCondition.value || generatingWithConditions.value) {
-        ElMessage.warning('正在处理中，请稍候...')
-        return
-      }
-      
-      ElMessageBox.confirm(
-        '确定要关闭吗？未保存的配置将丢失。',
-        '提示',
-        {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning',
-        }
-      ).then(() => {
-        showConditionDialog.value = false
-        resetConditionForm()
-      }).catch(() => {
-        // 用户取消
-      })
-    }
-
-    const resetConditionForm = () => {
-      conditionForm.value = {
-        suggestionType: '',
-        priorityRange: ['high', 'medium'],
-        dataSources: ['student_performance', 'teacher_feedback'],
-        analysisDimensions: ['performance', 'trend'],
-        timeRange: [],
-        suggestionCount: 5,
-        algorithmModel: 'hybrid',
-        confidenceThreshold: 0.8,
-        specialConditions: '',
-        autoExecute: false
-      }
-      // 清除验证
-      nextTick(() => {
-        if (conditionFormRef.value) {
-          conditionFormRef.value.clearValidate()
-        }
-      })
-    }
-
-    const saveConditionConfig = async () => {
-      if (!conditionFormRef.value) return
-      
-      try {
-        await conditionFormRef.value.validate()
-        savingCondition.value = true
-        
-        // 模拟保存延迟
-        await new Promise(resolve => setTimeout(resolve, 1000))
-        
-        ElMessage.success('条件配置保存成功！')
-        showConditionDialog.value = false
-        
-      } catch (error) {
-        console.error('表单验证失败:', error)
-        ElMessage.error('请检查表单填写是否完整')
-      } finally {
-        savingCondition.value = false
-      }
-    }
-
-    const generateWithConditions = async () => {
-      if (!conditionFormRef.value) return
-      
-      try {
-        await conditionFormRef.value.validate()
-        generatingWithConditions.value = true
-        
-        // 模拟生成延迟
-        await new Promise(resolve => setTimeout(resolve, 2000))
-        
-        // 根据条件生成建议
-        const newSuggestions = generateConditionalSuggestions()
-        suggestions.value.unshift(...newSuggestions)
-        
-        ElMessage.success(`根据配置条件成功生成 ${newSuggestions.length} 条建议！`)
-        showConditionDialog.value = false
-        
-      } catch (error) {
-        console.error('表单验证失败:', error)
-        ElMessage.error('请检查表单填写是否完整')
-      } finally {
-        generatingWithConditions.value = false
-      }
-    }
-
-    const generateConditionalSuggestions = () => {
-      const typeMap = {
-        'teaching': '教学优化',
-        'student': '学生管理',
-        'resource': '资源分配',
-        'system': '系统优化',
-        'curriculum': '课程规划',
-        'evaluation': '评估改进'
-      }
-      
-      const priorityMap = {
-        'high': '高',
-        'medium': '中',
-        'low': '低'
-      }
-      
-      const suggestions = []
-      const count = conditionForm.value.suggestionCount
-      
-      for (let i = 0; i < count; i++) {
-        const type = conditionForm.value.suggestionType
-        const priority = conditionForm.value.priorityRange[Math.floor(Math.random() * conditionForm.value.priorityRange.length)]
-        
-        suggestions.push({
-          title: `${typeMap[type]}建议 ${i + 1}`,
-          description: `基于${conditionForm.value.algorithmModel}算法，结合${conditionForm.value.dataSources.join('、')}数据，通过${conditionForm.value.analysisDimensions.join('、')}分析生成的智能建议`,
-          category: type,
-          priority: priorityMap[priority],
-          createTime: new Date().toLocaleString(),
-          expectedEffect: `预期提升${Math.floor(Math.random() * 30) + 10}%效果`,
-          confidence: conditionForm.value.confidenceThreshold,
-          conditions: conditionForm.value
-        })
-      }
-      
-      return suggestions
-    }
-
-    const formatConfidenceTooltip = (val) => {
-      return `${Math.round(val * 100)}%`
-    }
-
     return {
-      selectedCategory,
-      scenarios,
-      suggestions,
       decisionHistory,
-      filteredSuggestions,
-      showCreateDialog,
-      submitting,
-      scenarioFormRef,
-      scenarioForm,
-      scenarioRules,
-      // 条件配置相关
-      showConditionDialog,
-      savingCondition,
-      generatingWithConditions,
-      conditionFormRef,
-      conditionForm,
-      conditionRules,
-      getStatusType,
-      getPriorityType,
+      // 评选类型相关
+      evaluationTypes,
+      showEvaluationDialog,
+      savingEvaluation,
+      evaluationFormRef,
+      evaluationForm,
+      colorPresets,
+      evaluationRules,
+      isEditMode,
+      resetEvaluationForm,
+      handleEvaluationClose,
+      openAddEvaluationDialog,
+      editEvaluationType,
+      saveEvaluationType,
+      // 考核内容相关
+      currentEvaluationType,
+      currentTypeDescription,
+      availableAssessmentItems,
+      onEvaluationTypeChange,
+      evaluationIconMap,
       getDecisionType,
       getResultType,
-      createScenario,
-      resetForm,
-      handleClose,
-      handleSubmit,
-      getScenarioIcon,
-      viewScenario,
-      generateSuggestions,
-      adoptSuggestion,
-      viewDetails,
-      rejectSuggestion,
       exportHistory,
-      // 条件配置方法
-      openConditionDialog,
-      handleConditionClose,
-      resetConditionForm,
-      saveConditionConfig,
-      generateWithConditions,
-      formatConfidenceTooltip
+      handleSuggestionAdopted
     }
   }
 }
@@ -1042,7 +600,6 @@ export default {
 .decision-content {
   display: flex;
   flex-direction: column;
-  gap: 32px;
 }
 
 .overview-section {
@@ -1070,12 +627,27 @@ export default {
   width: 60px;
   height: 60px;
   border-radius: 16px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
   font-size: 24px;
+}
+
+.card-icon.suggestion {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+}
+
+.card-icon.adopted {
+  background: linear-gradient(135deg, #43e97b 0%, #38d9a9 100%);
+}
+
+.card-icon.success-rate {
+  background: linear-gradient(135deg, #ffd43b 0%, #ffa726 100%);
+}
+
+.card-icon.satisfaction {
+  background: linear-gradient(135deg, #feca57 0%, #ff9ff3 100%);
 }
 
 .card-info h3 {
@@ -1098,8 +670,158 @@ export default {
   font-size: 14px;
 }
 
-.scenarios-card {
+.evaluation-type-card {
   margin-bottom: 24px;
+}
+
+.evaluation-types-list {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.evaluation-type-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 12px;
+  border: 2px solid rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  flex: 1 1 calc((100% - 64px) / 5);
+  min-width: 200px;
+  max-width: calc((100% - 64px) / 5);
+  box-sizing: border-box;
+  position: relative;
+}
+
+.evaluation-type-item.has-config {
+  border-color: rgba(67, 233, 123, 0.3);
+  background: rgba(248, 255, 250, 0.9);
+}
+
+/* 响应式布局 */
+@media screen and (max-width: 1600px) {
+  .evaluation-type-item {
+    flex: 1 1 calc((100% - 48px) / 4);
+    max-width: calc((100% - 48px) / 4);
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .evaluation-type-item {
+    flex: 1 1 calc((100% - 32px) / 3);
+    max-width: calc((100% - 32px) / 3);
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .evaluation-type-item {
+    flex: 1 1 calc((100% - 16px) / 2);
+    max-width: calc((100% - 16px) / 2);
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .evaluation-type-item {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+}
+
+.evaluation-type-item:hover {
+  background: rgba(255, 255, 255, 0.95);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+  border-color: rgba(102, 126, 234, 0.3);
+}
+
+.type-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.type-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.type-content h4 {
+  margin: 0;
+  color: #1e293b;
+  font-size: 16px;
+  font-weight: 600;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  flex: 1;
+}
+
+.config-badge {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.config-badge .el-icon {
+  font-size: 12px;
+}
+
+.type-content p {
+  margin: 0 0 12px 0;
+  color: #64748b;
+  font-size: 13px;
+  line-height: 1.4;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.assessment-items-preview {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.preview-header {
+  margin-bottom: 8px;
+}
+
+.preview-label {
+  font-size: 12px;
+  color: #909399;
+  font-weight: 500;
+}
+
+.preview-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.assessment-tag {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.assessment-tag.more-tag {
+  background-color: #e4e7ed;
+  color: #606266;
+  border-color: #dcdfe6;
+}
+
+.type-actions {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .card-header {
@@ -1115,146 +837,47 @@ export default {
   font-weight: 600;
 }
 
-.scenario-item {
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-  background: rgba(255, 255, 255, 0.8);
-  border-radius: 12px;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  height: 200px;
-  margin-bottom: 20px;
+/* 按钮样式变量 - 可自定义调整 */
+:root {
+  --btn-gradient-start: #667eea;
+  --btn-gradient-end: #764ba2;
+  --btn-text-color: #ffffff;
+  --btn-hover-opacity: 0.9;
+  --btn-shadow: rgba(102, 126, 234, 0.3);
+  --btn-border-radius: 8px;
+  --btn-edit-gradient-start: #667eea;
+  --btn-edit-gradient-end: #764ba2;
 }
 
-.scenario-item:hover {
-  background: rgba(102, 126, 234, 0.05);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+
+/* 编辑按钮样式 */
+.type-actions .edit-btn {
+  background: linear-gradient(135deg, var(--btn-edit-gradient-start), var(--btn-edit-gradient-end)) !important;
+  border: none !important;
+  color: var(--btn-text-color) !important;
+  padding: 6px 14px !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  border-radius: var(--btn-border-radius) !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 2px 6px var(--btn-shadow) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
 }
 
-.scenario-icon {
-  width: 50px;
-  height: 50px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 20px;
-  margin-bottom: 16px;
+.type-actions .edit-btn:hover {
+  opacity: var(--btn-hover-opacity) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 3px 10px var(--btn-shadow) !important;
 }
 
-.scenario-content {
-  flex: 1;
+.type-actions .edit-btn:active {
+  transform: translateY(0) !important;
 }
 
-.scenario-content h4 {
-  margin: 0 0 8px 0;
-  color: #1e293b;
-  font-size: 16px;
-  font-weight: 600;
-}
-
-.scenario-content p {
-  margin: 0 0 12px 0;
-  color: #64748b;
-  font-size: 14px;
-  line-height: 1.4;
-}
-
-.scenario-stats {
-  display: flex;
-  gap: 16px;
-}
-
-.stat-item {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 12px;
-  color: #64748b;
-}
-
-.scenario-status {
-  margin-top: 12px;
-}
-
-.suggestions-card {
-  margin-bottom: 24px;
-}
-
-.header-actions {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-}
-
-.suggestions-list {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.suggestion-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 16px;
-  padding: 20px;
-  background: rgba(255, 255, 255, 0.8);
-  border-radius: 12px;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  transition: all 0.3s ease;
-}
-
-.suggestion-item:hover {
-  background: rgba(255, 255, 255, 0.95);
-  transform: translateX(4px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-}
-
-.suggestion-priority {
-  flex-shrink: 0;
-}
-
-.suggestion-content {
-  flex: 1;
-}
-
-.suggestion-content h4 {
-  margin: 0 0 8px 0;
-  color: #1e293b;
-  font-size: 16px;
-  font-weight: 600;
-}
-
-.suggestion-content p {
-  margin: 0 0 12px 0;
-  color: #64748b;
-  font-size: 14px;
-  line-height: 1.5;
-}
-
-.suggestion-meta {
-  display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-
-.meta-item {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 12px;
-  color: #64748b;
-}
-
-.suggestion-actions {
-  display: flex;
-  gap: 8px;
-  flex-shrink: 0;
+.type-actions .edit-btn .el-icon {
+  font-size: 14px !important;
 }
 
 .history-card {
@@ -1262,8 +885,7 @@ export default {
 }
 
 /* 弹层样式 */
-:deep(.create-scenario-dialog),
-:deep(.condition-dialog) {
+:deep(.evaluation-dialog) {
   .el-dialog {
     border-radius: 16px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
@@ -1300,8 +922,7 @@ export default {
   }
 }
 
-.scenario-form,
-.condition-form {
+.evaluation-form {
   .el-form-item {
     margin-bottom: 20px;
   }
@@ -1365,6 +986,60 @@ export default {
   }
 }
 
+.assessment-items-container {
+  width: 100%;
+  max-height: 300px;
+  overflow-y: auto;
+  padding: 8px;
+  border: 1px solid #e4e7ed;
+  border-radius: 8px;
+  background-color: #fafafa;
+}
+
+.assessment-checkbox-item {
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  background-color: #fff;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background-color: #f5f7fa;
+    transform: translateX(4px);
+  }
+  
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+  
+  .el-checkbox {
+    width: 100%;
+    
+    .el-checkbox__label {
+      font-size: 14px;
+      color: #606266;
+      padding-left: 8px;
+    }
+  }
+}
+
+.empty-assessment-tip {
+  padding: 20px;
+  text-align: center;
+  color: #909399;
+  font-size: 14px;
+}
+
+.assessment-item-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+  
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+}
+
 .dialog-footer {
   display: flex;
   justify-content: flex-end;
@@ -1386,6 +1061,68 @@ export default {
   background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.color-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.color-preset-item {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+  position: relative;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.color-preset-item:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.color-preset-item.active {
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+}
+
+.color-preset-item::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.color-preset-item.active::after {
+  opacity: 1;
+}
+
+.custom-color-input {
+  margin-top: 16px;
+}
+
+.custom-color-input .el-input {
+  width: 100%;
+}
+
+.color-preview {
+  width: 100%;
+  height: 40px;
+  border-radius: 8px;
+  margin-top: 12px;
+  border: 1px solid #e5e7eb;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
 }
 
 @keyframes fadeInUp {

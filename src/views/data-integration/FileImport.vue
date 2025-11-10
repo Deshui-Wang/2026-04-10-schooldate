@@ -114,48 +114,157 @@
     <el-dialog
       v-model="dialogVisible"
       :title="isEdit ? '编辑导入配置' : '添加导入配置'"
-      width="600px"
+      width="700px"
+      class="file-import-dialog"
+      :close-on-click-modal="false"
     >
-      <el-form :model="form" :rules="rules" ref="formRef" label-width="100px">
-        <el-form-item label="配置名称" prop="name">
-          <el-input v-model="form.name" placeholder="请输入配置名称" />
-        </el-form-item>
-        <el-form-item label="文件类型" prop="fileType">
-          <el-select v-model="form.fileType" placeholder="请选择文件类型">
-            <el-option label="Excel" value="excel" />
-            <el-option label="CSV" value="csv" />
-            <el-option label="JSON" value="json" />
-            <el-option label="XML" value="xml" />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="目标表" prop="targetTable">
-          <el-select v-model="form.targetTable" placeholder="请选择目标表">
-            <el-option label="学生表" value="students" />
-            <el-option label="教师表" value="teachers" />
-            <el-option label="课程表" value="courses" />
-            <el-option label="班级表" value="classes" />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="字段映射" prop="mappingFields">
-          <el-input
-            v-model="form.mappingFields"
-            type="textarea"
-            :rows="4"
-            placeholder="请输入字段映射规则，如：name:姓名,age:年龄"
-          />
-        </el-form-item>
-        <el-form-item label="描述">
-          <el-input
-            v-model="form.description"
-            type="textarea"
-            :rows="3"
-            placeholder="请输入描述"
-          />
-        </el-form-item>
-      </el-form>
+      <template #header>
+        <div class="dialog-header">
+          <div class="header-icon">
+            <el-icon><Document /></el-icon>
+          </div>
+          <div class="header-title">
+            <h3>{{ isEdit ? '编辑导入配置' : '添加导入配置' }}</h3>
+            <p>{{ isEdit ? '修改文件导入配置信息' : '配置新的文件导入对接规则' }}</p>
+          </div>
+        </div>
+      </template>
+      
+      <div class="dialog-content">
+        <el-form :model="form" :rules="rules" ref="formRef" label-width="120px" class="import-form">
+          <!-- 基本信息 -->
+          <div class="form-section">
+            <div class="section-title">
+              <el-icon><Document /></el-icon>
+              <span>基本信息</span>
+            </div>
+            <el-form-item label="配置名称" prop="name">
+              <el-input 
+                v-model="form.name" 
+                placeholder="请输入配置名称，如：学生信息导入"
+                clearable
+              >
+                <template #prefix>
+                  <el-icon><Edit /></el-icon>
+                </template>
+              </el-input>
+            </el-form-item>
+            <el-form-item label="文件类型" prop="fileType">
+              <el-select 
+                v-model="form.fileType" 
+                placeholder="请选择文件类型"
+                style="width: 100%"
+              >
+                <el-option label="Excel" value="Excel">
+                  <span style="float: left">
+                    <el-tag type="success" size="small" style="margin-right: 8px">Excel</el-tag>
+                    <span>Excel表格文件</span>
+                  </span>
+                  <span style="float: right; color: #8492a6; font-size: 13px">.xlsx, .xls</span>
+                </el-option>
+                <el-option label="CSV" value="CSV">
+                  <span style="float: left">
+                    <el-tag type="primary" size="small" style="margin-right: 8px">CSV</el-tag>
+                    <span>CSV文本文件</span>
+                  </span>
+                  <span style="float: right; color: #8492a6; font-size: 13px">.csv</span>
+                </el-option>
+                <el-option label="JSON" value="JSON">
+                  <span style="float: left">
+                    <el-tag type="warning" size="small" style="margin-right: 8px">JSON</el-tag>
+                    <span>JSON数据文件</span>
+                  </span>
+                  <span style="float: right; color: #8492a6; font-size: 13px">.json</span>
+                </el-option>
+                <el-option label="XML" value="XML">
+                  <span style="float: left">
+                    <el-tag type="info" size="small" style="margin-right: 8px">XML</el-tag>
+                    <span>XML标记文件</span>
+                  </span>
+                  <span style="float: right; color: #8492a6; font-size: 13px">.xml</span>
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </div>
+
+          <!-- 数据配置 -->
+          <div class="form-section">
+            <div class="section-title">
+              <el-icon><Grid /></el-icon>
+              <span>数据配置</span>
+            </div>
+            <el-form-item label="目标表" prop="targetTable">
+              <el-select 
+                v-model="form.targetTable" 
+                placeholder="请选择目标表"
+                style="width: 100%"
+              >
+                <el-option label="学生表" value="students">
+                  <span style="float: left">
+                    <el-icon style="margin-right: 8px; color: #409eff"><User /></el-icon>
+                    <span>学生表 (students)</span>
+                  </span>
+                </el-option>
+                <el-option label="教师表" value="teachers">
+                  <span style="float: left">
+                    <el-icon style="margin-right: 8px; color: #67c23a"><UserFilled /></el-icon>
+                    <span>教师表 (teachers)</span>
+                  </span>
+                </el-option>
+                <el-option label="课程表" value="courses">
+                  <span style="float: left">
+                    <el-icon style="margin-right: 8px; color: #e6a23c"><Reading /></el-icon>
+                    <span>课程表 (courses)</span>
+                  </span>
+                </el-option>
+                <el-option label="班级表" value="classes">
+                  <span style="float: left">
+                    <el-icon style="margin-right: 8px; color: #f56c6c"><Grid /></el-icon>
+                    <span>班级表 (classes)</span>
+                  </span>
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="字段映射" prop="mappingFields">
+              <el-input
+                v-model="form.mappingFields"
+                type="textarea"
+                :rows="4"
+                placeholder="请输入字段映射规则，格式：name:姓名,age:年龄,class:班级"
+                maxlength="500"
+                show-word-limit
+              />
+            </el-form-item>
+          </div>
+
+          <!-- 其他信息 -->
+          <div class="form-section">
+            <div class="section-title">
+              <el-icon><InfoFilled /></el-icon>
+              <span>其他信息</span>
+            </div>
+            <el-form-item label="描述">
+              <el-input
+                v-model="form.description"
+                type="textarea"
+                :rows="3"
+                placeholder="请输入配置的描述信息，包括用途、注意事项等"
+                maxlength="200"
+                show-word-limit
+              />
+            </el-form-item>
+          </div>
+        </el-form>
+      </div>
+
       <template #footer>
-        <el-button @click="dialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="submitForm">确定</el-button>
+        <div class="dialog-footer">
+          <el-button @click="dialogVisible = false" size="large">取消</el-button>
+          <el-button type="primary" @click="submitForm" size="large">
+            <el-icon><Check /></el-icon>
+            {{ isEdit ? '保存修改' : '确认添加' }}
+          </el-button>
+        </div>
       </template>
     </el-dialog>
   </div>
@@ -164,9 +273,33 @@
 <script>
 import { ref, reactive } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import { 
+  InfoFilled, 
+  Plus, 
+  UploadFilled,
+  Document, 
+  Edit, 
+  User,
+  UserFilled,
+  Reading,
+  Grid,
+  Check 
+} from '@element-plus/icons-vue'
 
 export default {
   name: 'FileImport',
+  components: {
+    InfoFilled,
+    Plus,
+    UploadFilled,
+    Document,
+    Edit,
+    User,
+    UserFilled,
+    Reading,
+    Grid,
+    Check
+  },
   setup() {
     const dialogVisible = ref(false)
     const isEdit = ref(false)
@@ -396,5 +529,207 @@ export default {
 
 .upload-demo {
   width: 100%;
+}
+
+/* 对话框样式优化 */
+:deep(.file-import-dialog) {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+:deep(.file-import-dialog .el-dialog__header) {
+  padding: 0;
+  border-bottom: none;
+}
+
+:deep(.file-import-dialog .el-dialog__body) {
+  padding: 0;
+}
+
+:deep(.file-import-dialog .el-dialog__footer) {
+  padding: 20px 24px;
+  border-top: 1px solid #f0f0f0;
+  background-color: #fafafa;
+}
+
+.dialog-header {
+  display: flex;
+  align-items: center;
+  padding: 24px 24px 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #ffffff;
+}
+
+.header-icon {
+  width: 48px;
+  height: 48px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 16px;
+  flex-shrink: 0;
+}
+
+.header-icon .el-icon {
+  font-size: 24px;
+  color: #ffffff;
+}
+
+.header-title {
+  flex: 1;
+}
+
+.header-title h3 {
+  margin: 0 0 4px 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.header-title p {
+  margin: 0;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.dialog-content {
+  padding: 24px;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.dialog-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.dialog-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.dialog-content::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.dialog-content::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+.import-form {
+  padding: 0;
+}
+
+.form-section {
+  margin-bottom: 28px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.form-section:last-of-type {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #303133;
+}
+
+.section-title .el-icon {
+  margin-right: 8px;
+  color: #409eff;
+  font-size: 18px;
+}
+
+:deep(.import-form .el-form-item) {
+  margin-bottom: 20px;
+}
+
+:deep(.import-form .el-form-item__label) {
+  font-weight: 500;
+  color: #606266;
+  padding-right: 16px;
+}
+
+:deep(.import-form .el-input__wrapper) {
+  border-radius: 6px;
+  box-shadow: 0 0 0 1px #dcdfe6 inset;
+  transition: all 0.3s;
+}
+
+:deep(.import-form .el-input__wrapper:hover) {
+  box-shadow: 0 0 0 1px #c0c4cc inset;
+}
+
+:deep(.import-form .el-input.is-focus .el-input__wrapper) {
+  box-shadow: 0 0 0 1px #409eff inset;
+}
+
+:deep(.import-form .el-select .el-input__wrapper) {
+  cursor: pointer;
+}
+
+:deep(.import-form .el-textarea__inner) {
+  border-radius: 6px;
+  border: 1px solid #dcdfe6;
+  transition: all 0.3s;
+}
+
+:deep(.import-form .el-textarea__inner:hover) {
+  border-color: #c0c4cc;
+}
+
+:deep(.import-form .el-textarea__inner:focus) {
+  border-color: #409eff;
+}
+
+:deep(.import-form .el-input__prefix) {
+  color: #909399;
+}
+
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.dialog-footer .el-button {
+  min-width: 100px;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+.dialog-footer .el-button--primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+}
+
+.dialog-footer .el-button--primary:hover {
+  background: linear-gradient(135deg, #5568d3 0%, #6a3d8f 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.dialog-footer .el-button--primary .el-icon {
+  margin-right: 4px;
+}
+
+/* 下拉选项样式优化 */
+:deep(.el-select-dropdown__item) {
+  padding: 12px 20px;
+  height: auto;
+}
+
+:deep(.el-select-dropdown__item:hover) {
+  background-color: #f5f7fa;
 }
 </style>

@@ -75,16 +75,6 @@
           </el-form-item>
         </el-col>
         <el-col :span="6">
-          <el-form-item label="分析维度">
-            <el-select v-model="config.analysisDimensions" multiple placeholder="选择分析维度">
-              <el-option label="教学能力" value="teaching" />
-              <el-option label="科研能力" value="research" />
-              <el-option label="工作态度" value="attitude" />
-              <el-option label="创新能力" value="innovation" />
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
           <el-form-item label="对比方式">
             <el-select v-model="config.comparisonMethod" placeholder="选择对比方式">
               <el-option label="综合评分" value="comprehensive" />
@@ -94,11 +84,26 @@
           </el-form-item>
         </el-col>
         <el-col :span="6">
-          <el-form-item label="决策算法">
-            <el-select v-model="config.algorithm" placeholder="选择决策算法">
-              <el-option label="TOPSIS" value="topsis" />
-              <el-option label="AHP层次分析" value="ahp" />
-              <el-option label="模糊综合评价" value="fuzzy" />
+          <el-form-item label="决策建议">
+            <el-select v-model="config.algorithm" placeholder="选择决策建议">
+              <el-option 
+                v-for="suggestion in decisionSuggestions" 
+                :key="suggestion.value || suggestion.title"
+                :label="suggestion.label || suggestion.title" 
+                :value="suggestion.value" 
+              />
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item label="决策场景">
+            <el-select v-model="config.analysisDimensions" multiple placeholder="选择决策场景">
+              <el-option 
+                v-for="scenario in decisionScenarios" 
+                :key="scenario.id"
+                :label="scenario.name" 
+                :value="scenario.value" 
+              />
             </el-select>
           </el-form-item>
         </el-col>
@@ -451,6 +456,7 @@ import { ref, reactive, computed, watch } from 'vue'
 import { ElMessage } from 'element-plus'
 import RadarChart from '@/components/RadarChart.vue'
 import { useRecommendedCandidates } from '@/store/recommendationStore.js'
+import { useDecisionScenarios, useDecisionSuggestions } from '@/store/decisionStore.js'
 
 export default {
   name: 'SmartDecision',
@@ -460,7 +466,7 @@ export default {
   setup() {
     const config = reactive({
       evaluationType: 'title',
-      analysisDimensions: ['teaching', 'research', 'attitude', 'innovation'],
+      analysisDimensions: ['teaching_optimization', 'student_management', 'resource_allocation', 'system_optimization'],
       comparisonMethod: 'comprehensive',
       algorithm: 'topsis'
     })
@@ -472,8 +478,12 @@ export default {
 
     const analysisResults = ref(null)
 
-    // 读取“智能推荐”页的候选人（全局共享）并合并到可选列表，自动选中
+    // 读取"智能推荐"页的候选人（全局共享）并合并到可选列表，自动选中
     const recommendedCandidates = useRecommendedCandidates()
+    
+    // 读取决策场景和决策建议数据（全局共享）
+    const decisionScenarios = useDecisionScenarios()
+    const decisionSuggestions = useDecisionSuggestions()
 
     const ensureUniqueId = () => {
       // 生成一个新的唯一 id（基于现有最大 id + 1）
@@ -662,40 +672,59 @@ export default {
     const generateAnalysisResults = () => {
       const selectedCandidatesData = availableCandidates.value.filter(c => selectedCandidates.value.includes(c.id))
       
-      // 动态生成详细对比数据
-      const detailedComparison = [
-        {
-          dimension: '教学能力',
-          ...selectedCandidatesData.reduce((acc, candidate, index) => {
-            acc[`candidate_${candidate.id}`] = Math.floor(Math.random() * 20) + 80 // 80-100分
-            return acc
-          }, {})
-        },
-        {
-          dimension: '科研能力',
-          ...selectedCandidatesData.reduce((acc, candidate, index) => {
-            acc[`candidate_${candidate.id}`] = Math.floor(Math.random() * 20) + 80 // 80-100分
-            return acc
-          }, {})
-        },
-        {
-          dimension: '工作态度',
-          ...selectedCandidatesData.reduce((acc, candidate, index) => {
-            acc[`candidate_${candidate.id}`] = Math.floor(Math.random() * 20) + 80 // 80-100分
-            return acc
-          }, {})
-        },
-        {
-          dimension: '创新能力',
-          ...selectedCandidatesData.reduce((acc, candidate, index) => {
-            acc[`candidate_${candidate.id}`] = Math.floor(Math.random() * 20) + 80 // 80-100分
-            return acc
-          }, {})
-        }
-      ]
+      // 维度名称映射
+      const dimensionLabels = {
+        'teaching_optimization': '教学优化',
+        'student_management': '学生管理',
+        'resource_allocation': '资源分配',
+        'system_optimization': '系统优化',
+        'curriculum_planning': '课程规划',
+        'evaluation_improvement': '评估改进'
+      }
+      
+      // 根据用户选择的分析维度动态生成详细对比数据
+      const selectedDimensions = config.analysisDimensions.length > 0 
+        ? config.analysisDimensions 
+        : ['teaching_optimization', 'student_management', 'resource_allocation', 'system_optimization']
+      
+      const detailedComparison = selectedDimensions.map(dimension => ({
+        dimension: dimensionLabels[dimension] || dimension,
+        ...selectedCandidatesData.reduce((acc, candidate, index) => {
+          acc[`candidate_${candidate.id}`] = Math.floor(Math.random() * 20) + 80 // 80-100分
+          return acc
+        }, {})
+      }))
       
       // 根据评分排序
       const sortedCandidates = selectedCandidatesData.sort((a, b) => b.score - a.score)
+      
+      // 生成推荐理由（基于选择的维度）
+      const reasons = selectedDimensions.map(dimension => {
+        const label = dimensionLabels[dimension]
+        const reasonTexts = {
+          'teaching_optimization': '教学优化能力强，教学方法创新有效',
+          'student_management': '学生管理经验丰富，沟通协调能力强',
+          'resource_allocation': '资源分配合理，规划能力突出',
+          'system_optimization': '系统优化能力强，技术方案优秀',
+          'curriculum_planning': '课程规划科学，教学设计合理',
+          'evaluation_improvement': '评估改进能力强，持续优化意识突出'
+        }
+        return reasonTexts[dimension] || `${label}表现优秀`
+      })
+      
+      // 生成维度分析数据
+      const dimensionAnalysis = selectedDimensions.map((dimension, index) => {
+        const leaderIndex = index % sortedCandidates.length
+        return {
+          name: dimensionLabels[dimension] || dimension,
+          leader: sortedCandidates[leaderIndex]?.name || sortedCandidates[0].name,
+          maxScore: Math.floor(Math.random() * 10) + 90,
+          gap: Math.floor(Math.random() * 5) + 2
+        }
+      })
+      
+      // 生成维度名称列表用于建议文本
+      const dimensionNames = selectedDimensions.map(d => dimensionLabels[d]).join('、')
       
       analysisResults.value = {
         candidates: selectedCandidatesData,
@@ -704,12 +733,7 @@ export default {
           name: sortedCandidates[0].name,
           department: sortedCandidates[0].department,
           totalScore: sortedCandidates[0].score,
-          reasons: [
-            '教学能力突出，学生评价优秀',
-            '科研产出质量高，学术影响力大',
-            '工作态度认真，团队协作能力强',
-            '创新能力强，教学方法新颖'
-          ]
+          reasons: reasons
         },
         ranking: sortedCandidates.map(candidate => ({
           id: candidate.id,
@@ -717,54 +741,29 @@ export default {
           totalScore: candidate.score
         })),
         suggestions: {
-          recommendation: `推荐选择${sortedCandidates[0].name}，其在教学、科研、工作态度和创新能力四个维度均表现优秀，综合评分最高。`,
+          recommendation: `推荐选择${sortedCandidates[0].name}，其在${dimensionNames}等维度均表现优秀，综合评分最高。`,
           risks: `需要注意${sortedCandidates[0].name}当前工作负荷较重，建议合理安排其工作内容，避免过度疲劳。`,
-          improvements: `建议为其他候选人提供针对性培训，特别是${sortedCandidates[sortedCandidates.length - 1].name}在科研能力方面有提升空间。`
+          improvements: `建议为其他候选人提供针对性培训，特别是${sortedCandidates[sortedCandidates.length - 1].name}在${dimensionLabels[selectedDimensions[selectedDimensions.length - 1]] || '部分维度'}方面有提升空间。`
         },
-        dimensionAnalysis: [
-          {
-            name: '教学能力',
-            leader: sortedCandidates[0].name,
-            maxScore: Math.floor(Math.random() * 10) + 90,
-            gap: Math.floor(Math.random() * 5) + 2
-          },
-          {
-            name: '科研能力',
-            leader: sortedCandidates[1]?.name || sortedCandidates[0].name,
-            maxScore: Math.floor(Math.random() * 10) + 90,
-            gap: Math.floor(Math.random() * 5) + 2
-          },
-          {
-            name: '工作态度',
-            leader: sortedCandidates[0].name,
-            maxScore: Math.floor(Math.random() * 10) + 90,
-            gap: Math.floor(Math.random() * 5) + 2
-          },
-          {
-            name: '创新能力',
-            leader: sortedCandidates[1]?.name || sortedCandidates[0].name,
-            maxScore: Math.floor(Math.random() * 10) + 90,
-            gap: Math.floor(Math.random() * 5) + 2
-          }
-        ],
+        dimensionAnalysis: dimensionAnalysis,
         keyFindings: [
           {
             id: 1,
             type: 'strength',
             title: `${sortedCandidates[0].name}综合实力突出`,
-            description: '在多个维度均保持领先，特别是在教学能力和工作态度方面表现优异'
+            description: `在多个维度均保持领先，特别是在${dimensionLabels[selectedDimensions[0]] || '核心维度'}方面表现优异`
           },
           {
             id: 2,
             type: 'strength',
-            title: `${sortedCandidates[1]?.name || sortedCandidates[0].name}科研创新能力强`,
-            description: '在科研能力和创新能力方面表现突出，具有较强的发展潜力'
+            title: `${sortedCandidates[1]?.name || sortedCandidates[0].name}在${dimensionLabels[selectedDimensions[1]] || '部分维度'}方面表现突出`,
+            description: `在${dimensionLabels[selectedDimensions[1]] || '部分维度'}方面表现突出，具有较强的发展潜力`
           },
           {
             id: 3,
             type: 'weakness',
-            title: `${sortedCandidates[sortedCandidates.length - 1].name}科研能力待提升`,
-            description: '科研能力相对较弱，建议加强学术研究和论文发表'
+            title: `${sortedCandidates[sortedCandidates.length - 1].name}在${dimensionLabels[selectedDimensions[selectedDimensions.length - 1]] || '部分维度'}方面待提升`,
+            description: `${dimensionLabels[selectedDimensions[selectedDimensions.length - 1]] || '部分维度'}相对较弱，建议加强相关能力建设`
           },
           {
             id: 4,
@@ -815,6 +814,8 @@ export default {
       currentTip,
       analysisSteps,
       analysisTips,
+      decisionScenarios,
+      decisionSuggestions,
       toggleCandidate,
       selectAllFiltered,
       clearSelection,

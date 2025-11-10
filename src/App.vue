@@ -317,7 +317,7 @@ export default {
 
 /* 现代化按钮样式 */
 .el-button {
-  border-radius: 12px;
+  border-radius: 4px;
   font-weight: 500;
   transition: all 0.3s ease;
 }
@@ -636,4 +636,197 @@ export default {
 .modern-shadow-xl {
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
+
+/* ==================== 统一弹层样式 ==================== */
+/* 所有弹层的基础样式 */
+.el-dialog {
+  border-radius: 16px !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15) !important;
+  overflow: hidden !important;
+  border: none !important;
+  background: #ffffff !important;
+}
+
+/* 弹层遮罩层 */
+.el-overlay {
+  background-color: rgba(0, 0, 0, 0.5) !important;
+  backdrop-filter: blur(4px);
+}
+
+/* 弹层头部 - 统一渐变背景 */
+.el-dialog__header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  color: #ffffff !important;
+  border-radius: 16px 16px 0 0 !important;
+  padding: 20px 24px !important;
+  margin: 0 !important;
+  border: none !important;
+  border-bottom: none !important;
+  position: relative;
+}
+
+.el-dialog__header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+}
+
+/* 弹层标题 */
+.el-dialog__title {
+  color: #ffffff !important;
+  font-size: 18px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.3px;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* 弹层关闭按钮 */
+.el-dialog__headerbtn {
+  top: 20px !important;
+  right: 24px !important;
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: 50% !important;
+  background: rgba(255, 255, 255, 0.2) !important;
+  transition: all 0.3s ease !important;
+}
+
+.el-dialog__headerbtn:hover {
+  background: rgba(255, 255, 255, 0.3) !important;
+  transform: rotate(90deg);
+}
+
+.el-dialog__headerbtn .el-dialog__close {
+  color: #ffffff !important;
+  font-size: 18px !important;
+  font-weight: 600 !important;
+}
+
+/* 弹层内容区域 */
+.el-dialog__body {
+  padding: 24px !important;
+  background: #ffffff !important;
+  color: #1a1a1a !important;
+  line-height: 1.6;
+  max-height: calc(80vh - 140px);
+  overflow-y: auto;
+}
+
+/* 弹层内容区域滚动条 */
+.el-dialog__body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.el-dialog__body::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 3px;
+}
+
+.el-dialog__body::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #cbd5e1 0%, #94a3b8 100%);
+  border-radius: 3px;
+}
+
+.el-dialog__body::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #94a3b8 0%, #64748b 100%);
+}
+
+/* 弹层底部 */
+.el-dialog__footer {
+  padding: 16px 24px !important;
+  background: rgba(248, 250, 252, 0.95) !important;
+  border-radius: 0 0 16px 16px !important;
+  margin: 0 !important;
+  border: none !important;
+  border-top: 1px solid rgba(0, 0, 0, 0.06) !important;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+/* 弹层底部按钮样式优化 */
+.el-dialog__footer .el-button {
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.el-dialog__footer .el-button--primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+}
+
+.el-dialog__footer .el-button--primary:hover {
+  background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+/* 弹层动画效果 */
+.el-dialog {
+  animation: dialogFadeIn 0.3s ease-out;
+}
+
+@keyframes dialogFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* 响应式弹层样式 */
+@media (max-width: 768px) {
+  .el-dialog {
+    width: 95% !important;
+    margin: 5vh auto !important;
+  }
+  
+  .el-dialog__header {
+    padding: 16px 20px !important;
+  }
+  
+  .el-dialog__title {
+    font-size: 16px !important;
+  }
+  
+  .el-dialog__body {
+    padding: 20px !important;
+  }
+  
+  .el-dialog__footer {
+    padding: 12px 20px !important;
+    flex-direction: column;
+  }
+  
+  .el-dialog__footer .el-button {
+    width: 100%;
+    margin: 0 !important;
+  }
+}
+
+/* 大弹层样式（宽度超过800px） */
+.el-dialog[style*="width: 80%"],
+.el-dialog[style*="width: 90%"],
+.el-dialog[style*="width: 95%"] {
+  max-width: 1200px;
+}
+
+/* 小弹层样式（宽度小于500px） */
+.el-dialog[style*="width: 400px"],
+.el-dialog[style*="width: 450px"],
+.el-dialog[style*="width: 500px"] {
+  max-width: 90%;
+}
+
+/* 特殊弹层样式覆盖（如果需要保留某些特殊样式，可以在这里添加） */
 </style>

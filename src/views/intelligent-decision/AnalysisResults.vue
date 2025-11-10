@@ -25,9 +25,20 @@
               <p>{{ teacherResult.department }} · {{ teacherResult.position }}</p>
             </div>
           </div>
-          <div class="overall-score-badge">
-            <div class="score-number">{{ teacherResult.overallScore }}</div>
-            <div class="score-text">综合评分</div>
+          <div class="header-right">
+            <div class="overall-score-badge">
+              <div class="score-number">{{ teacherResult.overallScore }}</div>
+              <div class="score-text">综合评分</div>
+            </div>
+            <el-button 
+              type="primary" 
+              size="small" 
+              @click="openReport(teacherResult)"
+              class="report-btn"
+            >
+              <el-icon><Document /></el-icon>
+              分析报告
+            </el-button>
           </div>
         </div>
         
@@ -92,11 +103,39 @@
       </div>
     </div>
     
+    <!-- 分析报告弹窗 -->
+    <el-dialog
+      v-model="reportDialogVisible"
+      width="90%"
+      :close-on-click-modal="false"
+      class="report-dialog"
+      destroy-on-close
+      :show-close="false"
+    >
+      <template #header>
+        <div class="dialog-header-content">
+          <h3>{{ currentReportData?.teacherName }} 教师评价报告</h3>
+          <el-button 
+            text 
+            @click="reportDialogVisible = false" 
+            class="dialog-close-btn"
+            circle
+          >
+            <el-icon><CircleClose /></el-icon>
+          </el-button>
+        </div>
+      </template>
+      <TeacherAnalysisReport 
+        v-if="currentReportData"
+        :teacher-data="currentReportData"
+        @close="reportDialogVisible = false"
+      />
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import { 
   Download,
@@ -114,8 +153,10 @@ import {
   InfoFilled,
   Bell,
   School,
-  Promotion
+  Promotion,
+  CircleClose
 } from '@element-plus/icons-vue'
+import TeacherAnalysisReport from './TeacherAnalysisReport.vue'
 
 export default defineComponent({
   name: 'AnalysisResults',
@@ -135,7 +176,9 @@ export default defineComponent({
     InfoFilled,
     Bell,
     School,
-    Promotion
+    Promotion,
+    CircleClose,
+    TeacherAnalysisReport
   },
   props: {
     results: {
@@ -156,8 +199,20 @@ export default defineComponent({
     }
   },
   setup(props, { emit }) {
+    const reportDialogVisible = ref(false)
+    const currentReportData = ref(null)
+    
     const handleExport = () => {
       ElMessage.success('报告导出功能开发中...')
+    }
+    
+    const openReport = (teacherResult) => {
+      if (!teacherResult) {
+        ElMessage.warning('教师数据不存在')
+        return
+      }
+      currentReportData.value = { ...teacherResult }
+      reportDialogVisible.value = true
     }
     
     const getDimensionName = (dimensionKey) => {
@@ -217,7 +272,10 @@ export default defineComponent({
     }
     
     return {
+      reportDialogVisible,
+      currentReportData,
       handleExport,
+      openReport,
       getDimensionName,
       getDimensionForTeacher,
       getRecommendationTitle,
@@ -277,6 +335,17 @@ export default defineComponent({
   padding: 16px 18px;
   background: #fafafa;
   border-bottom: 1px solid #e5e7eb;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-direction: row-reverse;
+}
+
+.report-btn {
+  white-space: nowrap;
 }
 
 .teacher-profile {
@@ -793,6 +862,57 @@ export default defineComponent({
     padding: 16px;
     gap: 12px;
   }
+}
+
+/* 报告弹窗样式 */
+.report-dialog {
+  max-width: 1400px;
+}
+
+.report-dialog :deep(.el-dialog__body) {
+  padding: 0;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.dialog-header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.dialog-header-content h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #ffffff;
+  flex: 1;
+}
+
+.dialog-close-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.dialog-close-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: rotate(90deg);
+}
+
+.dialog-close-btn .el-icon {
+  font-size: 18px;
+  font-weight: 600;
 }
 </style>
 

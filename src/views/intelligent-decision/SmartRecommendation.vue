@@ -20,23 +20,24 @@
             <h3 class="section-title">评选类型配置</h3>
             <el-form :model="selectionConfig" label-width="100px">
               <el-row :gutter="20">
-                <el-col :span="6">
+                <el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
                   <el-form-item label="评选类型">
                     <el-select v-model="selectionConfig.type" placeholder="选择评选类型" @change="onSelectionTypeChange">
-                      <el-option label="职称评选" value="title_evaluation" />
-                      <el-option label="人才评选" value="talent_evaluation" />
-                      <el-option label="优秀教师" value="excellent_teacher" />
-                      <el-option label="学科带头人" value="subject_leader" />
-                      <el-option label="教学名师" value="teaching_master" />
+                      <el-option 
+                        v-for="type in evaluationTypes" 
+                        :key="type.value"
+                        :label="type.label" 
+                        :value="type.value" 
+                      />
                     </el-select>
                   </el-form-item>
                 </el-col>
-                <el-col :span="6">
+                <el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
                   <el-form-item label="推荐数量">
                     <el-input-number v-model="selectionConfig.count" :min="1" :max="20" />
                   </el-form-item>
                 </el-col>
-                <el-col :span="6">
+                <el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
                   <el-form-item label="评选级别">
                     <el-select v-model="selectionConfig.level" placeholder="选择评选级别">
                       <el-option label="校级" value="school" />
@@ -46,7 +47,7 @@
                     </el-select>
                   </el-form-item>
                 </el-col>
-                <el-col :span="6">
+                <el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
                   <el-form-item label="学科领域">
                     <el-select v-model="selectionConfig.subject" placeholder="选择学科领域" multiple>
                       <el-option label="计算机科学" value="computer" />
@@ -67,74 +68,27 @@
           <!-- 评选标准配置 -->
           <div class="config-section">
             <h3 class="section-title">评选标准配置</h3>
-            <el-row :gutter="12">
-              <el-col :span="4">
-                <div class="criteria-item">
-                  <h4>教学能力 ({{ criteriaWeights.teaching }}%)</h4>
-                  <el-slider v-model="criteriaWeights.teaching" :min="0" :max="100" />
-                  <div class="criteria-details">
-                    <el-checkbox v-model="criteriaDetails.teaching.courseQuality">课程质量</el-checkbox>
-                    <el-checkbox v-model="criteriaDetails.teaching.studentEvaluation">学生评价</el-checkbox>
-                    <el-checkbox v-model="criteriaDetails.teaching.teachingAward">教学获奖</el-checkbox>
-                  </div>
-                </div>
-              </el-col>
-              <el-col :span="4">
-                <div class="criteria-item">
-                  <h4>科研能力 ({{ criteriaWeights.research }}%)</h4>
-                  <el-slider v-model="criteriaWeights.research" :min="0" :max="100" />
-                  <div class="criteria-details">
-                    <el-checkbox v-model="criteriaDetails.research.paperCount">论文数量</el-checkbox>
-                    <el-checkbox v-model="criteriaDetails.research.projectCount">项目数量</el-checkbox>
-                    <el-checkbox v-model="criteriaDetails.research.patentCount">专利数量</el-checkbox>
-                  </div>
-                </div>
-              </el-col>
-              <el-col :span="4">
-                <div class="criteria-item">
-                  <h4>管理能力 ({{ criteriaWeights.management }}%)</h4>
-                  <el-slider v-model="criteriaWeights.management" :min="0" :max="100" />
-                  <div class="criteria-details">
-                    <el-checkbox v-model="criteriaDetails.management.leadership">领导力</el-checkbox>
-                    <el-checkbox v-model="criteriaDetails.management.teamBuilding">团队建设</el-checkbox>
-                    <el-checkbox v-model="criteriaDetails.management.decisionMaking">决策能力</el-checkbox>
-                  </div>
-                </div>
-              </el-col>
-              <el-col :span="4">
-                <div class="criteria-item">
-                  <h4>创新能力 ({{ criteriaWeights.innovation }}%)</h4>
-                  <el-slider v-model="criteriaWeights.innovation" :min="0" :max="100" />
-                  <div class="criteria-details">
-                    <el-checkbox v-model="criteriaDetails.innovation.innovationAward">创新奖项</el-checkbox>
-                    <el-checkbox v-model="criteriaDetails.innovation.techTransfer">技术转化</el-checkbox>
-                    <el-checkbox v-model="criteriaDetails.innovation.startup">创业项目</el-checkbox>
-                  </div>
-                </div>
-              </el-col>
-              <el-col :span="4">
-                <div class="criteria-item">
-                  <h4>社会影响 ({{ criteriaWeights.socialImpact }}%)</h4>
-                  <el-slider v-model="criteriaWeights.socialImpact" :min="0" :max="100" />
-                  <div class="criteria-details">
-                    <el-checkbox v-model="criteriaDetails.socialImpact.mediaCoverage">媒体报道</el-checkbox>
-                    <el-checkbox v-model="criteriaDetails.socialImpact.publicService">公共服务</el-checkbox>
-                    <el-checkbox v-model="criteriaDetails.socialImpact.industryInfluence">行业影响</el-checkbox>
-                  </div>
-                </div>
-              </el-col>
-              <el-col :span="4">
-                <div class="criteria-item">
-                  <h4>综合表现 ({{ criteriaWeights.overall }}%)</h4>
-                  <el-slider v-model="criteriaWeights.overall" :min="0" :max="100" />
-                  <div class="criteria-details">
-                    <el-checkbox v-model="criteriaDetails.overall.workEthic">工作态度</el-checkbox>
-                    <el-checkbox v-model="criteriaDetails.overall.colleagueRelation">同事关系</el-checkbox>
-                    <el-checkbox v-model="criteriaDetails.overall.professionalDevelopment">专业发展</el-checkbox>
-                  </div>
-                </div>
-              </el-col>
-            </el-row>
+            <div v-if="!selectionConfig.type" class="empty-criteria-tip">
+              <el-empty description="请先选择评选类型" :image-size="100" />
+            </div>
+            <div v-else-if="currentAssessmentItems.length === 0" class="empty-criteria-tip">
+              <el-empty description="该评选类型尚未配置考核内容，请先在决策支持页面配置" :image-size="100" />
+            </div>
+            <div v-else class="criteria-list">
+              <div 
+                v-for="(item, index) in currentAssessmentItems" 
+                :key="index"
+                class="criteria-item"
+              >
+                <h4>{{ item }} ({{ getCriteriaWeight(item) }}%)</h4>
+                <el-slider 
+                  :model-value="getCriteriaWeight(item)" 
+                  @input="(val) => updateCriteriaWeight(item, val)"
+                  :min="0" 
+                  :max="100" 
+                />
+              </div>
+            </div>
           </div>
           
           <!-- 操作按钮 -->
@@ -380,6 +334,11 @@
               <el-tag :type="getRankType(index + 1)" size="large">{{ index + 1 }}</el-tag>
             </div>
             
+            <div class="candidate-total-score">
+              <div class="total-score-label">总分</div>
+              <div class="total-score-value">{{ candidate.totalScore }}</div>
+            </div>
+            
             <div class="candidate-avatar">
               <el-avatar :size="80" :src="getAvatarUrl(candidate.name)">
                 {{ candidate.name.charAt(0) }}
@@ -418,10 +377,6 @@
                     <div class="score-label">影响</div>
                     <div class="score-value">{{ candidate.scores.socialImpact }}</div>
                   </div>
-                  <div class="score-item total-score">
-                    <div class="score-label">总分</div>
-                    <div class="score-value">{{ candidate.totalScore }}</div>
-                  </div>
                 </div>
               </div>
               
@@ -434,7 +389,6 @@
             </div>
             
             <div class="candidate-actions">
-              <el-button type="primary" size="small" @click="viewCandidateDetail(candidate)">查看</el-button>
               <el-button size="small" @click="compareCandidate(candidate)">分析</el-button>
               <el-button type="success" size="small" @click="selectCandidate(candidate)">推荐</el-button>
             </div>
@@ -452,25 +406,25 @@
         </template>
         
         <el-row :gutter="20">
-          <el-col :span="6">
+          <el-col :xs="12" :sm="12" :md="6" :lg="6" :xl="6">
             <div class="stat-item">
               <div class="stat-value">{{ stats.totalCandidates }}</div>
               <div class="stat-label">候选人数</div>
             </div>
           </el-col>
-          <el-col :span="6">
+          <el-col :xs="12" :sm="12" :md="6" :lg="6" :xl="6">
             <div class="stat-item">
               <div class="stat-value">{{ stats.avgScore }}</div>
               <div class="stat-label">平均分数</div>
             </div>
           </el-col>
-          <el-col :span="6">
+          <el-col :xs="12" :sm="12" :md="6" :lg="6" :xl="6">
             <div class="stat-item">
               <div class="stat-value">{{ stats.highScoreCount }}</div>
               <div class="stat-label">高分人数</div>
             </div>
           </el-col>
-          <el-col :span="6">
+          <el-col :xs="12" :sm="12" :md="6" :lg="6" :xl="6">
             <div class="stat-item">
               <div class="stat-value">{{ stats.recommendationRate }}%</div>
               <div class="stat-label">推荐成功率</div>
@@ -478,6 +432,120 @@
           </el-col>
         </el-row>
       </el-card>
+
+      <!-- AI智能分析对话框 -->
+      <el-dialog
+        v-model="aiAnalysisDialogVisible"
+        width="600px"
+        :close-on-click-modal="false"
+        :close-on-press-escape="false"
+        :show-close="false"
+        class="ai-analysis-dialog"
+        center
+      >
+        <template #header>
+          <div class="analysis-header">
+            <div class="header-icon">
+              <el-icon class="rotating"><Loading /></el-icon>
+            </div>
+            <div class="header-content">
+              <h3>AI智能分析中</h3>
+              <p>正在深度分析候选人数据，请稍候...</p>
+            </div>
+          </div>
+        </template>
+        
+        <div class="analysis-content">
+          <!-- 候选人信息 -->
+          <div class="candidate-info" v-if="analyzingCandidate">
+            <div class="info-item">
+              <span class="label">姓名：</span>
+              <span class="value">{{ analyzingCandidate.name }}</span>
+            </div>
+            <div class="info-item">
+              <span class="label">部门：</span>
+              <span class="value">{{ analyzingCandidate.department || '未知' }}</span>
+            </div>
+            <div class="info-item">
+              <span class="label">职称：</span>
+              <span class="value">{{ analyzingCandidate.title || '未知' }}</span>
+            </div>
+          </div>
+          
+          <!-- 进度条 -->
+          <div class="progress-section">
+            <div class="progress-header">
+              <span>分析进度</span>
+              <span class="progress-percent">{{ Math.round(aiAnalysisProgress) }}%</span>
+            </div>
+            <el-progress 
+              :percentage="aiAnalysisProgress" 
+              :stroke-width="8"
+              :show-text="false"
+              color="#667eea"
+            />
+          </div>
+          
+          <!-- 分析步骤列表 -->
+          <div class="analysis-steps">
+            <div 
+              v-for="(step, index) in analysisSteps" 
+              :key="index"
+              class="step-item"
+              :class="{
+                'step-active': index === currentAnalysisStep,
+                'step-completed': index < currentAnalysisStep,
+                'step-pending': index > currentAnalysisStep
+              }"
+            >
+              <div class="step-icon">
+                <el-icon v-if="index < currentAnalysisStep" class="step-check">
+                  <CircleCheck />
+                </el-icon>
+                <el-icon v-else-if="index === currentAnalysisStep" class="step-loading rotating">
+                  <Loading />
+                </el-icon>
+                <el-icon v-else class="step-pending-icon">
+                  <component :is="getIconComponent(step.icon)" />
+                </el-icon>
+              </div>
+              <div class="step-content">
+                <div class="step-title">{{ step.title }}</div>
+                <div class="step-description">{{ step.description }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </el-dialog>
+
+      <!-- 教师分析报告对话框 -->
+      <el-dialog
+        v-model="reportDialogVisible"
+        width="90%"
+        :close-on-click-modal="false"
+        class="report-dialog"
+        destroy-on-close
+        :show-close="false"
+      >
+        <template #header>
+          <div class="dialog-header-content">
+            <h3>{{ currentReportData?.teacherName }} 教师分析报告</h3>
+            <el-button 
+              text 
+              @click="reportDialogVisible = false" 
+              class="dialog-close-btn"
+              circle
+            >
+              <el-icon><CircleClose /></el-icon>
+            </el-button>
+          </div>
+        </template>
+        <TeacherAnalysisReport 
+          v-if="currentReportData"
+          :teacher-data="currentReportData"
+          @close="reportDialogVisible = false"
+        />
+      </el-dialog>
 
       <!-- 智能推荐历史 -->
       <el-card class="history-card" shadow="never">
@@ -527,33 +595,35 @@
 
 <script>
 import { addRecommendedCandidate, setRecommendedCandidates } from '@/store/recommendationStore.js'
+import { useEvaluationTypes } from '@/store/decisionStore.js'
+import { CircleClose, CircleCheck, Loading, Cpu, DataAnalysis, Document, User, Trophy, Setting } from '@element-plus/icons-vue'
+import TeacherAnalysisReport from './TeacherAnalysisReport.vue'
 export default {
   name: 'SmartRecommendation',
+  components: {
+    TeacherAnalysisReport,
+    CircleClose,
+    CircleCheck,
+    Loading,
+    Cpu,
+    DataAnalysis,
+    Document,
+    User,
+    Trophy,
+    Setting
+  },
   data() {
     return {
       loading: false,
       selectionConfig: {
-        type: 'title_evaluation',
+        type: '',
         count: 5,
         level: 'school',
         subject: []
       },
-      criteriaWeights: {
-        teaching: 30,
-        research: 25,
-        management: 20,
-        innovation: 15,
-        socialImpact: 5,
-        overall: 5
-      },
-      originalWeights: {
-        teaching: 30,
-        research: 25,
-        management: 20,
-        innovation: 15,
-        socialImpact: 5,
-        overall: 5
-      },
+      // 动态权重：基于考核内容的键值对，key为考核内容名称，value为权重百分比
+      criteriaWeights: {},
+      originalWeights: {},
       processingDialogVisible: false,
       processingStep: 0,
       processingComplete: false,
@@ -625,40 +695,131 @@ export default {
       analysisProgress: 0,
       currentCandidate: null,
       analysisReport: null,
+      // 教师分析报告对话框
+      reportDialogVisible: false,
+      currentReportData: null,
+      // AI分析对话框
+      aiAnalysisDialogVisible: false,
+      aiAnalysisProgress: 0,
+      currentAnalysisStep: 0,
+      analyzingCandidate: null,
       analysisSteps: [
-        { title: '基础信息分析', description: '分析候选人基本信息和履历' },
-        { title: '教学能力评估', description: '深入分析教学成果和课程质量' },
-        { title: '科研实力评估', description: '评估学术研究和创新成果' },
-        { title: '管理能力分析', description: '分析领导力和团队管理能力' },
-        { title: '综合能力评价', description: '整合多维度进行综合评价' },
-        { title: '生成推荐报告', description: '生成AI推荐理由和评估报告' }
+        { 
+          title: '基础信息分析', 
+          description: '分析候选人基本信息和履历',
+          icon: 'User',
+          duration: 800
+        },
+        { 
+          title: '教学能力评估', 
+          description: '深入分析教学成果和课程质量',
+          icon: 'Document',
+          duration: 1000
+        },
+        { 
+          title: '科研实力评估', 
+          description: '评估学术研究和创新成果',
+          icon: 'Trophy',
+          duration: 900
+        },
+        { 
+          title: '管理能力分析', 
+          description: '分析领导力和团队管理能力',
+          icon: 'Setting',
+          duration: 850
+        },
+        { 
+          title: '综合能力评价', 
+          description: '整合多维度进行综合评价',
+          icon: 'DataAnalysis',
+          duration: 1000
+        },
+        { 
+          title: '生成分析报告', 
+          description: '生成AI智能分析报告',
+          icon: 'Cpu',
+          duration: 1200
+        }
       ]
     }
   },
   created() {
     this.loadRecommendationHistory()
   },
+  watch: {
+    // 监听当前选中类型的考核内容变化，自动更新权重
+    currentAssessmentItems: {
+      handler(newItems, oldItems) {
+        // 如果评选类型已选择，且考核内容发生变化，更新权重
+        if (this.selectionConfig.type && newItems.length > 0) {
+          // 检查是否有新增或删除的考核内容
+          const newItemsSet = new Set(newItems)
+          const oldItemsSet = new Set(oldItems || [])
+          
+          // 如果有变化，重新初始化权重
+          if (newItems.length !== (oldItems || []).length || 
+              !newItems.every(item => oldItemsSet.has(item)) ||
+              !(oldItems || []).every(item => newItemsSet.has(item))) {
+            this.onSelectionTypeChange()
+          }
+        }
+      },
+      immediate: false
+    }
+  },
   computed: {
+    // 从 store 获取评选类型（响应式）
+    evaluationTypes() {
+      return useEvaluationTypes().value
+    },
+    // 当前选中评选类型的已选中考核内容
+    currentAssessmentItems() {
+      if (!this.selectionConfig.type) {
+        return []
+      }
+      const selectedType = this.evaluationTypes.find(type => type.value === this.selectionConfig.type)
+      if (!selectedType) {
+        return []
+      }
+      // 返回已选中的考核内容，如果没有配置则返回空数组
+      return selectedType.selectedAssessmentItems || []
+    },
     canGenerate() {
-      // 检查评选类型是否已选择
-      return !!this.selectionConfig.type
+      // 检查评选类型是否已选择，且至少有一个考核内容
+      return !!this.selectionConfig.type && this.currentAssessmentItems.length > 0
     }
   },
   methods: {
     onSelectionTypeChange() {
-      // 根据评选类型调整默认权重
-      const typeWeights = {
-        title_evaluation: { teaching: 40, research: 30, management: 15, innovation: 10, socialImpact: 3, overall: 2 },
-        talent_evaluation: { teaching: 25, research: 35, management: 20, innovation: 15, socialImpact: 3, overall: 2 },
-        excellent_teacher: { teaching: 50, research: 20, management: 15, innovation: 10, socialImpact: 3, overall: 2 },
-        subject_leader: { teaching: 30, research: 40, management: 20, innovation: 8, socialImpact: 1, overall: 1 },
-        teaching_master: { teaching: 60, research: 15, management: 15, innovation: 8, socialImpact: 1, overall: 1 }
+      // 根据当前选中类型的考核内容初始化权重
+      const items = this.currentAssessmentItems
+      if (items.length === 0) {
+        this.criteriaWeights = {}
+        this.originalWeights = {}
+        return
       }
       
-      if (typeWeights[this.selectionConfig.type]) {
-        this.criteriaWeights = { ...typeWeights[this.selectionConfig.type] }
-        this.originalWeights = { ...typeWeights[this.selectionConfig.type] }
-      }
+      // 平均分配权重，确保总和为100
+      const avgWeight = Math.floor(100 / items.length)
+      const remainder = 100 % items.length
+      
+      const newWeights = {}
+      items.forEach((item, index) => {
+        // 将余数分配给前几个项目
+        newWeights[item] = avgWeight + (index < remainder ? 1 : 0)
+      })
+      
+      this.criteriaWeights = { ...newWeights }
+      this.originalWeights = { ...newWeights }
+    },
+    // 获取某个考核内容的权重
+    getCriteriaWeight(item) {
+      return this.criteriaWeights[item] || 0
+    },
+    // 更新某个考核内容的权重
+    updateCriteriaWeight(item, value) {
+      // Vue 3 中直接赋值即可，响应式系统会自动处理
+      this.criteriaWeights[item] = value
     },
     
     async generateRecommendations() {
@@ -736,6 +897,33 @@ export default {
     },
     
     generateMockCandidates() {
+      // 考核内容到候选人 scores 字段的映射关系
+      const assessmentToScoreMap = {
+        '教学工作量': 'teaching',
+        '教学工作质量': 'teaching',
+        '教学完成度': 'teaching',
+        '教学研究与改革': 'teaching',
+        '学生评价': 'teaching',
+        '学生学情分析数据': 'teaching',
+        '督导评价': 'teaching',
+        '科研成果': 'research',
+        '科研项目数量': 'research',
+        '科研项目经费成本': 'research',
+        '科研项目成果质量': 'research',
+        '科研成果（论文、专著、专利等）': 'research',
+        '科研获奖': 'research',
+        '证书与认证': 'research',
+        '智能胜任力': 'innovation',
+        '公共服务参与度': 'socialImpact',
+        '产教融合项目': 'socialImpact',
+        '技术成果转化': 'innovation',
+        '横向课题': 'research',
+        '德能勤绩廉综合表现': 'management',
+        '服务对象满意度': 'management',
+        '管理效率与规范性': 'management',
+        '工作失误与事故': 'management'
+      }
+      
       const candidates = [
         {
           name: '张教授',
@@ -781,18 +969,20 @@ export default {
       
       // 根据推荐数量返回候选人
       return candidates.slice(0, this.selectionConfig.count).map((candidate, index) => {
-        const totalScore = Math.round(
-          candidate.scores.teaching * this.criteriaWeights.teaching / 100 +
-          candidate.scores.research * this.criteriaWeights.research / 100 +
-          candidate.scores.management * this.criteriaWeights.management / 100 +
-          candidate.scores.innovation * this.criteriaWeights.innovation / 100 +
-          candidate.scores.socialImpact * this.criteriaWeights.socialImpact / 100 +
-          candidate.scores.teaching * this.criteriaWeights.overall / 100
-        )
+        // 根据动态的考核内容和权重计算总分
+        let totalScore = 0
+        const assessmentItems = Object.keys(this.criteriaWeights)
+        
+        assessmentItems.forEach(item => {
+          const scoreKey = assessmentToScoreMap[item] || 'teaching' // 默认使用 teaching
+          const score = candidate.scores[scoreKey] || 70 // 如果字段不存在，使用默认值70
+          const weight = this.criteriaWeights[item] || 0
+          totalScore += score * weight / 100
+        })
         
         return {
           ...candidate,
-          totalScore,
+          totalScore: Math.round(totalScore),
           id: index + 1
         }
       }).sort((a, b) => b.totalScore - a.totalScore)
@@ -829,26 +1019,116 @@ export default {
       // 这里可以打开详情弹窗或跳转到详情页面
     },
     
+    // 获取图标组件
+    getIconComponent(iconName) {
+      const iconMap = {
+        User: User,
+        Document: Document,
+        Trophy: Trophy,
+        Setting: Setting,
+        DataAnalysis: DataAnalysis,
+        Cpu: Cpu
+      }
+      return iconMap[iconName] || Document
+    },
+    
     async compareCandidate(candidate) {
-      this.currentCandidate = candidate
-      this.analysisDialogVisible = true
-      this.analysisInProgress = true
+      // 保存当前分析的候选人
+      this.analyzingCandidate = candidate
+      // 重置分析状态
+      this.aiAnalysisProgress = 0
       this.currentAnalysisStep = 0
-      this.analysisProgress = 0
-      
-      // 模拟AI分析过程
+      // 显示AI分析对话框
+      this.aiAnalysisDialogVisible = true
+      // 开始执行分析动画
+      await this.performAIAnalysis(candidate)
+    },
+    
+    // 执行AI分析动画
+    async performAIAnalysis(candidate) {
       const totalSteps = this.analysisSteps.length
-      const stepDuration = 1200
       
+      // 逐步执行分析
       for (let i = 0; i < totalSteps; i++) {
         this.currentAnalysisStep = i
-        this.analysisProgress = Math.round(((i + 1) / totalSteps) * 100)
-        await new Promise(resolve => setTimeout(resolve, stepDuration))
+        const step = this.analysisSteps[i]
+        const stepDuration = step.duration
+        
+        // 更新进度条
+        const progressPerStep = 100 / totalSteps
+        const startProgress = i * progressPerStep
+        const endProgress = (i + 1) * progressPerStep
+        
+        // 动画更新进度
+        await this.animateProgress(startProgress, endProgress, stepDuration)
       }
       
-      // 生成分析报告
-      this.analysisReport = this.generateAnalysisReport(candidate)
-      this.analysisInProgress = false
+      // 确保进度条到达100%
+      this.aiAnalysisProgress = 100
+      
+      // 等待一小段时间让用户看到完成效果
+      await new Promise(resolve => setTimeout(resolve, 500))
+      
+      // 分析完成，关闭分析对话框，显示报告
+      this.aiAnalysisDialogVisible = false
+      // 将 candidate 数据转换为 TeacherAnalysisReport 需要的格式
+      const teacherData = this.convertCandidateToTeacherData(candidate)
+      this.currentReportData = teacherData
+      // 延迟一点显示报告，让过渡更自然
+      await new Promise(resolve => setTimeout(resolve, 300))
+      this.reportDialogVisible = true
+    },
+    
+    // 动画更新进度条
+    animateProgress(start, end, duration) {
+      return new Promise(resolve => {
+        const startTime = Date.now()
+        const animate = () => {
+          const elapsed = Date.now() - startTime
+          const progress = Math.min(elapsed / duration, 1)
+          this.aiAnalysisProgress = start + (end - start) * progress
+          
+          if (progress < 1) {
+            requestAnimationFrame(animate)
+          } else {
+            resolve()
+          }
+        }
+        animate()
+      })
+    },
+    
+    // 将候选人数据转换为教师分析报告数据格式
+    convertCandidateToTeacherData(candidate) {
+      const scores = candidate.scores || {}
+      const totalScore = candidate.totalScore || 0
+      
+      // 生成教学维度数据
+      const teachingDimensions = [
+        { name: '教学内容', key: 'content', score: scores.teaching || 90 },
+        { name: '教学方法', key: 'method', score: (scores.teaching || 90) - 3 },
+        { name: '课堂管理', key: 'management', score: scores.management || 80 },
+        { name: '学生参与度', key: 'participation', score: (scores.teaching || 90) - 2 },
+        { name: '语言表达', key: 'expression', score: (scores.teaching || 90) - 1 },
+        { name: '板书设计', key: 'board', score: (scores.teaching || 90) - 4 }
+      ]
+      
+      return {
+        teacherName: candidate.name || '未知教师',
+        overallScore: totalScore,
+        teachingScore: scores.teaching || 90,
+        researchScore: scores.research || 85,
+        studentScore: (scores.teaching || 90) - 2, // 学生评价基于教学分数
+        peerScore: scores.management || 80, // 同事评价基于管理能力
+        achievementScore: scores.innovation || 85, // 成果产出基于创新能力
+        developmentScore: Math.round(((scores.research || 85) + (scores.innovation || 85)) / 2), // 职业发展综合科研和创新
+        teachingDimensions: teachingDimensions,
+        dimensions: teachingDimensions,
+        department: candidate.department || '',
+        title: candidate.title || '',
+        experience: candidate.experience || 0,
+        highlights: candidate.highlights || []
+      }
     },
 
     generateAnalysisReport(candidate) {
@@ -988,14 +1268,9 @@ export default {
 
     // 历史标签映射
     getTypeLabel(key) {
-      const map = {
-        title_evaluation: '职称评选',
-        talent_evaluation: '人才评选',
-        excellent_teacher: '优秀教师',
-        subject_leader: '学科带头人',
-        teaching_master: '教学名师'
-      }
-      return map[key] || key
+      // 从 evaluationTypes 中查找对应的 label
+      const type = this.evaluationTypes.find(t => t.value === key)
+      return type ? type.label : key
     },
     getLevelLabel(level) {
       const map = {
@@ -1045,27 +1320,13 @@ export default {
     
     resetConfig() {
       this.selectionConfig = {
-        type: 'title_evaluation',
+        type: '',
         count: 5,
         level: 'school',
         subject: []
       }
-      this.criteriaWeights = {
-        teaching: 30,
-        research: 25,
-        management: 20,
-        innovation: 15,
-        socialImpact: 5,
-        overall: 5
-      }
-      this.originalWeights = {
-        teaching: 30,
-        research: 25,
-        management: 20,
-        innovation: 15,
-        socialImpact: 5,
-        overall: 5
-      }
+      this.criteriaWeights = {}
+      this.originalWeights = {}
       this.recommendations = []
       this.stats = { totalCandidates: 0, avgScore: 0, highScoreCount: 0, recommendationRate: 0 }
       this.$message.success('配置已重置')
@@ -1184,11 +1445,37 @@ export default {
   padding-top: 10px;
 }
 
+.criteria-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.empty-criteria-tip {
+  padding: 40px 20px;
+  text-align: center;
+  width: 100%;
+}
+
 .criteria-item {
+  flex: 1 1 calc((100% - 60px) / 6);
+  max-width: calc((100% - 60px) / 6);
+  min-width: 0;
   padding: 12px;
   background: #fafafa;
   border-radius: 8px;
-  margin-bottom: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+.criteria-item:hover {
+  background: #f0f0f0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .criteria-item h4 {
@@ -1196,16 +1483,58 @@ export default {
   color: #303133;
   font-size: 13px;
   font-weight: 600;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  line-height: 1.4;
 }
 
-.criteria-details {
-  margin-top: 10px;
+/* 响应式布局 - 超大屏：每行6个 */
+@media screen and (min-width: 1920px) {
+  .criteria-item {
+    flex: 1 1 calc((100% - 60px) / 6);
+    max-width: calc((100% - 60px) / 6);
+  }
 }
 
-.criteria-details .el-checkbox {
-  display: block;
-  margin-bottom: 6px;
-  font-size: 12px;
+/* 响应式布局 - 大屏：每行4个 */
+@media screen and (max-width: 1600px) {
+  .criteria-item {
+    flex: 1 1 calc((100% - 36px) / 4);
+    max-width: calc((100% - 36px) / 4);
+  }
+}
+
+/* 响应式布局 - 中屏：每行3个 */
+@media screen and (max-width: 1200px) {
+  .criteria-item {
+    flex: 1 1 calc((100% - 24px) / 3);
+    max-width: calc((100% - 24px) / 3);
+  }
+}
+
+/* 响应式布局 - 小屏：每行2个 */
+@media screen and (max-width: 768px) {
+  .criteria-list {
+    gap: 16px;
+  }
+  
+  .criteria-item {
+    flex: 1 1 calc((100% - 16px) / 2);
+    max-width: calc((100% - 16px) / 2);
+    margin-bottom: 0;
+  }
+  
+  .criteria-item h4 {
+    font-size: 14px;
+  }
+}
+
+/* 响应式布局 - 超小屏：每行1个 */
+@media screen and (max-width: 600px) {
+  .criteria-item {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
 }
 
 .empty-state {
@@ -1217,13 +1546,15 @@ export default {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .candidate-item {
   position: relative;
-  flex: 0 0 calc((100% - 40px) / 3);
-  max-width: calc((100% - 40px) / 3);
-  min-width: 300px;
+  flex: 1 1 calc((100% - 60px) / 4);
+  max-width: calc((100% - 60px) / 4);
+  min-width: 0;
   display: flex;
   flex-direction: column;
   padding: 16px;
@@ -1232,22 +1563,31 @@ export default {
   border: 1px solid #e4e7ed;
   transition: all 0.3s ease;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
 }
 
 /* 响应式布局 */
+/* 当每行只有3个卡片时 */
 @media screen and (max-width: 1400px) {
   .candidate-item {
-    flex: 0 0 calc((100% - 20px) / 2);
-    max-width: calc((100% - 20px) / 2);
-    min-width: 320px;
+    flex: 1 1 calc((100% - 40px) / 3);
+    max-width: calc((100% - 40px) / 3);
   }
 }
 
-@media screen and (max-width: 768px) {
+/* 当每行只有2个卡片时 */
+@media screen and (max-width: 960px) {
   .candidate-item {
-    flex: 0 0 100%;
+    flex: 1 1 calc((100% - 20px) / 2);
+    max-width: calc((100% - 20px) / 2);
+  }
+}
+
+/* 当每行只有1个卡片时 */
+@media screen and (max-width: 600px) {
+  .candidate-item {
+    flex: 1 1 100%;
     max-width: 100%;
-    min-width: 0;
   }
 }
 
@@ -1259,8 +1599,34 @@ export default {
 .candidate-rank {
   position: absolute;
   top: 12px;
+  left: 12px;
+  z-index: 10;
+}
+
+.candidate-total-score {
+  position: absolute;
+  top: 12px;
   right: 12px;
   z-index: 10;
+  text-align: center;
+  padding: 8px 12px;
+  background: linear-gradient(135deg, #409EFF 0%, #67c23a 100%);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(64, 158, 255, 0.3);
+}
+
+.total-score-label {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 2px;
+  font-weight: 500;
+}
+
+.total-score-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.2;
 }
 
 .candidate-avatar {
@@ -1314,11 +1680,6 @@ export default {
   border-radius: 6px;
 }
 
-.score-item.total-score {
-  background: #e8f4fd;
-  border: 1px solid #409EFF;
-  grid-column: span 5;
-}
 
 .score-label {
   font-size: 11px;
@@ -1341,6 +1702,7 @@ export default {
   color: #303133;
   font-size: 13px;
   font-weight: 600;
+  padding-left: 18px;
 }
 
 .candidate-highlights ul {
@@ -1388,6 +1750,16 @@ export default {
 
 .criteria-item .el-slider {
   margin: 8px 0;
+  width: 100%;
+  min-width: 0;
+}
+
+.criteria-item :deep(.el-slider__runway) {
+  width: 100%;
+}
+
+.criteria-item :deep(.el-slider__button-wrapper) {
+  width: 100%;
 }
 
 .el-checkbox-group {
@@ -1662,8 +2034,8 @@ export default {
 }
 
 .score-value {
-  font-size: 36px;
-  font-weight: 700;
+  font-size: 22px;
+  font-weight: 500;
   color: #409EFF;
   margin-bottom: 4px;
 }
@@ -1919,5 +2291,292 @@ export default {
   display: flex;
   justify-content: flex-end;
   margin-top: 8px;
+}
+
+/* 教师分析报告对话框样式 */
+.report-dialog {
+  max-width: 1400px;
+}
+
+.report-dialog :deep(.el-dialog__body) {
+  padding: 0;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.report-dialog :deep(.el-dialog__header) {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 20px 24px;
+  margin: 0;
+}
+
+.dialog-header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.dialog-header-content h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #ffffff;
+  flex: 1;
+}
+
+.dialog-close-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.dialog-close-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: rotate(90deg);
+}
+
+.dialog-close-btn .el-icon {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* AI智能分析对话框样式 */
+.ai-analysis-dialog :deep(.el-dialog__header) {
+  padding: 24px 24px 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  margin: 0;
+  border-radius: 8px 8px 0 0;
+}
+
+.ai-analysis-dialog :deep(.el-dialog__body) {
+  padding: 24px;
+}
+
+.analysis-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+}
+
+.header-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.header-icon .el-icon {
+  font-size: 24px;
+  color: #ffffff;
+}
+
+.header-content {
+  flex: 1;
+}
+
+.header-content h3 {
+  margin: 0 0 4px 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.header-content p {
+  margin: 0;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.rotating {
+  animation: rotate 2s linear infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.analysis-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.candidate-info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.info-item .label {
+  font-size: 14px;
+  color: #6b7280;
+  font-weight: 500;
+  min-width: 60px;
+}
+
+.info-item .value {
+  font-size: 14px;
+  color: #1f2937;
+  font-weight: 600;
+}
+
+.progress-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.progress-header span:first-child {
+  font-size: 14px;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.progress-percent {
+  font-size: 16px;
+  color: #667eea;
+  font-weight: 700;
+}
+
+.analysis-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.step-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 16px;
+  border-radius: 8px;
+  border: 2px solid #e5e7eb;
+  background: #ffffff;
+  transition: all 0.3s ease;
+}
+
+.step-item.step-pending {
+  opacity: 0.6;
+  background: #f9fafb;
+}
+
+.step-item.step-active {
+  border-color: #667eea;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+  transform: translateX(4px);
+}
+
+.step-item.step-completed {
+  border-color: #10b981;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(16, 185, 129, 0.02) 100%);
+}
+
+.step-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: #f3f4f6;
+  transition: all 0.3s ease;
+}
+
+.step-item.step-active .step-icon {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.step-item.step-completed .step-icon {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.step-check {
+  font-size: 20px;
+  color: #ffffff;
+}
+
+.step-loading {
+  font-size: 20px;
+  color: #ffffff;
+}
+
+.step-pending-icon {
+  font-size: 20px;
+  color: #9ca3af;
+}
+
+.step-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.step-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1f2937;
+  transition: color 0.3s ease;
+}
+
+.step-item.step-pending .step-title {
+  color: #9ca3af;
+}
+
+.step-item.step-active .step-title {
+  color: #667eea;
+}
+
+.step-item.step-completed .step-title {
+  color: #10b981;
+}
+
+.step-description {
+  font-size: 13px;
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+.step-item.step-pending .step-description {
+  color: #9ca3af;
 }
 </style>

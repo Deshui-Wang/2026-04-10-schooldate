@@ -41,35 +41,44 @@
     <!-- 应用列表 -->
     <el-card class="apps-card">
       <el-row :gutter="20">
-        <el-col :span="6" v-for="app in filteredApps" :key="app.id">
+        <el-col 
+          :xs="24" 
+          :sm="12" 
+          :md="8" 
+          :lg="6" 
+          :xl="6"
+          v-for="app in filteredApps" 
+          :key="app.id"
+        >
           <el-card class="app-card" shadow="hover">
-            <div class="app-image">
-              <el-image
-                :src="app.image"
-                :alt="app.name"
-                fit="cover"
-                style="width: 100%; height: 200px; border-radius: 7px;"
-              >
-                <template #error>
-                  <div class="image-slot" style="border-radius: 7px;">
-                    <el-icon><Picture /></el-icon>
-                  </div>
-                </template>
-              </el-image>
-            </div>
             <div class="app-content">
-              <h4 class="app-name">{{ app.name }}</h4>
-              <p class="app-description">{{ app.description }}</p>
-              <div class="app-meta">
-                <el-tag :type="getCategoryType(app.category)">{{ app.category }}</el-tag>
-                <el-tag :type="getPriceType(app.price)">{{ app.price }}</el-tag>
-                <div class="app-rating">
-                  <el-rate v-model="app.rating" disabled show-score />
+              <div class="app-header">
+                <div class="app-icon" :style="{ backgroundColor: app.iconBgColor }">
+                  <el-image
+                    :src="app.image"
+                    :alt="app.name"
+                    fit="cover"
+                    class="icon-image"
+                  >
+                    <template #error>
+                      <div class="icon-slot">
+                        <el-icon><Picture /></el-icon>
+                      </div>
+                    </template>
+                  </el-image>
+                </div>
+                <div class="app-info">
+                  <h4 class="app-name">{{ app.name }}</h4>
+                  <div class="app-type-source">
+                    <span class="app-type">{{ app.type || '应用型' }}</span>
+                    <span class="app-source">{{ app.source || '@官方' }}</span>
+                  </div>
                 </div>
               </div>
-              <div class="app-actions">
-                <el-button type="primary" class="view-detail-btn" @click="viewDetails(app)">查看详情</el-button>
-                <el-button type="success" class="install-btn" @click="installApp(app)">安装</el-button>
+              <p class="app-description">{{ app.description }}</p>
+              <div class="app-footer">
+                <span class="app-users">用户量 {{ app.users || '0' }}</span>
+                <el-button class="experience-btn" @click="viewDetails(app)">立即体验</el-button>
               </div>
             </div>
           </el-card>
@@ -149,6 +158,10 @@ export default {
         developer: '教育科技公司',
         rating: 4.5,
         image: '/images/applist/808.jpg',
+        type: '应用型',
+        source: '@官方',
+        users: '4.1k',
+        iconBgColor: '#6c757d',
         features: [
           '支持多种题型',
           '自动阅卷功能',
@@ -167,6 +180,10 @@ export default {
         developer: '家校通科技',
         rating: 4.2,
         image: '/images/applist/banner2.png',
+        type: '应用型',
+        source: '@官方',
+        users: '3.3k',
+        iconBgColor: '#409eff',
         features: [
           '消息推送',
           '作业通知',
@@ -185,6 +202,10 @@ export default {
         developer: '智能教育',
         rating: 4.8,
         image: '/images/applist/banner1.png',
+        type: '应用型',
+        source: '@官方',
+        users: '5.2k',
+        iconBgColor: '#409eff',
         features: [
           '智能算法排课',
           '冲突检测',
@@ -203,6 +224,10 @@ export default {
         developer: '档案管理公司',
         rating: 4.3,
         image: '/images/applist/97.png',
+        type: '应用型',
+        source: '@官方',
+        users: '1.7k',
+        iconBgColor: '#409eff',
         features: [
           '档案录入',
           '成长记录',
@@ -221,6 +246,10 @@ export default {
         developer: '学习科技',
         rating: 4.6,
         image: '/images/applist/212.jpg',
+        type: '应用型',
+        source: '@官方',
+        users: '2.9k',
+        iconBgColor: '#f56c6c',
         features: [
           '视频课程',
           '互动练习',
@@ -239,6 +268,10 @@ export default {
         developer: '数据科技',
         rating: 4.4,
         image: '/images/applist/84.png',
+        type: '应用型',
+        source: '@官方',
+        users: '9.6k',
+        iconBgColor: '#409eff',
         features: [
           '数据可视化',
           '趋势分析',
@@ -257,6 +290,10 @@ export default {
         developer: '智能教学科技',
         rating: 4.7,
         image: '/images/applist/42.jpeg',
+        type: '应用型',
+        source: '@官方',
+        users: '3.8k',
+        iconBgColor: '#6c5ce7',
         features: [
           '智能识别字迹',
           '自动评分',
@@ -275,6 +312,10 @@ export default {
         developer: '互动教育',
         rating: 4.5,
         image: '/images/applist/24.png',
+        type: '应用型',
+        source: '@官方',
+        users: '5.4k',
+        iconBgColor: '#409eff',
         features: [
           '签到打卡',
           '在线投票',
@@ -293,6 +334,10 @@ export default {
         developer: '成长科技',
         rating: 4.6,
         image: '/images/applist/0f0.jpeg',
+        type: '应用型',
+        source: '@官方',
+        users: '4.2k',
+        iconBgColor: '#2d3436',
         features: [
           '成长轨迹',
           '照片视频',
@@ -311,6 +356,10 @@ export default {
         developer: '班级管理',
         rating: 4.4,
         image: '/images/applist/20.jpeg',
+        type: '应用型',
+        source: '@官方',
+        users: '3.4k',
+        iconBgColor: '#409eff',
         features: [
           '班级通知',
           '值日安排',
@@ -329,6 +378,10 @@ export default {
         developer: '答疑科技',
         rating: 4.8,
         image: '/images/applist/68.jpg',
+        type: '应用型',
+        source: '@官方',
+        users: '2.1k',
+        iconBgColor: '#409eff',
         features: [
           '即时答疑',
           '预约辅导',
@@ -347,6 +400,10 @@ export default {
         developer: '监考科技',
         rating: 4.3,
         image: '/images/applist/814.jpg',
+        type: '应用型',
+        source: '@官方',
+        users: '1.8k',
+        iconBgColor: '#409eff',
         features: [
           '人脸识别',
           '行为监测',
@@ -365,6 +422,10 @@ export default {
         developer: '资源库科技',
         rating: 4.6,
         image: '/images/applist/banner3.jpeg',
+        type: '应用型',
+        source: '@官方',
+        users: '6.2k',
+        iconBgColor: '#409eff',
         features: [
           '课件下载',
           '试卷题库',
@@ -483,33 +544,95 @@ export default {
   margin-bottom: 20px;
 }
 
+.apps-card {
+  background-color: #f5f5f5;
+}
+
+.apps-card :deep(.el-card__body) {
+  background-color: #ffffff;
+  padding: 20px;
+}
+
 .app-card {
   margin-bottom: 20px;
   cursor: pointer;
   transition: all 0.3s;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .app-card:hover {
   transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
 
-.app-content {
-  padding: 15px;
+.app-header {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.app-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.icon-image {
+  width: 100%;
+  height: 100%;
+}
+
+.icon-slot {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  color: #ffffff;
+  font-size: 24px;
+}
+
+.app-info {
+  flex: 1;
 }
 
 .app-name {
-  margin: 0 0 10px 0;
+  margin: 0 0 6px 0;
   color: #303133;
   font-size: 16px;
   font-weight: 600;
+  line-height: 1.4;
+}
+
+.app-type-source {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.app-type {
+  color: #b19cd9;
+  font-size: 12px;
+}
+
+.app-source {
+  color: #909399;
+  font-size: 11px;
 }
 
 .app-description {
-  margin: 0 0 15px 0;
+  margin: 0 0 16px 0;
   color: #606266;
-  font-size: 14px;
-  line-height: 1.5;
-  height: 42px;
+  font-size: 13px;
+  line-height: 1.6;
+  min-height: 10px;
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -517,25 +640,18 @@ export default {
   -webkit-box-orient: vertical;
 }
 
-.app-meta {
-  margin-bottom: 15px;
-}
-
-.app-meta .el-tag {
-  margin-right: 8px;
-}
-
-.app-rating {
-  margin-top: 8px;
-}
-
-.app-actions {
+.app-footer {
   display: flex;
-  gap: 10px;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid #f0f0f0;
 }
 
-.app-actions .el-button {
-  flex: 1;
+.app-users {
+  color: #909399;
+  font-size: 12px;
 }
 
 .image-slot {
@@ -584,7 +700,7 @@ export default {
   color: #606266;
 }
 
-/* 按钮样式优化 - 浅色系 */
+/* 按钮样式优化 */
 .search-btn {
   background-color: #e6f4ff;
   border-color: #409eff;
@@ -597,27 +713,19 @@ export default {
   color: #409eff;
 }
 
-.view-detail-btn {
-  background-color: #f5f9ff;
-  border-color: #6fb3ff;
-  color: #ffffff;
+.experience-btn {
+  background-color: transparent;
+  border: none;
+  color: #606266;
+  border-radius: 4px;
+  padding: 6px 16px;
+  font-size: 13px;
+  font-weight: 400;
 }
 
-.view-detail-btn:hover {
-  background-color: #e6f4ff;
-  border-color: #6fb3ff;
-  color: #6fb3ff;
-}
-
-.install-btn {
-  background-color: #e8f8f5;
-  border-color: #67c23a;
-  color: #67c23a;
-}
-
-.install-btn:hover {
-  background-color: #c2e7b8;
-  border-color: #67c23a;
-  color: #67c23a;
+.experience-btn:hover {
+  background-color: transparent;
+  border: none;
+  color: #303133;
 }
 </style>

@@ -1135,6 +1135,28 @@ export default {
               ]
             },
             {
+              key: 'student',
+              name: '学生评价',
+              score: random(range.student[0], range.student[1]),
+              analysis: '学生评价优秀，师生关系和谐，深受学生喜爱。',
+              suggestions: [
+                '继续保持良好的师生关系',
+                '关注学生个体差异',
+                '及时回应学生反馈'
+              ]
+            },
+            {
+              key: 'peer',
+              name: '同事评价',
+              score: random(range.peer[0], range.peer[1]),
+              analysis: '同事评价良好，团队协作能力强，专业素养高。',
+              suggestions: [
+                '继续加强团队协作',
+                '分享教学经验',
+                '参与集体备课活动'
+              ]
+            },
+            {
               key: 'achievement',
               name: '成果产出',
               score: random(range.achievement[0], range.achievement[1]),
@@ -1155,6 +1177,49 @@ export default {
                 '持续学习和自我提升',
                 '积极参与行业交流和学习'
               ]
+            }
+          ],
+          // 为报告组件添加详细的教学维度数据
+          teachingDimensions: [
+            {
+              key: 'content',
+              name: '教学内容',
+              score: random(range.teaching[0], range.teaching[1])
+            },
+            {
+              key: 'method',
+              name: '教学方法',
+              score: random(range.teaching[0] - 3, range.teaching[1] - 3)
+            },
+            {
+              key: 'management',
+              name: '课堂管理',
+              score: random(range.teaching[0] - 5, range.teaching[1] - 5)
+            },
+            {
+              key: 'participation',
+              name: '学生参与度',
+              score: random(range.student[0], range.student[1])
+            },
+            {
+              key: 'expression',
+              name: '语言表达',
+              score: random(range.teaching[0] - 2, range.teaching[1] - 2)
+            },
+            {
+              key: 'board',
+              name: '板书设计',
+              score: random(range.teaching[0] - 6, range.teaching[1] - 6)
+            },
+            {
+              key: 'time',
+              name: '时间管理',
+              score: random(range.teaching[0] - 4, range.teaching[1] - 4)
+            },
+            {
+              key: 'interaction',
+              name: '互动质量',
+              score: random(range.student[0] + 2, range.student[1] + 2)
             }
           ]
         }

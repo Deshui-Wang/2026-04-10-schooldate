@@ -129,55 +129,206 @@
     <el-dialog
       v-model="dialogVisible"
       :title="isEdit ? '编辑MCP服务' : '添加MCP服务'"
-      width="600px"
+      width="680px"
+      class="mcp-service-dialog"
+      :close-on-click-modal="false"
     >
-      <el-form :model="form" :rules="rules" ref="formRef" label-width="100px">
-        <el-form-item label="服务名称" prop="name">
-          <el-input v-model="form.name" placeholder="请输入服务名称" />
-        </el-form-item>
-        <el-form-item label="模型类型" prop="model">
-          <el-select v-model="form.model" placeholder="请选择模型类型">
-            <el-option label="GPT-4" value="gpt-4" />
-            <el-option label="GPT-3.5" value="gpt-3.5" />
-            <el-option label="Claude" value="claude" />
-            <el-option label="Gemini" value="gemini" />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="服务端点" prop="endpoint">
-          <el-input v-model="form.endpoint" placeholder="请输入服务端点" />
-        </el-form-item>
-        <el-form-item label="API密钥" prop="apiKey">
-          <el-input v-model="form.apiKey" type="password" placeholder="请输入API密钥" />
-        </el-form-item>
-        <el-form-item label="最大令牌" prop="maxTokens">
-          <el-input-number v-model="form.maxTokens" :min="1" :max="4000" />
-        </el-form-item>
-        <el-form-item label="温度" prop="temperature">
-          <el-slider v-model="form.temperature" :min="0" :max="2" :step="0.1" />
-        </el-form-item>
-        <el-form-item label="描述">
-          <el-input
-            v-model="form.description"
-            type="textarea"
-            :rows="3"
-            placeholder="请输入描述"
-          />
-        </el-form-item>
-      </el-form>
+      <template #header>
+        <div class="dialog-header">
+          <div class="header-icon">
+            <el-icon><Connection /></el-icon>
+          </div>
+          <div class="header-title">
+            <h3>{{ isEdit ? '编辑MCP服务' : '添加MCP服务' }}</h3>
+            <p>{{ isEdit ? '修改MCP服务配置信息' : '配置新的AI模型服务对接规则' }}</p>
+          </div>
+        </div>
+      </template>
+      
+      <div class="dialog-content">
+        <el-form :model="form" :rules="rules" ref="formRef" label-width="120px" class="mcp-service-form">
+          <!-- 基本信息 -->
+          <div class="form-section">
+            <div class="section-title">
+              <el-icon><Document /></el-icon>
+              <span>基本信息</span>
+            </div>
+            <el-form-item label="服务名称" prop="name">
+              <el-input 
+                v-model="form.name" 
+                placeholder="请输入服务名称，如：学生数据分析"
+                clearable
+              >
+                <template #prefix>
+                  <el-icon><Edit /></el-icon>
+                </template>
+              </el-input>
+            </el-form-item>
+            <el-form-item label="模型类型" prop="model">
+              <el-select 
+                v-model="form.model" 
+                placeholder="请选择模型类型"
+                style="width: 100%"
+              >
+                <el-option label="GPT-4" value="GPT-4">
+                  <span style="float: left">
+                    <el-tag type="success" size="small" style="margin-right: 8px">GPT-4</el-tag>
+                    <span>OpenAI GPT-4</span>
+                  </span>
+                  <span style="float: right; color: #8492a6; font-size: 13px">最强大</span>
+                </el-option>
+                <el-option label="GPT-3.5" value="GPT-3.5">
+                  <span style="float: left">
+                    <el-tag type="primary" size="small" style="margin-right: 8px">GPT-3.5</el-tag>
+                    <span>OpenAI GPT-3.5</span>
+                  </span>
+                  <span style="float: right; color: #8492a6; font-size: 13px">性价比高</span>
+                </el-option>
+                <el-option label="Claude" value="Claude">
+                  <span style="float: left">
+                    <el-tag type="warning" size="small" style="margin-right: 8px">Claude</el-tag>
+                    <span>Anthropic Claude</span>
+                  </span>
+                  <span style="float: right; color: #8492a6; font-size: 13px">长文本</span>
+                </el-option>
+                <el-option label="Gemini" value="Gemini">
+                  <span style="float: left">
+                    <el-tag type="info" size="small" style="margin-right: 8px">Gemini</el-tag>
+                    <span>Google Gemini</span>
+                  </span>
+                  <span style="float: right; color: #8492a6; font-size: 13px">多模态</span>
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </div>
+
+          <!-- 连接配置 -->
+          <div class="form-section">
+            <div class="section-title">
+              <el-icon><Link /></el-icon>
+              <span>连接配置</span>
+            </div>
+            <el-form-item label="服务端点" prop="endpoint">
+              <el-input 
+                v-model="form.endpoint" 
+                placeholder="请输入API端点URL，如：https://api.openai.com/v1/chat/completions"
+                clearable
+              >
+                <template #prefix>
+                  <el-icon><Link /></el-icon>
+                </template>
+              </el-input>
+            </el-form-item>
+            <el-form-item label="API密钥" prop="apiKey">
+              <el-input 
+                v-model="form.apiKey" 
+                type="password" 
+                placeholder="请输入API密钥"
+                show-password
+                clearable
+              >
+                <template #prefix>
+                  <el-icon><Lock /></el-icon>
+                </template>
+              </el-input>
+            </el-form-item>
+          </div>
+
+          <!-- 高级设置 -->
+          <div class="form-section">
+            <div class="section-title">
+              <el-icon><Setting /></el-icon>
+              <span>高级设置</span>
+            </div>
+            <el-form-item label="最大令牌" prop="maxTokens">
+              <el-input-number 
+                v-model="form.maxTokens" 
+                :min="1" 
+                :max="4000"
+                style="width: 100%"
+                placeholder="最大响应令牌数"
+              />
+              <div class="form-tip">设置生成响应的最大令牌数，建议范围：1000-4000</div>
+            </el-form-item>
+            <el-form-item label="温度参数" prop="temperature">
+              <div class="slider-wrapper">
+                <el-slider 
+                  v-model="form.temperature" 
+                  :min="0" 
+                  :max="2" 
+                  :step="0.1"
+                  show-stops
+                  :marks="temperatureMarks"
+                />
+                <div class="slider-value">{{ form.temperature }}</div>
+              </div>
+              <div class="form-tip">控制输出随机性：0=确定性，2=创造性（建议0.7）</div>
+            </el-form-item>
+          </div>
+
+          <!-- 其他信息 -->
+          <div class="form-section">
+            <div class="section-title">
+              <el-icon><InfoFilled /></el-icon>
+              <span>其他信息</span>
+            </div>
+            <el-form-item label="描述">
+              <el-input
+                v-model="form.description"
+                type="textarea"
+                :rows="3"
+                placeholder="请输入服务描述信息，包括用途、注意事项等"
+                maxlength="200"
+                show-word-limit
+              />
+            </el-form-item>
+          </div>
+        </el-form>
+      </div>
+
       <template #footer>
-        <el-button @click="dialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="submitForm">确定</el-button>
+        <div class="dialog-footer">
+          <el-button @click="dialogVisible = false" size="large">取消</el-button>
+          <el-button type="primary" @click="submitForm" size="large">
+            <el-icon><Check /></el-icon>
+            {{ isEdit ? '保存修改' : '确认添加' }}
+          </el-button>
+        </div>
       </template>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { ref, reactive } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import { 
+  InfoFilled, 
+  Plus, 
+  Search,
+  Connection,
+  Document,
+  Edit,
+  Link,
+  Lock,
+  Setting,
+  Check
+} from '@element-plus/icons-vue'
 
 export default {
   name: 'McpService',
+  components: {
+    InfoFilled,
+    Plus,
+    Search,
+    Connection,
+    Document,
+    Edit,
+    Link,
+    Lock,
+    Setting,
+    Check
+  },
   setup() {
     const dialogVisible = ref(false)
     const isEdit = ref(false)
@@ -255,6 +406,13 @@ export default {
       }
       return colors[model] || 'info'
     }
+
+    const temperatureMarks = computed(() => ({
+      0: '确定性',
+      0.7: '平衡',
+      1: '创造性',
+      2: '高创造性'
+    }))
 
     const addService = () => {
       isEdit.value = false
@@ -359,6 +517,7 @@ export default {
       queryLoading,
       mcpServices,
       getModelTypeColor,
+      temperatureMarks,
       addService,
       editService,
       testService,
@@ -426,5 +585,237 @@ export default {
 .query-result h4 {
   margin: 0 0 10px 0;
   color: #303133;
+}
+
+/* 对话框样式优化 */
+:deep(.mcp-service-dialog .el-dialog__header) {
+  padding: 0;
+  border-bottom: none;
+}
+
+:deep(.mcp-service-dialog .el-dialog__body) {
+  padding: 0;
+}
+
+:deep(.mcp-service-dialog .el-dialog__footer) {
+  padding: 20px 24px;
+  border-top: 1px solid #f0f0f0;
+  background-color: #fafafa;
+}
+
+.dialog-header {
+  display: flex;
+  align-items: center;
+  padding: 24px 24px 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #ffffff;
+}
+
+.header-icon {
+  width: 48px;
+  height: 48px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 16px;
+  flex-shrink: 0;
+}
+
+.header-icon .el-icon {
+  font-size: 24px;
+  color: #ffffff;
+}
+
+.header-title {
+  flex: 1;
+}
+
+.header-title h3 {
+  margin: 0 0 4px 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.header-title p {
+  margin: 0;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.dialog-content {
+  padding: 24px;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.dialog-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.dialog-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.dialog-content::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.dialog-content::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+.mcp-service-form {
+  padding: 0;
+}
+
+.form-section {
+  margin-bottom: 28px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.form-section:last-of-type {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #303133;
+}
+
+.section-title .el-icon {
+  margin-right: 8px;
+  color: #409eff;
+  font-size: 18px;
+}
+
+:deep(.mcp-service-form .el-form-item) {
+  margin-bottom: 20px;
+}
+
+:deep(.mcp-service-form .el-form-item__label) {
+  font-weight: 500;
+  color: #606266;
+  padding-right: 16px;
+}
+
+:deep(.mcp-service-form .el-input__wrapper) {
+  border-radius: 6px;
+  box-shadow: 0 0 0 1px #dcdfe6 inset;
+  transition: all 0.3s;
+}
+
+:deep(.mcp-service-form .el-input__wrapper:hover) {
+  box-shadow: 0 0 0 1px #c0c4cc inset;
+}
+
+:deep(.mcp-service-form .el-input.is-focus .el-input__wrapper) {
+  box-shadow: 0 0 0 1px #409eff inset;
+}
+
+:deep(.mcp-service-form .el-select .el-input__wrapper) {
+  cursor: pointer;
+}
+
+:deep(.mcp-service-form .el-textarea__inner) {
+  border-radius: 6px;
+  border: 1px solid #dcdfe6;
+  transition: all 0.3s;
+}
+
+:deep(.mcp-service-form .el-textarea__inner:hover) {
+  border-color: #c0c4cc;
+}
+
+:deep(.mcp-service-form .el-textarea__inner:focus) {
+  border-color: #409eff;
+}
+
+:deep(.mcp-service-form .el-input__prefix) {
+  color: #909399;
+}
+
+.form-tip {
+  margin-top: 16px;
+  font-size: 12px;
+  color: #909399;
+  line-height: 1.5;
+}
+
+.slider-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+}
+
+.slider-wrapper .el-slider {
+  flex: 1;
+}
+
+.slider-value {
+  min-width: 60px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: #409eff;
+  background: #ecf5ff;
+  padding: 4px 12px;
+  border-radius: 4px;
+}
+
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.dialog-footer .el-button {
+  min-width: 100px;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+.dialog-footer .el-button--primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+}
+
+.dialog-footer .el-button--primary:hover {
+  background: linear-gradient(135deg, #5568d3 0%, #6a3d8f 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.dialog-footer .el-button--primary .el-icon {
+  margin-right: 4px;
+}
+
+/* 下拉选项样式优化 */
+:deep(.el-select-dropdown__item) {
+  padding: 12px 20px;
+  height: auto;
+}
+
+:deep(.el-select-dropdown__item:hover) {
+  background-color: #f5f7fa;
+}
+
+/* 滑块样式优化 */
+:deep(.el-slider__marks-text) {
+  font-size: 12px;
+  color: #909399;
 }
 </style>

@@ -78,51 +78,170 @@
     <el-dialog
       v-model="dialogVisible"
       :title="isEdit ? '编辑API配置' : '添加API配置'"
-      width="600px"
+      width="700px"
+      class="api-config-dialog"
+      :close-on-click-modal="false"
     >
-      <el-form :model="form" :rules="rules" ref="formRef" label-width="100px">
-        <el-form-item label="配置名称" prop="name">
-          <el-input v-model="form.name" placeholder="请输入配置名称" />
-        </el-form-item>
-        <el-form-item label="API地址" prop="url">
-          <el-input v-model="form.url" placeholder="请输入API地址" />
-        </el-form-item>
-        <el-form-item label="请求方法" prop="method">
-          <el-select v-model="form.method" placeholder="请选择请求方法">
-            <el-option label="GET" value="GET" />
-            <el-option label="POST" value="POST" />
-            <el-option label="PUT" value="PUT" />
-            <el-option label="DELETE" value="DELETE" />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="认证方式" prop="authType">
-          <el-select v-model="form.authType" placeholder="请选择认证方式">
-            <el-option label="无认证" value="none" />
-            <el-option label="API Key" value="apikey" />
-            <el-option label="OAuth 2.0" value="oauth2" />
-            <el-option label="Basic Auth" value="basic" />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="同步频率" prop="syncFrequency">
-          <el-select v-model="form.syncFrequency" placeholder="请选择同步频率">
-            <el-option label="实时" value="realtime" />
-            <el-option label="每分钟" value="1min" />
-            <el-option label="每小时" value="1hour" />
-            <el-option label="每天" value="1day" />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="描述">
-          <el-input
-            v-model="form.description"
-            type="textarea"
-            :rows="3"
-            placeholder="请输入描述"
-          />
-        </el-form-item>
-      </el-form>
+      <template #header>
+        <div class="dialog-header">
+          <div class="header-icon">
+            <el-icon><Setting /></el-icon>
+          </div>
+          <div class="header-title">
+            <h3>{{ isEdit ? '编辑API配置' : '添加API配置' }}</h3>
+            <p>{{ isEdit ? '修改API接口配置信息' : '配置新的API接口对接规则' }}</p>
+          </div>
+        </div>
+      </template>
+      
+      <div class="dialog-content">
+        <el-form :model="form" :rules="rules" ref="formRef" label-width="120px" class="api-form">
+          <!-- 基本信息 -->
+          <div class="form-section">
+            <div class="section-title">
+              <el-icon><Document /></el-icon>
+              <span>基本信息</span>
+            </div>
+            <el-form-item label="配置名称" prop="name">
+              <el-input 
+                v-model="form.name" 
+                placeholder="请输入配置名称，如：学生信息API"
+                clearable
+              >
+                <template #prefix>
+                  <el-icon><Edit /></el-icon>
+                </template>
+              </el-input>
+            </el-form-item>
+            <el-form-item label="API地址" prop="url">
+              <el-input 
+                v-model="form.url" 
+                placeholder="请输入完整的API地址，如：https://api.example.com/v1/data"
+                clearable
+              >
+                <template #prefix>
+                  <el-icon><Link /></el-icon>
+                </template>
+              </el-input>
+            </el-form-item>
+            <el-form-item label="请求方法" prop="method">
+              <el-select 
+                v-model="form.method" 
+                placeholder="请选择请求方法"
+                style="width: 100%"
+              >
+                <el-option label="GET" value="GET">
+                  <span style="float: left">
+                    <el-tag type="success" size="small" style="margin-right: 8px">GET</el-tag>
+                    <span>获取数据</span>
+                  </span>
+                </el-option>
+                <el-option label="POST" value="POST">
+                  <span style="float: left">
+                    <el-tag type="primary" size="small" style="margin-right: 8px">POST</el-tag>
+                    <span>创建数据</span>
+                  </span>
+                </el-option>
+                <el-option label="PUT" value="PUT">
+                  <span style="float: left">
+                    <el-tag type="warning" size="small" style="margin-right: 8px">PUT</el-tag>
+                    <span>更新数据</span>
+                  </span>
+                </el-option>
+                <el-option label="DELETE" value="DELETE">
+                  <span style="float: left">
+                    <el-tag type="danger" size="small" style="margin-right: 8px">DELETE</el-tag>
+                    <span>删除数据</span>
+                  </span>
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </div>
+
+          <!-- 认证与同步 -->
+          <div class="form-section">
+            <div class="section-title">
+              <el-icon><Lock /></el-icon>
+              <span>认证与同步</span>
+            </div>
+            <el-form-item label="认证方式" prop="authType">
+              <el-select 
+                v-model="form.authType" 
+                placeholder="请选择认证方式"
+                style="width: 100%"
+              >
+                <el-option label="无认证" value="none">
+                  <span style="float: left">无认证</span>
+                  <span style="float: right; color: #8492a6; font-size: 13px">公开接口</span>
+                </el-option>
+                <el-option label="API Key" value="apikey">
+                  <span style="float: left">API Key</span>
+                  <span style="float: right; color: #8492a6; font-size: 13px">密钥认证</span>
+                </el-option>
+                <el-option label="OAuth 2.0" value="oauth2">
+                  <span style="float: left">OAuth 2.0</span>
+                  <span style="float: right; color: #8492a6; font-size: 13px">令牌认证</span>
+                </el-option>
+                <el-option label="Basic Auth" value="basic">
+                  <span style="float: left">Basic Auth</span>
+                  <span style="float: right; color: #8492a6; font-size: 13px">基础认证</span>
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="同步频率" prop="syncFrequency">
+              <el-select 
+                v-model="form.syncFrequency" 
+                placeholder="请选择同步频率"
+                style="width: 100%"
+              >
+                <el-option label="实时" value="realtime">
+                  <span style="float: left">实时同步</span>
+                  <span style="float: right; color: #8492a6; font-size: 13px">数据变更即时同步</span>
+                </el-option>
+                <el-option label="每分钟" value="1min">
+                  <span style="float: left">每分钟</span>
+                  <span style="float: right; color: #8492a6; font-size: 13px">每60秒同步一次</span>
+                </el-option>
+                <el-option label="每小时" value="1hour">
+                  <span style="float: left">每小时</span>
+                  <span style="float: right; color: #8492a6; font-size: 13px">每60分钟同步一次</span>
+                </el-option>
+                <el-option label="每天" value="1day">
+                  <span style="float: left">每天</span>
+                  <span style="float: right; color: #8492a6; font-size: 13px">每24小时同步一次</span>
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </div>
+
+          <!-- 其他信息 -->
+          <div class="form-section">
+            <div class="section-title">
+              <el-icon><InfoFilled /></el-icon>
+              <span>其他信息</span>
+            </div>
+            <el-form-item label="描述">
+              <el-input
+                v-model="form.description"
+                type="textarea"
+                :rows="4"
+                placeholder="请输入API配置的描述信息，包括用途、注意事项等"
+                maxlength="200"
+                show-word-limit
+              />
+            </el-form-item>
+          </div>
+        </el-form>
+      </div>
+
       <template #footer>
-        <el-button @click="dialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="submitForm">确定</el-button>
+        <div class="dialog-footer">
+          <el-button @click="dialogVisible = false" size="large">取消</el-button>
+          <el-button type="primary" @click="submitForm" size="large">
+            <el-icon><Check /></el-icon>
+            {{ isEdit ? '保存修改' : '确认添加' }}
+          </el-button>
+        </div>
       </template>
     </el-dialog>
   </div>
@@ -131,9 +250,19 @@
 <script>
 import { ref, reactive } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import { Setting, Document, Lock, InfoFilled, Check, Edit, Link } from '@element-plus/icons-vue'
 
 export default {
   name: 'ApiIntegration',
+  components: {
+    Setting,
+    Document,
+    Lock,
+    InfoFilled,
+    Check,
+    Edit,
+    Link
+  },
   setup() {
     const dialogVisible = ref(false)
     const isEdit = ref(false)
@@ -332,5 +461,207 @@ export default {
 .rules-content li {
   margin: 5px 0;
   color: #606266;
+}
+
+/* 对话框样式优化 */
+:deep(.api-config-dialog) {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+:deep(.api-config-dialog .el-dialog__header) {
+  padding: 0;
+  border-bottom: none;
+}
+
+:deep(.api-config-dialog .el-dialog__body) {
+  padding: 0;
+}
+
+:deep(.api-config-dialog .el-dialog__footer) {
+  padding: 20px 24px;
+  border-top: 1px solid #f0f0f0;
+  background-color: #fafafa;
+}
+
+.dialog-header {
+  display: flex;
+  align-items: center;
+  padding: 24px 24px 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #ffffff;
+}
+
+.header-icon {
+  width: 48px;
+  height: 48px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 16px;
+  flex-shrink: 0;
+}
+
+.header-icon .el-icon {
+  font-size: 24px;
+  color: #ffffff;
+}
+
+.header-title {
+  flex: 1;
+}
+
+.header-title h3 {
+  margin: 0 0 4px 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.header-title p {
+  margin: 0;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.dialog-content {
+  padding: 24px;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.dialog-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.dialog-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.dialog-content::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.dialog-content::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+.api-form {
+  padding: 0;
+}
+
+.form-section {
+  margin-bottom: 28px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.form-section:last-of-type {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #303133;
+}
+
+.section-title .el-icon {
+  margin-right: 8px;
+  color: #409eff;
+  font-size: 18px;
+}
+
+:deep(.api-form .el-form-item) {
+  margin-bottom: 20px;
+}
+
+:deep(.api-form .el-form-item__label) {
+  font-weight: 500;
+  color: #606266;
+  padding-right: 16px;
+}
+
+:deep(.api-form .el-input__wrapper) {
+  border-radius: 6px;
+  box-shadow: 0 0 0 1px #dcdfe6 inset;
+  transition: all 0.3s;
+}
+
+:deep(.api-form .el-input__wrapper:hover) {
+  box-shadow: 0 0 0 1px #c0c4cc inset;
+}
+
+:deep(.api-form .el-input.is-focus .el-input__wrapper) {
+  box-shadow: 0 0 0 1px #409eff inset;
+}
+
+:deep(.api-form .el-select .el-input__wrapper) {
+  cursor: pointer;
+}
+
+:deep(.api-form .el-textarea__inner) {
+  border-radius: 6px;
+  border: 1px solid #dcdfe6;
+  transition: all 0.3s;
+}
+
+:deep(.api-form .el-textarea__inner:hover) {
+  border-color: #c0c4cc;
+}
+
+:deep(.api-form .el-textarea__inner:focus) {
+  border-color: #409eff;
+}
+
+:deep(.api-form .el-input__prefix) {
+  color: #909399;
+}
+
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.dialog-footer .el-button {
+  min-width: 100px;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+.dialog-footer .el-button--primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+}
+
+.dialog-footer .el-button--primary:hover {
+  background: linear-gradient(135deg, #5568d3 0%, #6a3d8f 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.dialog-footer .el-button--primary .el-icon {
+  margin-right: 4px;
+}
+
+/* 下拉选项样式优化 */
+:deep(.el-select-dropdown__item) {
+  padding: 12px 20px;
+  height: auto;
+}
+
+:deep(.el-select-dropdown__item:hover) {
+  background-color: #f5f7fa;
 }
 </style>
