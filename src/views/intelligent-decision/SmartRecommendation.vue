@@ -20,24 +20,34 @@
             <h3 class="section-title">评选类型配置</h3>
             <el-form :model="selectionConfig" label-width="100px">
               <el-row :gutter="20">
-                <el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
+                <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
                   <el-form-item label="评选类型">
-                    <el-select v-model="selectionConfig.type" placeholder="选择评选类型" @change="onSelectionTypeChange">
-                      <el-option 
-                        v-for="type in evaluationTypes" 
+                    <div class="type-list">
+                      <div
+                        v-for="type in evaluationTypes"
                         :key="type.value"
-                        :label="type.label" 
-                        :value="type.value" 
-                      />
-                    </el-select>
+                        class="type-card"
+                        :class="{ selected: selectionConfig.type === type.value }"
+                        @click="selectionConfig.type = type.value; onSelectionTypeChange()"
+                      >
+                        <div class="type-color" :style="{ background: type.color }"></div>
+                        <div class="type-content">
+                          <div class="type-title">{{ type.label }}</div>
+                          <div class="type-desc">{{ type.description }}</div>
+                        </div>
+                        <div class="type-check" v-if="selectionConfig.type === type.value">
+                          <el-icon><CircleCheck /></el-icon>
+                        </div>
+                      </div>
+                    </div>
                   </el-form-item>
                 </el-col>
-                <el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
-                  <el-form-item label="推荐数量">
+                <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
+                  <el-form-item label="推荐人数">
                     <el-input-number v-model="selectionConfig.count" :min="1" :max="20" />
                   </el-form-item>
                 </el-col>
-                <el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
+                <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
                   <el-form-item label="评选级别">
                     <el-select v-model="selectionConfig.level" placeholder="选择评选级别">
                       <el-option label="校级" value="school" />
@@ -47,7 +57,7 @@
                     </el-select>
                   </el-form-item>
                 </el-col>
-                <el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
+                <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
                   <el-form-item label="学科领域">
                     <el-select v-model="selectionConfig.subject" placeholder="选择学科领域" multiple>
                       <el-option label="计算机科学" value="computer" />
@@ -1564,6 +1574,7 @@ export default {
   transition: all 0.3s ease;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   box-sizing: border-box;
+  gap: 10px;
 }
 
 /* 响应式布局 */
@@ -1766,6 +1777,101 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+
+/* 评选类型卡片样式 */
+.type-list {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  width: 100%;
+}
+
+.type-card {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px;
+  background: #ffffff;
+  border: 1px solid #e4e7ed;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 72px;
+}
+
+.type-card:hover {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+.type-card.selected {
+  border-color: #409EFF;
+  box-shadow: 0 6px 20px rgba(64, 158, 255, 0.16);
+}
+
+.type-color {
+  width: 8px;
+  height: 48px;
+  border-radius: 6px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.type-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.type-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #303133;
+  line-height: 1.2;
+}
+
+.type-desc {
+  font-size: 12px;
+  color: #909399;
+  line-height: 1.4;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.type-check {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  color: #409EFF;
+}
+
+/* 评选类型卡片响应式 */
+@media screen and (max-width: 1600px) {
+  .type-list {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .type-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .type-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .type-list {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* 推荐弹窗样式 */

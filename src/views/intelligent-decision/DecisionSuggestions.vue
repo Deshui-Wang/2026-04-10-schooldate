@@ -242,7 +242,7 @@
 </template>
 
 <script>
-import { ref, computed, nextTick } from 'vue'
+import { ref, computed, nextTick, h } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { 
@@ -467,23 +467,45 @@ export default {
     
     // 查看建议详情
     const viewDetails = (suggestion) => {
-      const details = `
-建议标题：${suggestion.title}
-
-建议描述：${suggestion.description}
-
-建议分类：${getCategoryName(suggestion.category)}
-
-优先级：${suggestion.priority}
-
-创建时间：${suggestion.createTime}
-
-预期效果：${suggestion.expectedEffect || '暂无'}
-
-${suggestion.confidence ? `置信度：${Math.round(suggestion.confidence * 100)}%` : ''}
-      `.trim()
+      const summaryRows = [
+        { label: '建议标题', value: suggestion.title || '—' },
+        { label: '建议分类', value: getCategoryName(suggestion.category) || '—' },
+        { label: '优先级', value: suggestion.priority || '—' },
+        { label: '创建时间', value: suggestion.createTime || '—' },
+        { label: '采纳状态', value: suggestion.adopted ? '已采纳' : '未采纳' },
+        suggestion.adoptedTime
+          ? { label: '采纳时间', value: suggestion.adoptedTime }
+          : null,
+        { label: '预期效果', value: suggestion.expectedEffect || '暂无' },
+        suggestion.confidence != null
+          ? { label: '置信度', value: `${Math.round(suggestion.confidence * 100)}%` }
+          : null
+      ].filter(Boolean)
       
-      ElMessageBox.alert(details, '建议详情', {
+      const messageVNode = h('div', { class: 'suggestion-detail-content' }, [
+        h(
+          'div',
+          { class: 'detail-summary' },
+          summaryRows.map(row =>
+            h('div', { class: 'detail-item', key: row.label }, [
+              h('span', { class: 'detail-label' }, row.label),
+              h('span', { class: 'detail-value' }, row.value)
+            ])
+          )
+        ),
+        h('div', { class: 'detail-description' }, [
+          h('span', { class: 'detail-label' }, '建议描述'),
+          h(
+            'p',
+            { class: 'detail-value' },
+            suggestion.description || '暂无描述'
+          )
+        ])
+      ])
+      
+      ElMessageBox({
+        title: '建议详情',
+        message: messageVNode,
         confirmButtonText: '关闭',
         type: 'info',
         customClass: 'suggestion-detail-dialog'
@@ -850,7 +872,7 @@ ${suggestion.confidence ? `置信度：${Math.round(suggestion.confidence * 100)
 }
 
 /* 弹层样式 */
-:deep(.condition-dialog) {
+::deep(.condition-dialog) {
   .el-dialog {
     border-radius: 16px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
@@ -884,6 +906,81 @@ ${suggestion.confidence ? `置信度：${Math.round(suggestion.confidence * 100)
     padding: 16px 24px;
     background: rgba(248, 250, 252, 0.8);
     border-radius: 0 0 16px 16px;
+  }
+}
+
+::deep(.suggestion-detail-dialog) {
+  .el-message-box {
+    width: 520px;
+    max-width: 90vw;
+    border-radius: 16px;
+    box-shadow: 0 18px 48px rgba(15, 23, 42, 0.18);
+  }
+
+  .el-message-box__content {
+    padding-right: 0;
+  }
+
+  .suggestion-detail-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .detail-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+  }
+
+  .detail-item {
+    padding: 12px 14px;
+    border-radius: 10px;
+    background: #f8fafc;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    border: 1px solid rgba(148, 163, 184, 0.2);
+  }
+
+  .detail-label {
+    font-size: 12px;
+    color: #64748b;
+    letter-spacing: 0.5px;
+  }
+
+  .detail-value {
+    font-size: 14px;
+    color: #1e293b;
+    line-height: 1.5;
+    word-break: break-word;
+  }
+
+  .detail-description {
+    padding: 16px;
+    border-radius: 12px;
+    background: rgba(102, 126, 234, 0.08);
+    border: 1px solid rgba(102, 126, 234, 0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .detail-description .detail-label {
+    font-size: 13px;
+    color: #4c51bf;
+    font-weight: 600;
+  }
+
+  .detail-description .detail-value {
+    color: #334155;
+    margin: 0;
+  }
+
+  @media screen and (max-width: 580px) {
+    .detail-summary {
+      grid-template-columns: 1fr;
+    }
   }
 }
 
