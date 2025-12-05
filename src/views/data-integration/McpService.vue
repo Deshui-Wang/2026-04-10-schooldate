@@ -46,29 +46,29 @@
       </template>
 
       <el-table :data="mcpServices" stripe>
-        <el-table-column prop="name" label="服务名称" width="200" />
-        <el-table-column prop="model" label="模型类型" width="150">
+        <el-table-column prop="name" label="服务名称" min-width="200" />
+        <el-table-column prop="model" label="模型类型" min-width="150">
           <template #default="scope">
             <el-tag :type="getModelTypeColor(scope.row.model)">
               {{ scope.row.model }}
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="endpoint" label="服务端点" width="250" />
-        <el-table-column prop="apiKey" label="API密钥" width="150">
+        <el-table-column prop="endpoint" label="服务端点" min-width="250" />
+        <el-table-column prop="apiKey" label="API密钥" min-width="150">
           <template #default="scope">
             <span>{{ scope.row.apiKey ? '***' + scope.row.apiKey.slice(-4) : '未设置' }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="status" label="状态" width="100">
+        <el-table-column prop="status" label="状态" min-width="100">
           <template #default="scope">
             <el-tag :type="scope.row.status === 'active' ? 'success' : 'danger'">
               {{ scope.row.status === 'active' ? '启用' : '禁用' }}
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="lastUsed" label="最后使用" width="180" />
-        <el-table-column label="操作" width="200">
+        <el-table-column prop="lastUsed" label="最后使用" min-width="180" />
+        <el-table-column label="操作" width="200" fixed="right">
           <template #default="scope">
             <el-button size="small" @click="editService(scope.row)">编辑</el-button>
             <el-button size="small" type="success" @click="testService(scope.row)">测试</el-button>

@@ -5,7 +5,7 @@
       <el-header class="header">
         <div class="header-left">
           <img src="/images/logo.png" alt="平台Logo" class="logo-img" />
-          <h2 class="logo">教师档案智能管理平台</h2>
+          <h2 class="logo">智慧校园管理平台</h2>
         </div>
         <div class="header-right">
           <el-dropdown>
@@ -38,16 +38,22 @@
               <span>首页</span>
             </el-menu-item>
             
-            <el-sub-menu index="/data-integration">
+            <el-sub-menu index="/consultation-center">
               <template #title>
-                <el-icon><Connection /></el-icon>
-                <span>数据对接</span>
+                <el-icon><Document /></el-icon>
+                <span>资讯通知</span>
               </template>
-              <el-menu-item index="/data-integration/api">API接口对接</el-menu-item>
-              <el-menu-item index="/data-integration/database">数据库直连</el-menu-item>
-              <el-menu-item index="/data-integration/file-import">文件导入</el-menu-item>
-              <el-menu-item index="/data-integration/mcp-service">MCP服务</el-menu-item>
-              <el-menu-item index="/data-integration/web-scraping">爬虫</el-menu-item>
+              <el-menu-item index="/consultation-center/article-management">文章管理</el-menu-item>
+              <el-menu-item index="/consultation-center/notice-management">通知管理</el-menu-item>
+            </el-sub-menu>
+
+            <el-sub-menu index="/reporting-center">
+              <template #title>
+                <el-icon><Upload /></el-icon>
+                <span>上报中心</span>
+              </template>
+              <el-menu-item index="/reporting-center/monitor">上报监控</el-menu-item>
+              <el-menu-item index="/reporting-center/forms">表单列表</el-menu-item>
             </el-sub-menu>
 
             <el-sub-menu index="/intelligent-decision">
@@ -93,6 +99,15 @@
               <el-menu-item index="/student-management/evaluation">评价管理</el-menu-item>
             </el-sub-menu>
 
+            <el-sub-menu index="/archive-center">
+              <template #title>
+                <el-icon><Collection /></el-icon>
+                <span>档案中心</span>
+              </template>
+              <el-menu-item index="/archive-center/teacher">教师档案</el-menu-item>
+              <el-menu-item index="/archive-center/student">学生档案</el-menu-item>
+            </el-sub-menu>
+
             <el-sub-menu index="/app-market">
               <template #title>
                 <el-icon><Shop /></el-icon>
@@ -108,6 +123,19 @@
                 <span>授权中心</span>
               </template>
               <el-menu-item index="/authorization-center/app-authorization">应用授权</el-menu-item>
+              <el-menu-item index="/authorization-center/quota-authorization">额度授权</el-menu-item>
+            </el-sub-menu>
+
+            <el-sub-menu index="/data-integration">
+              <template #title>
+                <el-icon><Connection /></el-icon>
+                <span>数据对接</span>
+              </template>
+              <el-menu-item index="/data-integration/api">API接口对接</el-menu-item>
+              <el-menu-item index="/data-integration/database">数据库直连</el-menu-item>
+              <el-menu-item index="/data-integration/file-import">文件导入</el-menu-item>
+              <el-menu-item index="/data-integration/mcp-service">MCP服务</el-menu-item>
+              <el-menu-item index="/data-integration/web-scraping">网页抓取</el-menu-item>
             </el-sub-menu>
           </el-menu>
         </el-aside>

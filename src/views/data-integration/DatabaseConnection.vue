@@ -46,26 +46,26 @@
       </template>
 
       <el-table :data="connections" stripe>
-        <el-table-column prop="name" label="连接名称" width="200" />
-        <el-table-column prop="type" label="数据库类型" width="120">
+        <el-table-column prop="name" label="连接名称" min-width="200" />
+        <el-table-column prop="type" label="数据库类型" min-width="120">
           <template #default="scope">
             <el-tag :type="getDbTypeColor(scope.row.type)">
               {{ scope.row.type }}
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="host" label="主机地址" width="150" />
-        <el-table-column prop="port" label="端口" width="80" />
-        <el-table-column prop="database" label="数据库名" width="150" />
-        <el-table-column prop="status" label="状态" width="100">
+        <el-table-column prop="host" label="主机地址" min-width="150" />
+        <el-table-column prop="port" label="端口" min-width="80" />
+        <el-table-column prop="database" label="数据库名" min-width="150" />
+        <el-table-column prop="status" label="状态" min-width="100">
           <template #default="scope">
             <el-tag :type="scope.row.status === 'connected' ? 'success' : 'danger'">
               {{ scope.row.status === 'connected' ? '已连接' : '未连接' }}
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="lastSync" label="最后同步" width="180" />
-        <el-table-column label="操作" width="200">
+        <el-table-column prop="lastSync" label="最后同步" min-width="180" />
+        <el-table-column label="操作" width="200" fixed="right">
           <template #default="scope">
             <el-button size="small" @click="editConnection(scope.row)">编辑</el-button>
             <el-button size="small" type="success" @click="testConnection(scope.row)">测试</el-button>

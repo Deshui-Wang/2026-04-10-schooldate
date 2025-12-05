@@ -37,6 +37,19 @@ import AppPurchase from '../views/app-market/AppPurchase.vue'
 
 // 授权中心
 import AppAuthorization from '../views/authorization-center/AppAuthorization.vue'
+import QuotaAuthorization from '../views/authorization-center/QuotaAuthorization.vue'
+
+// 咨询中心
+import ArticleManagement from '../views/consultation-center/ArticleManagement.vue'
+import NoticeManagement from '../views/consultation-center/NoticeManagement.vue'
+
+// 档案中心
+import TeacherArchive from '../views/archive-center/TeacherArchive.vue'
+import StudentArchive from '../views/archive-center/StudentArchive.vue'
+
+// 上报中心
+import ReportingForms from '../views/reporting-center/ReportingForms.vue'
+import ReportingMonitor from '../views/reporting-center/ReportingMonitor.vue'
 
 // 智能决策
 import DecisionSupport from '../views/intelligent-decision/DecisionSupport.vue'
@@ -203,6 +216,48 @@ const routes = [
     name: 'AppAuthorization',
     component: AppAuthorization,
     meta: { title: '应用授权' }
+  },
+  {
+    path: '/authorization-center/quota-authorization',
+    name: 'QuotaAuthorization',
+    component: QuotaAuthorization,
+    meta: { title: '额度授权' }
+  },
+  {
+    path: '/consultation-center/article-management',
+    name: 'ArticleManagement',
+    component: ArticleManagement,
+    meta: { title: '文章管理' }
+  },
+  {
+    path: '/consultation-center/notice-management',
+    name: 'NoticeManagement',
+    component: NoticeManagement,
+    meta: { title: '通知管理' }
+  },
+  {
+    path: '/archive-center/teacher',
+    name: 'TeacherArchive',
+    component: TeacherArchive,
+    meta: { title: '教师档案' }
+  },
+  {
+    path: '/archive-center/student',
+    name: 'StudentArchive',
+    component: StudentArchive,
+    meta: { title: '学生档案' }
+  },
+  {
+    path: '/reporting-center/forms',
+    name: 'ReportingForms',
+    component: ReportingForms,
+    meta: { title: '上报表单' }
+  },
+  {
+    path: '/reporting-center/monitor',
+    name: 'ReportingMonitor',
+    component: ReportingMonitor,
+    meta: { title: '上报监控' }
   },
   {
     path: '/intelligent-decision/decision-support',

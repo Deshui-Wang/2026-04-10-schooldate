@@ -1,0 +1,8317 @@
+{
+  "total": 133,
+  "codeTables": [
+    {
+      "tableNum": 1,
+      "codeId": "BSSWLXDM",
+      "codeName": "办事事务类型代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "开具证明"
+        },
+        {
+          "value": "2",
+          "label": "报销发票"
+        },
+        {
+          "value": "3",
+          "label": "后勤报修"
+        },
+        {
+          "value": "4",
+          "label": "场地预约"
+        },
+        {
+          "value": "5",
+          "label": "请销假"
+        },
+        {
+          "value": "6",
+          "label": "用印申请"
+        },
+        {
+          "value": "7",
+          "label": "采购、合同协议等审批"
+        },
+        {
+          "value": "8",
+          "label": "物品领用"
+        },
+        {
+          "value": "9",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 2,
+      "codeId": "BXGMFDM",
+      "codeName": "保险购买方代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "学校"
+        },
+        {
+          "value": "2",
+          "label": "企业"
+        },
+        {
+          "value": "9",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 3,
+      "codeId": "BXLXDM",
+      "codeName": "办学类型代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "本科层次职业学校"
+        },
+        {
+          "value": "2",
+          "label": "高职"
+        },
+        {
+          "value": "3",
+          "label": "高专"
+        },
+        {
+          "value": "9",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 4,
+      "codeId": "CBSJBDM",
+      "codeName": "出版社级别代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "中央出版社"
+        },
+        {
+          "value": "2",
+          "label": "地方出版社"
+        },
+        {
+          "value": "3",
+          "label": "国外（境外）出版社"
+        }
+      ]
+    },
+    {
+      "tableNum": 5,
+      "codeId": "CGJMDDM",
+      "codeName": "出国境目的代码",
+      "codes": [
+        {
+          "value": "01",
+          "label": "常驻国外使馆、领事馆"
+        },
+        {
+          "value": "02",
+          "label": "常驻国际组织及其代表机构"
+        },
+        {
+          "value": "04",
+          "label": "常驻国外其他组织"
+        },
+        {
+          "value": "05",
+          "label": "短期派驻国外使馆、领事馆"
+        },
+        {
+          "value": "06",
+          "label": "短期派驻国际组织及其他代表机构"
+        },
+        {
+          "value": "08",
+          "label": "短期派驻国外其他组织"
+        },
+        {
+          "value": "10",
+          "label": "党政代表团出访"
+        },
+        {
+          "value": "11",
+          "label": "军事代表团出访"
+        },
+        {
+          "value": "12",
+          "label": "经济贸易和财务方面代表团出访与洽谈"
+        },
+        {
+          "value": "13",
+          "label": "学术、文艺、体育代表团和其他社会团体出访"
+        },
+        {
+          "value": "14",
+          "label": "参加国际性的各类比赛"
+        },
+        {
+          "value": "15",
+          "label": "参加交易会和展览会"
+        },
+        {
+          "value": "20",
+          "label": "引进技术和设备"
+        },
+        {
+          "value": "21",
+          "label": "商务出国"
+        },
+        {
+          "value": "22",
+          "label": "实习"
+        },
+        {
+          "value": "23",
+          "label": "监造"
+        },
+        {
+          "value": "30",
+          "label": "援外技术工作"
+        },
+        {
+          "value": "31",
+          "label": "援建工作"
+        },
+        {
+          "value": "32",
+          "label": "援外培训工作"
+        },
+        {
+          "value": "33",
+          "label": "劳务出口"
+        },
+        {
+          "value": "34",
+          "label": "合营工程"
+        },
+        {
+          "value": "36",
+          "label": "航空、邮电、海运、公路等国际联运业务"
+        },
+        {
+          "value": "37",
+          "label": "随船工作"
+        },
+        {
+          "value": "39",
+          "label": "科技合作项目"
+        },
+        {
+          "value": "40",
+          "label": "考察"
+        },
+        {
+          "value": "41",
+          "label": "领奖"
+        },
+        {
+          "value": "42",
+          "label": "参加各种会议"
+        },
+        {
+          "value": "43",
+          "label": "进修"
+        },
+        {
+          "value": "44",
+          "label": "讲学"
+        },
+        {
+          "value": "45",
+          "label": "公派留学"
+        },
+        {
+          "value": "46",
+          "label": "自费留学"
+        },
+        {
+          "value": "47",
+          "label": "自费公派留学"
+        },
+        {
+          "value": "60",
+          "label": "旅游"
+        },
+        {
+          "value": "61",
+          "label": "探亲"
+        },
+        {
+          "value": "62",
+          "label": "会友"
+        },
+        {
+          "value": "63",
+          "label": "结婚"
+        },
+        {
+          "value": "64",
+          "label": "继承财产"
+        },
+        {
+          "value": "65",
+          "label": "就业"
+        },
+        {
+          "value": "66",
+          "label": "定居"
+        },
+        {
+          "value": "70",
+          "label": "特殊任务"
+        },
+        {
+          "value": "80",
+          "label": "换发护照"
+        },
+        {
+          "value": "99",
+          "label": "其他原因出国"
+        }
+      ]
+    },
+    {
+      "tableNum": 6,
+      "codeId": "CQDM",
+      "codeName": "产权代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "学校独立产权"
+        },
+        {
+          "value": "2",
+          "label": "产权非学校但独立使用"
+        },
+        {
+          "value": "3",
+          "label": "产权非属学校共同使用"
+        }
+      ]
+    },
+    {
+      "tableNum": 7,
+      "codeId": "DJHDZYTJHZTDM",
+      "codeName": "党建活动主要途径和载体代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "实践活动"
+        },
+        {
+          "value": "2",
+          "label": "会议"
+        },
+        {
+          "value": "3",
+          "label": "讲座报告"
+        },
+        {
+          "value": "4",
+          "label": "学校定期集中学习"
+        },
+        {
+          "value": "5",
+          "label": "支部定期集中学习"
+        },
+        {
+          "value": "6",
+          "label": "微信QQ"
+        },
+        {
+          "value": "7",
+          "label": "移动端培训平台"
+        },
+        {
+          "value": "8",
+          "label": "分发图书资料"
+        },
+        {
+          "value": "9",
+          "label": "个人学习"
+        },
+        {
+          "value": "10",
+          "label": "在线教育网站"
+        },
+        {
+          "value": "11",
+          "label": "参观学习"
+        },
+        {
+          "value": "99",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 8,
+      "codeId": "DNLDRYZWDM",
+      "codeName": "党内领导人员职务代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "书记"
+        },
+        {
+          "value": "2",
+          "label": "副书记"
+        },
+        {
+          "value": "3",
+          "label": "组织委员"
+        },
+        {
+          "value": "4",
+          "label": "宣传委员"
+        },
+        {
+          "value": "5",
+          "label": "纪检委员"
+        },
+        {
+          "value": "6",
+          "label": "青年委员"
+        },
+        {
+          "value": "7",
+          "label": "统战委员"
+        },
+        {
+          "value": "8",
+          "label": "保密委员"
+        },
+        {
+          "value": "9",
+          "label": "妇女委员"
+        },
+        {
+          "value": "99",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 9,
+      "codeId": "DZZZTDM",
+      "codeName": "党组织状态代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "正常"
+        },
+        {
+          "value": "2",
+          "label": "撤销"
+        },
+        {
+          "value": "3",
+          "label": "合并中"
+        },
+        {
+          "value": "4",
+          "label": "已合并"
+        },
+        {
+          "value": "9",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 10,
+      "codeId": "DWXZDM",
+      "codeName": "单位性质代码",
+      "codes": [
+        {
+          "value": "10",
+          "label": "机关"
+        },
+        {
+          "value": "20",
+          "label": "事业单位"
+        },
+        {
+          "value": "31",
+          "label": "国有企业"
+        },
+        {
+          "value": "33",
+          "label": "民营（私营）企业"
+        },
+        {
+          "value": "40",
+          "label": "部队"
+        },
+        {
+          "value": "50",
+          "label": "社会组织机构"
+        },
+        {
+          "value": "60",
+          "label": "国际组织机构"
+        },
+        {
+          "value": "70",
+          "label": "国防科工机构"
+        },
+        {
+          "value": "80",
+          "label": "财政金融机构"
+        },
+        {
+          "value": "99",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 11,
+      "codeId": "DYGBXXPXNRDM",
+      "codeName": "党员干部学习培训内容代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "党的理论"
+        },
+        {
+          "value": "2",
+          "label": "相关政策文件"
+        },
+        {
+          "value": "3",
+          "label": "党规党纪及国家法律法规"
+        },
+        {
+          "value": "4",
+          "label": "教育教学业务"
+        },
+        {
+          "value": "5",
+          "label": "学校管理"
+        },
+        {
+          "value": "6",
+          "label": "文化建设"
+        },
+        {
+          "value": "7",
+          "label": "经济方面"
+        },
+        {
+          "value": "8",
+          "label": "互联网与新媒体方面"
+        },
+        {
+          "value": "9",
+          "label": "心理健康"
+        },
+        {
+          "value": "10",
+          "label": "师德师风"
+        },
+        {
+          "value": "99",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 12,
+      "codeId": "DZZLXDM",
+      "codeName": "党组织类型代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "党委"
+        },
+        {
+          "value": "2",
+          "label": "党总支"
+        },
+        {
+          "value": "3",
+          "label": "党支部"
+        }
+      ]
+    },
+    {
+      "tableNum": 13,
+      "codeId": "FWFSDM",
+      "codeName": "访问方式代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "网站"
+        },
+        {
+          "value": "2",
+          "label": "客户端"
+        },
+        {
+          "value": "3",
+          "label": "小程序"
+        },
+        {
+          "value": "4",
+          "label": "公众号"
+        },
+        {
+          "value": "5",
+          "label": "H5"
+        },
+        {
+          "value": "9",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 14,
+      "codeId": "GDXXGDZCFLYDM",
+      "codeName": "高等学校固定资产分类与代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "土地、房屋及构筑物"
+        },
+        {
+          "value": "2",
+          "label": "通用设备"
+        },
+        {
+          "value": "3",
+          "label": "专用设备"
+        },
+        {
+          "value": "4",
+          "label": "文图与陈列品"
+        },
+        {
+          "value": "5",
+          "label": "图书、档案"
+        },
+        {
+          "value": "6",
+          "label": "家具、用具、装具及动植物"
+        },
+        {
+          "value": "9",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 15,
+      "codeId": "GDZCDZCJCFLYDM",
+      "codeName": "固定资产等资产基础分类与代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "房屋和构筑物"
+        },
+        {
+          "value": "2",
+          "label": "设备"
+        },
+        {
+          "value": "3",
+          "label": "文物与陈列品"
+        },
+        {
+          "value": "4",
+          "label": "图书和档案"
+        },
+        {
+          "value": "5",
+          "label": "家具和用具"
+        },
+        {
+          "value": "6",
+          "label": "特种动植物"
+        },
+        {
+          "value": "7",
+          "label": "物资"
+        },
+        {
+          "value": "9",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 16,
+      "codeId": "GGKLBDM",
+      "codeName": "公共课类别代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "思政"
+        },
+        {
+          "value": "2",
+          "label": "语文"
+        },
+        {
+          "value": "3",
+          "label": "数学"
+        },
+        {
+          "value": "4",
+          "label": "英语"
+        },
+        {
+          "value": "5",
+          "label": "劳动"
+        },
+        {
+          "value": "6",
+          "label": "信息技术"
+        },
+        {
+          "value": "7",
+          "label": "历史"
+        },
+        {
+          "value": "8",
+          "label": "军事"
+        },
+        {
+          "value": "9",
+          "label": "心理"
+        },
+        {
+          "value": "10",
+          "label": "体育课"
+        },
+        {
+          "value": "99",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 17,
+      "codeId": "GJPTDJZYLXDM",
+      "codeName": "国家平台对接资源类型代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "专业教学资源库"
+        },
+        {
+          "value": "2",
+          "label": "在线精品课程"
+        },
+        {
+          "value": "3",
+          "label": "视频公开课"
+        },
+        {
+          "value": "4",
+          "label": "虚拟仿真实训资源"
+        },
+        {
+          "value": "5",
+          "label": "数字教材"
+        },
+        {
+          "value": "9",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 18,
+      "codeId": "GMBXZLDM",
+      "codeName": "购买保险种类代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "学生实习责任保险"
+        },
+        {
+          "value": "2",
+          "label": "意外险"
+        },
+        {
+          "value": "9",
+          "label": "其他保险"
+        }
+      ]
+    },
+    {
+      "tableNum": 19,
+      "codeId": "GSPXXJBDM",
+      "codeName": "高水平学校级别代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "国家级"
+        },
+        {
+          "value": "2",
+          "label": "省部级"
+        },
+        {
+          "value": "9",
+          "label": "无"
+        }
+      ]
+    },
+    {
+      "tableNum": 20,
+      "codeId": "GSPXXXZDM",
+      "codeName": "高水平学校性质代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "高水平学校建设单位"
+        },
+        {
+          "value": "2",
+          "label": "高水平专业群建设单位"
+        },
+        {
+          "value": "3",
+          "label": "高水平学校建设单位和高水平专业群建设单位"
+        },
+        {
+          "value": "9",
+          "label": "无"
+        }
+      ]
+    },
+    {
+      "tableNum": 21,
+      "codeId": "GZXSLXDM",
+      "codeName": "高职学生类型代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "职业本科"
+        },
+        {
+          "value": "2",
+          "label": "高职专科"
+        }
+      ]
+    },
+    {
+      "tableNum": 22,
+      "codeId": "HBHZJDM",
+      "codeName": "货币和资金代码",
+      "codes": [
+        {
+          "value": "971",
+          "label": "阿富汗尼"
+        },
+        {
+          "value": "978",
+          "label": "欧元"
+        },
+        {
+          "value": "008",
+          "label": "列克"
+        },
+        {
+          "value": "012",
+          "label": "阿尔及利亚第纳尔"
+        },
+        {
+          "value": "840",
+          "label": "美元"
+        },
+        {
+          "value": "973",
+          "label": "宽扎"
+        },
+        {
+          "value": "951",
+          "label": "东加勒比元"
+        },
+        {
+          "value": "032",
+          "label": "阿根廷比索"
+        },
+        {
+          "value": "051",
+          "label": "亚美尼亚达姆"
+        },
+        {
+          "value": "533",
+          "label": "阿鲁巴弗罗林"
+        },
+        {
+          "value": "036",
+          "label": "澳大利亚元"
+        },
+        {
+          "value": "944",
+          "label": "阿塞拜疆马纳特"
+        },
+        {
+          "value": "044",
+          "label": "巴哈马元"
+        },
+        {
+          "value": "048",
+          "label": "巴林第纳尔"
+        },
+        {
+          "value": "050",
+          "label": "塔卡"
+        },
+        {
+          "value": "052",
+          "label": "巴巴多斯元"
+        },
+        {
+          "value": "933",
+          "label": "白俄罗斯卢布"
+        },
+        {
+          "value": "084",
+          "label": "伯利兹元"
+        },
+        {
+          "value": "952",
+          "label": "CFA 法郎 BCEAO"
+        },
+        {
+          "value": "060",
+          "label": "百慕大元"
+        },
+        {
+          "value": "356",
+          "label": "印度卢比"
+        },
+        {
+          "value": "064",
+          "label": "努尔特鲁姆"
+        },
+        {
+          "value": "068",
+          "label": "玻利维亚诺"
+        },
+        {
+          "value": "984",
+          "label": "与美元价值挂钩的玻利维亚诺"
+        },
+        {
+          "value": "977",
+          "label": "可自由兑换马克"
+        },
+        {
+          "value": "072",
+          "label": "普拉"
+        },
+        {
+          "value": "578",
+          "label": "挪威克朗"
+        },
+        {
+          "value": "986",
+          "label": "巴西雷亚尔"
+        },
+        {
+          "value": "096",
+          "label": "文莱元"
+        },
+        {
+          "value": "975",
+          "label": "保加利亚列弗"
+        },
+        {
+          "value": "108",
+          "label": "布隆迪法郎"
+        },
+        {
+          "value": "132",
+          "label": "佛得角埃斯库多"
+        },
+        {
+          "value": "116",
+          "label": "瑞尔"
+        },
+        {
+          "value": "950",
+          "label": "CFA 法郎 BEAC"
+        },
+        {
+          "value": "124",
+          "label": "加拿大元"
+        },
+        {
+          "value": "136",
+          "label": "开曼群岛元"
+        },
+        {
+          "value": "152",
+          "label": "智利比索"
+        },
+        {
+          "value": "990",
+          "label": "发展单位"
+        },
+        {
+          "value": "156",
+          "label": "人民币元"
+        },
+        {
+          "value": "170",
+          "label": "哥伦比亚比索"
+        },
+        {
+          "value": "970",
+          "label": "实际价值单位"
+        },
+        {
+          "value": "174",
+          "label": "科摩罗法郎"
+        },
+        {
+          "value": "976",
+          "label": "刚果法郎"
+        },
+        {
+          "value": "554",
+          "label": "新西兰元"
+        },
+        {
+          "value": "188",
+          "label": "哥斯达黎加科朗"
+        },
+        {
+          "value": "191",
+          "label": "库纳"
+        },
+        {
+          "value": "192",
+          "label": "古巴比索"
+        },
+        {
+          "value": "931",
+          "label": "可兑换比索"
+        },
+        {
+          "value": "532",
+          "label": "荷属安的列斯盾"
+        },
+        {
+          "value": "203",
+          "label": "捷克克朗"
+        },
+        {
+          "value": "208",
+          "label": "丹麦克朗"
+        },
+        {
+          "value": "262",
+          "label": "吉布提法郎"
+        },
+        {
+          "value": "214",
+          "label": "多米尼加比索"
+        },
+        {
+          "value": "818",
+          "label": "埃及镑"
+        },
+        {
+          "value": "222",
+          "label": "萨尔瓦多科朗"
+        },
+        {
+          "value": "232",
+          "label": "纳克法"
+        },
+        {
+          "value": "230",
+          "label": "埃塞俄比亚比尔"
+        },
+        {
+          "value": "238",
+          "label": "福克兰群岛镑"
+        },
+        {
+          "value": "242",
+          "label": "斐济元"
+        },
+        {
+          "value": "953",
+          "label": "CFP 法郎"
+        },
+        {
+          "value": "270",
+          "label": "达拉西"
+        },
+        {
+          "value": "981",
+          "label": "拉里"
+        },
+        {
+          "value": "936",
+          "label": "加纳塞地"
+        },
+        {
+          "value": "292",
+          "label": "直布罗陀镑"
+        },
+        {
+          "value": "320",
+          "label": "格查尔"
+        },
+        {
+          "value": "826",
+          "label": "英镑"
+        },
+        {
+          "value": "324",
+          "label": "几内亚法郎"
+        },
+        {
+          "value": "328",
+          "label": "圭亚那元"
+        },
+        {
+          "value": "332",
+          "label": "古德"
+        },
+        {
+          "value": "340",
+          "label": "伦皮拉"
+        },
+        {
+          "value": "344",
+          "label": "港币"
+        },
+        {
+          "value": "348",
+          "label": "福林"
+        },
+        {
+          "value": "352",
+          "label": "冰岛克朗"
+        },
+        {
+          "value": "360",
+          "label": "印尼卢比"
+        },
+        {
+          "value": "960",
+          "label": "特别提款权"
+        },
+        {
+          "value": "364",
+          "label": "伊朗里亚尔"
+        },
+        {
+          "value": "368",
+          "label": "伊拉克第纳尔"
+        },
+        {
+          "value": "376",
+          "label": "新谢克尔"
+        },
+        {
+          "value": "388",
+          "label": "牙买加元"
+        },
+        {
+          "value": "392",
+          "label": "日元"
+        },
+        {
+          "value": "400",
+          "label": "约旦第纳尔"
+        },
+        {
+          "value": "398",
+          "label": "坚戈"
+        },
+        {
+          "value": "404",
+          "label": "肯尼亚先令"
+        },
+        {
+          "value": "408",
+          "label": "朝鲜元"
+        },
+        {
+          "value": "410",
+          "label": "韩元"
+        },
+        {
+          "value": "414",
+          "label": "科威特第纳尔"
+        },
+        {
+          "value": "417",
+          "label": "索姆"
+        },
+        {
+          "value": "418",
+          "label": "老挝基普"
+        },
+        {
+          "value": "422",
+          "label": "黎巴嫩镑"
+        },
+        {
+          "value": "426",
+          "label": "罗提"
+        },
+        {
+          "value": "710",
+          "label": "兰特"
+        },
+        {
+          "value": "430",
+          "label": "利比里亚元"
+        },
+        {
+          "value": "434",
+          "label": "利比亚第纳尔"
+        },
+        {
+          "value": "756",
+          "label": "瑞士法郎"
+        },
+        {
+          "value": "446",
+          "label": "澳门元"
+        },
+        {
+          "value": "807",
+          "label": "第纳尔"
+        },
+        {
+          "value": "969",
+          "label": "马尔加什阿里亚里"
+        },
+        {
+          "value": "454",
+          "label": "马拉维克瓦查"
+        },
+        {
+          "value": "458",
+          "label": "马来西亚林吉特"
+        },
+        {
+          "value": "462",
+          "label": "卢菲亚"
+        },
+        {
+          "value": "929",
+          "label": "乌吉亚"
+        },
+        {
+          "value": "480",
+          "label": "毛里求斯卢比"
+        },
+        {
+          "value": "965",
+          "label": "非行账户单位"
+        },
+        {
+          "value": "484",
+          "label": "墨西哥比索"
+        },
+        {
+          "value": "979",
+          "label": "墨西哥发展单位"
+        },
+        {
+          "value": "498",
+          "label": "摩尔多瓦列伊"
+        },
+        {
+          "value": "496",
+          "label": "图格里克"
+        },
+        {
+          "value": "504",
+          "label": "摩洛哥迪拉姆"
+        },
+        {
+          "value": "943",
+          "label": "莫桑比克梅蒂卡尔"
+        },
+        {
+          "value": "104",
+          "label": "缅币"
+        },
+        {
+          "value": "516",
+          "label": "纳米比亚元"
+        },
+        {
+          "value": "524",
+          "label": "尼泊尔卢比"
+        },
+        {
+          "value": "558",
+          "label": "金科多巴"
+        },
+        {
+          "value": "566",
+          "label": "奈拉"
+        },
+        {
+          "value": "512",
+          "label": "阿曼里亚尔"
+        },
+        {
+          "value": "586",
+          "label": "巴基斯坦卢比"
+        },
+        {
+          "value": "590",
+          "label": "巴波亚"
+        },
+        {
+          "value": "598",
+          "label": "基那"
+        },
+        {
+          "value": "600",
+          "label": "瓜拉尼"
+        },
+        {
+          "value": "604",
+          "label": "索尔"
+        },
+        {
+          "value": "608",
+          "label": "菲律宾比索"
+        },
+        {
+          "value": "985",
+          "label": "兹罗提"
+        },
+        {
+          "value": "634",
+          "label": "卡塔尔里亚尔"
+        },
+        {
+          "value": "946",
+          "label": "罗马尼亚列伊"
+        },
+        {
+          "value": "643",
+          "label": "俄罗斯卢布"
+        },
+        {
+          "value": "646",
+          "label": "卢旺达法郎"
+        },
+        {
+          "value": "654",
+          "label": "圣赫勒拿镑"
+        },
+        {
+          "value": "882",
+          "label": "塔拉"
+        },
+        {
+          "value": "930",
+          "label": "多布拉"
+        },
+        {
+          "value": "682",
+          "label": "沙特里亚尔"
+        },
+        {
+          "value": "941",
+          "label": "塞尔维亚第纳尔"
+        },
+        {
+          "value": "690",
+          "label": "塞舌尔卢比"
+        },
+        {
+          "value": "925",
+          "label": "利昂"
+        },
+        {
+          "value": "702",
+          "label": "新加坡元"
+        },
+        {
+          "value": "994",
+          "label": "苏克雷"
+        },
+        {
+          "value": "090",
+          "label": "所罗门群岛元"
+        },
+        {
+          "value": "706",
+          "label": "索马里先令"
+        },
+        {
+          "value": "728",
+          "label": "南苏丹镑"
+        },
+        {
+          "value": "144",
+          "label": "斯里兰卡卢比"
+        },
+        {
+          "value": "938",
+          "label": "苏丹镑"
+        },
+        {
+          "value": "968",
+          "label": "苏里南元"
+        },
+        {
+          "value": "748",
+          "label": "里兰吉尼"
+        },
+        {
+          "value": "752",
+          "label": "瑞典克朗"
+        },
+        {
+          "value": "947",
+          "label": "WIR欧元"
+        },
+        {
+          "value": "948",
+          "label": "WIR法郎"
+        },
+        {
+          "value": "760",
+          "label": "叙利亚镑"
+        },
+        {
+          "value": "901",
+          "label": "新台币"
+        },
+        {
+          "value": "972",
+          "label": "索莫尼"
+        },
+        {
+          "value": "834",
+          "label": "坦桑尼亚先令"
+        },
+        {
+          "value": "764",
+          "label": "铢"
+        },
+        {
+          "value": "776",
+          "label": "潘加"
+        },
+        {
+          "value": "780",
+          "label": "特立尼达和多巴哥元"
+        },
+        {
+          "value": "788",
+          "label": "突尼斯第纳尔"
+        },
+        {
+          "value": "949",
+          "label": "土耳其里拉"
+        },
+        {
+          "value": "934",
+          "label": "土库曼斯坦新马纳特"
+        },
+        {
+          "value": "800",
+          "label": "乌干达先令"
+        },
+        {
+          "value": "980",
+          "label": "格里夫纳"
+        },
+        {
+          "value": "784",
+          "label": "阿联酋迪拉姆"
+        },
+        {
+          "value": "997",
+          "label": "美元（次日）"
+        },
+        {
+          "value": "858",
+          "label": "乌拉圭比索"
+        },
+        {
+          "value": "940",
+          "label": "乌拉圭比索指数"
+        },
+        {
+          "value": "927",
+          "label": "乌拉圭名义工资指数记账单位（UP）"
+        },
+        {
+          "value": "860",
+          "label": "乌兹别克斯坦苏姆"
+        },
+        {
+          "value": "548",
+          "label": "瓦图"
+        },
+        {
+          "value": "928",
+          "label": "玻利瓦尔"
+        },
+        {
+          "value": "704",
+          "label": "盾"
+        },
+        {
+          "value": "886",
+          "label": "也门里亚尔"
+        },
+        {
+          "value": "967",
+          "label": "赞比亚克瓦查"
+        },
+        {
+          "value": "932",
+          "label": "津巴布韦元"
+        },
+        {
+          "value": "955",
+          "label": "债券市场单位"
+        },
+        {
+          "value": "959",
+          "label": "黄金"
+        },
+        {
+          "value": "964",
+          "label": "钯"
+        },
+        {
+          "value": "962",
+          "label": "铂白金"
+        },
+        {
+          "value": "961",
+          "label": "银"
+        }
+      ]
+    },
+    {
+      "tableNum": 23,
+      "codeId": "HYDM",
+      "codeName": "行业代码",
+      "codes": [
+        {
+          "value": "A",
+          "label": "农、林、牧、渔业"
+        },
+        {
+          "value": "B",
+          "label": "采矿业"
+        },
+        {
+          "value": "C",
+          "label": "制造业"
+        },
+        {
+          "value": "D",
+          "label": "电力、热力、燃气及水生产和供应业"
+        },
+        {
+          "value": "E",
+          "label": "建筑业"
+        },
+        {
+          "value": "F",
+          "label": "批发和零售业"
+        },
+        {
+          "value": "G",
+          "label": "交通运输、仓储和邮政业"
+        },
+        {
+          "value": "H",
+          "label": "住宿和餐饮业"
+        },
+        {
+          "value": "I",
+          "label": "信息传输、软件和信息技术服务业"
+        },
+        {
+          "value": "J",
+          "label": "金融业"
+        },
+        {
+          "value": "K",
+          "label": "房地产业"
+        },
+        {
+          "value": "L",
+          "label": "租赁和商务服务业"
+        },
+        {
+          "value": "M",
+          "label": "科学研究和技术服务业"
+        },
+        {
+          "value": "N",
+          "label": "水利、环境和公共设施管理业"
+        },
+        {
+          "value": "O",
+          "label": "居民服务、修理和其他服务业"
+        },
+        {
+          "value": "P",
+          "label": "教育"
+        },
+        {
+          "value": "Q",
+          "label": "卫生和社会工作"
+        },
+        {
+          "value": "R",
+          "label": "文化、体育和娱乐业"
+        },
+        {
+          "value": "S",
+          "label": "公共管理、社会保障和社会组织"
+        },
+        {
+          "value": "T",
+          "label": "国际组织"
+        }
+      ]
+    },
+    {
+      "tableNum": 24,
+      "codeId": "JBDM",
+      "codeName": "级别代码",
+      "codes": [
+        {
+          "value": "10",
+          "label": "国家级"
+        },
+        {
+          "value": "20",
+          "label": "省部级"
+        },
+        {
+          "value": "30",
+          "label": "地市级"
+        },
+        {
+          "value": "40",
+          "label": "区县级"
+        },
+        {
+          "value": "50",
+          "label": "乡镇级"
+        },
+        {
+          "value": "60",
+          "label": "校级"
+        },
+        {
+          "value": "61",
+          "label": "院系级"
+        },
+        {
+          "value": "62",
+          "label": "专业级"
+        },
+        {
+          "value": "70",
+          "label": "国际"
+        },
+        {
+          "value": "99",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 25,
+      "codeId": "ZSLXDM",
+      "codeName": "证书类型代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "职业资格证书"
+        },
+        {
+          "value": "2",
+          "label": "职业技能等级证书"
+        }
+      ]
+    },
+    {
+      "tableNum": 26,
+      "codeId": "ZSDJDM",
+      "codeName": "证书等级代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "一级"
+        },
+        {
+          "value": "2",
+          "label": "二级"
+        },
+        {
+          "value": "3",
+          "label": "三级"
+        },
+        {
+          "value": "4",
+          "label": "四级"
+        },
+        {
+          "value": "5",
+          "label": "五级"
+        },
+        {
+          "value": "6",
+          "label": "初级"
+        },
+        {
+          "value": "7",
+          "label": "中级"
+        },
+        {
+          "value": "8",
+          "label": "高级"
+        },
+        {
+          "value": "9",
+          "label": "无等级"
+        }
+      ]
+    },
+    {
+      "tableNum": 27,
+      "codeId": "JDDDDM",
+      "codeName": "鉴定地点代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "校内"
+        },
+        {
+          "value": "2",
+          "label": "校外"
+        }
+      ]
+    },
+    {
+      "tableNum": 28,
+      "codeId": "JCLXDM",
+      "codeName": "教材类型代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "纸质教材"
+        },
+        {
+          "value": "2",
+          "label": "数字教材"
+        },
+        {
+          "value": "3",
+          "label": "纸质与数字资源结合教材"
+        }
+      ]
+    },
+    {
+      "tableNum": 29,
+      "codeId": "JDDJDM",
+      "codeName": "鉴定等级代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "初级工（五级）"
+        },
+        {
+          "value": "2",
+          "label": "中级工（四级）"
+        },
+        {
+          "value": "3",
+          "label": "高级工（三级）"
+        },
+        {
+          "value": "4",
+          "label": "技师（二级）"
+        },
+        {
+          "value": "5",
+          "label": "高级技师（一级）"
+        }
+      ]
+    },
+    {
+      "tableNum": 30,
+      "codeId": "JFKMDM",
+      "codeName": "经费科目代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "教育事业费"
+        },
+        {
+          "value": "2",
+          "label": "科研专款及基金"
+        },
+        {
+          "value": "3",
+          "label": "基建设备费"
+        },
+        {
+          "value": "4",
+          "label": "自筹经费"
+        },
+        {
+          "value": "5",
+          "label": "世界银行贷款"
+        },
+        {
+          "value": "6",
+          "label": "捐款"
+        },
+        {
+          "value": "9",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 31,
+      "codeId": "JFLYDM",
+      "codeName": "经费来源代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "财政拨款"
+        },
+        {
+          "value": "2",
+          "label": "贷款"
+        },
+        {
+          "value": "3",
+          "label": "自筹资金"
+        },
+        {
+          "value": "4",
+          "label": "捐助"
+        },
+        {
+          "value": "5",
+          "label": "集资"
+        },
+        {
+          "value": "9",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 32,
+      "codeId": "JKXYDM",
+      "codeName": "接口协议代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "http"
+        },
+        {
+          "value": "2",
+          "label": "https"
+        },
+        {
+          "value": "9",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 33,
+      "codeId": "JLDJDM",
+      "codeName": "奖励等级代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "特等"
+        },
+        {
+          "value": "2",
+          "label": "一等"
+        },
+        {
+          "value": "3",
+          "label": "二等"
+        },
+        {
+          "value": "4",
+          "label": "三等"
+        },
+        {
+          "value": "5",
+          "label": "四等"
+        },
+        {
+          "value": "6",
+          "label": "未评等级"
+        },
+        {
+          "value": "9",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 34,
+      "codeId": "JLDWBMDM",
+      "codeName": "建立单位部门代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "中央部委"
+        },
+        {
+          "value": "2",
+          "label": "省市部门"
+        },
+        {
+          "value": "3",
+          "label": "行业"
+        },
+        {
+          "value": "4",
+          "label": "企业"
+        },
+        {
+          "value": "9",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 35,
+      "codeId": "JLDWJBDM",
+      "codeName": "建立单位级别代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "国家级"
+        },
+        {
+          "value": "2",
+          "label": "省级"
+        },
+        {
+          "value": "3",
+          "label": "地市级"
+        },
+        {
+          "value": "4",
+          "label": "校级"
+        }
+      ]
+    },
+    {
+      "tableNum": 36,
+      "codeId": "JLZZZJLYDM",
+      "codeName": "奖励资助资金来源代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "中央财政"
+        },
+        {
+          "value": "2",
+          "label": "省级财政"
+        },
+        {
+          "value": "3",
+          "label": "市级财政"
+        },
+        {
+          "value": "4",
+          "label": "县级财政"
+        },
+        {
+          "value": "5",
+          "label": "学校事业收入提取"
+        },
+        {
+          "value": "6",
+          "label": "企事业单位、社会或个人捐赠"
+        },
+        {
+          "value": "7",
+          "label": "金融机构"
+        },
+        {
+          "value": "9",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 37,
+      "codeId": "JPKCJBDM",
+      "codeName": "精品课程级别代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "国家级"
+        },
+        {
+          "value": "2",
+          "label": "省级"
+        },
+        {
+          "value": "3",
+          "label": "校级"
+        },
+        {
+          "value": "9",
+          "label": "无"
+        }
+      ]
+    },
+    {
+      "tableNum": 38,
+      "codeId": "JSDKQKDM",
+      "codeName": "教师到课情况代码",
+      "codes": [
+        {
+          "value": "0",
+          "label": "异常"
+        },
+        {
+          "value": "1",
+          "label": "正常"
+        }
+      ]
+    },
+    {
+      "tableNum": 39,
+      "codeId": "JSPYZTDM",
+      "codeName": "教师批阅状态代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "已阅"
+        },
+        {
+          "value": "2",
+          "label": "未阅"
+        }
+      ]
+    },
+    {
+      "tableNum": 40,
+      "codeId": "JXTJZKDM",
+      "codeName": "教学条件状况代码",
+      "codes": [
+        {
+          "value": "0",
+          "label": "异常"
+        },
+        {
+          "value": "1",
+          "label": "正常"
+        }
+      ]
+    },
+    {
+      "tableNum": 41,
+      "codeId": "JXXXDDDM",
+      "codeName": "进修学习地点代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "国内进修培训"
+        },
+        {
+          "value": "2",
+          "label": "国外进修培训"
+        }
+      ]
+    },
+    {
+      "tableNum": 42,
+      "codeId": "JYDWGMDM",
+      "codeName": "就业单位规模代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "特大型"
+        },
+        {
+          "value": "2",
+          "label": "大型"
+        },
+        {
+          "value": "3",
+          "label": "中型"
+        },
+        {
+          "value": "4",
+          "label": "小型"
+        },
+        {
+          "value": "5",
+          "label": "微型"
+        }
+      ]
+    },
+    {
+      "tableNum": 43,
+      "codeId": "JZGKHLBDM",
+      "codeName": "教职工考核类别代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "平时考核"
+        },
+        {
+          "value": "2",
+          "label": "年度考核"
+        },
+        {
+          "value": "3",
+          "label": "特定考核"
+        }
+      ]
+    },
+    {
+      "tableNum": 44,
+      "codeId": "JZXMZLDM",
+      "codeName": "奖助项目种类代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "奖学金"
+        },
+        {
+          "value": "2",
+          "label": "助学金"
+        },
+        {
+          "value": "3",
+          "label": "助学贷款"
+        },
+        {
+          "value": "4",
+          "label": "勤工助学"
+        },
+        {
+          "value": "5",
+          "label": "困难补助"
+        },
+        {
+          "value": "6",
+          "label": "减免学杂费"
+        },
+        {
+          "value": "9",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 45,
+      "codeId": "KCJSLBDM",
+      "codeName": "课程建设类别代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "精品课程"
+        },
+        {
+          "value": "2",
+          "label": "精品资源共享课"
+        },
+        {
+          "value": "3",
+          "label": "精品视频公开课"
+        },
+        {
+          "value": "4",
+          "label": "精品在线开放课程"
+        },
+        {
+          "value": "5",
+          "label": "在线精品课程"
+        },
+        {
+          "value": "6",
+          "label": "课程思政示范课程"
+        },
+        {
+          "value": "9",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 46,
+      "codeId": "KCLXDM",
+      "codeName": "课程类型代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "A类（纯理论课）"
+        },
+        {
+          "value": "2",
+          "label": "B类（理论＋实践）课"
+        },
+        {
+          "value": "3",
+          "label": "C类（纯实践课）"
+        }
+      ]
+    },
+    {
+      "tableNum": 47,
+      "codeId": "KCSXDM",
+      "codeName": "课程属性代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "必修课"
+        },
+        {
+          "value": "2",
+          "label": "公共选修课"
+        },
+        {
+          "value": "3",
+          "label": "专业选修课"
+        },
+        {
+          "value": "9",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 48,
+      "codeId": "KCXZDM",
+      "codeName": "课程性质代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "公共基础课"
+        },
+        {
+          "value": "2",
+          "label": "专业基础课"
+        },
+        {
+          "value": "3",
+          "label": "专业核心课"
+        },
+        {
+          "value": "4",
+          "label": "专业拓展课"
+        },
+        {
+          "value": "9",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 49,
+      "codeId": "KHJGDM",
+      "codeName": "考核结果代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "优秀"
+        },
+        {
+          "value": "2",
+          "label": "称职"
+        },
+        {
+          "value": "3",
+          "label": "基本称职"
+        },
+        {
+          "value": "4",
+          "label": "不称职"
+        },
+        {
+          "value": "5",
+          "label": "不定等次"
+        },
+        {
+          "value": "6",
+          "label": "不进行考核"
+        }
+      ]
+    },
+    {
+      "tableNum": 50,
+      "codeId": "KSXSDM",
+      "codeName": "考试形式代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "考试"
+        },
+        {
+          "value": "2",
+          "label": "考查"
+        }
+      ]
+    },
+    {
+      "tableNum": 51,
+      "codeId": "KTHDQKDM",
+      "codeName": "课堂互动情况代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "偶尔"
+        },
+        {
+          "value": "2",
+          "label": "经常"
+        },
+        {
+          "value": "0",
+          "label": "无"
+        }
+      ]
+    },
+    {
+      "tableNum": 52,
+      "codeId": "KWZDDM",
+      "codeName": "刊物装订代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "平装"
+        },
+        {
+          "value": "2",
+          "label": "精装"
+        },
+        {
+          "value": "9",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 53,
+      "codeId": "KYHDLXDM",
+      "codeName": "科研活动类型代码",
+      "codes": [
+        {
+          "value": "10",
+          "label": "基础研究"
+        },
+        {
+          "value": "20",
+          "label": "应用研究"
+        },
+        {
+          "value": "30",
+          "label": "试验发展"
+        },
+        {
+          "value": "40",
+          "label": "成果应用"
+        },
+        {
+          "value": "50",
+          "label": "其他科技服务"
+        },
+        {
+          "value": "99",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 54,
+      "codeId": "KYXMLBDM",
+      "codeName": "科研项目类别代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "校企合作项目"
+        },
+        {
+          "value": "2",
+          "label": "教研和科研类别"
+        },
+        {
+          "value": "9",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 55,
+      "codeId": "QYDLLXDM",
+      "codeName": "企业锻炼类型代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "企业实践"
+        },
+        {
+          "value": "2",
+          "label": "企业兼职"
+        }
+      ]
+    },
+    {
+      "tableNum": 56,
+      "codeId": "RYLXDM",
+      "codeName": "人员类型代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "教职工"
+        },
+        {
+          "value": "2",
+          "label": "学生"
+        },
+        {
+          "value": "3",
+          "label": "校外人员"
+        },
+        {
+          "value": "9",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 57,
+      "codeId": "SBLYDM",
+      "codeName": "设备来源代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "盘盈"
+        },
+        {
+          "value": "2",
+          "label": "外购"
+        },
+        {
+          "value": "3",
+          "label": "调入"
+        },
+        {
+          "value": "4",
+          "label": "转入"
+        },
+        {
+          "value": "5",
+          "label": "捐赠"
+        },
+        {
+          "value": "6",
+          "label": "自制自建"
+        },
+        {
+          "value": "9",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 58,
+      "codeId": "SFBZDM",
+      "codeName": "是否标志代码",
+      "codes": [
+        {
+          "value": "0",
+          "label": "否"
+        },
+        {
+          "value": "1",
+          "label": "是"
+        }
+      ]
+    },
+    {
+      "tableNum": 59,
+      "codeId": "SJBGXFSDM",
+      "codeName": "数据表更新方式代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "手动更新"
+        },
+        {
+          "value": "2",
+          "label": "自动更新"
+        }
+      ]
+    },
+    {
+      "tableNum": 60,
+      "codeId": "SJBGXPLDM",
+      "codeName": "数据表更新频率代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "年"
+        },
+        {
+          "value": "2",
+          "label": "学期"
+        },
+        {
+          "value": "3",
+          "label": "月"
+        },
+        {
+          "value": "4",
+          "label": "周"
+        },
+        {
+          "value": "5",
+          "label": "天"
+        },
+        {
+          "value": "6",
+          "label": "小时"
+        },
+        {
+          "value": "7",
+          "label": "分钟"
+        },
+        {
+          "value": "9",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 61,
+      "codeId": "SJGGHDQMCDM",
+      "codeName": "世界各国和地区名称代码",
+      "codes": [
+        {
+          "value": "533",
+          "label": "阿鲁巴"
+        },
+        {
+          "value": "004",
+          "label": "阿富汗"
+        },
+        {
+          "value": "024",
+          "label": "安哥拉"
+        },
+        {
+          "value": "660",
+          "label": "安圭拉"
+        },
+        {
+          "value": "008",
+          "label": "阿尔巴尼亚"
+        },
+        {
+          "value": "020",
+          "label": "安道尔"
+        },
+        {
+          "value": "530",
+          "label": "荷属安的列斯"
+        },
+        {
+          "value": "784",
+          "label": "阿联酋"
+        },
+        {
+          "value": "032",
+          "label": "阿根廷"
+        },
+        {
+          "value": "051",
+          "label": "亚美尼亚"
+        },
+        {
+          "value": "016",
+          "label": "美属萨摩亚"
+        },
+        {
+          "value": "010",
+          "label": "南极洲"
+        },
+        {
+          "value": "260",
+          "label": "法属南部领地"
+        },
+        {
+          "value": "028",
+          "label": "安提瓜和巴布达"
+        },
+        {
+          "value": "036",
+          "label": "澳大利亚"
+        },
+        {
+          "value": "040",
+          "label": "奥地利"
+        },
+        {
+          "value": "031",
+          "label": "阿塞拜疆"
+        },
+        {
+          "value": "108",
+          "label": "布隆迪"
+        },
+        {
+          "value": "056",
+          "label": "比利时"
+        },
+        {
+          "value": "204",
+          "label": "贝宁"
+        },
+        {
+          "value": "854",
+          "label": "布基纳法索"
+        },
+        {
+          "value": "050",
+          "label": "孟加拉国"
+        },
+        {
+          "value": "100",
+          "label": "保加利亚"
+        },
+        {
+          "value": "048",
+          "label": "巴林"
+        },
+        {
+          "value": "044",
+          "label": "巴哈马"
+        },
+        {
+          "value": "070",
+          "label": "波黑"
+        },
+        {
+          "value": "112",
+          "label": "白俄罗斯"
+        },
+        {
+          "value": "084",
+          "label": "伯利兹"
+        },
+        {
+          "value": "060",
+          "label": "百慕大"
+        },
+        {
+          "value": "068",
+          "label": "玻利维亚"
+        },
+        {
+          "value": "076",
+          "label": "巴西"
+        },
+        {
+          "value": "052",
+          "label": "巴巴多斯"
+        },
+        {
+          "value": "096",
+          "label": "文莱"
+        },
+        {
+          "value": "064",
+          "label": "不丹"
+        },
+        {
+          "value": "074",
+          "label": "布维岛"
+        },
+        {
+          "value": "072",
+          "label": "博茨瓦纳"
+        },
+        {
+          "value": "140",
+          "label": "中非"
+        },
+        {
+          "value": "124",
+          "label": "加拿大"
+        },
+        {
+          "value": "166",
+          "label": "科科斯（基林）群岛"
+        },
+        {
+          "value": "756",
+          "label": "瑞士"
+        },
+        {
+          "value": "152",
+          "label": "智利"
+        },
+        {
+          "value": "156",
+          "label": "中国"
+        },
+        {
+          "value": "384",
+          "label": "科特迪瓦"
+        },
+        {
+          "value": "120",
+          "label": "喀麦隆"
+        },
+        {
+          "value": "180",
+          "label": "刚果（金）"
+        },
+        {
+          "value": "178",
+          "label": "刚果（布）"
+        },
+        {
+          "value": "184",
+          "label": "库克群岛"
+        },
+        {
+          "value": "170",
+          "label": "哥伦比亚"
+        },
+        {
+          "value": "174",
+          "label": "科摩罗"
+        },
+        {
+          "value": "132",
+          "label": "佛得角"
+        },
+        {
+          "value": "188",
+          "label": "哥斯达黎加"
+        },
+        {
+          "value": "192",
+          "label": "古巴"
+        },
+        {
+          "value": "162",
+          "label": "圣诞岛"
+        },
+        {
+          "value": "136",
+          "label": "开曼群岛"
+        },
+        {
+          "value": "196",
+          "label": "塞浦路斯"
+        },
+        {
+          "value": "203",
+          "label": "捷克"
+        },
+        {
+          "value": "276",
+          "label": "德国"
+        },
+        {
+          "value": "262",
+          "label": "吉布提"
+        },
+        {
+          "value": "212",
+          "label": "多米尼克"
+        },
+        {
+          "value": "208",
+          "label": "丹麦"
+        },
+        {
+          "value": "214",
+          "label": "多米尼加"
+        },
+        {
+          "value": "012",
+          "label": "阿尔及利亚"
+        },
+        {
+          "value": "218",
+          "label": "厄瓜多尔"
+        },
+        {
+          "value": "818",
+          "label": "埃及"
+        },
+        {
+          "value": "232",
+          "label": "厄立特里亚"
+        },
+        {
+          "value": "732",
+          "label": "西撒哈拉"
+        },
+        {
+          "value": "724",
+          "label": "西班牙"
+        },
+        {
+          "value": "233",
+          "label": "爱沙尼亚"
+        },
+        {
+          "value": "231",
+          "label": "埃塞俄比亚"
+        },
+        {
+          "value": "246",
+          "label": "芬兰"
+        },
+        {
+          "value": "242",
+          "label": "斐济"
+        },
+        {
+          "value": "238",
+          "label": "福克兰群岛（马尔维纳斯）"
+        },
+        {
+          "value": "250",
+          "label": "法国"
+        },
+        {
+          "value": "234",
+          "label": "法罗群岛"
+        },
+        {
+          "value": "583",
+          "label": "密克罗尼西亚联邦"
+        },
+        {
+          "value": "266",
+          "label": "加蓬"
+        },
+        {
+          "value": "826",
+          "label": "英国"
+        },
+        {
+          "value": "268",
+          "label": "格鲁吉亚"
+        },
+        {
+          "value": "288",
+          "label": "加纳"
+        },
+        {
+          "value": "292",
+          "label": "直布罗陀"
+        },
+        {
+          "value": "324",
+          "label": "几内亚"
+        },
+        {
+          "value": "312",
+          "label": "瓜德罗普"
+        },
+        {
+          "value": "270",
+          "label": "冈比亚"
+        },
+        {
+          "value": "624",
+          "label": "几内亚比绍"
+        },
+        {
+          "value": "226",
+          "label": "赤道几内亚"
+        },
+        {
+          "value": "300",
+          "label": "希腊"
+        },
+        {
+          "value": "308",
+          "label": "格林纳达"
+        },
+        {
+          "value": "304",
+          "label": "格陵兰"
+        },
+        {
+          "value": "320",
+          "label": "危地马拉"
+        },
+        {
+          "value": "254",
+          "label": "法属圭亚那"
+        },
+        {
+          "value": "316",
+          "label": "关岛"
+        },
+        {
+          "value": "328",
+          "label": "圭亚那"
+        },
+        {
+          "value": "344",
+          "label": "香港"
+        },
+        {
+          "value": "334",
+          "label": "赫德岛和麦克唐纳岛"
+        },
+        {
+          "value": "340",
+          "label": "洪都拉斯"
+        },
+        {
+          "value": "191",
+          "label": "克罗地亚"
+        },
+        {
+          "value": "332",
+          "label": "海地"
+        },
+        {
+          "value": "348",
+          "label": "匈牙利"
+        },
+        {
+          "value": "360",
+          "label": "印度尼西亚"
+        },
+        {
+          "value": "356",
+          "label": "印度"
+        },
+        {
+          "value": "086",
+          "label": "英属印度洋领地"
+        },
+        {
+          "value": "372",
+          "label": "爱尔兰"
+        },
+        {
+          "value": "364",
+          "label": "伊朗"
+        },
+        {
+          "value": "368",
+          "label": "伊拉克"
+        },
+        {
+          "value": "352",
+          "label": "冰岛"
+        },
+        {
+          "value": "376",
+          "label": "以色列"
+        },
+        {
+          "value": "380",
+          "label": "意大利"
+        },
+        {
+          "value": "388",
+          "label": "牙买加"
+        },
+        {
+          "value": "400",
+          "label": "约旦"
+        },
+        {
+          "value": "392",
+          "label": "日本"
+        },
+        {
+          "value": "398",
+          "label": "哈萨克斯坦"
+        },
+        {
+          "value": "404",
+          "label": "肯尼亚"
+        },
+        {
+          "value": "417",
+          "label": "吉尔吉斯斯坦"
+        },
+        {
+          "value": "116",
+          "label": "柬埔寨"
+        },
+        {
+          "value": "296",
+          "label": "基里巴斯"
+        },
+        {
+          "value": "659",
+          "label": "圣基茨和尼维斯"
+        },
+        {
+          "value": "410",
+          "label": "韩国"
+        },
+        {
+          "value": "414",
+          "label": "科威特"
+        },
+        {
+          "value": "418",
+          "label": "老挝"
+        },
+        {
+          "value": "422",
+          "label": "黎巴嫩"
+        },
+        {
+          "value": "430",
+          "label": "利比里亚"
+        },
+        {
+          "value": "434",
+          "label": "利比亚"
+        },
+        {
+          "value": "662",
+          "label": "圣卢西亚"
+        },
+        {
+          "value": "438",
+          "label": "列支敦士登"
+        },
+        {
+          "value": "144",
+          "label": "斯里兰卡"
+        },
+        {
+          "value": "426",
+          "label": "莱索托"
+        },
+        {
+          "value": "440",
+          "label": "立陶宛"
+        },
+        {
+          "value": "442",
+          "label": "卢森堡"
+        },
+        {
+          "value": "428",
+          "label": "拉脱维亚"
+        },
+        {
+          "value": "446",
+          "label": "澳门"
+        },
+        {
+          "value": "504",
+          "label": "摩洛哥"
+        },
+        {
+          "value": "492",
+          "label": "摩纳哥"
+        },
+        {
+          "value": "498",
+          "label": "摩尔多瓦"
+        },
+        {
+          "value": "450",
+          "label": "马达加斯加"
+        },
+        {
+          "value": "462",
+          "label": "马尔代夫"
+        },
+        {
+          "value": "484",
+          "label": "墨西哥"
+        },
+        {
+          "value": "584",
+          "label": "马绍尔群岛"
+        },
+        {
+          "value": "807",
+          "label": "马其顿"
+        },
+        {
+          "value": "466",
+          "label": "马里"
+        },
+        {
+          "value": "470",
+          "label": "马耳他"
+        },
+        {
+          "value": "104",
+          "label": "缅甸"
+        },
+        {
+          "value": "496",
+          "label": "蒙古"
+        },
+        {
+          "value": "580",
+          "label": "北马里亚纳"
+        },
+        {
+          "value": "508",
+          "label": "莫桑比亚"
+        },
+        {
+          "value": "478",
+          "label": "毛里塔尼亚"
+        },
+        {
+          "value": "500",
+          "label": "蒙特塞拉特"
+        },
+        {
+          "value": "474",
+          "label": "马提尼克"
+        },
+        {
+          "value": "480",
+          "label": "毛里求斯"
+        },
+        {
+          "value": "454",
+          "label": "马拉维"
+        },
+        {
+          "value": "458",
+          "label": "马来西亚"
+        },
+        {
+          "value": "175",
+          "label": "马约特"
+        },
+        {
+          "value": "516",
+          "label": "纳米比亚"
+        },
+        {
+          "value": "540",
+          "label": "新喀里多尼亚"
+        },
+        {
+          "value": "562",
+          "label": "尼日尔"
+        },
+        {
+          "value": "574",
+          "label": "诺福克岛"
+        },
+        {
+          "value": "566",
+          "label": "尼日利亚"
+        },
+        {
+          "value": "558",
+          "label": "尼加拉瓜"
+        },
+        {
+          "value": "570",
+          "label": "纽埃"
+        },
+        {
+          "value": "528",
+          "label": "荷兰"
+        },
+        {
+          "value": "578",
+          "label": "挪威"
+        },
+        {
+          "value": "524",
+          "label": "尼泊尔"
+        },
+        {
+          "value": "520",
+          "label": "瑙鲁"
+        },
+        {
+          "value": "554",
+          "label": "新西兰"
+        },
+        {
+          "value": "512",
+          "label": "阿曼"
+        },
+        {
+          "value": "586",
+          "label": "巴基斯坦"
+        },
+        {
+          "value": "591",
+          "label": "巴拿马"
+        },
+        {
+          "value": "612",
+          "label": "皮特凯恩"
+        },
+        {
+          "value": "604",
+          "label": "秘鲁"
+        },
+        {
+          "value": "608",
+          "label": "菲律宾"
+        },
+        {
+          "value": "585",
+          "label": "帕劳"
+        },
+        {
+          "value": "598",
+          "label": "巴布亚新几内亚"
+        },
+        {
+          "value": "616",
+          "label": "波兰"
+        },
+        {
+          "value": "630",
+          "label": "波多黎各"
+        },
+        {
+          "value": "408",
+          "label": "朝鲜"
+        },
+        {
+          "value": "620",
+          "label": "葡萄牙"
+        },
+        {
+          "value": "600",
+          "label": "巴拉圭"
+        },
+        {
+          "value": "275",
+          "label": "巴基斯坦"
+        },
+        {
+          "value": "258",
+          "label": "法属波利尼西亚"
+        },
+        {
+          "value": "634",
+          "label": "卡塔尔"
+        },
+        {
+          "value": "638",
+          "label": "留尼汪"
+        },
+        {
+          "value": "642",
+          "label": "罗马尼亚"
+        },
+        {
+          "value": "643",
+          "label": "俄罗斯联邦"
+        },
+        {
+          "value": "646",
+          "label": "卢旺达"
+        },
+        {
+          "value": "682",
+          "label": "沙特阿拉伯"
+        },
+        {
+          "value": "736",
+          "label": "苏丹"
+        },
+        {
+          "value": "686",
+          "label": "塞内加尔"
+        },
+        {
+          "value": "702",
+          "label": "新加坡"
+        },
+        {
+          "value": "239",
+          "label": "南乔治亚岛和南桑德韦 奇岛"
+        },
+        {
+          "value": "654",
+          "label": "圣赫勒拿"
+        },
+        {
+          "value": "744",
+          "label": "斯瓦尔巴岛和扬马延岛"
+        },
+        {
+          "value": "090",
+          "label": "所罗门群岛"
+        },
+        {
+          "value": "694",
+          "label": "塞拉利昂"
+        },
+        {
+          "value": "222",
+          "label": "萨尔瓦多"
+        },
+        {
+          "value": "674",
+          "label": "圣马力诺"
+        },
+        {
+          "value": "706",
+          "label": "索马里"
+        },
+        {
+          "value": "666",
+          "label": "圣皮埃尔和密克隆"
+        },
+        {
+          "value": "678",
+          "label": "圣多美和普林西比"
+        },
+        {
+          "value": "740",
+          "label": "苏里南"
+        },
+        {
+          "value": "703",
+          "label": "斯洛伐克"
+        },
+        {
+          "value": "705",
+          "label": "斯洛文尼亚"
+        },
+        {
+          "value": "752",
+          "label": "瑞典"
+        },
+        {
+          "value": "748",
+          "label": "斯威士兰"
+        },
+        {
+          "value": "690",
+          "label": "塞舌尔"
+        },
+        {
+          "value": "760",
+          "label": "叙利亚"
+        },
+        {
+          "value": "796",
+          "label": "特克斯和凯科斯群岛"
+        },
+        {
+          "value": "148",
+          "label": "乍得"
+        },
+        {
+          "value": "768",
+          "label": "多哥"
+        },
+        {
+          "value": "764",
+          "label": "泰国"
+        },
+        {
+          "value": "762",
+          "label": "塔吉克斯坦"
+        },
+        {
+          "value": "772",
+          "label": "托克劳"
+        },
+        {
+          "value": "795",
+          "label": "土库曼斯坦"
+        },
+        {
+          "value": "626",
+          "label": "东帝汶"
+        },
+        {
+          "value": "776",
+          "label": "汤加"
+        },
+        {
+          "value": "780",
+          "label": "特立尼达和多巴哥"
+        },
+        {
+          "value": "788",
+          "label": "突尼斯"
+        },
+        {
+          "value": "792",
+          "label": "土耳其"
+        },
+        {
+          "value": "798",
+          "label": "图瓦卢"
+        },
+        {
+          "value": "158",
+          "label": "台湾"
+        },
+        {
+          "value": "834",
+          "label": "坦桑尼亚"
+        },
+        {
+          "value": "800",
+          "label": "乌干达"
+        },
+        {
+          "value": "804",
+          "label": "乌克兰"
+        },
+        {
+          "value": "581",
+          "label": "美国本土外小岛屿"
+        },
+        {
+          "value": "858",
+          "label": "乌拉圭"
+        },
+        {
+          "value": "840",
+          "label": "美国"
+        },
+        {
+          "value": "860",
+          "label": "乌兹别克斯坦"
+        },
+        {
+          "value": "336",
+          "label": "梵蒂冈"
+        },
+        {
+          "value": "670",
+          "label": "圣文森特和格林纳丁斯"
+        },
+        {
+          "value": "862",
+          "label": "委内瑞拉"
+        },
+        {
+          "value": "092",
+          "label": "英属维尔京群岛"
+        },
+        {
+          "value": "850",
+          "label": "美属维尔京群岛"
+        },
+        {
+          "value": "704",
+          "label": "越南"
+        },
+        {
+          "value": "548",
+          "label": "瓦努阿图"
+        },
+        {
+          "value": "876",
+          "label": "瓦利斯和富图纳"
+        },
+        {
+          "value": "882",
+          "label": "萨摩亚"
+        },
+        {
+          "value": "887",
+          "label": "也门"
+        },
+        {
+          "value": "891",
+          "label": "南斯拉夫"
+        },
+        {
+          "value": "710",
+          "label": "南非"
+        },
+        {
+          "value": "894",
+          "label": "赞比亚"
+        },
+        {
+          "value": "716",
+          "label": "津巴布韦"
+        }
+      ]
+    },
+    {
+      "tableNum": 62,
+      "codeId": "SJYZDM",
+      "codeName": "世界语种代码",
+      "codes": [
+        {
+          "value": "aa",
+          "label": "阿法尔语"
+        },
+        {
+          "value": "ab",
+          "label": "阿布哈兹语"
+        },
+        {
+          "value": "af",
+          "label": "阿非利堪斯语"
+        },
+        {
+          "value": "am",
+          "label": "阿姆哈拉语"
+        },
+        {
+          "value": "ar",
+          "label": "阿拉伯语"
+        },
+        {
+          "value": "as",
+          "label": "阿萨姆语"
+        },
+        {
+          "value": "ay",
+          "label": "艾马拉语"
+        },
+        {
+          "value": "az",
+          "label": "阿塞拜疆语"
+        },
+        {
+          "value": "ba",
+          "label": "巴什基尔语"
+        },
+        {
+          "value": "be",
+          "label": "白俄罗斯语"
+        },
+        {
+          "value": "bg",
+          "label": "保加利亚语"
+        },
+        {
+          "value": "bh",
+          "label": "比哈尔语"
+        },
+        {
+          "value": "bi",
+          "label": "比斯拉玛语"
+        },
+        {
+          "value": "bn",
+          "label": "孟加拉语"
+        },
+        {
+          "value": "bo",
+          "label": "藏语"
+        },
+        {
+          "value": "br",
+          "label": "布列塔尼语"
+        },
+        {
+          "value": "ca",
+          "label": "加泰隆语"
+        },
+        {
+          "value": "co",
+          "label": "科西嘉语"
+        },
+        {
+          "value": "cs",
+          "label": "捷克语"
+        },
+        {
+          "value": "cy",
+          "label": "威尔士语"
+        },
+        {
+          "value": "da",
+          "label": "丹麦语"
+        },
+        {
+          "value": "de",
+          "label": "德语"
+        },
+        {
+          "value": "dz",
+          "label": "不丹语"
+        },
+        {
+          "value": "el",
+          "label": "希腊语"
+        },
+        {
+          "value": "en",
+          "label": "英语"
+        },
+        {
+          "value": "eo",
+          "label": "世界语"
+        },
+        {
+          "value": "es",
+          "label": "西班牙语"
+        },
+        {
+          "value": "et",
+          "label": "爱沙尼亚语"
+        },
+        {
+          "value": "eu",
+          "label": "巴斯克语"
+        },
+        {
+          "value": "fa",
+          "label": "波斯语"
+        },
+        {
+          "value": "fi",
+          "label": "芬兰语"
+        },
+        {
+          "value": "fj",
+          "label": "斐济语"
+        },
+        {
+          "value": "fo",
+          "label": "法罗斯语"
+        },
+        {
+          "value": "fr",
+          "label": "法语"
+        },
+        {
+          "value": "fy",
+          "label": "弗里西亚语"
+        },
+        {
+          "value": "ga",
+          "label": "爱尔兰语"
+        },
+        {
+          "value": "gd",
+          "label": "苏格兰语"
+        },
+        {
+          "value": "gl",
+          "label": "加利西亚语"
+        },
+        {
+          "value": "gn",
+          "label": "瓜拉尼语"
+        },
+        {
+          "value": "gu",
+          "label": "古吉拉特语"
+        },
+        {
+          "value": "ha",
+          "label": "豪萨语"
+        },
+        {
+          "value": "hi",
+          "label": "印地语"
+        },
+        {
+          "value": "hr",
+          "label": "克罗地亚语"
+        },
+        {
+          "value": "hu",
+          "label": "匈牙利语"
+        },
+        {
+          "value": "hy",
+          "label": "亚美尼亚语"
+        },
+        {
+          "value": "ia",
+          "label": "国际语 A"
+        },
+        {
+          "value": "ie",
+          "label": "国际语 E"
+        },
+        {
+          "value": "ik",
+          "label": "依努庇克语"
+        },
+        {
+          "value": "in",
+          "label": "印尼语"
+        },
+        {
+          "value": "is",
+          "label": "冰岛语"
+        },
+        {
+          "value": "it",
+          "label": "意大利语"
+        },
+        {
+          "value": "iw",
+          "label": "希伯来语"
+        },
+        {
+          "value": "ja",
+          "label": "日语"
+        },
+        {
+          "value": "ji",
+          "label": "依地语"
+        },
+        {
+          "value": "jv",
+          "label": "爪哇语"
+        },
+        {
+          "value": "ka",
+          "label": "格鲁吉亚语"
+        },
+        {
+          "value": "kk",
+          "label": "哈萨克语"
+        },
+        {
+          "value": "kl",
+          "label": "格陵兰语"
+        },
+        {
+          "value": "km",
+          "label": "柬埔寨语"
+        },
+        {
+          "value": "kn",
+          "label": "坎纳达语"
+        },
+        {
+          "value": "ko",
+          "label": "朝鲜语"
+        },
+        {
+          "value": "ks",
+          "label": "克什米尔语"
+        },
+        {
+          "value": "ku",
+          "label": "库尔德语"
+        },
+        {
+          "value": "ky",
+          "label": "吉尔吉斯语"
+        },
+        {
+          "value": "la",
+          "label": "拉丁语"
+        },
+        {
+          "value": "ln",
+          "label": "林加拉语"
+        },
+        {
+          "value": "lo",
+          "label": "老挝语"
+        },
+        {
+          "value": "lt",
+          "label": "立陶宛语"
+        },
+        {
+          "value": "lv",
+          "label": "拉脱维亚语"
+        },
+        {
+          "value": "mg",
+          "label": "马达加斯加语"
+        },
+        {
+          "value": "mi",
+          "label": "毛利语"
+        },
+        {
+          "value": "mk",
+          "label": "马其顿语"
+        },
+        {
+          "value": "ml",
+          "label": "马拉亚拉姆语"
+        },
+        {
+          "value": "mn",
+          "label": "蒙古语"
+        },
+        {
+          "value": "mo",
+          "label": "摩尔达维亚语"
+        },
+        {
+          "value": "mr",
+          "label": "马拉提语"
+        },
+        {
+          "value": "ms",
+          "label": "马来语"
+        },
+        {
+          "value": "mt",
+          "label": "马耳他语"
+        },
+        {
+          "value": "my",
+          "label": "缅甸语"
+        },
+        {
+          "value": "na",
+          "label": "瑙鲁语"
+        },
+        {
+          "value": "ne",
+          "label": "尼泊尔语"
+        },
+        {
+          "value": "nl",
+          "label": "芬兰语"
+        },
+        {
+          "value": "no",
+          "label": "挪威语"
+        },
+        {
+          "value": "oc",
+          "label": "奥克西唐语"
+        },
+        {
+          "value": "om",
+          "label": "阿芳 ·奥洛莫语"
+        },
+        {
+          "value": "or",
+          "label": "奥利亚语"
+        },
+        {
+          "value": "pa",
+          "label": "旁遮普语"
+        },
+        {
+          "value": "pl",
+          "label": "波兰语"
+        },
+        {
+          "value": "ps",
+          "label": "普什图语"
+        },
+        {
+          "value": "pt",
+          "label": "葡萄牙语"
+        },
+        {
+          "value": "qu",
+          "label": "凯楚亚语"
+        },
+        {
+          "value": "rm",
+          "label": "利托－罗曼语"
+        },
+        {
+          "value": "rn",
+          "label": "基隆迪语"
+        },
+        {
+          "value": "ro",
+          "label": "罗马尼亚语"
+        },
+        {
+          "value": "ru",
+          "label": "俄语"
+        },
+        {
+          "value": "rw",
+          "label": "基尼阿万达语"
+        },
+        {
+          "value": "sa",
+          "label": "梵语"
+        },
+        {
+          "value": "sd",
+          "label": "信德语"
+        },
+        {
+          "value": "sg",
+          "label": "桑戈语"
+        },
+        {
+          "value": "sh",
+          "label": "塞尔维亚－克罗地亚语"
+        },
+        {
+          "value": "si",
+          "label": "僧加罗语"
+        },
+        {
+          "value": "sk",
+          "label": "斯洛伐克语"
+        },
+        {
+          "value": "sl",
+          "label": "斯洛文尼亚语"
+        },
+        {
+          "value": "sm",
+          "label": "萨摩亚语"
+        },
+        {
+          "value": "sn",
+          "label": "绍纳语"
+        },
+        {
+          "value": "so",
+          "label": "索马里语"
+        },
+        {
+          "value": "sq",
+          "label": "阿尔巴尼亚语"
+        },
+        {
+          "value": "sr",
+          "label": "塞尔维亚语"
+        },
+        {
+          "value": "ss",
+          "label": "塞斯瓦替语"
+        },
+        {
+          "value": "st",
+          "label": "塞索托语"
+        },
+        {
+          "value": "su",
+          "label": "巽他语"
+        },
+        {
+          "value": "sv",
+          "label": "瑞典语"
+        },
+        {
+          "value": "sw",
+          "label": "斯瓦希里语"
+        },
+        {
+          "value": "ta",
+          "label": "泰米尔语"
+        },
+        {
+          "value": "te",
+          "label": "泰卢固语"
+        },
+        {
+          "value": "tg",
+          "label": "塔吉克语"
+        },
+        {
+          "value": "th",
+          "label": "傣语"
+        },
+        {
+          "value": "ti",
+          "label": "提格里尼亚语"
+        },
+        {
+          "value": "tk",
+          "label": "土库曼语"
+        },
+        {
+          "value": "tl",
+          "label": "他加禄语"
+        },
+        {
+          "value": "tn",
+          "label": "塞茨瓦纳语"
+        },
+        {
+          "value": "to",
+          "label": "汤加语"
+        },
+        {
+          "value": "tr",
+          "label": "土耳其语"
+        },
+        {
+          "value": "ts",
+          "label": "宗加语"
+        },
+        {
+          "value": "tt",
+          "label": "塔塔尔语"
+        },
+        {
+          "value": "tw",
+          "label": "特威语"
+        },
+        {
+          "value": "ug",
+          "label": "维吾尔语"
+        },
+        {
+          "value": "uk",
+          "label": "乌克兰语"
+        },
+        {
+          "value": "ur",
+          "label": "乌尔都语"
+        },
+        {
+          "value": "uz",
+          "label": "乌兹别克语"
+        },
+        {
+          "value": "vi",
+          "label": "越南语"
+        },
+        {
+          "value": "vo",
+          "label": "沃拉普克语"
+        },
+        {
+          "value": "wo",
+          "label": "沃洛夫语"
+        },
+        {
+          "value": "xh",
+          "label": "科萨语"
+        },
+        {
+          "value": "yo",
+          "label": "约鲁巴语"
+        },
+        {
+          "value": "za",
+          "label": "壮语"
+        },
+        {
+          "value": "zh",
+          "label": "汉语（中文）"
+        },
+        {
+          "value": "zu",
+          "label": "祖鲁语"
+        },
+        {
+          "value": "zz",
+          "label": "其他语言"
+        }
+      ]
+    },
+    {
+      "tableNum": 63,
+      "codeId": "SKDDLBDM",
+      "codeName": "授课地点类别代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "多媒体教室"
+        },
+        {
+          "value": "2",
+          "label": "语音室"
+        },
+        {
+          "value": "3",
+          "label": "实验室"
+        },
+        {
+          "value": "4",
+          "label": "计算机房"
+        },
+        {
+          "value": "5",
+          "label": "普通教室"
+        },
+        {
+          "value": "6",
+          "label": "专用教室"
+        },
+        {
+          "value": "7",
+          "label": "一体化教室"
+        },
+        {
+          "value": "8",
+          "label": "校内实践教学场所"
+        },
+        {
+          "value": "9",
+          "label": "校外实践教学场所"
+        },
+        {
+          "value": "10",
+          "label": "体育馆"
+        },
+        {
+          "value": "99",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 64,
+      "codeId": "SPZTDM",
+      "codeName": "审批状态代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "通过"
+        },
+        {
+          "value": "2",
+          "label": "未通过"
+        }
+      ]
+    },
+    {
+      "tableNum": 65,
+      "codeId": "SSHDLXDM",
+      "codeName": "赛事活动类型代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "德育思政"
+        },
+        {
+          "value": "2",
+          "label": "专业"
+        },
+        {
+          "value": "3",
+          "label": "体育"
+        },
+        {
+          "value": "4",
+          "label": "美育"
+        },
+        {
+          "value": "5",
+          "label": "劳动"
+        },
+        {
+          "value": "9",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 66,
+      "codeId": "SSLXDM",
+      "codeName": "硕士类型代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "学术"
+        },
+        {
+          "value": "2",
+          "label": "专业"
+        }
+      ]
+    },
+    {
+      "tableNum": 67,
+      "codeId": "STHDCYFSDM",
+      "codeName": "社团活动参与方式代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "团体"
+        },
+        {
+          "value": "2",
+          "label": "个人"
+        }
+      ]
+    },
+    {
+      "tableNum": 68,
+      "codeId": "STHDJBDM",
+      "codeName": "社团活动级别代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "校级"
+        },
+        {
+          "value": "2",
+          "label": "院系级"
+        }
+      ]
+    },
+    {
+      "tableNum": 69,
+      "codeId": "STHDLQFSDM",
+      "codeName": "社团活动录取方式代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "报名制"
+        },
+        {
+          "value": "2",
+          "label": "中签制"
+        },
+        {
+          "value": "3",
+          "label": "评审制"
+        },
+        {
+          "value": "9",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 70,
+      "codeId": "STHDLXDM",
+      "codeName": "社团活动类型代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "公益服务"
+        },
+        {
+          "value": "2",
+          "label": "科学技术"
+        },
+        {
+          "value": "3",
+          "label": "理论学习"
+        },
+        {
+          "value": "4",
+          "label": "文艺体育"
+        },
+        {
+          "value": "9",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 71,
+      "codeId": "STLXDM",
+      "codeName": "社团类型代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "学术科技类"
+        },
+        {
+          "value": "2",
+          "label": "思想政治类"
+        },
+        {
+          "value": "3",
+          "label": "志愿公益类"
+        },
+        {
+          "value": "4",
+          "label": "创新创业类"
+        },
+        {
+          "value": "5",
+          "label": "体育竞技类"
+        },
+        {
+          "value": "6",
+          "label": "文化艺术类"
+        },
+        {
+          "value": "9",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 72,
+      "codeId": "SXAPDM",
+      "codeName": "实习安排代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "学校统一安排"
+        },
+        {
+          "value": "2",
+          "label": "自主联系"
+        }
+      ]
+    },
+    {
+      "tableNum": 73,
+      "codeId": "SXBGLBDM",
+      "codeName": "实习报告类别代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "周报"
+        },
+        {
+          "value": "2",
+          "label": "月报"
+        },
+        {
+          "value": "3",
+          "label": "实习综合报告"
+        }
+      ]
+    },
+    {
+      "tableNum": 74,
+      "codeId": "SXCCDM",
+      "codeName": "升学层次代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "专科"
+        },
+        {
+          "value": "2",
+          "label": "职业本科"
+        },
+        {
+          "value": "3",
+          "label": "普通本科"
+        },
+        {
+          "value": "4",
+          "label": "硕士"
+        },
+        {
+          "value": "9",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 75,
+      "codeId": "SXJDLBDM",
+      "codeName": "实训基地类别代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "大学生校外实践教学基地"
+        },
+        {
+          "value": "2",
+          "label": "校内虚拟仿真实训中心"
+        },
+        {
+          "value": "3",
+          "label": "校内生产性实训基地"
+        },
+        {
+          "value": "4",
+          "label": "其他校内实训基地"
+        }
+      ]
+    },
+    {
+      "tableNum": 76,
+      "codeId": "SXQDDM",
+      "codeName": "升学渠道代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "贯通培养"
+        },
+        {
+          "value": "2",
+          "label": "五年一贯制培养"
+        },
+        {
+          "value": "3",
+          "label": "职教高考"
+        },
+        {
+          "value": "4",
+          "label": "普通高考"
+        },
+        {
+          "value": "5",
+          "label": "出国升学"
+        },
+        {
+          "value": "7",
+          "label": "3+2分段培养"
+        },
+        {
+          "value": "8",
+          "label": "专转本"
+        },
+        {
+          "value": "9",
+          "label": "考研"
+        }
+      ]
+    },
+    {
+      "tableNum": 77,
+      "codeId": "SXXSDM",
+      "codeName": "实习形式代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "校外实习"
+        },
+        {
+          "value": "2",
+          "label": "校内职业真实职业场景实习"
+        },
+        {
+          "value": "3",
+          "label": "虚拟仿真实习"
+        }
+      ]
+    },
+    {
+      "tableNum": 78,
+      "codeId": "SYXWLBDM",
+      "codeName": "授予学位类别代码",
+      "codes": [
+        {
+          "value": "11",
+          "label": "学术型学士"
+        },
+        {
+          "value": "12",
+          "label": "专业学位学士"
+        }
+      ]
+    },
+    {
+      "tableNum": 79,
+      "codeId": "SYZKDM",
+      "codeName": "使用状况代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "使用"
+        },
+        {
+          "value": "2",
+          "label": "闲置"
+        },
+        {
+          "value": "3",
+          "label": "被借用"
+        },
+        {
+          "value": "4",
+          "label": "借用"
+        },
+        {
+          "value": "5",
+          "label": "租用"
+        },
+        {
+          "value": "6",
+          "label": "出租"
+        },
+        {
+          "value": "7",
+          "label": "对外投资"
+        },
+        {
+          "value": "8",
+          "label": "担保"
+        },
+        {
+          "value": "9",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 80,
+      "codeId": "SZHDLXDM",
+      "codeName": "思政活动类型代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "讲座报告"
+        },
+        {
+          "value": "2",
+          "label": "征文演讲"
+        },
+        {
+          "value": "3",
+          "label": "文艺表演"
+        },
+        {
+          "value": "4",
+          "label": "参观走访"
+        },
+        {
+          "value": "5",
+          "label": "志愿服务"
+        },
+        {
+          "value": "6",
+          "label": "社会实践"
+        },
+        {
+          "value": "7",
+          "label": "分享交流"
+        },
+        {
+          "value": "9",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 81,
+      "codeId": "SZHDZBDWJBDM",
+      "codeName": "思政活动主办单位级别代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "国家级"
+        },
+        {
+          "value": "2",
+          "label": "省级"
+        },
+        {
+          "value": "3",
+          "label": "校级"
+        },
+        {
+          "value": "4",
+          "label": "院系级"
+        }
+      ]
+    },
+    {
+      "tableNum": 82,
+      "codeId": "SZJZGRYLXDM",
+      "codeName": "思政教职工人员类型代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "思政课教师"
+        },
+        {
+          "value": "2",
+          "label": "班主任"
+        },
+        {
+          "value": "3",
+          "label": "辅导员"
+        }
+      ]
+    },
+    {
+      "tableNum": 83,
+      "codeId": "SZZYLXDM",
+      "codeName": "数字资源类型代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "文本资源"
+        },
+        {
+          "value": "2",
+          "label": "图形图像"
+        },
+        {
+          "value": "3",
+          "label": "演示文稿"
+        },
+        {
+          "value": "4",
+          "label": "微课资源"
+        },
+        {
+          "value": "5",
+          "label": "视频资源"
+        },
+        {
+          "value": "6",
+          "label": "动画资源"
+        },
+        {
+          "value": "7",
+          "label": "交互资源"
+        },
+        {
+          "value": "8",
+          "label": "虚拟仿真实训资源"
+        }
+      ]
+    },
+    {
+      "tableNum": 84,
+      "codeId": "TSQKZTDM",
+      "codeName": "图书期刊状态代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "在借"
+        },
+        {
+          "value": "2",
+          "label": "在库"
+        },
+        {
+          "value": "3",
+          "label": "挂失"
+        },
+        {
+          "value": "4",
+          "label": "残缺"
+        },
+        {
+          "value": "5",
+          "label": "报废"
+        },
+        {
+          "value": "6",
+          "label": "已订未到货"
+        },
+        {
+          "value": "7",
+          "label": "待编目"
+        },
+        {
+          "value": "9",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 85,
+      "codeId": "WJYLXDM",
+      "codeName": "未就业类型代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "待就业"
+        },
+        {
+          "value": "2",
+          "label": "不就业拟升学"
+        },
+        {
+          "value": "3",
+          "label": "其他暂不就业"
+        }
+      ]
+    },
+    {
+      "tableNum": 86,
+      "codeId": "WLKCLYDM",
+      "codeName": "网络课程来源代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "校内平台"
+        },
+        {
+          "value": "2",
+          "label": "第三方平台"
+        }
+      ]
+    },
+    {
+      "tableNum": 87,
+      "codeId": "WXLXDM",
+      "codeName": "文献类型代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "专著"
+        },
+        {
+          "value": "2",
+          "label": "报纸"
+        },
+        {
+          "value": "3",
+          "label": "期刊"
+        },
+        {
+          "value": "4",
+          "label": "会议录"
+        },
+        {
+          "value": "5",
+          "label": "汇编"
+        },
+        {
+          "value": "6",
+          "label": "学位论文"
+        },
+        {
+          "value": "7",
+          "label": "科技报告"
+        },
+        {
+          "value": "8",
+          "label": "技术标准"
+        },
+        {
+          "value": "9",
+          "label": "专利文献"
+        },
+        {
+          "value": "10",
+          "label": "产品样本"
+        },
+        {
+          "value": "11",
+          "label": "中译文"
+        },
+        {
+          "value": "12",
+          "label": "手稿"
+        },
+        {
+          "value": "13",
+          "label": "参考工具"
+        },
+        {
+          "value": "14",
+          "label": "检索工具"
+        },
+        {
+          "value": "15",
+          "label": "档案"
+        },
+        {
+          "value": "16",
+          "label": "图表"
+        },
+        {
+          "value": "17",
+          "label": "古籍"
+        },
+        {
+          "value": "18",
+          "label": "乐谱"
+        },
+        {
+          "value": "19",
+          "label": "微缩胶卷"
+        },
+        {
+          "value": "20",
+          "label": "微缩平片"
+        },
+        {
+          "value": "21",
+          "label": "录音带"
+        },
+        {
+          "value": "22",
+          "label": "唱片"
+        },
+        {
+          "value": "23",
+          "label": "录相带"
+        },
+        {
+          "value": "24",
+          "label": "电影片"
+        },
+        {
+          "value": "25",
+          "label": "幻灯片"
+        },
+        {
+          "value": "26",
+          "label": "其他（盲文等）"
+        }
+      ]
+    },
+    {
+      "tableNum": 88,
+      "codeId": "XDYFZZTDM",
+      "codeName": "新党员发展状态代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "积极分子"
+        },
+        {
+          "value": "2",
+          "label": "预备党员"
+        },
+        {
+          "value": "3",
+          "label": "正式党员"
+        }
+      ]
+    },
+    {
+      "tableNum": 89,
+      "codeId": "XDYLXDM",
+      "codeName": "新党员类型代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "教职工"
+        },
+        {
+          "value": "2",
+          "label": "学生"
+        },
+        {
+          "value": "9",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 90,
+      "codeId": "XFLBDM",
+      "codeName": "消费类别代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "食堂"
+        },
+        {
+          "value": "2",
+          "label": "超市"
+        },
+        {
+          "value": "3",
+          "label": "图书馆"
+        },
+        {
+          "value": "9",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 91,
+      "codeId": "XNFZJDDWFWDXDM",
+      "codeName": "虚拟仿真基地对外服务对象代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "企业人员"
+        },
+        {
+          "value": "2",
+          "label": "他校人员"
+        },
+        {
+          "value": "3",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 92,
+      "codeId": "XNFZJDDWFWLXDM",
+      "codeName": "虚拟仿真基地对外服务类型代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "职业启蒙"
+        },
+        {
+          "value": "2",
+          "label": "校际、国际实习实训"
+        },
+        {
+          "value": "3",
+          "label": "教师岗位实践"
+        },
+        {
+          "value": "4",
+          "label": "技能、就业培训"
+        },
+        {
+          "value": "5",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 93,
+      "codeId": "XNFZZYLXDM",
+      "codeName": "虚拟仿真资源类型代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "以实带虚的纯虚拟资源"
+        },
+        {
+          "value": "2",
+          "label": "以虚助实的模块化资源"
+        },
+        {
+          "value": "3",
+          "label": "虚实结合的数字孪生资源"
+        }
+      ]
+    },
+    {
+      "tableNum": 94,
+      "codeId": "XQDM",
+      "codeName": "学期代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "秋季学期"
+        },
+        {
+          "value": "2",
+          "label": "春季学期"
+        },
+        {
+          "value": "3",
+          "label": "夏季学期"
+        },
+        {
+          "value": "9",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 95,
+      "codeId": "XTJCFSDM",
+      "codeName": "系统集成方式代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "API接口集成"
+        },
+        {
+          "value": "2",
+          "label": "SDK集成"
+        }
+      ]
+    },
+    {
+      "tableNum": 96,
+      "codeId": "XTJCFXDM",
+      "codeName": "系统集成方向代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "向外集成"
+        },
+        {
+          "value": "2",
+          "label": "向内集成"
+        },
+        {
+          "value": "3",
+          "label": "双向集成"
+        }
+      ]
+    },
+    {
+      "tableNum": 97,
+      "codeId": "XTRZFSDM",
+      "codeName": "系统认证方式代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "OAuth2.0认证"
+        },
+        {
+          "value": "2",
+          "label": "Token认证"
+        },
+        {
+          "value": "3",
+          "label": "CAS认证"
+        },
+        {
+          "value": "4",
+          "label": "SAML2.0"
+        },
+        {
+          "value": "5",
+          "label": "OpenIDConnect （OIDC）"
+        }
+      ]
+    },
+    {
+      "tableNum": 98,
+      "codeId": "XXDWCCDM",
+      "codeName": "学校单位层次代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "校本部"
+        },
+        {
+          "value": "2",
+          "label": "分校"
+        },
+        {
+          "value": "9",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 99,
+      "codeId": "XXHXTFLDM",
+      "codeName": "信息化系统分类代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "师生发展"
+        },
+        {
+          "value": "2",
+          "label": "教育教学"
+        },
+        {
+          "value": "3",
+          "label": "管理服务"
+        },
+        {
+          "value": "4",
+          "label": "数字资源"
+        },
+        {
+          "value": "5",
+          "label": "网络安全"
+        },
+        {
+          "value": "6",
+          "label": "支撑条件"
+        },
+        {
+          "value": "9",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 100,
+      "codeId": "CJJCJRFSDM",
+      "codeName": "场景击穿接入方式代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "免密登录"
+        },
+        {
+          "value": "2",
+          "label": "单点认证"
+        },
+        {
+          "value": "3",
+          "label": "公网访问"
+        }
+      ]
+    },
+    {
+      "tableNum": 101,
+      "codeId": "XXHXTJSLXDM",
+      "codeName": "信息化系统建设类型代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "自建系统"
+        },
+        {
+          "value": "2",
+          "label": "国家或省级公共平台"
+        },
+        {
+          "value": "3",
+          "label": "第三方商业系统"
+        },
+        {
+          "value": "4",
+          "label": "虚拟仿真实训教学管理及资源共享平台"
+        },
+        {
+          "value": "9",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 102,
+      "codeId": "XXJBZJBDM",
+      "codeName": "学校举办者级别代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "省级政府"
+        },
+        {
+          "value": "2",
+          "label": "地市级政府"
+        },
+        {
+          "value": "3",
+          "label": "区县级政府"
+        },
+        {
+          "value": "4",
+          "label": "行业"
+        },
+        {
+          "value": "5",
+          "label": "企业（集团）"
+        },
+        {
+          "value": "6",
+          "label": "公民个人"
+        },
+        {
+          "value": "9",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 103,
+      "codeId": "XXJBZXZDM",
+      "codeName": "学校举办者性质代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "教育部门"
+        },
+        {
+          "value": "2",
+          "label": "其他部门"
+        },
+        {
+          "value": "3",
+          "label": "行业"
+        },
+        {
+          "value": "4",
+          "label": "企业"
+        },
+        {
+          "value": "5",
+          "label": "民办"
+        },
+        {
+          "value": "9",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 104,
+      "codeId": "XXXZDM",
+      "codeName": "学校性质代码",
+      "codes": [
+        {
+          "value": "01",
+          "label": "综合大学"
+        },
+        {
+          "value": "02",
+          "label": "理工院校"
+        },
+        {
+          "value": "03",
+          "label": "农业院校"
+        },
+        {
+          "value": "04",
+          "label": "林业院校"
+        },
+        {
+          "value": "05",
+          "label": "医药院校"
+        },
+        {
+          "value": "06",
+          "label": "师范院校"
+        },
+        {
+          "value": "07",
+          "label": "语文院校"
+        },
+        {
+          "value": "08",
+          "label": "财经院校"
+        },
+        {
+          "value": "09",
+          "label": "政法院校"
+        },
+        {
+          "value": "10",
+          "label": "体育院校"
+        },
+        {
+          "value": "11",
+          "label": "艺术院校"
+        },
+        {
+          "value": "12",
+          "label": "民族院校"
+        }
+      ]
+    },
+    {
+      "tableNum": 105,
+      "codeId": "XZDM",
+      "codeName": "学制代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "两年制"
+        },
+        {
+          "value": "2",
+          "label": "两年半制"
+        },
+        {
+          "value": "3",
+          "label": "三年制"
+        },
+        {
+          "value": "4",
+          "label": "四年制"
+        },
+        {
+          "value": "5",
+          "label": "五年制"
+        },
+        {
+          "value": "6",
+          "label": "五年制以上"
+        }
+      ]
+    },
+    {
+      "tableNum": 106,
+      "codeId": "YKTRZCSLXDM",
+      "codeName": "一卡通认证场所类型代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "食堂"
+        },
+        {
+          "value": "2",
+          "label": "宿舍"
+        },
+        {
+          "value": "3",
+          "label": "教室"
+        },
+        {
+          "value": "4",
+          "label": "校门"
+        },
+        {
+          "value": "5",
+          "label": "图书馆"
+        },
+        {
+          "value": "9",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 107,
+      "codeId": "YKTRZLXDM",
+      "codeName": "一卡通认证类型代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "卡"
+        },
+        {
+          "value": "2",
+          "label": "面部"
+        },
+        {
+          "value": "3",
+          "label": "指纹"
+        },
+        {
+          "value": "4",
+          "label": "二维码"
+        },
+        {
+          "value": "9",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 108,
+      "codeId": "ZDZYJBDM",
+      "codeName": "重点专业级别代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "国家级"
+        },
+        {
+          "value": "2",
+          "label": "省级"
+        },
+        {
+          "value": "9",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 109,
+      "codeId": "ZDZYLXDM",
+      "codeName": "重点专业类型代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "品牌"
+        },
+        {
+          "value": "2",
+          "label": "特色"
+        },
+        {
+          "value": "3",
+          "label": "高水平"
+        },
+        {
+          "value": "4",
+          "label": "优势"
+        },
+        {
+          "value": "9",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 110,
+      "codeId": "ZGYZDM",
+      "codeName": "中国语种代码",
+      "codes": [
+        {
+          "value": "061",
+          "label": "俄语"
+        },
+        {
+          "value": "111",
+          "label": "塔吉克语"
+        },
+        {
+          "value": "161",
+          "label": "塔塔尔语"
+        },
+        {
+          "value": "162",
+          "label": "柯尔克孜语"
+        },
+        {
+          "value": "163",
+          "label": "哈萨克语"
+        },
+        {
+          "value": "168",
+          "label": "乌孜别克语"
+        },
+        {
+          "value": "211",
+          "label": "汉语（中文）"
+        },
+        {
+          "value": "212",
+          "label": "傣语"
+        },
+        {
+          "value": "215",
+          "label": "藏语"
+        },
+        {
+          "value": "217",
+          "label": "朝鲜语"
+        },
+        {
+          "value": "222",
+          "label": "蒙古语"
+        },
+        {
+          "value": "223",
+          "label": "维吾尔语"
+        },
+        {
+          "value": "224",
+          "label": "壮语"
+        },
+        {
+          "value": "501",
+          "label": "裕固语"
+        },
+        {
+          "value": "506",
+          "label": "保安语"
+        },
+        {
+          "value": "507",
+          "label": "达斡尔语"
+        },
+        {
+          "value": "508",
+          "label": "东乡语"
+        },
+        {
+          "value": "509",
+          "label": "土语"
+        },
+        {
+          "value": "513",
+          "label": "鄂伦春语"
+        },
+        {
+          "value": "514",
+          "label": "鄂温克语"
+        },
+        {
+          "value": "517",
+          "label": "赫哲语"
+        },
+        {
+          "value": "518",
+          "label": "满语"
+        },
+        {
+          "value": "519",
+          "label": "锡伯语"
+        },
+        {
+          "value": "524",
+          "label": "撒拉语"
+        },
+        {
+          "value": "531",
+          "label": "瑶语"
+        },
+        {
+          "value": "532",
+          "label": "仡佬语"
+        },
+        {
+          "value": "533",
+          "label": "京语"
+        },
+        {
+          "value": "536",
+          "label": "阿昌语"
+        },
+        {
+          "value": "537",
+          "label": "独龙语"
+        },
+        {
+          "value": "538",
+          "label": "基诺语"
+        },
+        {
+          "value": "539",
+          "label": "珞巴语"
+        },
+        {
+          "value": "540",
+          "label": "门巴语"
+        },
+        {
+          "value": "541",
+          "label": "怒语"
+        },
+        {
+          "value": "542",
+          "label": "普米语"
+        },
+        {
+          "value": "543",
+          "label": "羌语"
+        },
+        {
+          "value": "544",
+          "label": "土家语"
+        },
+        {
+          "value": "548",
+          "label": "景颇语"
+        },
+        {
+          "value": "551",
+          "label": "白语"
+        },
+        {
+          "value": "552",
+          "label": "哈尼语"
+        },
+        {
+          "value": "553",
+          "label": "拉祜语"
+        },
+        {
+          "value": "554",
+          "label": "傈僳语"
+        },
+        {
+          "value": "555",
+          "label": "纳西语"
+        },
+        {
+          "value": "556",
+          "label": "彝语"
+        },
+        {
+          "value": "563",
+          "label": "黎语"
+        },
+        {
+          "value": "567",
+          "label": "侗语"
+        },
+        {
+          "value": "568",
+          "label": "仫佬语"
+        },
+        {
+          "value": "569",
+          "label": "毛难语"
+        },
+        {
+          "value": "570",
+          "label": "水语"
+        },
+        {
+          "value": "574",
+          "label": "布依语"
+        },
+        {
+          "value": "580",
+          "label": "苗语"
+        },
+        {
+          "value": "584",
+          "label": "崩龙语"
+        },
+        {
+          "value": "585",
+          "label": "布朗语"
+        },
+        {
+          "value": "586",
+          "label": "佤语"
+        },
+        {
+          "value": "590",
+          "label": "高山语"
+        }
+      ]
+    },
+    {
+      "tableNum": 111,
+      "codeId": "ZHZTDM",
+      "codeName": "账号状态代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "正常"
+        },
+        {
+          "value": "2",
+          "label": "锁定"
+        },
+        {
+          "value": "3",
+          "label": "禁用"
+        }
+      ]
+    },
+    {
+      "tableNum": 112,
+      "codeId": "DYHDXSDM",
+      "codeName": "党员活动形式代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "三会"
+        },
+        {
+          "value": "2",
+          "label": "党员日常活动"
+        },
+        {
+          "value": "3",
+          "label": "党员主题党日"
+        }
+      ]
+    },
+    {
+      "tableNum": 113,
+      "codeId": "ZYCCDM",
+      "codeName": "专业层次代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "职业本科"
+        },
+        {
+          "value": "2",
+          "label": "高职专科"
+        }
+      ]
+    },
+    {
+      "tableNum": 114,
+      "codeId": "ZYSKFSDM",
+      "codeName": "主要授课方式代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "讲授"
+        },
+        {
+          "value": "2",
+          "label": "讲授+演示"
+        },
+        {
+          "value": "3",
+          "label": "实践操作指导"
+        }
+      ]
+    },
+    {
+      "tableNum": 115,
+      "codeId": "ZYXYKCZYDM",
+      "codeName": "主要选用课程资源代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "媒体素材"
+        },
+        {
+          "value": "2",
+          "label": "试题"
+        },
+        {
+          "value": "3",
+          "label": "试卷"
+        },
+        {
+          "value": "4",
+          "label": "课件"
+        },
+        {
+          "value": "5",
+          "label": "案例"
+        },
+        {
+          "value": "6",
+          "label": "文献资料"
+        },
+        {
+          "value": "7",
+          "label": "网络课程"
+        },
+        {
+          "value": "8",
+          "label": "教学工具软件（包括教学APP）"
+        }
+      ]
+    },
+    {
+      "tableNum": 116,
+      "codeId": "FTCGXSDM",
+      "codeName": "访谈成果形式代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "签定合作协议"
+        },
+        {
+          "value": "2",
+          "label": "达成合作意向"
+        },
+        {
+          "value": "3",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 117,
+      "codeId": "JYYXDM",
+      "codeName": "就业意向代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "升学"
+        },
+        {
+          "value": "2",
+          "label": "就业"
+        },
+        {
+          "value": "3",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 118,
+      "codeId": "CYLXDM",
+      "codeName": "采用类型代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "学历教育"
+        },
+        {
+          "value": "2",
+          "label": "培训"
+        }
+      ]
+    },
+    {
+      "tableNum": 119,
+      "codeId": "CYJXZYLXDM",
+      "codeName": "采用教学资源类型代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "课程标准"
+        },
+        {
+          "value": "2",
+          "label": "专业教学标准"
+        },
+        {
+          "value": "3",
+          "label": "教材"
+        }
+      ]
+    },
+    {
+      "tableNum": 120,
+      "codeId": "ZWHZBXLBDM",
+      "codeName": "中外合作办学类别代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "中外合作办学机构"
+        },
+        {
+          "value": "2",
+          "label": "中外合作办学项目"
+        }
+      ]
+    },
+    {
+      "tableNum": 121,
+      "codeId": "CSDJDM",
+      "codeName": "测试等级代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "优秀"
+        },
+        {
+          "value": "2",
+          "label": "良好"
+        },
+        {
+          "value": "3",
+          "label": "及格"
+        },
+        {
+          "value": "9",
+          "label": "不及格"
+        }
+      ]
+    },
+    {
+      "tableNum": 122,
+      "codeId": "ZZDJDM",
+      "codeName": "资助等级代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "一级"
+        },
+        {
+          "value": "2",
+          "label": "二级"
+        },
+        {
+          "value": "3",
+          "label": "三级"
+        },
+        {
+          "value": "9",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 123,
+      "codeId": "RDZTDM",
+      "codeName": "认定状态代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "待认定"
+        },
+        {
+          "value": "2",
+          "label": "复审中"
+        },
+        {
+          "value": "3",
+          "label": "已认定"
+        },
+        {
+          "value": "9",
+          "label": "未认定"
+        }
+      ]
+    },
+    {
+      "tableNum": 124,
+      "codeId": "CPLXDM",
+      "codeName": "测评类型代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "普查"
+        },
+        {
+          "value": "2",
+          "label": "自测"
+        }
+      ]
+    },
+    {
+      "tableNum": 125,
+      "codeId": "SJLBDM",
+      "codeName": "实践类别代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "专业实践"
+        },
+        {
+          "value": "2",
+          "label": "社会服务"
+        },
+        {
+          "value": "3",
+          "label": "社会调查与研究"
+        },
+        {
+          "value": "4",
+          "label": "创新创业实践"
+        },
+        {
+          "value": "5",
+          "label": "校园文化与体育活动"
+        },
+        {
+          "value": "6",
+          "label": "国际交流与合作"
+        },
+        {
+          "value": "9",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 126,
+      "codeId": "QQLXDM",
+      "codeName": "缺勤类型代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "病假"
+        },
+        {
+          "value": "2",
+          "label": "事假"
+        },
+        {
+          "value": "3",
+          "label": "迟到早退"
+        },
+        {
+          "value": "4",
+          "label": "旷课"
+        }
+      ]
+    },
+    {
+      "tableNum": 127,
+      "codeId": "KQLXDM",
+      "codeName": "考勤类型代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "点名考勤"
+        },
+        {
+          "value": "2",
+          "label": "签到考勤"
+        },
+        {
+          "value": "3",
+          "label": "课堂互动考勤"
+        },
+        {
+          "value": "4",
+          "label": "抽查考勤"
+        },
+        {
+          "value": "5",
+          "label": "综合考勤"
+        },
+        {
+          "value": "9",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 128,
+      "codeId": "TJLXDM",
+      "codeName": "提交类型代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "线上"
+        },
+        {
+          "value": "2",
+          "label": "线下"
+        }
+      ]
+    },
+    {
+      "tableNum": 129,
+      "codeId": "QJLXDM",
+      "codeName": "请假类型代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "病假"
+        },
+        {
+          "value": "2",
+          "label": "事假"
+        },
+        {
+          "value": "3",
+          "label": "公假"
+        },
+        {
+          "value": "9",
+          "label": "其他"
+        }
+      ]
+    },
+    {
+      "tableNum": 130,
+      "codeId": "ZQZTDM",
+      "codeName": "在寝状态代码",
+      "codes": [
+        {
+          "value": "1",
+          "label": "在寝"
+        },
+        {
+          "value": "2",
+          "label": "未归"
+        },
+        {
+          "value": "3",
+          "label": "请假"
+        },
+        {
+          "value": "9",
+          "label": "其他"
+        },
+        {
+          "value": "random",
+          "label": "接口调用时系统随机码，可自行生成。"
+        },
+        {
+          "value": "username",
+          "label": "是 string 用户名"
+        },
+        {
+          "value": "password",
+          "label": "是 string 密码"
+        },
+        {
+          "value": "cipherText",
+          "label": "是 string 值为密文"
+        },
+        {
+          "value": "scope",
+          "label": "身份"
+        },
+        {
+          "value": "openid",
+          "label": "openid"
+        },
+        {
+          "value": "token",
+          "label": "刷新接口加密前请求参数："
+        },
+        {
+          "value": "token",
+          "label": "刷新接口加密前请求参数："
+        },
+        {
+          "value": "cipherText",
+          "label": "是 string 值为密文"
+        },
+        {
+          "value": "token",
+          "label": "刷新接口返回参数说明："
+        },
+        {
+          "value": "scope",
+          "label": "身份"
+        },
+        {
+          "value": "openid",
+          "label": "openid"
+        },
+        {
+          "value": "Authorization",
+          "label": "是 string 令牌"
+        },
+        {
+          "value": "timestamps",
+          "label": "是 string"
+        },
+        {
+          "value": "random",
+          "label": "是 string 接口调用时系统随机码，可自行生成"
+        },
+        {
+          "value": "sign",
+          "label": "是 string 符串+timestamps+"
+        },
+        {
+          "value": "random",
+          "label": "进行 SM3 加密生成"
+        },
+        {
+          "value": "dataObjName",
+          "label": "是 string"
+        },
+        {
+          "value": "fileds",
+          "label": "是 List 数据项集合"
+        },
+        {
+          "value": "cipherText",
+          "label": "是 string 值为密文"
+        },
+        {
+          "value": "Authorization",
+          "label": "是 string 令牌"
+        },
+        {
+          "value": "timestamps",
+          "label": "是 string"
+        },
+        {
+          "value": "random",
+          "label": "是 string 接口调用时系统随机码，可自行生成"
+        },
+        {
+          "value": "sign",
+          "label": "是 string 字符串+timestamps+"
+        },
+        {
+          "value": "random",
+          "label": "进行 SM3 加密生成"
+        },
+        {
+          "value": "startTime",
+          "label": "是 string 开始时间（YYYY-mm-ddHH:mm:ss）"
+        },
+        {
+          "value": "endTime",
+          "label": "是 string 结束时间（YYYY-mm-ddHH:mm:ss）"
+        },
+        {
+          "value": "page",
+          "label": "是 int 页数"
+        },
+        {
+          "value": "limit",
+          "label": "是 int 每页大小"
+        },
+        {
+          "value": "tableName",
+          "label": "是 string 模糊匹配表名（空值查询所有）"
+        },
+        {
+          "value": "cipherText",
+          "label": "是 string 值为密文"
+        },
+        {
+          "value": "timestamps",
+          "label": "接受时间与每次调用增量采集接口返回time时间对应"
+        },
+        {
+          "value": "sysName",
+          "label": "调用用户名"
+        },
+        {
+          "value": "tableName",
+          "label": "表名"
+        },
+        {
+          "value": "collectNum",
+          "label": "接收到数据数量"
+        },
+        {
+          "value": "storageNum",
+          "label": "入库数量"
+        },
+        {
+          "value": "remark",
+          "label": "异常信息"
+        },
+        {
+          "value": "ZYGXX0101",
+          "label": "学校基 本学年秋季学"
+        },
+        {
+          "value": "ZYGXX0102",
+          "label": "信息化 学校基础数据"
+        },
+        {
+          "value": "ZYGXX",
+          "label": "学校 ZYGXX01 学校基"
+        },
+        {
+          "value": "ZYGXX0103",
+          "label": "信息化"
+        },
+        {
+          "value": "LSJ",
+          "label": "类表 工等系统"
+        },
+        {
+          "value": "ZYGXX0104",
+          "label": "学校特"
+        },
+        {
+          "value": "TYYSJ",
+          "label": "据子类表 行情况自行判"
+        },
+        {
+          "value": "ZYGJX0101",
+          "label": "课程基"
+        },
+        {
+          "value": "ZYGJX0102",
+          "label": "课程建"
+        },
+        {
+          "value": "ZYGJX01",
+          "label": "课程数"
+        },
+        {
+          "value": "ZYGJX0103",
+          "label": "国家平 ODS_GJPTZYDJS 国家平台资源对接数据子类"
+        },
+        {
+          "value": "ZYGJX0104",
+          "label": "课证融 ODS_KZRTGLGX 课证融通关联关系数据子类"
+        },
+        {
+          "value": "ZYGJX",
+          "label": "教学 通关联关系数据子类 SJ 表"
+        },
+        {
+          "value": "ZYGJX0201",
+          "label": "实习基"
+        },
+        {
+          "value": "ZYGJX02",
+          "label": "岗位实 ZYGJX0202 实习保 ODS_SXBXGMQ 实习保险购买情况数据子类"
+        },
+        {
+          "value": "ZYGJX0203",
+          "label": "实习报"
+        },
+        {
+          "value": "ZYGJX03",
+          "label": "专业信 ZYGJX0301 专业建"
+        },
+        {
+          "value": "ZYGJX0302",
+          "label": "专业设"
+        },
+        {
+          "value": "ZYGJX0401",
+          "label": "实训基"
+        },
+        {
+          "value": "ZYGJX0402",
+          "label": "实训室"
+        },
+        {
+          "value": "ZYGJX04",
+          "label": "实训管 ZYGJX0403 实训项 表16 ODS_SXXMSJ 实训项目数据子类表 教务管理系统 天 本学年秋季学期"
+        },
+        {
+          "value": "ZYGJX0404",
+          "label": "实训教"
+        },
+        {
+          "value": "ZYGJX0405",
+          "label": "虚拟仿 虚拟仿真实训"
+        },
+        {
+          "value": "FWSJ",
+          "label": "子类表"
+        },
+        {
+          "value": "ZYGJX0501",
+          "label": "排课数 当天报送第二"
+        },
+        {
+          "value": "ZYGJX05",
+          "label": "排课选"
+        },
+        {
+          "value": "ZYGJX0502",
+          "label": "学生选"
+        },
+        {
+          "value": "ZYGJX0601",
+          "label": "访问教 ODS_FWJXZYQK 访问教学资源情况数据子类"
+        },
+        {
+          "value": "ZYGJX0602",
+          "label": "网络课"
+        },
+        {
+          "value": "XJLSJ",
+          "label": "子类表"
+        },
+        {
+          "value": "ZYGJX06",
+          "label": "课程教 子类"
+        },
+        {
+          "value": "ZYGJX0603",
+          "label": "课堂互"
+        },
+        {
+          "value": "ZYGJX0604",
+          "label": "访问数 图书管理系统、"
+        },
+        {
+          "value": "YSJ",
+          "label": "类表"
+        },
+        {
+          "value": "ZYGJX0701",
+          "label": "教学质 教学质量管理"
+        },
+        {
+          "value": "ZYGJX07",
+          "label": "教学质"
+        },
+        {
+          "value": "ZYGJX0702",
+          "label": "巡课数"
+        },
+        {
+          "value": "ZYGJX08",
+          "label": "数字资 ZYGJX0801 数字资"
+        },
+        {
+          "value": "ZYGJX0802",
+          "label": "虚拟仿 虚拟仿真实训"
+        },
+        {
+          "value": "BSJ",
+          "label": "子类表"
+        },
+        {
+          "value": "ZYGJX0901",
+          "label": "培养方"
+        },
+        {
+          "value": "ZYGJX09",
+          "label": "教学计"
+        },
+        {
+          "value": "ZYGJX0902",
+          "label": "培养方 培养方案课程设置数据子类"
+        },
+        {
+          "value": "ZYGJX1001",
+          "label": "教材基"
+        },
+        {
+          "value": "ZYGJX10",
+          "label": "教材数"
+        },
+        {
+          "value": "ZYGJX1002",
+          "label": "获奖教 教学管理系统/"
+        },
+        {
+          "value": "ZYGJX1101",
+          "label": "教室基"
+        },
+        {
+          "value": "ZYGJX11",
+          "label": "教室管"
+        },
+        {
+          "value": "ZYGJX1102",
+          "label": "教室视"
+        },
+        {
+          "value": "ZYGJG0101",
+          "label": "教师画"
+        },
+        {
+          "value": "ZYGJG0102",
+          "label": "教师企"
+        },
+        {
+          "value": "ZYGJG01",
+          "label": "教师基 业兼职/实践数据子 表36 ODS_JSQYJZSJSJ 教师企业兼职/实践数据子 人事系统 学期 本学年秋季学期"
+        },
+        {
+          "value": "ZYGJG",
+          "label": "教职 ZYGJG0103 教师画"
+        },
+        {
+          "value": "ZYGJG02",
+          "label": "学习进 ZYGJG0201 学习进"
+        },
+        {
+          "value": "ZYGJG03",
+          "label": "教师考 ZYGJG0301 教师考"
+        },
+        {
+          "value": "ZYGXS0101",
+          "label": "学生画"
+        },
+        {
+          "value": "ZYGXS",
+          "label": "学生 ZYGXS01 学生基 ZYGXS0102 学生技"
+        },
+        {
+          "value": "ZYGXS0103",
+          "label": "综合成 学年秋季学期所"
+        },
+        {
+          "value": "ZYGXS0104",
+          "label": "1+X 证"
+        },
+        {
+          "value": "ZYGXS0105",
+          "label": "学生画"
+        },
+        {
+          "value": "MSSJ",
+          "label": "子类表"
+        },
+        {
+          "value": "ZYGXS0106",
+          "label": "体质测"
+        },
+        {
+          "value": "ZYGXS0201",
+          "label": "贫困生"
+        },
+        {
+          "value": "ZYGXS02",
+          "label": "经济资"
+        },
+        {
+          "value": "ZYGXS0202",
+          "label": "奖助贷 申请奖助贷的在"
+        },
+        {
+          "value": "ZYGXS0301",
+          "label": "社 团"
+        },
+        {
+          "value": "ZYGXS0302",
+          "label": "学生参 参与社团的所有"
+        },
+        {
+          "value": "ZYGXS03",
+          "label": "社团 表49 ODS_XSCYSTSJ 学生参与社团数据子类表 团委 学期"
+        },
+        {
+          "value": "ZYGXS0304",
+          "label": "参加社"
+        },
+        {
+          "value": "ZYGXS0401",
+          "label": "心理咨"
+        },
+        {
+          "value": "ZYGXS04",
+          "label": "生活健"
+        },
+        {
+          "value": "ZYGXS0402",
+          "label": "心理测"
+        },
+        {
+          "value": "ZYGXS0501",
+          "label": "离校手"
+        },
+        {
+          "value": "ZYGXS0502",
+          "label": "毕业去 毕业去向【升学】数据子类"
+        },
+        {
+          "value": "ZYGXS05",
+          "label": "毕业相"
+        },
+        {
+          "value": "ZYGXS0504",
+          "label": "毕业去"
+        },
+        {
+          "value": "J",
+          "label": "类表"
+        },
+        {
+          "value": "ZYGXS0505",
+          "label": "学生就 在校生中的毕业"
+        },
+        {
+          "value": "ZYGXS0601",
+          "label": "校内学 ODS_XNXSSSHD 校内学生赛事活动数据子类"
+        },
+        {
+          "value": "ZYGXS06",
+          "label": "实践活 生赛事活动数据子类 SJ 表"
+        },
+        {
+          "value": "ZYGXS0602",
+          "label": "学生社 ODS_XSSHSJHDS 学生社会实践活动数据子类"
+        },
+        {
+          "value": "ZYGXS0701",
+          "label": "学生缺"
+        },
+        {
+          "value": "ZYGXS07",
+          "label": "考勤数"
+        },
+        {
+          "value": "ZYGXS0702",
+          "label": "学生请"
+        },
+        {
+          "value": "ZYGXS08",
+          "label": "宿舍数 ZYGXS0801 学生住"
+        },
+        {
+          "value": "ZYGDZ0101",
+          "label": "党组织"
+        },
+        {
+          "value": "ZYGDZ01",
+          "label": "党建基 ZYGDZ0102 党员发"
+        },
+        {
+          "value": "ZYGDZ0103",
+          "label": "党员组 ODS_DYZZGXZY 党员组织关系转移数据子类"
+        },
+        {
+          "value": "ZYGDZ0201",
+          "label": "党员干"
+        },
+        {
+          "value": "ZYGDZ",
+          "label": "党建"
+        },
+        {
+          "value": "ZYGDZ02",
+          "label": "党建活 ZYGDZ0202 党课数"
+        },
+        {
+          "value": "ZYGDZ0203",
+          "label": "党员活"
+        },
+        {
+          "value": "ZYGDZ0301",
+          "label": "思政活"
+        },
+        {
+          "value": "ZYGDZ0301",
+          "label": "思政"
+        },
+        {
+          "value": "ZYGDZ0302",
+          "label": "思政教"
+        },
+        {
+          "value": "ZYGZC",
+          "label": "资产 ZYGZC01 仪器设 ZYGZC0101 仪器设"
+        },
+        {
+          "value": "ZYGZC0102",
+          "label": "智慧教 ODS_ZHJSSBYXS 智慧教室设备运行数据子类"
+        },
+        {
+          "value": "ZYGZC0201",
+          "label": "图书基"
+        },
+        {
+          "value": "ZYGZC02",
+          "label": "图书期 ZYGZC0202 图书借"
+        },
+        {
+          "value": "ZYGZC0203",
+          "label": "期刊基"
+        },
+        {
+          "value": "ZYGKY0101",
+          "label": "科研项"
+        },
+        {
+          "value": "ZYGKY01",
+          "label": "科研项 ZYGKY0102 科研项 ODS_KYXMYJH 科研项目研究活动数据子类"
+        },
+        {
+          "value": "ZYGKY0103",
+          "label": "科研经"
+        },
+        {
+          "value": "ZYGKY02",
+          "label": "科研成 ZYGKY0202 专利发"
+        },
+        {
+          "value": "ZYGKY0203",
+          "label": "专著发"
+        },
+        {
+          "value": "ZYGKY03",
+          "label": "学术交 ZYGKY0301 学术讲"
+        },
+        {
+          "value": "ZYGFW0101",
+          "label": "学生消"
+        },
+        {
+          "value": "ZYGFW01",
+          "label": "认证消"
+        },
+        {
+          "value": "ZYGFW0102",
+          "label": "一卡通"
+        },
+        {
+          "value": "ZYGFW",
+          "label": "信息"
+        },
+        {
+          "value": "ZYGFW02",
+          "label": "在线事 ZYGFW0201 在线事"
+        },
+        {
+          "value": "ZYGFW03",
+          "label": "信息服 ZYGFW0301 校园动"
+        },
+        {
+          "value": "ZYGFW04",
+          "label": "网络安 ZYGFW0401 网络安 网络安全监控"
+        },
+        {
+          "value": "ZYGFW0501",
+          "label": "校本数"
+        },
+        {
+          "value": "CQKSJ",
+          "label": "数据子类表"
+        },
+        {
+          "value": "ZYGFW05",
+          "label": "数据集 数据子类"
+        },
+        {
+          "value": "TYSGXSJ",
+          "label": "系数据子类表"
+        },
+        {
+          "value": "ZYGFW0601",
+          "label": "信息化"
+        },
+        {
+          "value": "ZYGFW06",
+          "label": "信息化"
+        },
+        {
+          "value": "KSJ",
+          "label": "类表 平台"
+        },
+        {
+          "value": "ZYGXQ0101",
+          "label": "产学合"
+        },
+        {
+          "value": "ZYGXQ01",
+          "label": "产学合"
+        },
+        {
+          "value": "ZYGXQ0102",
+          "label": "职业技 ODS_ZYJNJDJGS 职业技能鉴定机构数据子类"
+        },
+        {
+          "value": "ZYGXQ",
+          "label": "校企"
+        },
+        {
+          "value": "ZYGXQ02",
+          "label": "校企互"
+        },
+        {
+          "value": "KCSJ",
+          "label": "子类表"
+        },
+        {
+          "value": "ZYGGJ01",
+          "label": "教学资 ZYGGJ0101 教学资 ODS_JXZYCNJCS 教学资源采纳基础数据子类 国际交流与合"
+        },
+        {
+          "value": "ZYGGJ",
+          "label": "国际 源采纳数据类 源采纳基础数据子类 J 表 作"
+        },
+        {
+          "value": "ZYGGJ02",
+          "label": "中外合 ZYGGJ0201 中外合 ODS_ZWHZBXJC 中外合作办学基础数据子类 国际交流与合"
+        }
+      ]
+    },
+    {
+      "tableNum": 131,
+      "codeId": "GBT7408",
+      "codeName": "日期和时间表示法格式",
+      "codes": [
+        {
+          "value": "YYYYMMDD",
+          "label": "日期基本格式（年月日）"
+        },
+        {
+          "value": "YYYY-MM-DD",
+          "label": "日期扩展格式（年-月-日）"
+        },
+        {
+          "value": "HHMMSS",
+          "label": "时间基本格式（时分秒）"
+        },
+        {
+          "value": "HH:MM:SS",
+          "label": "时间扩展格式（时:分:秒）"
+        },
+        {
+          "value": "YYYYMMDDhhmmss",
+          "label": "日期时间完整格式"
+        },
+        {
+          "value": "YYYY-MM-DDThh:mm:ss",
+          "label": "日期时间扩展格式（ISO8601）"
+        },
+        {
+          "value": "YYYY",
+          "label": "年份（四位）"
+        },
+        {
+          "value": "YYYY-MM",
+          "label": "年月"
+        },
+        {
+          "value": "hhmm",
+          "label": "时分"
+        },
+        {
+          "value": "hh:mm",
+          "label": "时分（扩展）"
+        }
+      ]
+    },
+    {
+      "tableNum": 132,
+      "codeId": "GBT2260",
+      "codeName": "中华人民共和国行政区划代码（省级）",
+      "codes": [
+        {
+          "value": "11",
+          "label": "北京市"
+        },
+        {
+          "value": "12",
+          "label": "天津市"
+        },
+        {
+          "value": "13",
+          "label": "河北省"
+        },
+        {
+          "value": "14",
+          "label": "山西省"
+        },
+        {
+          "value": "15",
+          "label": "内蒙古自治区"
+        },
+        {
+          "value": "21",
+          "label": "辽宁省"
+        },
+        {
+          "value": "22",
+          "label": "吉林省"
+        },
+        {
+          "value": "23",
+          "label": "黑龙江省"
+        },
+        {
+          "value": "31",
+          "label": "上海市"
+        },
+        {
+          "value": "32",
+          "label": "江苏省"
+        },
+        {
+          "value": "33",
+          "label": "浙江省"
+        },
+        {
+          "value": "34",
+          "label": "安徽省"
+        },
+        {
+          "value": "35",
+          "label": "福建省"
+        },
+        {
+          "value": "36",
+          "label": "江西省"
+        },
+        {
+          "value": "37",
+          "label": "山东省"
+        },
+        {
+          "value": "41",
+          "label": "河南省"
+        },
+        {
+          "value": "42",
+          "label": "湖北省"
+        },
+        {
+          "value": "43",
+          "label": "湖南省"
+        },
+        {
+          "value": "44",
+          "label": "广东省"
+        },
+        {
+          "value": "45",
+          "label": "广西壮族自治区"
+        },
+        {
+          "value": "46",
+          "label": "海南省"
+        },
+        {
+          "value": "50",
+          "label": "重庆市"
+        },
+        {
+          "value": "51",
+          "label": "四川省"
+        },
+        {
+          "value": "52",
+          "label": "贵州省"
+        },
+        {
+          "value": "53",
+          "label": "云南省"
+        },
+        {
+          "value": "54",
+          "label": "西藏自治区"
+        },
+        {
+          "value": "61",
+          "label": "陕西省"
+        },
+        {
+          "value": "62",
+          "label": "甘肃省"
+        },
+        {
+          "value": "63",
+          "label": "青海省"
+        },
+        {
+          "value": "64",
+          "label": "宁夏回族自治区"
+        },
+        {
+          "value": "65",
+          "label": "新疆维吾尔自治区"
+        },
+        {
+          "value": "71",
+          "label": "台湾省"
+        },
+        {
+          "value": "81",
+          "label": "香港特别行政区"
+        },
+        {
+          "value": "82",
+          "label": "澳门特别行政区"
+        }
+      ]
+    },
+    {
+      "tableNum": 133,
+      "codeId": "GBT2260_CITY",
+      "codeName": "中华人民共和国行政区划代码（地级市）",
+      "codes": [
+        {
+          "value": "1101",
+          "label": "北京市"
+        },
+        {
+          "value": "1201",
+          "label": "天津市"
+        },
+        {
+          "value": "1301",
+          "label": "石家庄市"
+        },
+        {
+          "value": "1302",
+          "label": "唐山市"
+        },
+        {
+          "value": "1303",
+          "label": "秦皇岛市"
+        },
+        {
+          "value": "1304",
+          "label": "邯郸市"
+        },
+        {
+          "value": "1305",
+          "label": "邢台市"
+        },
+        {
+          "value": "1306",
+          "label": "保定市"
+        },
+        {
+          "value": "1307",
+          "label": "张家口市"
+        },
+        {
+          "value": "1308",
+          "label": "承德市"
+        },
+        {
+          "value": "1309",
+          "label": "沧州市"
+        },
+        {
+          "value": "1310",
+          "label": "廊坊市"
+        },
+        {
+          "value": "1311",
+          "label": "衡水市"
+        },
+        {
+          "value": "1401",
+          "label": "太原市"
+        },
+        {
+          "value": "1402",
+          "label": "大同市"
+        },
+        {
+          "value": "1403",
+          "label": "阳泉市"
+        },
+        {
+          "value": "1404",
+          "label": "长治市"
+        },
+        {
+          "value": "1405",
+          "label": "晋城市"
+        },
+        {
+          "value": "1406",
+          "label": "朔州市"
+        },
+        {
+          "value": "1407",
+          "label": "晋中市"
+        },
+        {
+          "value": "1408",
+          "label": "运城市"
+        },
+        {
+          "value": "1409",
+          "label": "忻州市"
+        },
+        {
+          "value": "1410",
+          "label": "临汾市"
+        },
+        {
+          "value": "1411",
+          "label": "吕梁市"
+        },
+        {
+          "value": "1501",
+          "label": "呼和浩特市"
+        },
+        {
+          "value": "1502",
+          "label": "包头市"
+        },
+        {
+          "value": "1503",
+          "label": "乌海市"
+        },
+        {
+          "value": "1504",
+          "label": "赤峰市"
+        },
+        {
+          "value": "1505",
+          "label": "通辽市"
+        },
+        {
+          "value": "1506",
+          "label": "鄂尔多斯市"
+        },
+        {
+          "value": "1507",
+          "label": "呼伦贝尔市"
+        },
+        {
+          "value": "1508",
+          "label": "巴彦淖尔市"
+        },
+        {
+          "value": "1509",
+          "label": "乌兰察布市"
+        },
+        {
+          "value": "1522",
+          "label": "兴安盟"
+        },
+        {
+          "value": "1525",
+          "label": "锡林郭勒盟"
+        },
+        {
+          "value": "1529",
+          "label": "阿拉善盟"
+        },
+        {
+          "value": "2101",
+          "label": "沈阳市"
+        },
+        {
+          "value": "2102",
+          "label": "大连市"
+        },
+        {
+          "value": "2103",
+          "label": "鞍山市"
+        },
+        {
+          "value": "2104",
+          "label": "抚顺市"
+        },
+        {
+          "value": "2105",
+          "label": "本溪市"
+        },
+        {
+          "value": "2106",
+          "label": "丹东市"
+        },
+        {
+          "value": "2107",
+          "label": "锦州市"
+        },
+        {
+          "value": "2108",
+          "label": "营口市"
+        },
+        {
+          "value": "2109",
+          "label": "阜新市"
+        },
+        {
+          "value": "2110",
+          "label": "辽阳市"
+        },
+        {
+          "value": "2111",
+          "label": "盘锦市"
+        },
+        {
+          "value": "2112",
+          "label": "铁岭市"
+        },
+        {
+          "value": "2113",
+          "label": "朝阳市"
+        },
+        {
+          "value": "2114",
+          "label": "葫芦岛市"
+        },
+        {
+          "value": "2201",
+          "label": "长春市"
+        },
+        {
+          "value": "2202",
+          "label": "吉林市"
+        },
+        {
+          "value": "2203",
+          "label": "四平市"
+        },
+        {
+          "value": "2204",
+          "label": "辽源市"
+        },
+        {
+          "value": "2205",
+          "label": "通化市"
+        },
+        {
+          "value": "2206",
+          "label": "白山市"
+        },
+        {
+          "value": "2207",
+          "label": "松原市"
+        },
+        {
+          "value": "2208",
+          "label": "白城市"
+        },
+        {
+          "value": "2224",
+          "label": "延边朝鲜族自治州"
+        },
+        {
+          "value": "2301",
+          "label": "哈尔滨市"
+        },
+        {
+          "value": "2302",
+          "label": "齐齐哈尔市"
+        },
+        {
+          "value": "2303",
+          "label": "鸡西市"
+        },
+        {
+          "value": "2304",
+          "label": "鹤岗市"
+        },
+        {
+          "value": "2305",
+          "label": "双鸭山市"
+        },
+        {
+          "value": "2306",
+          "label": "大庆市"
+        },
+        {
+          "value": "2307",
+          "label": "伊春市"
+        },
+        {
+          "value": "2308",
+          "label": "佳木斯市"
+        },
+        {
+          "value": "2309",
+          "label": "七台河市"
+        },
+        {
+          "value": "2310",
+          "label": "牡丹江市"
+        },
+        {
+          "value": "2311",
+          "label": "黑河市"
+        },
+        {
+          "value": "2312",
+          "label": "绥化市"
+        },
+        {
+          "value": "2327",
+          "label": "大兴安岭地区"
+        },
+        {
+          "value": "3101",
+          "label": "上海市"
+        },
+        {
+          "value": "3201",
+          "label": "南京市"
+        },
+        {
+          "value": "3202",
+          "label": "无锡市"
+        },
+        {
+          "value": "3203",
+          "label": "徐州市"
+        },
+        {
+          "value": "3204",
+          "label": "常州市"
+        },
+        {
+          "value": "3205",
+          "label": "苏州市"
+        },
+        {
+          "value": "3206",
+          "label": "南通市"
+        },
+        {
+          "value": "3207",
+          "label": "连云港市"
+        },
+        {
+          "value": "3208",
+          "label": "淮安市"
+        },
+        {
+          "value": "3209",
+          "label": "盐城市"
+        },
+        {
+          "value": "3210",
+          "label": "扬州市"
+        },
+        {
+          "value": "3211",
+          "label": "镇江市"
+        },
+        {
+          "value": "3212",
+          "label": "泰州市"
+        },
+        {
+          "value": "3213",
+          "label": "宿迁市"
+        },
+        {
+          "value": "3301",
+          "label": "杭州市"
+        },
+        {
+          "value": "3302",
+          "label": "宁波市"
+        },
+        {
+          "value": "3303",
+          "label": "温州市"
+        },
+        {
+          "value": "3304",
+          "label": "嘉兴市"
+        },
+        {
+          "value": "3305",
+          "label": "湖州市"
+        },
+        {
+          "value": "3306",
+          "label": "绍兴市"
+        },
+        {
+          "value": "3307",
+          "label": "金华市"
+        },
+        {
+          "value": "3308",
+          "label": "衢州市"
+        },
+        {
+          "value": "3309",
+          "label": "舟山市"
+        },
+        {
+          "value": "3310",
+          "label": "台州市"
+        },
+        {
+          "value": "3311",
+          "label": "丽水市"
+        },
+        {
+          "value": "3401",
+          "label": "合肥市"
+        },
+        {
+          "value": "3402",
+          "label": "芜湖市"
+        },
+        {
+          "value": "3403",
+          "label": "蚌埠市"
+        },
+        {
+          "value": "3404",
+          "label": "淮南市"
+        },
+        {
+          "value": "3405",
+          "label": "马鞍山市"
+        },
+        {
+          "value": "3406",
+          "label": "淮北市"
+        },
+        {
+          "value": "3407",
+          "label": "铜陵市"
+        },
+        {
+          "value": "3408",
+          "label": "安庆市"
+        },
+        {
+          "value": "3410",
+          "label": "黄山市"
+        },
+        {
+          "value": "3411",
+          "label": "滁州市"
+        },
+        {
+          "value": "3412",
+          "label": "阜阳市"
+        },
+        {
+          "value": "3413",
+          "label": "宿州市"
+        },
+        {
+          "value": "3415",
+          "label": "六安市"
+        },
+        {
+          "value": "3416",
+          "label": "亳州市"
+        },
+        {
+          "value": "3417",
+          "label": "池州市"
+        },
+        {
+          "value": "3418",
+          "label": "宣城市"
+        },
+        {
+          "value": "3501",
+          "label": "福州市"
+        },
+        {
+          "value": "3502",
+          "label": "厦门市"
+        },
+        {
+          "value": "3503",
+          "label": "莆田市"
+        },
+        {
+          "value": "3504",
+          "label": "三明市"
+        },
+        {
+          "value": "3505",
+          "label": "泉州市"
+        },
+        {
+          "value": "3506",
+          "label": "漳州市"
+        },
+        {
+          "value": "3507",
+          "label": "南平市"
+        },
+        {
+          "value": "3508",
+          "label": "龙岩市"
+        },
+        {
+          "value": "3509",
+          "label": "宁德市"
+        },
+        {
+          "value": "3601",
+          "label": "南昌市"
+        },
+        {
+          "value": "3602",
+          "label": "景德镇市"
+        },
+        {
+          "value": "3603",
+          "label": "萍乡市"
+        },
+        {
+          "value": "3604",
+          "label": "九江市"
+        },
+        {
+          "value": "3605",
+          "label": "新余市"
+        },
+        {
+          "value": "3606",
+          "label": "鹰潭市"
+        },
+        {
+          "value": "3607",
+          "label": "赣州市"
+        },
+        {
+          "value": "3608",
+          "label": "吉安市"
+        },
+        {
+          "value": "3609",
+          "label": "宜春市"
+        },
+        {
+          "value": "3610",
+          "label": "抚州市"
+        },
+        {
+          "value": "3611",
+          "label": "上饶市"
+        },
+        {
+          "value": "3701",
+          "label": "济南市"
+        },
+        {
+          "value": "3702",
+          "label": "青岛市"
+        },
+        {
+          "value": "3703",
+          "label": "淄博市"
+        },
+        {
+          "value": "3704",
+          "label": "枣庄市"
+        },
+        {
+          "value": "3705",
+          "label": "东营市"
+        },
+        {
+          "value": "3706",
+          "label": "烟台市"
+        },
+        {
+          "value": "3707",
+          "label": "潍坊市"
+        },
+        {
+          "value": "3708",
+          "label": "济宁市"
+        },
+        {
+          "value": "3709",
+          "label": "泰安市"
+        },
+        {
+          "value": "3710",
+          "label": "威海市"
+        },
+        {
+          "value": "3711",
+          "label": "日照市"
+        },
+        {
+          "value": "3713",
+          "label": "临沂市"
+        },
+        {
+          "value": "3714",
+          "label": "德州市"
+        },
+        {
+          "value": "3715",
+          "label": "聊城市"
+        },
+        {
+          "value": "3716",
+          "label": "滨州市"
+        },
+        {
+          "value": "3717",
+          "label": "菏泽市"
+        },
+        {
+          "value": "4101",
+          "label": "郑州市"
+        },
+        {
+          "value": "4102",
+          "label": "开封市"
+        },
+        {
+          "value": "4103",
+          "label": "洛阳市"
+        },
+        {
+          "value": "4104",
+          "label": "平顶山市"
+        },
+        {
+          "value": "4105",
+          "label": "安阳市"
+        },
+        {
+          "value": "4106",
+          "label": "鹤壁市"
+        },
+        {
+          "value": "4107",
+          "label": "新乡市"
+        },
+        {
+          "value": "4108",
+          "label": "焦作市"
+        },
+        {
+          "value": "4109",
+          "label": "濮阳市"
+        },
+        {
+          "value": "4110",
+          "label": "许昌市"
+        },
+        {
+          "value": "4111",
+          "label": "漯河市"
+        },
+        {
+          "value": "4112",
+          "label": "三门峡市"
+        },
+        {
+          "value": "4113",
+          "label": "南阳市"
+        },
+        {
+          "value": "4114",
+          "label": "商丘市"
+        },
+        {
+          "value": "4115",
+          "label": "信阳市"
+        },
+        {
+          "value": "4116",
+          "label": "周口市"
+        },
+        {
+          "value": "4117",
+          "label": "驻马店市"
+        },
+        {
+          "value": "4190",
+          "label": "济源市"
+        },
+        {
+          "value": "4201",
+          "label": "武汉市"
+        },
+        {
+          "value": "4202",
+          "label": "黄石市"
+        },
+        {
+          "value": "4203",
+          "label": "十堰市"
+        },
+        {
+          "value": "4205",
+          "label": "宜昌市"
+        },
+        {
+          "value": "4206",
+          "label": "襄阳市"
+        },
+        {
+          "value": "4207",
+          "label": "鄂州市"
+        },
+        {
+          "value": "4208",
+          "label": "荆门市"
+        },
+        {
+          "value": "4209",
+          "label": "孝感市"
+        },
+        {
+          "value": "4210",
+          "label": "荆州市"
+        },
+        {
+          "value": "4211",
+          "label": "黄冈市"
+        },
+        {
+          "value": "4212",
+          "label": "咸宁市"
+        },
+        {
+          "value": "4213",
+          "label": "随州市"
+        },
+        {
+          "value": "4228",
+          "label": "恩施土家族苗族自治州"
+        },
+        {
+          "value": "4290",
+          "label": "省直辖县级行政区划"
+        },
+        {
+          "value": "4301",
+          "label": "长沙市"
+        },
+        {
+          "value": "4302",
+          "label": "株洲市"
+        },
+        {
+          "value": "4303",
+          "label": "湘潭市"
+        },
+        {
+          "value": "4304",
+          "label": "衡阳市"
+        },
+        {
+          "value": "4305",
+          "label": "邵阳市"
+        },
+        {
+          "value": "4306",
+          "label": "岳阳市"
+        },
+        {
+          "value": "4307",
+          "label": "常德市"
+        },
+        {
+          "value": "4308",
+          "label": "张家界市"
+        },
+        {
+          "value": "4309",
+          "label": "益阳市"
+        },
+        {
+          "value": "4310",
+          "label": "郴州市"
+        },
+        {
+          "value": "4311",
+          "label": "永州市"
+        },
+        {
+          "value": "4312",
+          "label": "怀化市"
+        },
+        {
+          "value": "4313",
+          "label": "娄底市"
+        },
+        {
+          "value": "4331",
+          "label": "湘西土家族苗族自治州"
+        },
+        {
+          "value": "4401",
+          "label": "广州市"
+        },
+        {
+          "value": "4402",
+          "label": "韶关市"
+        },
+        {
+          "value": "4403",
+          "label": "深圳市"
+        },
+        {
+          "value": "4404",
+          "label": "珠海市"
+        },
+        {
+          "value": "4405",
+          "label": "汕头市"
+        },
+        {
+          "value": "4406",
+          "label": "佛山市"
+        },
+        {
+          "value": "4407",
+          "label": "江门市"
+        },
+        {
+          "value": "4408",
+          "label": "湛江市"
+        },
+        {
+          "value": "4409",
+          "label": "茂名市"
+        },
+        {
+          "value": "4412",
+          "label": "肇庆市"
+        },
+        {
+          "value": "4413",
+          "label": "惠州市"
+        },
+        {
+          "value": "4414",
+          "label": "梅州市"
+        },
+        {
+          "value": "4415",
+          "label": "汕尾市"
+        },
+        {
+          "value": "4416",
+          "label": "河源市"
+        },
+        {
+          "value": "4417",
+          "label": "阳江市"
+        },
+        {
+          "value": "4418",
+          "label": "清远市"
+        },
+        {
+          "value": "4419",
+          "label": "东莞市"
+        },
+        {
+          "value": "4420",
+          "label": "中山市"
+        },
+        {
+          "value": "4451",
+          "label": "潮州市"
+        },
+        {
+          "value": "4452",
+          "label": "揭阳市"
+        },
+        {
+          "value": "4453",
+          "label": "云浮市"
+        },
+        {
+          "value": "4501",
+          "label": "南宁市"
+        },
+        {
+          "value": "4502",
+          "label": "柳州市"
+        },
+        {
+          "value": "4503",
+          "label": "桂林市"
+        },
+        {
+          "value": "4504",
+          "label": "梧州市"
+        },
+        {
+          "value": "4505",
+          "label": "北海市"
+        },
+        {
+          "value": "4506",
+          "label": "防城港市"
+        },
+        {
+          "value": "4507",
+          "label": "钦州市"
+        },
+        {
+          "value": "4508",
+          "label": "贵港市"
+        },
+        {
+          "value": "4509",
+          "label": "玉林市"
+        },
+        {
+          "value": "4510",
+          "label": "百色市"
+        },
+        {
+          "value": "4511",
+          "label": "贺州市"
+        },
+        {
+          "value": "4512",
+          "label": "河池市"
+        },
+        {
+          "value": "4513",
+          "label": "来宾市"
+        },
+        {
+          "value": "4514",
+          "label": "崇左市"
+        },
+        {
+          "value": "4601",
+          "label": "海口市"
+        },
+        {
+          "value": "4602",
+          "label": "三亚市"
+        },
+        {
+          "value": "4603",
+          "label": "三沙市"
+        },
+        {
+          "value": "4604",
+          "label": "儋州市"
+        },
+        {
+          "value": "4690",
+          "label": "省直辖县级行政区划"
+        },
+        {
+          "value": "5001",
+          "label": "重庆市"
+        },
+        {
+          "value": "5101",
+          "label": "成都市"
+        },
+        {
+          "value": "5103",
+          "label": "自贡市"
+        },
+        {
+          "value": "5104",
+          "label": "攀枝花市"
+        },
+        {
+          "value": "5105",
+          "label": "泸州市"
+        },
+        {
+          "value": "5106",
+          "label": "德阳市"
+        },
+        {
+          "value": "5107",
+          "label": "绵阳市"
+        },
+        {
+          "value": "5108",
+          "label": "广元市"
+        },
+        {
+          "value": "5109",
+          "label": "遂宁市"
+        },
+        {
+          "value": "5110",
+          "label": "内江市"
+        },
+        {
+          "value": "5111",
+          "label": "乐山市"
+        },
+        {
+          "value": "5113",
+          "label": "南充市"
+        },
+        {
+          "value": "5114",
+          "label": "眉山市"
+        },
+        {
+          "value": "5115",
+          "label": "宜宾市"
+        },
+        {
+          "value": "5116",
+          "label": "广安市"
+        },
+        {
+          "value": "5117",
+          "label": "达州市"
+        },
+        {
+          "value": "5118",
+          "label": "雅安市"
+        },
+        {
+          "value": "5119",
+          "label": "巴中市"
+        },
+        {
+          "value": "5120",
+          "label": "资阳市"
+        },
+        {
+          "value": "5132",
+          "label": "阿坝藏族羌族自治州"
+        },
+        {
+          "value": "5133",
+          "label": "甘孜藏族自治州"
+        },
+        {
+          "value": "5134",
+          "label": "凉山彝族自治州"
+        },
+        {
+          "value": "5201",
+          "label": "贵阳市"
+        },
+        {
+          "value": "5202",
+          "label": "六盘水市"
+        },
+        {
+          "value": "5203",
+          "label": "遵义市"
+        },
+        {
+          "value": "5204",
+          "label": "安顺市"
+        },
+        {
+          "value": "5205",
+          "label": "毕节市"
+        },
+        {
+          "value": "5206",
+          "label": "铜仁市"
+        },
+        {
+          "value": "5223",
+          "label": "黔西南布依族苗族自治州"
+        },
+        {
+          "value": "5226",
+          "label": "黔东南苗族侗族自治州"
+        },
+        {
+          "value": "5227",
+          "label": "黔南布依族苗族自治州"
+        },
+        {
+          "value": "5301",
+          "label": "昆明市"
+        },
+        {
+          "value": "5303",
+          "label": "曲靖市"
+        },
+        {
+          "value": "5304",
+          "label": "玉溪市"
+        },
+        {
+          "value": "5305",
+          "label": "保山市"
+        },
+        {
+          "value": "5306",
+          "label": "昭通市"
+        },
+        {
+          "value": "5307",
+          "label": "丽江市"
+        },
+        {
+          "value": "5308",
+          "label": "普洱市"
+        },
+        {
+          "value": "5309",
+          "label": "临沧市"
+        },
+        {
+          "value": "5323",
+          "label": "楚雄彝族自治州"
+        },
+        {
+          "value": "5325",
+          "label": "红河哈尼族彝族自治州"
+        },
+        {
+          "value": "5326",
+          "label": "文山壮族苗族自治州"
+        },
+        {
+          "value": "5328",
+          "label": "西双版纳傣族自治州"
+        },
+        {
+          "value": "5329",
+          "label": "大理白族自治州"
+        },
+        {
+          "value": "5331",
+          "label": "德宏傣族景颇族自治州"
+        },
+        {
+          "value": "5333",
+          "label": "怒江傈僳族自治州"
+        },
+        {
+          "value": "5334",
+          "label": "迪庆藏族自治州"
+        },
+        {
+          "value": "5401",
+          "label": "拉萨市"
+        },
+        {
+          "value": "5402",
+          "label": "日喀则市"
+        },
+        {
+          "value": "5403",
+          "label": "昌都市"
+        },
+        {
+          "value": "5404",
+          "label": "林芝市"
+        },
+        {
+          "value": "5405",
+          "label": "山南市"
+        },
+        {
+          "value": "5406",
+          "label": "那曲市"
+        },
+        {
+          "value": "5425",
+          "label": "阿里地区"
+        },
+        {
+          "value": "6101",
+          "label": "西安市"
+        },
+        {
+          "value": "6102",
+          "label": "铜川市"
+        },
+        {
+          "value": "6103",
+          "label": "宝鸡市"
+        },
+        {
+          "value": "6104",
+          "label": "咸阳市"
+        },
+        {
+          "value": "6105",
+          "label": "渭南市"
+        },
+        {
+          "value": "6106",
+          "label": "延安市"
+        },
+        {
+          "value": "6107",
+          "label": "汉中市"
+        },
+        {
+          "value": "6108",
+          "label": "榆林市"
+        },
+        {
+          "value": "6109",
+          "label": "安康市"
+        },
+        {
+          "value": "6110",
+          "label": "商洛市"
+        },
+        {
+          "value": "6201",
+          "label": "兰州市"
+        },
+        {
+          "value": "6202",
+          "label": "嘉峪关市"
+        },
+        {
+          "value": "6203",
+          "label": "金昌市"
+        },
+        {
+          "value": "6204",
+          "label": "白银市"
+        },
+        {
+          "value": "6205",
+          "label": "天水市"
+        },
+        {
+          "value": "6206",
+          "label": "武威市"
+        },
+        {
+          "value": "6207",
+          "label": "张掖市"
+        },
+        {
+          "value": "6208",
+          "label": "平凉市"
+        },
+        {
+          "value": "6209",
+          "label": "酒泉市"
+        },
+        {
+          "value": "6210",
+          "label": "庆阳市"
+        },
+        {
+          "value": "6211",
+          "label": "定西市"
+        },
+        {
+          "value": "6212",
+          "label": "陇南市"
+        },
+        {
+          "value": "6229",
+          "label": "临夏回族自治州"
+        },
+        {
+          "value": "6230",
+          "label": "甘南藏族自治州"
+        },
+        {
+          "value": "6301",
+          "label": "西宁市"
+        },
+        {
+          "value": "6302",
+          "label": "海东市"
+        },
+        {
+          "value": "6322",
+          "label": "海北藏族自治州"
+        },
+        {
+          "value": "6323",
+          "label": "黄南藏族自治州"
+        },
+        {
+          "value": "6325",
+          "label": "海南藏族自治州"
+        },
+        {
+          "value": "6326",
+          "label": "果洛藏族自治州"
+        },
+        {
+          "value": "6327",
+          "label": "玉树藏族自治州"
+        },
+        {
+          "value": "6328",
+          "label": "海西蒙古族藏族自治州"
+        },
+        {
+          "value": "6401",
+          "label": "银川市"
+        },
+        {
+          "value": "6402",
+          "label": "石嘴山市"
+        },
+        {
+          "value": "6403",
+          "label": "吴忠市"
+        },
+        {
+          "value": "6404",
+          "label": "固原市"
+        },
+        {
+          "value": "6405",
+          "label": "中卫市"
+        },
+        {
+          "value": "6501",
+          "label": "乌鲁木齐市"
+        },
+        {
+          "value": "6502",
+          "label": "克拉玛依市"
+        },
+        {
+          "value": "6504",
+          "label": "吐鲁番市"
+        },
+        {
+          "value": "6505",
+          "label": "哈密市"
+        },
+        {
+          "value": "6523",
+          "label": "昌吉回族自治州"
+        },
+        {
+          "value": "6527",
+          "label": "博尔塔拉蒙古自治州"
+        },
+        {
+          "value": "6528",
+          "label": "巴音郭楞蒙古自治州"
+        },
+        {
+          "value": "6529",
+          "label": "阿克苏地区"
+        },
+        {
+          "value": "6530",
+          "label": "克孜勒苏柯尔克孜自治州"
+        },
+        {
+          "value": "6531",
+          "label": "喀什地区"
+        },
+        {
+          "value": "6532",
+          "label": "和田地区"
+        },
+        {
+          "value": "6540",
+          "label": "伊犁哈萨克自治州"
+        },
+        {
+          "value": "6542",
+          "label": "塔城地区"
+        },
+        {
+          "value": "6543",
+          "label": "阿勒泰地区"
+        },
+        {
+          "value": "6590",
+          "label": "自治区直辖县级行政区划"
+        },
+        {
+          "value": "7101",
+          "label": "台北市"
+        },
+        {
+          "value": "7102",
+          "label": "新北市"
+        },
+        {
+          "value": "7103",
+          "label": "桃园市"
+        },
+        {
+          "value": "7104",
+          "label": "台中市"
+        },
+        {
+          "value": "7105",
+          "label": "台南市"
+        },
+        {
+          "value": "7106",
+          "label": "高雄市"
+        },
+        {
+          "value": "7107",
+          "label": "基隆市"
+        },
+        {
+          "value": "7108",
+          "label": "新竹市"
+        },
+        {
+          "value": "7109",
+          "label": "嘉义市"
+        },
+        {
+          "value": "7111",
+          "label": "宜兰县"
+        },
+        {
+          "value": "7112",
+          "label": "新竹县"
+        },
+        {
+          "value": "7113",
+          "label": "苗栗县"
+        },
+        {
+          "value": "7114",
+          "label": "彰化县"
+        },
+        {
+          "value": "7115",
+          "label": "南投县"
+        },
+        {
+          "value": "7116",
+          "label": "云林县"
+        },
+        {
+          "value": "7117",
+          "label": "嘉义县"
+        },
+        {
+          "value": "7118",
+          "label": "屏东县"
+        },
+        {
+          "value": "7119",
+          "label": "花莲县"
+        },
+        {
+          "value": "7120",
+          "label": "台东县"
+        },
+        {
+          "value": "7121",
+          "label": "澎湖县"
+        },
+        {
+          "value": "8101",
+          "label": "香港特别行政区"
+        },
+        {
+          "value": "8201",
+          "label": "澳门特别行政区"
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "source": "职业院校数字基座高职数据标准及接口（试行）V3.0.2 去水印.pdf",
+    "section": "第7部分 代码表",
+    "extraction_date": "2025-11-26"
+  }
+}

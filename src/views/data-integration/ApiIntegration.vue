@@ -46,25 +46,25 @@
       </template>
 
       <el-table :data="apiConfigs" stripe>
-        <el-table-column prop="name" label="配置名称" width="200" />
-        <el-table-column prop="url" label="API地址" width="300" />
-        <el-table-column prop="method" label="请求方法" width="100">
+        <el-table-column prop="name" label="配置名称" min-width="120" />
+        <el-table-column prop="url" label="API地址" min-width="130" />
+        <el-table-column prop="method" label="请求方法" min-width="120">
           <template #default="scope">
             <el-tag :type="getMethodType(scope.row.method)">
               {{ scope.row.method }}
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="authType" label="认证方式" width="120" />
-        <el-table-column prop="status" label="状态" width="100">
+        <el-table-column prop="authType" label="认证方式" min-width="120" />
+        <el-table-column prop="status" label="状态" min-width="100">
           <template #default="scope">
             <el-tag :type="scope.row.status === 'active' ? 'success' : 'danger'">
               {{ scope.row.status === 'active' ? '启用' : '禁用' }}
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="lastSync" label="最后同步" width="180" />
-        <el-table-column label="操作" width="200">
+        <el-table-column prop="lastSync" label="最后同步" min-width="130" />
+        <el-table-column label="操作" width="200" fixed="right">
           <template #default="scope">
             <el-button size="small" @click="editConfig(scope.row)">编辑</el-button>
             <el-button size="small" type="success" @click="testConnection(scope.row)">测试</el-button>

@@ -76,31 +76,31 @@
       </template>
 
       <el-table :data="importConfigs" stripe>
-        <el-table-column prop="name" label="配置名称" width="200" />
-        <el-table-column prop="fileType" label="文件类型" width="120">
+        <el-table-column prop="name" label="配置名称" min-width="200" />
+        <el-table-column prop="fileType" label="文件类型" min-width="120">
           <template #default="scope">
             <el-tag :type="getFileTypeColor(scope.row.fileType)">
               {{ scope.row.fileType }}
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="targetTable" label="目标表" width="150" />
-        <el-table-column prop="mappingFields" label="字段映射" width="200">
+        <el-table-column prop="targetTable" label="目标表" min-width="150" />
+        <el-table-column prop="mappingFields" label="字段映射" min-width="200">
           <template #default="scope">
             <el-tooltip :content="scope.row.mappingFields" placement="top">
               <span>{{ scope.row.mappingFields.substring(0, 30) }}...</span>
             </el-tooltip>
           </template>
         </el-table-column>
-        <el-table-column prop="status" label="状态" width="100">
+        <el-table-column prop="status" label="状态" min-width="100">
           <template #default="scope">
             <el-tag :type="scope.row.status === 'active' ? 'success' : 'danger'">
               {{ scope.row.status === 'active' ? '启用' : '禁用' }}
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="lastImport" label="最后导入" width="180" />
-        <el-table-column label="操作" width="200">
+        <el-table-column prop="lastImport" label="最后导入" min-width="180" />
+        <el-table-column label="操作" width="200" fixed="right">
           <template #default="scope">
             <el-button size="small" @click="editConfig(scope.row)">编辑</el-button>
             <el-button size="small" type="success" @click="downloadTemplate(scope.row)">模板</el-button>

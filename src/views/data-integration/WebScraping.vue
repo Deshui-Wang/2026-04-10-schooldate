@@ -1,7 +1,7 @@
 <template>
   <div class="web-scraping">
     <div class="section-header">
-      <h3>爬虫</h3>
+      <h3>网页抓取</h3>
       <p>配置和管理网络爬虫对接规则</p>
     </div>
 
@@ -33,11 +33,11 @@
       </div>
     </el-card>
 
-    <!-- 爬虫任务配置 -->
+    <!-- 抓取任务配置 -->
     <el-card class="config-card">
       <template #header>
         <div class="card-header">
-          <span>爬虫任务配置</span>
+          <span>抓取任务配置</span>
           <el-button type="primary" @click="addTask">
             <el-icon><Plus /></el-icon>
             添加任务
@@ -46,31 +46,31 @@
       </template>
 
       <el-table :data="scrapingTasks" stripe>
-        <el-table-column prop="name" label="任务名称" width="200" />
-        <el-table-column prop="url" label="目标URL" width="300">
+        <el-table-column prop="name" label="任务名称" min-width="200" />
+        <el-table-column prop="url" label="目标URL" min-width="300">
           <template #default="scope">
             <el-tooltip :content="scope.row.url" placement="top">
               <span>{{ scope.row.url.substring(0, 40) }}...</span>
             </el-tooltip>
           </template>
         </el-table-column>
-        <el-table-column prop="type" label="爬取类型" width="120">
+        <el-table-column prop="type" label="爬取类型" min-width="120">
           <template #default="scope">
             <el-tag :type="getTaskTypeColor(scope.row.type)">
               {{ scope.row.type }}
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="frequency" label="执行频率" width="120" />
-        <el-table-column prop="status" label="状态" width="100">
+        <el-table-column prop="frequency" label="执行频率" min-width="120" />
+        <el-table-column prop="status" label="状态" min-width="100">
           <template #default="scope">
             <el-tag :type="scope.row.status === 'running' ? 'success' : 'danger'">
               {{ scope.row.status === 'running' ? '运行中' : '已停止' }}
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="lastRun" label="最后执行" width="180" />
-        <el-table-column label="操作" width="200">
+        <el-table-column prop="lastRun" label="最后执行" min-width="180" />
+        <el-table-column label="操作" width="200" fixed="right">
           <template #default="scope">
             <el-button size="small" @click="editTask(scope.row)">编辑</el-button>
             <el-button size="small" type="success" @click="runTask(scope.row)">运行</el-button>
@@ -80,11 +80,11 @@
       </el-table>
     </el-card>
 
-    <!-- 爬虫监控 -->
+    <!-- 抓取监控 -->
     <el-card class="monitor-card">
       <template #header>
         <div class="card-header">
-          <span>爬虫监控</span>
+          <span>抓取监控</span>
         </div>
       </template>
       
