@@ -53,7 +53,7 @@
                 <span>上报中心</span>
               </template>
               <el-menu-item index="/reporting-center/monitor">上报监控</el-menu-item>
-              <el-menu-item index="/reporting-center/forms">表单列表</el-menu-item>
+              <el-menu-item index="/reporting-center/forms">表单管理</el-menu-item>
             </el-sub-menu>
 
             <el-sub-menu index="/intelligent-decision">
@@ -131,11 +131,23 @@
                 <el-icon><Connection /></el-icon>
                 <span>数据对接</span>
               </template>
+              <el-menu-item index="/data-integration/dashboard">数据大屏</el-menu-item>
               <el-menu-item index="/data-integration/api">API接口对接</el-menu-item>
               <el-menu-item index="/data-integration/database">数据库直连</el-menu-item>
               <el-menu-item index="/data-integration/file-import">文件导入</el-menu-item>
               <el-menu-item index="/data-integration/mcp-service">MCP服务</el-menu-item>
               <el-menu-item index="/data-integration/web-scraping">网页抓取</el-menu-item>
+            </el-sub-menu>
+
+            <el-sub-menu index="/school-management">
+              <template #title>
+                <el-icon><School /></el-icon>
+                <span>学校管理</span>
+              </template>
+              <el-menu-item index="/school-management/school">学校管理</el-menu-item>
+              <el-menu-item index="/school-management/college">学院管理</el-menu-item>
+              <el-menu-item index="/school-management/department">部门管理</el-menu-item>
+              <el-menu-item index="/school-management/staff">教职工管理</el-menu-item>
             </el-sub-menu>
           </el-menu>
         </el-aside>

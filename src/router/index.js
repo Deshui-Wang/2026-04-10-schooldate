@@ -4,6 +4,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 
 // 数据对接
+import DataDashboard from '../views/data-integration/DataDashboard.vue'
 import ApiIntegration from '../views/data-integration/ApiIntegration.vue'
 import DatabaseConnection from '../views/data-integration/DatabaseConnection.vue'
 import FileImport from '../views/data-integration/FileImport.vue'
@@ -58,12 +59,24 @@ import SmartMonitoring from '../views/intelligent-decision/SmartMonitoring.vue'
 import SmartRecommendation from '../views/intelligent-decision/SmartRecommendation.vue'
 import SmartAnalysis from '../views/intelligent-decision/SmartAnalysis.vue'
 
+// 学校管理
+import SchoolManagement from '../views/school-management/SchoolManagement.vue'
+import CollegeManagement from '../views/school-management/CollegeManagement.vue'
+import DepartmentManagement from '../views/school-management/DepartmentManagement.vue'
+import StaffManagement from '../views/school-management/StaffManagement.vue'
+
 const routes = [
   {
     path: '/',
     name: 'Home',
     component: Home,
     meta: { title: '首页' }
+  },
+  {
+    path: '/data-integration/dashboard',
+    name: 'DataDashboard',
+    component: DataDashboard,
+    meta: { title: '数据大屏' }
   },
   {
     path: '/data-integration/api',
@@ -288,6 +301,31 @@ const routes = [
     name: 'SmartAnalysis',
     component: SmartAnalysis,
     meta: { title: '智能分析' }
+  },
+  // 学校管理相关路由
+  {
+    path: '/school-management/school',
+    name: 'SchoolManagement',
+    component: SchoolManagement,
+    meta: { title: '学校管理' }
+  },
+  {
+    path: '/school-management/college',
+    name: 'CollegeManagement',
+    component: CollegeManagement,
+    meta: { title: '学院管理' }
+  },
+  {
+    path: '/school-management/department',
+    name: 'DepartmentManagement',
+    component: DepartmentManagement,
+    meta: { title: '部门管理' }
+  },
+  {
+    path: '/school-management/staff',
+    name: 'StaffManagement',
+    component: StaffManagement,
+    meta: { title: '教职工管理' }
   }
 ]
 
