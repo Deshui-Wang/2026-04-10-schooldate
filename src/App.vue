@@ -5,7 +5,7 @@
       <el-header class="header">
         <div class="header-left">
           <img src="/images/logo.png" alt="平台Logo" class="logo-img" />
-          <h2 class="logo">智慧校园管理平台</h2>
+          <h2 class="logo">智慧校园管理系统</h2>
         </div>
         <div class="header-right">
           <el-dropdown>
