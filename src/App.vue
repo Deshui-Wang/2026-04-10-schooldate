@@ -56,6 +56,19 @@
               <el-menu-item index="/reporting-center/forms">表单管理</el-menu-item>
             </el-sub-menu>
 
+            <el-sub-menu index="/data-center">
+              <template #title>
+                <el-icon><DataAnalysis /></el-icon>
+                <span>数据中心</span>
+              </template>
+              <el-menu-item index="/data-center/teaching">教学中心</el-menu-item>
+              <el-menu-item index="/data-center/resource">资源中心</el-menu-item>
+              <el-menu-item index="/data-center/knowledge">知识中心</el-menu-item>
+              <el-menu-item index="/data-center/achievement">成果中心</el-menu-item>
+              <el-menu-item index="/data-center/evaluation">评价中心</el-menu-item>
+              <el-menu-item index="/data-center/archive">档案中心</el-menu-item>
+            </el-sub-menu>
+
             <el-sub-menu index="/intelligent-decision">
               <template #title>
                 <el-icon><Cpu /></el-icon>
@@ -68,6 +81,7 @@
               <el-menu-item index="/intelligent-decision/decision-support">决策支持</el-menu-item>
             </el-sub-menu>
 
+            <!-- 暂时隐藏
             <el-sub-menu index="/teacher-management">
               <template #title>
                 <el-icon><User /></el-icon>
@@ -84,7 +98,9 @@
               <el-menu-item index="/teacher-management/archive-report">档案报告</el-menu-item>
               <el-menu-item index="/teacher-management/project">项目管理</el-menu-item>
             </el-sub-menu>
+            -->
 
+            <!-- 暂时隐藏
             <el-sub-menu index="/student-management">
               <template #title>
                 <el-icon><User /></el-icon>
@@ -98,7 +114,9 @@
               <el-menu-item index="/student-management/achievement">成果管理</el-menu-item>
               <el-menu-item index="/student-management/evaluation">评价管理</el-menu-item>
             </el-sub-menu>
+            -->
 
+            <!-- 暂时隐藏
             <el-sub-menu index="/archive-center">
               <template #title>
                 <el-icon><Collection /></el-icon>
@@ -107,6 +125,7 @@
               <el-menu-item index="/archive-center/teacher">教师档案</el-menu-item>
               <el-menu-item index="/archive-center/student">学生档案</el-menu-item>
             </el-sub-menu>
+            -->
 
             <el-sub-menu index="/app-market">
               <template #title>

@@ -5,7 +5,7 @@
       <div class="header-content">
         <h1 class="page-title">
           <span class="title-icon">🚀</span>
-          学校数据 · 智能管理平台
+          校企 · 智能管理平台
         </h1>
         <div class="header-stats">
           <div class="stat-badge">
@@ -51,8 +51,8 @@
           :key="item.name"
         >
           <div class="quick-access-content">
-            <div class="quick-access-icon" :style="{ background: item.gradient }">
-              <el-icon :style="{ color: item.iconColor }">
+            <div class="quick-access-icon" :style="{ borderColor: item.color, color: item.color }">
+              <el-icon>
                 <component :is="item.icon" />
               </el-icon>
               <div class="icon-badge" v-if="item.badge">{{ item.badge }}</div>
@@ -500,8 +500,7 @@ export default {
         name: '教师管理',
         desc: '管理教师信息',
         icon: 'User',
-        gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        iconColor: '#ffffff',
+        color: '#667eea',
         path: '/teacher-management/teacher',
         badge: 'NEW',
         status: '活跃',
@@ -512,8 +511,7 @@ export default {
         name: '学生管理',
         desc: '管理学生学籍',
         icon: 'UserFilled',
-        gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-        iconColor: '#ffffff',
+        color: '#f5576c',
         path: '/student-management/student',
         status: '正常',
         statusType: 'success',
@@ -523,42 +521,58 @@ export default {
         name: '班级管理',
         desc: '管理班级信息',
         icon: 'School',
-        gradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
-        iconColor: '#ffffff',
+        color: '#4facfe',
         path: '/teacher-management/class',
         status: '正常',
         statusType: 'success',
         disabled: false
       },
       {
-        name: '档案报告',
-        desc: '管理学生档案',
-        icon: 'Files',
-        gradient: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
-        iconColor: '#ffffff',
-        path: '/teacher-management/archive-report',
+        name: '课程管理',
+        desc: '管理全校课程',
+        icon: 'Reading',
+        color: '#43e97b',
+        path: '/teacher-management/course',
         status: '正常',
         statusType: 'success',
         disabled: false
       },
       {
-        name: 'API对接',
-        desc: 'API接口对接',
-        icon: 'Connection',
-        gradient: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
-        iconColor: '#ffffff',
-        path: '/data-integration/api',
-        status: '维护中',
-        statusType: 'warning',
+        name: '资源管理',
+        desc: '管理教学资源',
+        icon: 'Document',
+        color: '#f97316',
+        path: '/teacher-management/resource',
+        status: '正常',
+        statusType: 'success',
+        disabled: false
+      },
+      {
+        name: '学校管理',
+        desc: '组织架构管理',
+        icon: 'School',
+        color: '#10b981',
+        path: '/school-management/school',
+        status: '正常',
+        statusType: 'success',
+        disabled: false
+      },
+      {
+        name: '档案报告',
+        desc: '管理师生档案',
+        icon: 'Files',
+        color: '#fa709a',
+        path: '/teacher-management/archive-report',
+        status: '活跃',
+        statusType: 'success',
         disabled: false
       },
       {
         name: '智能分析',
         desc: 'AI数据分析',
         icon: 'TrendCharts',
-        gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        iconColor: '#ffffff',
-        path: '/intelligent-decision/data-analysis',
+        color: '#6366f1',
+        path: '/intelligent-decision/smart-analysis',
         badge: 'AI',
         status: '活跃',
         statusType: 'success',
@@ -568,8 +582,7 @@ export default {
         name: '智能推荐',
         desc: '个性化推荐',
         icon: 'Star',
-        gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-        iconColor: '#ffffff',
+        color: '#f43f5e',
         path: '/intelligent-decision/smart-recommendation',
         status: '正常',
         statusType: 'success',
@@ -579,32 +592,11 @@ export default {
         name: '应用市场',
         desc: '浏览应用列表',
         icon: 'Shop',
-        gradient: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
-        iconColor: '#ffffff',
+        color: '#8b5cf6',
         path: '/app-market/list',
         badge: 'HOT',
         status: '热门',
         statusType: 'danger',
-        disabled: false
-      },
-      {
-        name: '资源管理',
-        desc: '管理教学资源',
-        icon: 'Document',
-        gradient: 'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)',
-        iconColor: '#ffffff',
-        path: '/teacher-management/resource',
-        status: '正常',
-        statusType: 'success',
-        disabled: false
-      },
-      {
-        name: 'MCP服务',
-        desc: 'MCP服务管理',
-        icon: 'Connection',
-        gradient: 'linear-gradient(135deg, #d299c2 0%, #fef9d7 100%)',
-        iconColor: '#ffffff',
-        path: '/data-integration/mcp-service',
         disabled: false
       }
     ])
@@ -2265,12 +2257,15 @@ export default {
   font-size: 22px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  background: #ffffff;
+  border: 2px solid currentColor;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
 
 .quick-access-card:hover .quick-access-icon {
-  transform: scale(1.15) rotate(5deg);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  background: #ffffff;
 }
 
 .icon-badge {

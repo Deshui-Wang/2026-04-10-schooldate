@@ -67,9 +67,9 @@
       <template #header>
         <div class="card-header">
           <span>班级列表</span>
-          <el-button type="primary" @click="addClass">
-            <el-icon><Plus /></el-icon>
-            添加班级
+          <el-button @click="importClasses">
+            <el-icon><Upload /></el-icon>
+            导入
           </el-button>
         </div>
       </template>
@@ -90,9 +90,8 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="230" fixed="right">
+        <el-table-column label="操作" width="150" fixed="right">
           <template #default="scope">
-            <el-button size="small" @click="editClass(scope.row)">编辑</el-button>
             <el-button size="small" type="info" @click="viewStudents(scope.row)">学生</el-button>
             <el-button size="small" type="danger" @click="deleteClass(scope.row)">删除</el-button>
           </template>
@@ -343,16 +342,12 @@ export default {
     // 初始化时显示所有班级
     filteredClasses.value = classes.value
 
-    const addClass = () => {
-      ElMessage.info('添加班级功能开发中...')
-    }
-
-    const editClass = (row) => {
-      ElMessage.info(`编辑班级 ${row.className}`)
-    }
-
     const viewStudents = (row) => {
       ElMessage.info(`查看班级 ${row.className} 的学生列表`)
+    }
+
+    const importClasses = () => {
+      ElMessage.info('班级数据导入功能开发中...')
     }
 
     const deleteClass = (row) => {
@@ -382,9 +377,8 @@ export default {
       gradeOptions,
       applyFilter,
       resetFilter,
-      addClass,
-      editClass,
       viewStudents,
+      importClasses,
       deleteClass
     }
   }

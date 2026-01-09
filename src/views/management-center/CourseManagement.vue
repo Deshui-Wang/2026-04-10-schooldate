@@ -67,35 +67,32 @@
       <template #header>
         <div class="card-header">
           <span>课程列表</span>
-          <el-button type="primary" @click="addCourse">
-            <el-icon><Plus /></el-icon>
-            添加课程
+          <el-button @click="importCourses">
+            <el-icon><Upload /></el-icon>
+            导入
           </el-button>
         </div>
       </template>
 
       <el-table :data="filteredCourses" stripe>
-        <el-table-column prop="courseCode" label="课程代码" min-width="120" fixed="left" />
-        <el-table-column prop="courseName" label="课程名称" min-width="200" />
-        <el-table-column prop="college" label="学院" min-width="150" />
-        <el-table-column prop="major" label="专业" min-width="190" />
-        <el-table-column prop="courseType" label="课程类型" min-width="120" />
-        <el-table-column prop="credits" label="学分" min-width="80" />
-        <el-table-column prop="hours" label="学时" min-width="80" />
-        <el-table-column prop="teacherName" label="授课教师" min-width="120" />
-        <el-table-column prop="classroom" label="教室" min-width="120" />
-        <el-table-column prop="semester" label="学期" min-width="100" />
-        <el-table-column prop="status" label="状态" min-width="100">
+        <el-table-column prop="courseCode" label="课程代码" min-width="100" fixed="left" />
+        <el-table-column prop="courseName" label="课程名称" min-width="150" />
+        <el-table-column prop="classTime" label="上课时间" min-width="120" />
+        <el-table-column prop="location" label="上课地点" min-width="150" />
+        <el-table-column prop="teacherName" label="教师" min-width="100" />
+        <el-table-column prop="className" label="班级" min-width="120" />
+        <el-table-column prop="major" label="所属专业" min-width="160" />
+        <el-table-column prop="college" label="所属学院" min-width="150" />
+        <el-table-column prop="status" label="状态" min-width="80">
           <template #default="scope">
             <el-tag :type="scope.row.status === '正常' ? 'success' : 'danger'">
               {{ scope.row.status }}
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="220" fixed="right">
+        <el-table-column label="操作" width="150" fixed="right">
           <template #default="scope">
             <div class="operation-buttons">
-              <el-button size="small" @click="editCourse(scope.row)">编辑</el-button>
               <el-button size="small" type="info" @click="viewSchedule(scope.row)">课表</el-button>
               <el-button size="small" type="danger" @click="deleteCourse(scope.row)">删除</el-button>
             </div>
@@ -120,12 +117,10 @@ export default {
         courseName: '计算机基础',
         college: '计算机学院',
         major: '计算机科学与技术',
-        courseType: '专业基础课',
-        credits: 3,
-        hours: 48,
+        className: '计算机21-1班',
         teacherName: '张明华',
-        classroom: 'A101',
-        semester: '第1学期',
+        location: '教学楼A-101',
+        classTime: '周一 1-2节',
         status: '正常'
       },
       {
@@ -134,12 +129,10 @@ export default {
         courseName: 'C语言程序设计',
         college: '计算机学院',
         major: '计算机科学与技术',
-        courseType: '专业基础课',
-        credits: 4,
-        hours: 64,
+        className: '计算机21-2班',
         teacherName: '李雅琴',
-        classroom: 'A102',
-        semester: '第1学期',
+        location: '教学楼A-102',
+        classTime: '周二 3-4节',
         status: '正常'
       },
       {
@@ -148,12 +141,10 @@ export default {
         courseName: 'Java程序设计',
         college: '计算机学院',
         major: '软件工程',
-        courseType: '专业核心课',
-        credits: 4,
-        hours: 64,
+        className: '软件22-1班',
         teacherName: '王建国',
-        classroom: 'B201',
-        semester: '第2学期',
+        location: '教学楼B-201',
+        classTime: '周三 5-6节',
         status: '正常'
       },
       {
@@ -162,12 +153,10 @@ export default {
         courseName: 'Web前端开发',
         college: '计算机学院',
         major: '软件工程',
-        courseType: '专业核心课',
-        credits: 3,
-        hours: 48,
+        className: '软件22-2班',
         teacherName: '赵丽娟',
-        classroom: 'B202',
-        semester: '第3学期',
+        location: '教学楼B-202',
+        classTime: '周四 7-8节',
         status: '正常'
       },
       {
@@ -176,12 +165,10 @@ export default {
         courseName: '网络基础',
         college: '计算机学院',
         major: '网络工程',
-        courseType: '专业基础课',
-        credits: 3,
-        hours: 48,
+        className: '网络22-1班',
         teacherName: '陈志强',
-        classroom: 'B203',
-        semester: '第2学期',
+        location: '教学楼B-203',
+        classTime: '周五 1-2节',
         status: '正常'
       },
       {
@@ -190,12 +177,10 @@ export default {
         courseName: '路由与交换技术',
         college: '计算机学院',
         major: '网络工程',
-        courseType: '专业核心课',
-        credits: 4,
-        hours: 64,
+        className: '网络22-2班',
         teacherName: '刘美玲',
-        classroom: 'B204',
-        semester: '第3学期',
+        location: '教学楼B-204',
+        classTime: '周一 3-4节',
         status: '正常'
       },
       {
@@ -204,12 +189,10 @@ export default {
         courseName: '数据结构',
         college: '计算机学院',
         major: '数据科学与大数据技术',
-        courseType: '专业基础课',
-        credits: 4,
-        hours: 64,
+        className: '数据23-1班',
         teacherName: '孙建华',
-        classroom: 'A103',
-        semester: '第2学期',
+        location: '教学楼A-103',
+        classTime: '周二 1-2节',
         status: '正常'
       },
       {
@@ -218,12 +201,10 @@ export default {
         courseName: '数据库原理',
         college: '计算机学院',
         major: '数据科学与大数据技术',
-        courseType: '专业核心课',
-        credits: 3,
-        hours: 48,
+        className: '数据23-2班',
         teacherName: '周晓敏',
-        classroom: 'C301',
-        semester: '第3学期',
+        location: '实验楼C-301',
+        classTime: '周三 7-8节',
         status: '正常'
       },
       {
@@ -232,12 +213,10 @@ export default {
         courseName: 'Python程序设计',
         college: '计算机学院',
         major: '人工智能',
-        courseType: '专业基础课',
-        credits: 3,
-        hours: 48,
+        className: '人工智能23-1班',
         teacherName: '吴志勇',
-        classroom: 'C302',
-        semester: '第1学期',
+        location: '实验楼C-302',
+        classTime: '周四 1-2节',
         status: '正常'
       },
       {
@@ -246,152 +225,10 @@ export default {
         courseName: '机器学习基础',
         college: '计算机学院',
         major: '人工智能',
-        courseType: '专业核心课',
-        credits: 4,
-        hours: 64,
+        className: '人工智能23-1班',
         teacherName: '郑丽华',
-        classroom: 'C303',
-        semester: '第4学期',
-        status: '正常'
-      },
-      {
-        id: 11,
-        courseCode: 'IS601',
-        courseName: '信息安全基础',
-        college: '计算机学院',
-        major: '信息安全',
-        courseType: '专业基础课',
-        credits: 3,
-        hours: 48,
-        teacherName: '马文涛',
-        classroom: 'A104',
-        semester: '第2学期',
-        status: '正常'
-      },
-      {
-        id: 12,
-        courseCode: 'IS602',
-        courseName: '网络安全技术',
-        college: '计算机学院',
-        major: '信息安全',
-        courseType: '专业核心课',
-        credits: 4,
-        hours: 64,
-        teacherName: '林雪梅',
-        classroom: 'A105',
-        semester: '第3学期',
-        status: '正常'
-      },
-      {
-        id: 13,
-        courseCode: 'IoT701',
-        courseName: '物联网概论',
-        college: '计算机学院',
-        major: '物联网工程',
-        courseType: '专业基础课',
-        credits: 3,
-        hours: 48,
-        teacherName: '黄志明',
-        classroom: 'B205',
-        semester: '第1学期',
-        status: '正常'
-      },
-      {
-        id: 14,
-        courseCode: 'IoT702',
-        courseName: '传感器技术',
-        college: '计算机学院',
-        major: '物联网工程',
-        courseType: '专业核心课',
-        credits: 3,
-        hours: 48,
-        teacherName: '徐雅芳',
-        classroom: 'B206',
-        semester: '第2学期',
-        status: '正常'
-      },
-      {
-        id: 15,
-        courseCode: 'CS103',
-        courseName: '计算机组成原理',
-        college: '计算机学院',
-        major: '计算机科学与技术',
-        courseType: '专业核心课',
-        credits: 4,
-        hours: 64,
-        teacherName: '何建军',
-        classroom: 'A106',
-        semester: '第3学期',
-        status: '正常'
-      },
-      {
-        id: 16,
-        courseCode: 'SE203',
-        courseName: '软件工程',
-        college: '计算机学院',
-        major: '软件工程',
-        courseType: '专业核心课',
-        credits: 4,
-        hours: 64,
-        teacherName: '张明华',
-        classroom: 'B201',
-        semester: '第4学期',
-        status: '正常'
-      },
-      {
-        id: 17,
-        courseCode: 'NE303',
-        courseName: '网络安全',
-        college: '计算机学院',
-        major: '网络工程',
-        courseType: '专业核心课',
-        credits: 3,
-        hours: 48,
-        teacherName: '李雅琴',
-        classroom: 'B202',
-        semester: '第4学期',
-        status: '正常'
-      },
-      {
-        id: 18,
-        courseCode: 'DS403',
-        courseName: '大数据技术',
-        college: '计算机学院',
-        major: '数据科学与大数据技术',
-        courseType: '专业核心课',
-        credits: 4,
-        hours: 64,
-        teacherName: '王建国',
-        classroom: 'C301',
-        semester: '第4学期',
-        status: '正常'
-      },
-      {
-        id: 19,
-        courseCode: 'AI503',
-        courseName: '深度学习',
-        college: '计算机学院',
-        major: '人工智能',
-        courseType: '专业核心课',
-        credits: 4,
-        hours: 64,
-        teacherName: '赵丽娟',
-        classroom: 'C302',
-        semester: '第5学期',
-        status: '正常'
-      },
-      {
-        id: 20,
-        courseCode: 'IS603',
-        courseName: '密码学',
-        college: '计算机学院',
-        major: '信息安全',
-        courseType: '专业核心课',
-        credits: 3,
-        hours: 48,
-        teacherName: '陈志强',
-        classroom: 'A104',
-        semester: '第4学期',
+        location: '实验楼C-303',
+        classTime: '周五 3-4节',
         status: '正常'
       }
     ])
@@ -453,16 +290,12 @@ export default {
     // 初始化时显示所有课程
     filteredCourses.value = courses.value
 
-    const addCourse = () => {
-      ElMessage.info('添加课程功能开发中...')
-    }
-
-    const editCourse = (row) => {
-      ElMessage.info(`编辑课程 ${row.courseName}`)
-    }
-
     const viewSchedule = (row) => {
       ElMessage.info(`查看课程 ${row.courseName} 的课表安排`)
+    }
+
+    const importCourses = () => {
+      ElMessage.info('排课数据导入功能开发中...')
     }
 
     const deleteCourse = (row) => {
@@ -492,9 +325,8 @@ export default {
       courseTypeOptions,
       applyFilter,
       resetFilter,
-      addCourse,
-      editCourse,
       viewSchedule,
+      importCourses,
       deleteCourse
     }
   }

@@ -65,6 +65,14 @@ import CollegeManagement from '../views/school-management/CollegeManagement.vue'
 import DepartmentManagement from '../views/school-management/DepartmentManagement.vue'
 import StaffManagement from '../views/school-management/StaffManagement.vue'
 
+// 数据中心
+import TeachingCenter from '../views/data-center/TeachingCenter.vue'
+import ResourceCenter from '../views/data-center/ResourceCenter.vue'
+import KnowledgeCenter from '../views/data-center/KnowledgeCenter.vue'
+import AchievementCenter from '../views/data-center/AchievementCenter.vue'
+import EvaluationCenter from '../views/data-center/EvaluationCenter.vue'
+import ArchiveCenter from '../views/data-center/ArchiveCenter.vue'
+
 const routes = [
   {
     path: '/',
@@ -326,6 +334,43 @@ const routes = [
     name: 'StaffManagement',
     component: StaffManagement,
     meta: { title: '教职工管理' }
+  },
+  // 数据中心相关路由
+  {
+    path: '/data-center/teaching',
+    name: 'TeachingCenter',
+    component: TeachingCenter,
+    meta: { title: '教学中心' }
+  },
+  {
+    path: '/data-center/resource',
+    name: 'ResourceCenter',
+    component: ResourceCenter,
+    meta: { title: '资源中心' }
+  },
+  {
+    path: '/data-center/knowledge',
+    name: 'KnowledgeCenter',
+    component: KnowledgeCenter,
+    meta: { title: '知识中心' }
+  },
+  {
+    path: '/data-center/achievement',
+    name: 'AchievementCenter',
+    component: AchievementCenter,
+    meta: { title: '成果中心' }
+  },
+  {
+    path: '/data-center/evaluation',
+    name: 'EvaluationCenter',
+    component: EvaluationCenter,
+    meta: { title: '评价中心' }
+  },
+  {
+    path: '/data-center/archive',
+    name: 'ArchiveCenter',
+    component: ArchiveCenter,
+    meta: { title: '档案中心' }
   }
 ]
 
