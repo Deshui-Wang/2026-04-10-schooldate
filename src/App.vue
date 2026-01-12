@@ -8,6 +8,10 @@
           <h2 class="logo">智慧校园管理系统</h2>
         </div>
         <div class="header-right">
+          <el-button type="primary" class="ai-assistant-btn" @click="showAIAssistant = !showAIAssistant">
+            <el-icon><ChatDotRound /></el-icon>
+            {{ showAIAssistant ? '合收AI助手' : 'AI智能档案助手' }}
+          </el-button>
           <el-dropdown>
             <span class="user-avatar">
               <img src="/images/user.png" alt="管理员头像" class="avatar-img" />
@@ -171,18 +175,347 @@
           </el-menu>
         </el-aside>
         
-        <!-- 右侧内容区域 -->
-        <el-main class="main-content">
-          <router-view />
-        </el-main>
+        <!-- 主体内容与AI助手容器 -->
+        <div class="main-container-wrapper">
+          <!-- 右侧内容区域 (主体) -->
+          <el-main class="main-content" :class="{ 'with-ai-panel': showAIAssistant }">
+            <router-view />
+          </el-main>
+
+          <!-- AI智能档案助手并列面板 -->
+          <transition name="slide-panel">
+            <div v-if="showAIAssistant" class="ai-side-panel">
+              <div class="panel-header">
+                <span class="title">AI智能档案助手</span>
+                <el-icon class="close-btn" @click="showAIAssistant = false"><Close /></el-icon>
+              </div>
+              
+              <div class="ai-chat-container">
+                <!-- 对话内容区域 -->
+                <div class="chat-messages">
+                  <!-- 欢迎消息 -->
+                  <div v-if="!aiAnswer && searchResults.length === 0" class="welcome-section">
+                    <div class="welcome-icon">
+                      <el-icon size="56"><ChatDotRound /></el-icon>
+                    </div>
+                    <h3>您好，我是AI档案助手</h3>
+                    <p>我可以帮您查询档案信息、回答问题、搜索文档</p>
+                  </div>
+
+                  <!-- AI回答 -->
+                  <div v-if="aiAnswer" class="message-item ai-message">
+                    <div class="avatar">
+                      <el-icon><ChatDotRound /></el-icon>
+                    </div>
+                    <div class="message-bubble">
+                      <p>{{ aiAnswer }}</p>
+                      <div class="message-actions">
+                        <el-button text size="small" @click="copyAnswer">
+                          <el-icon><DocumentCopy /></el-icon>复制
+                        </el-button>
+                        <el-button text size="small" @click="regenerateAnswer">
+                          <el-icon><RefreshRight /></el-icon>重新生成
+                        </el-button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 搜索结果 -->
+                  <div v-if="searchResults.length > 0" class="search-results-panel">
+                    <div class="results-header">
+                      <span>为您找到 {{ searchResults.length }} 个相关结果</span>
+                    </div>
+                    <div class="result-list">
+                      <div v-for="result in searchResults" :key="result.id" class="result-card" @click="viewResult(result)">
+                        <div class="icon-wrap" :style="{ background: result.iconColor + '15' }">
+                          <el-icon :color="result.iconColor"><component :is="result.icon" /></el-icon>
+                        </div>
+                        <div class="info">
+                          <h5>{{ result.title }}</h5>
+                          <p>{{ result.description }}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 快捷问题（在输入框上方） -->
+                <div v-if="!aiAnswer && searchResults.length === 0" class="quick-suggestions">
+                  <div 
+                    v-for="q in quickQuestions" 
+                    :key="q" 
+                    class="suggestion-chip"
+                    @click="askQuestion(q)"
+                  >
+                    {{ q }}
+                  </div>
+                </div>
+
+                <!-- 底部输入区域 -->
+                <div class="chat-input-area">
+                  <div class="input-wrapper">
+                    <el-input
+                      v-model="textQuery"
+                      :placeholder="isRecording ? '正在录音...' : '询问AI档案助手...'"
+                      class="chat-input"
+                      @keyup.enter="handleTextSearch"
+                    >
+                      <template #prefix>
+                        <el-tooltip content="上传附件" placement="top">
+                          <el-icon class="input-icon" @click="triggerFileUpload"><Paperclip /></el-icon>
+                        </el-tooltip>
+                      </template>
+                    </el-input>
+                    <div class="input-actions">
+                      <el-tooltip content="语音输入" placement="top">
+                        <el-icon 
+                          class="action-icon" 
+                          :class="{ recording: isRecording }"
+                          @click="toggleRecording"
+                        >
+                          <Microphone />
+                        </el-icon>
+                      </el-tooltip>
+                      <el-button 
+                        type="primary" 
+                        circle
+                        class="send-btn"
+                        :disabled="!textQuery.trim()"
+                        :loading="searching"
+                        @click="handleTextSearch"
+                      >
+                        <el-icon><Top /></el-icon>
+                      </el-button>
+                    </div>
+                  </div>
+                  <!-- 隐藏的文件上传 -->
+                  <input 
+                    ref="fileInputRef"
+                    type="file" 
+                    style="display: none" 
+                    accept="image/*,.pdf,.doc,.docx"
+                    @change="handleFileSelect"
+                  />
+                </div>
+              </div>
+            </div>
+          </transition>
+        </div>
       </el-container>
     </el-container>
   </div>
 </template>
 
-<script>
-export default {
-  name: 'App'
+<script setup>
+import { ref } from 'vue'
+import { ElMessage } from 'element-plus'
+import {
+  ChatDotRound,
+  Search,
+  Delete,
+  Microphone,
+  Picture,
+  DocumentCopy,
+  RefreshRight,
+  QuestionFilled,
+  Close,
+  User,
+  Folder,
+  Document,
+  Paperclip,
+  Top
+} from '@element-plus/icons-vue'
+
+// AI 助手状态
+const showAIAssistant = ref(false)
+const searchMode = ref('文本搜索')
+const searchModeOptions = ['文本搜索', '语音搜索', '图片搜索']
+
+// 文本搜索
+const textQuery = ref('')
+const searching = ref(false)
+
+// 语音搜索
+const isRecording = ref(false)
+const voiceText = ref('')
+
+// 图片搜索
+const uploadedImage = ref('')
+
+// 搜索结果
+const searchResults = ref([])
+const aiAnswer = ref('')
+
+// 快捷问题
+const quickQuestions = ref([
+  '张教授最近发表了哪些论文？',
+  '帮我找一下AI研究项目的相关文档',
+  '统计一下计算机学院的学生人数',
+  '查询李副教授的科研成果',
+  '本学期有哪些机器学习相关课程？'
+])
+
+// 文本搜索处理
+const handleTextSearch = () => {
+  if (!textQuery.value.trim()) {
+    ElMessage.warning('请输入搜索内容')
+    return
+  }
+
+  searching.value = true
+  
+  // 模拟AI搜索
+  setTimeout(() => {
+    // 生成AI回答
+    aiAnswer.value = `根据您的问题"${textQuery.value}"，我为您找到了以下信息：\n\n张教授是计算机科学教授，主要研究方向为人工智能。近期发表了3篇SCI论文，主持1项国家级AI研究项目，指导5名研究生。相关档案已为您列出，您可以点击查看详细信息。`
+    
+    // 生成搜索结果
+    searchResults.value = [
+      {
+        id: 1,
+        title: '张教授个人档案',
+        description: '计算机科学教授，AI专家，发表论文30余篇',
+        category: '教师档案',
+        tagType: 'primary',
+        icon: 'User',
+        iconColor: '#667eea',
+        time: '2024-01-15'
+      },
+      {
+        id: 2,
+        title: 'AI研究项目档案',
+        description: '国家级AI研究项目，项目周期2023-2025',
+        category: '项目档案',
+        tagType: 'success',
+        icon: 'Folder',
+        iconColor: '#43e97b',
+        time: '2023-06-01'
+      },
+      {
+        id: 3,
+        title: '深度学习论文',
+        description: 'SCI一区论文，影响因子8.5',
+        category: '学术成果',
+        tagType: 'warning',
+        icon: 'Document',
+        iconColor: '#feca57',
+        time: '2024-01-10'
+      }
+    ]
+    
+    searching.value = false
+    ElMessage.success('搜索完成')
+  }, 1500)
+}
+
+// 清空查询
+const clearQuery = () => {
+  textQuery.value = ''
+}
+
+// 切换录音
+const toggleRecording = () => {
+  isRecording.value = !isRecording.value
+  
+  if (isRecording.value) {
+    ElMessage.info('开始录音...')
+    // 模拟语音识别
+    setTimeout(() => {
+      isRecording.value = false
+      voiceText.value = '张教授最近发表了哪些论文？'
+      ElMessage.success('语音识别完成')
+      // 自动搜索
+      textQuery.value = voiceText.value
+      handleTextSearch()
+    }, 3000)
+  }
+}
+
+// 图片上传处理
+const handleImageChange = (file) => {
+  const reader = new FileReader()
+  reader.onload = (e) => {
+    uploadedImage.value = e.target.result
+  }
+  reader.readAsDataURL(file.raw)
+}
+
+// 移除图片
+const removeImage = () => {
+  uploadedImage.value = ''
+}
+
+// 以图搜索
+const searchByImage = () => {
+  ElMessage.info('正在分析图片内容...')
+  
+  setTimeout(() => {
+    aiAnswer.value = '根据您上传的图片，我识别到这是一份学术论文的封面。为您找到了相关的论文档案和作者信息。'
+    
+    searchResults.value = [
+      {
+        id: 4,
+        title: '相似论文档案',
+        description: '基于图像识别找到的相似学术论文',
+        category: '学术成果',
+        tagType: 'success',
+        icon: 'Document',
+        iconColor: '#43e97b',
+        time: '2024-01-12'
+      }
+    ]
+    
+    ElMessage.success('图片分析完成')
+  }, 2000)
+}
+
+// 清空结果
+const clearResults = () => {
+  searchResults.value = []
+  aiAnswer.value = ''
+}
+
+// 查看结果详情
+const viewResult = (result) => {
+  ElMessage.info(`查看档案：${result.title}`)
+}
+
+// 复制回答
+const copyAnswer = () => {
+  navigator.clipboard.writeText(aiAnswer.value)
+  ElMessage.success('已复制到剪贴板')
+}
+
+// 重新生成回答
+const regenerateAnswer = () => {
+  ElMessage.info('正在重新生成回答...')
+  setTimeout(() => {
+    aiAnswer.value += '\n\n补充信息：张教授还参与了多个跨学科合作项目，与华为、阿里等企业建立了产学研合作关系。'
+    ElMessage.success('回答已更新')
+  }, 1000)
+}
+
+// 快捷提问
+const askQuestion = (question) => {
+  textQuery.value = question
+  handleTextSearch()
+}
+
+// 文件上传 ref
+const fileInputRef = ref(null)
+
+// 触发文件上传
+const triggerFileUpload = () => {
+  fileInputRef.value?.click()
+}
+
+// 处理文件选择
+const handleFileSelect = (event) => {
+  const file = event.target.files[0]
+  if (file) {
+    ElMessage.success(`已选择文件: ${file.name}`)
+    // 这里可以处理文件上传逻辑
+  }
 }
 </script>
 
@@ -288,6 +621,25 @@ export default {
 
 .header-right .user-avatar:hover .avatar-img {
   transform: scale(1.05);
+}
+
+/* AI助手按钮 */
+.ai-assistant-btn {
+  margin-right: 16px;
+  border-radius: 20px;
+  padding: 8px 20px;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+  transition: all 0.3s ease;
+}
+
+.ai-assistant-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.ai-assistant-btn .el-icon {
+  margin-right: 6px;
 }
 
 /* 现代化左侧菜单 */
@@ -888,4 +1240,328 @@ export default {
 }
 
 /* 特殊弹层样式覆盖（如果需要保留某些特殊样式，可以在这里添加） */
+
+/* ==================== AI智能档案助手并列面板样式 ==================== */
+.main-container-wrapper {
+  display: flex;
+  flex: 1;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.main-content {
+  flex: 1;
+  background: #f5f7fb;
+  padding: 32px;
+  overflow-y: auto;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
+.ai-side-panel {
+  width: 380px;
+  height: 100%;
+  background: #ffffff;
+  border-left: 1px solid rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.03);
+  z-index: 10;
+  overflow: hidden;
+}
+
+.panel-header {
+  height: 60px;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #ffffff;
+}
+
+.panel-header .title {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.panel-header .close-btn {
+  cursor: pointer;
+  font-size: 18px;
+  transition: all 0.2s;
+}
+
+.panel-header .close-btn:hover {
+  transform: rotate(90deg);
+  opacity: 0.8;
+}
+
+/* AI对话容器 */
+.ai-chat-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #f8fafc;
+}
+
+/* 对话消息区域 */
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+/* 欢迎区域 */
+.welcome-section {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.welcome-icon {
+  color: #667eea;
+  margin-bottom: 16px;
+}
+
+.welcome-section h3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1a202c;
+  margin-bottom: 8px;
+}
+
+.welcome-section p {
+  font-size: 14px;
+  color: #718096;
+}
+
+/* 消息气泡 */
+.message-item {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.message-item .avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.message-bubble {
+  background: #fff;
+  padding: 16px;
+  border-radius: 12px;
+  border-top-left-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  max-width: calc(100% - 50px);
+}
+
+.message-bubble p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #2d3748;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.message-actions {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #e2e8f0;
+  display: flex;
+  gap: 8px;
+}
+
+/* 搜索结果样式 */
+.search-results-panel {
+  margin-top: 16px;
+}
+
+.results-header {
+  font-size: 13px;
+  font-weight: 500;
+  color: #667eea;
+  margin-bottom: 12px;
+}
+
+.result-card {
+  background: #fff;
+  padding: 12px;
+  border-radius: 10px;
+  display: flex;
+  gap: 12px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.2s;
+}
+
+.result-card:hover {
+  border-color: #667eea;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.result-card .icon-wrap {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.result-card .info h5 {
+  font-size: 13px;
+  margin: 0 0 4px 0;
+  color: #1a202c;
+}
+
+.result-card .info p {
+  font-size: 11px;
+  color: #718096;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* 快捷建议 */
+.quick-suggestions {
+  padding: 0 20px 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.suggestion-chip {
+  background: #fff;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  color: #4a5568;
+  cursor: pointer;
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.suggestion-chip:hover {
+  border-color: #667eea;
+  color: #667eea;
+  background: #f0f4ff;
+}
+
+/* 底部输入区域 */
+.chat-input-area {
+  padding: 16px 20px;
+  background: #fff;
+  border-top: 1px solid #e2e8f0;
+}
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #f1f5f9;
+  border-radius: 24px;
+  padding: 8px 16px;
+  border: 1px solid transparent;
+  transition: all 0.2s;
+}
+
+.input-wrapper:focus-within {
+  border-color: #667eea;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.chat-input {
+  flex: 1;
+}
+
+.chat-input :deep(.el-input__wrapper) {
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 0;
+}
+
+.chat-input :deep(.el-input__inner) {
+  font-size: 14px;
+}
+
+.input-icon {
+  font-size: 20px;
+  color: #718096;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.input-icon:hover {
+  color: #667eea;
+}
+
+.input-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.action-icon {
+  font-size: 22px;
+  color: #718096;
+  cursor: pointer;
+  transition: all 0.2s;
+  padding: 4px;
+}
+
+.action-icon:hover {
+  color: #667eea;
+}
+
+.action-icon.recording {
+  color: #f5576c;
+  animation: pulse-recording 1.5s infinite;
+}
+
+@keyframes pulse-recording {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+.send-btn {
+  width: 36px;
+  height: 36px;
+  padding: 0 !important;
+}
+
+.send-btn:disabled {
+  opacity: 0.5;
+}
+
+/* 过渡动画 */
+.slide-panel-enter-active,
+.slide-panel-leave-active {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.slide-panel-enter-from,
+.slide-panel-leave-to {
+  transform: translateX(100%);
+  width: 0;
+  opacity: 0;
+}
+
+/* 针对原样式的清理 */
 </style>
