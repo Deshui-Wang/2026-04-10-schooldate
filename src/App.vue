@@ -67,10 +67,36 @@
               </template>
               <el-menu-item index="/data-center/teaching">教学中心</el-menu-item>
               <el-menu-item index="/data-center/resource">资源中心</el-menu-item>
-              <el-menu-item index="/data-center/knowledge">知识中心</el-menu-item>
               <el-menu-item index="/data-center/achievement">成果中心</el-menu-item>
               <el-menu-item index="/data-center/evaluation">评价中心</el-menu-item>
-              <el-menu-item index="/data-center/archive">档案中心</el-menu-item>
+            </el-sub-menu>
+
+            <el-sub-menu index="/archive-center">
+              <template #title>
+                <el-icon><Collection /></el-icon>
+                <span>档案中心</span>
+              </template>
+              <el-menu-item index="/archive-center/workbench">档案工作台</el-menu-item>
+              <el-menu-item index="/archive-center/documentary">文书档案</el-menu-item>
+              <el-menu-item index="/archive-center/scientific">科技档案</el-menu-item>
+              <el-menu-item index="/archive-center/personnel">人事档案</el-menu-item>
+              <el-menu-item index="/archive-center/infrastructure">基建档案</el-menu-item>
+              <el-menu-item index="/archive-center/student">学生档案</el-menu-item>
+              <el-menu-item index="/archive-center/audiovisual">声像档案</el-menu-item>
+              <el-menu-item index="/archive-center/physical">实物档案</el-menu-item>
+            </el-sub-menu>
+
+            <el-sub-menu index="/knowledge-center">
+              <template #title>
+                <el-icon><Reading /></el-icon>
+                <span>知识中心</span>
+              </template>
+              <el-menu-item index="/knowledge-center/graph">知识图谱</el-menu-item>
+              <el-menu-item index="/knowledge-center/space">知识空间</el-menu-item>
+              <el-menu-item index="/knowledge-center/portal">知识门户</el-menu-item>
+              <el-menu-item index="/knowledge-center/classification">知识分类</el-menu-item>
+              <el-menu-item index="/knowledge-center/template">知识模版</el-menu-item>
+              <el-menu-item index="/knowledge-center/operation">运营分析</el-menu-item>
             </el-sub-menu>
 
             <el-sub-menu index="/intelligent-decision">
@@ -323,7 +349,17 @@ import {
   Folder,
   Document,
   Paperclip,
-  Top
+  Top,
+  Collection,
+  House,
+  Upload,
+  DataAnalysis,
+  Cpu,
+  Shop,
+  Lock,
+  Connection,
+  School,
+  Reading
 } from '@element-plus/icons-vue'
 
 // AI 助手状态
@@ -529,9 +565,13 @@ const handleFileSelect = (event) => {
 
 .warp{
   height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 .content{
+  flex: 1;
   overflow: auto;
+  min-height: 0; /* 修复flex布局在某些浏览器中的问题 */
 }
 
 #app {
@@ -691,6 +731,8 @@ const handleFileSelect = (event) => {
   background: #f5f7fb;
   padding: 32px;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .main-content::-webkit-scrollbar {

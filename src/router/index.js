@@ -45,8 +45,14 @@ import ArticleManagement from '../views/consultation-center/ArticleManagement.vu
 import NoticeManagement from '../views/consultation-center/NoticeManagement.vue'
 
 // 档案中心
-import TeacherArchive from '../views/archive-center/TeacherArchive.vue'
+import ArchiveWorkbench from '../views/archive-center/ArchiveWorkbench.vue'
+import DocumentaryArchive from '../views/archive-center/DocumentaryArchive.vue'
+import ScientificArchive from '../views/archive-center/ScientificArchive.vue'
+import PersonnelArchive from '../views/archive-center/PersonnelArchive.vue'
+import InfrastructureArchive from '../views/archive-center/InfrastructureArchive.vue'
 import StudentArchive from '../views/archive-center/StudentArchive.vue'
+import AudiovisualArchive from '../views/archive-center/AudiovisualArchive.vue'
+import PhysicalArchive from '../views/archive-center/PhysicalArchive.vue'
 
 // 上报中心
 import ReportingForms from '../views/reporting-center/ReportingForms.vue'
@@ -68,10 +74,17 @@ import StaffManagement from '../views/school-management/StaffManagement.vue'
 // 数据中心
 import TeachingCenter from '../views/data-center/TeachingCenter.vue'
 import ResourceCenter from '../views/data-center/ResourceCenter.vue'
-import KnowledgeCenter from '../views/data-center/KnowledgeCenter.vue'
 import AchievementCenter from '../views/data-center/AchievementCenter.vue'
 import EvaluationCenter from '../views/data-center/EvaluationCenter.vue'
 import ArchiveCenter from '../views/data-center/ArchiveCenter.vue'
+
+// 知识中心
+import KnowledgeClassification from '../views/knowledge-center/KnowledgeClassification.vue'
+import KnowledgeGraph from '../views/knowledge-center/KnowledgeGraph.vue'
+import KnowledgeSpace from '../views/knowledge-center/KnowledgeSpace.vue'
+import KnowledgeTemplate from '../views/knowledge-center/KnowledgeTemplate.vue'
+import KnowledgeOperation from '../views/knowledge-center/KnowledgeOperation.vue'
+import KnowledgePortal from '../views/knowledge-center/KnowledgePortal.vue'
 
 const routes = [
   {
@@ -256,17 +269,54 @@ const routes = [
     component: NoticeManagement,
     meta: { title: '通知管理' }
   },
+  // 档案中心相关路由
   {
-    path: '/archive-center/teacher',
-    name: 'TeacherArchive',
-    component: TeacherArchive,
-    meta: { title: '教师档案' }
+    path: '/archive-center/workbench',
+    name: 'ArchiveWorkbench',
+    component: ArchiveWorkbench,
+    meta: { title: '档案工作台' }
+  },
+  {
+    path: '/archive-center/documentary',
+    name: 'DocumentaryArchive',
+    component: DocumentaryArchive,
+    meta: { title: '文书档案' }
+  },
+  {
+    path: '/archive-center/scientific',
+    name: 'ScientificArchive',
+    component: ScientificArchive,
+    meta: { title: '科技档案' }
+  },
+  {
+    path: '/archive-center/personnel',
+    name: 'PersonnelArchive',
+    component: PersonnelArchive,
+    meta: { title: '人事档案' }
+  },
+  {
+    path: '/archive-center/infrastructure',
+    name: 'InfrastructureArchive',
+    component: InfrastructureArchive,
+    meta: { title: '基建档案' }
   },
   {
     path: '/archive-center/student',
     name: 'StudentArchive',
     component: StudentArchive,
     meta: { title: '学生档案' }
+  },
+  {
+    path: '/archive-center/audiovisual',
+    name: 'AudiovisualArchive',
+    component: AudiovisualArchive,
+    meta: { title: '声像档案' }
+  },
+  {
+    path: '/archive-center/physical',
+    name: 'PhysicalArchive',
+    component: PhysicalArchive,
+    meta: { title: '实物档案' }
   },
   {
     path: '/reporting-center/forms',
@@ -348,11 +398,46 @@ const routes = [
     component: ResourceCenter,
     meta: { title: '资源中心' }
   },
+  // 知识中心相关路由
   {
-    path: '/data-center/knowledge',
-    name: 'KnowledgeCenter',
-    component: KnowledgeCenter,
-    meta: { title: '知识中心' }
+    path: '/knowledge-center',
+    redirect: '/knowledge-center/graph'
+  },
+  {
+    path: '/knowledge-center/graph',
+    name: 'KnowledgeGraph',
+    component: KnowledgeGraph,
+    meta: { title: '知识图谱' }
+  },
+  {
+    path: '/knowledge-center/space',
+    name: 'KnowledgeSpace',
+    component: KnowledgeSpace,
+    meta: { title: '知识空间' }
+  },
+  {
+    path: '/knowledge-center/portal',
+    name: 'KnowledgePortal',
+    component: KnowledgePortal,
+    meta: { title: '知识门户' }
+  },
+  {
+    path: '/knowledge-center/classification',
+    name: 'KnowledgeClassification',
+    component: KnowledgeClassification,
+    meta: { title: '知识分类' }
+  },
+  {
+    path: '/knowledge-center/template',
+    name: 'KnowledgeTemplate',
+    component: KnowledgeTemplate,
+    meta: { title: '知识模版' }
+  },
+  {
+    path: '/knowledge-center/operation',
+    name: 'KnowledgeOperation',
+    component: KnowledgeOperation,
+    meta: { title: '运营分析' }
   },
   {
     path: '/data-center/achievement',
