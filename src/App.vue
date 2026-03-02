@@ -8,6 +8,10 @@
           <h2 class="logo">智慧校园管理系统</h2>
         </div>
         <div class="header-right">
+          <el-button type="success" class="ai-writer-btn" @click="openAIWriter">
+            <el-icon><EditPen /></el-icon>
+            AI写作
+          </el-button>
           <el-button type="primary" class="ai-assistant-btn" @click="showAIAssistant = !showAIAssistant">
             <el-icon><ChatDotRound /></el-icon>
             {{ showAIAssistant ? '合收AI助手' : 'AI智能档案助手' }}
@@ -77,6 +81,7 @@
                 <span>档案中心</span>
               </template>
               <el-menu-item index="/archive-center/workbench">档案工作台</el-menu-item>
+              <el-menu-item index="/archive-center/smart-room">智能档案室</el-menu-item>
               <el-menu-item index="/archive-center/documentary">文书档案</el-menu-item>
               <el-menu-item index="/archive-center/scientific">科技档案</el-menu-item>
               <el-menu-item index="/archive-center/personnel">人事档案</el-menu-item>
@@ -91,12 +96,12 @@
                 <el-icon><Reading /></el-icon>
                 <span>知识中心</span>
               </template>
+              <el-menu-item index="/knowledge-center/operation">运营分析</el-menu-item>
               <el-menu-item index="/knowledge-center/graph">知识图谱</el-menu-item>
               <el-menu-item index="/knowledge-center/space">知识空间</el-menu-item>
               <el-menu-item index="/knowledge-center/portal">知识门户</el-menu-item>
               <el-menu-item index="/knowledge-center/classification">知识分类</el-menu-item>
               <el-menu-item index="/knowledge-center/template">知识模版</el-menu-item>
-              <el-menu-item index="/knowledge-center/operation">运营分析</el-menu-item>
             </el-sub-menu>
 
             <el-sub-menu index="/intelligent-decision">
@@ -108,6 +113,7 @@
               <el-menu-item index="/intelligent-decision/smart-analysis">智能分析</el-menu-item>
               <el-menu-item index="/intelligent-decision/smart-decision">智能决策</el-menu-item>
               <el-menu-item index="/intelligent-decision/smart-monitoring">智能监测</el-menu-item>
+              <el-menu-item index="/intelligent-decision/smart-evaluation">智能评价</el-menu-item>
               <el-menu-item index="/intelligent-decision/decision-support">决策支持</el-menu-item>
             </el-sub-menu>
 
@@ -359,7 +365,8 @@ import {
   Lock,
   Connection,
   School,
-  Reading
+  Reading,
+  EditPen
 } from '@element-plus/icons-vue'
 
 // AI 助手状态
@@ -393,55 +400,96 @@ const quickQuestions = ref([
 
 // 文本搜索处理
 const handleTextSearch = () => {
-  if (!textQuery.value.trim()) {
-    ElMessage.warning('请输入搜索内容')
-    return
-  }
+    if (!textQuery.value.trim()) {
+        ElMessage.warning('请输入搜索内容');
+        return;
+    }
 
-  searching.value = true
-  
-  // 模拟AI搜索
-  setTimeout(() => {
-    // 生成AI回答
-    aiAnswer.value = `根据您的问题"${textQuery.value}"，我为您找到了以下信息：\n\n张教授是计算机科学教授，主要研究方向为人工智能。近期发表了3篇SCI论文，主持1项国家级AI研究项目，指导5名研究生。相关档案已为您列出，您可以点击查看详细信息。`
-    
-    // 生成搜索结果
-    searchResults.value = [
-      {
-        id: 1,
-        title: '张教授个人档案',
-        description: '计算机科学教授，AI专家，发表论文30余篇',
-        category: '教师档案',
-        tagType: 'primary',
-        icon: 'User',
-        iconColor: '#667eea',
-        time: '2024-01-15'
-      },
-      {
-        id: 2,
-        title: 'AI研究项目档案',
-        description: '国家级AI研究项目，项目周期2023-2025',
-        category: '项目档案',
-        tagType: 'success',
-        icon: 'Folder',
-        iconColor: '#43e97b',
-        time: '2023-06-01'
-      },
-      {
-        id: 3,
-        title: '深度学习论文',
-        description: 'SCI一区论文，影响因子8.5',
-        category: '学术成果',
-        tagType: 'warning',
-        icon: 'Document',
-        iconColor: '#feca57',
-        time: '2024-01-10'
-      }
-    ]
-    
-    searching.value = false
-    ElMessage.success('搜索完成')
-  }, 1500)
+    searching.value = true;
+    aiAnswer.value = '';
+    searchResults.value = [];
+
+    // 模拟AI搜索
+    setTimeout(() => {
+        const query = textQuery.value.trim();
+        switch (query) {
+            case '张教授最近发表了哪些论文？':
+                aiAnswer.value = `根据您的问题“${query}”，我为您找到了以下信息：\n\n张教授是计算机科学教授，主要研究方向为人工智能。近期发表了3篇SCI论文，主持1项国家级AI研究项目，指导5名研究生。相关档案已为您列出，您可以点击查看详细信息。`;
+                searchResults.value = [
+                    {
+                        id: 1,
+                        title: '张教授个人档案',
+                        description: '计算机科学教授，AI专家，发表论文30余篇',
+                        category: '教师档案',
+                        tagType: 'primary',
+                        icon: 'User',
+                        iconColor: '#667eea',
+                        time: '2024-01-15'
+                    },
+                    {
+                        id: 2,
+                        title: 'AI研究项目档案',
+                        description: '国家级AI研究项目，项目周期2023-2025',
+                        category: '项目档案',
+                        tagType: 'success',
+                        icon: 'Folder',
+                        iconColor: '#43e97b',
+                        time: '2023-06-01'
+                    },
+                    {
+                        id: 3,
+                        title: '深度学习论文',
+                        description: 'SCI一区论文，影响因子8.5',
+                        category: '学术成果',
+                        tagType: 'warning',
+                        icon: 'Document',
+                        iconColor: '#feca57',
+                        time: '2024-01-10'
+                    }
+                ];
+                break;
+            case '帮我找一下AI研究项目的相关文档':
+                aiAnswer.value = '好的，我为您找到了关于“AI研究项目”的几份关键文档，包括项目计划书、中期报告和最新的技术白皮书。请在下方列表中查看。';
+                searchResults.value = [
+                    { id: 4, title: 'AI研究项目计划书', description: '项目立项、目标与研究方案', category: '项目档案', icon: 'Folder', iconColor: '#43e97b' },
+                    { id: 5, title: 'AI项目中期进展报告', description: '2023年度项目进展与成果', category: '项目档案', icon: 'Folder', iconColor: '#43e97b' },
+                    { id: 6, title: 'AI伦理与安全技术白皮书', description: '项目组最新发布的技术文档', category: '技术文档', icon: 'Document', iconColor: '#feca57' }
+                ];
+                break;
+            case '统计一下计算机学院的学生人数':
+                aiAnswer.value = '根据最新的统计数据，计算机学院目前共有学生2,580人，其中本科生1,800人，研究生780人。详细的各年级人数分布请参阅下方的统计报告。';
+                searchResults.value = [
+                    { id: 7, title: '2024学年计算机学院学生人数统计报告', description: '包含各年级、各专业详细人数', category: '统计报告', icon: 'DataAnalysis', iconColor: '#667eea' },
+                    { id: 8, title: '本科生名册', description: '计算机学院全体本科生名单', category: '学生档案', icon: 'User', iconColor: '#3b82f6' },
+                    { id: 9, title: '研究生名册', description: '计算机学院全体研究生名单', category: '学生档案', icon: 'User', iconColor: '#3b82f6' }
+                ];
+                break;
+            case '查询李副教授的科研成果':
+                aiAnswer.value = '李副教授是数学学院的骨干教师，主要研究方向为应用数学和数据建模。我为您找到了他的主要科研成果，包括5篇核心期刊论文和2项省级科研项目。详情如下：';
+                searchResults.value = [
+                    { id: 10, title: '李副教授个人档案', description: '数学学院副教授，研究方向为数据建模', category: '教师档案', icon: 'User', iconColor: '#667eea' },
+                    { id: 11, title: '省级科研项目：大数据驱动的... ', description: '已结项，成果评定为优秀', category: '项目档案', icon: 'Folder', iconColor: '#43e97b' },
+                    { id: 12, title: '论文：关于非线性数据模型的...', description: '发表于《应用数学学报》', category: '学术成果', icon: 'Document', iconColor: '#feca57' }
+                ];
+                break;
+            case '本学期有哪些机器学习相关课程？':
+                aiAnswer.value = '本学期共开设了4门机器学习相关课程，分别是《机器学习导论》、《深度学习实践》、《自然语言处理》和《强化学习》。您可以在下方查看课程大纲和选课信息。';
+                searchResults.value = [
+                    { id: 13, title: '《机器学习导论》课程大纲', description: '授课教师：张教授', category: '课程资料', icon: 'Reading', iconColor: '#E6A23C' },
+                    { id: 14, title: '《深度学习实践》课程大纲', description: '授课教师：王博士', category: '课程资料', icon: 'Reading', iconColor: '#E6A23C' },
+                    { id: 15, title: '《自然语言处理》课程大纲', description: '授课教师：陈老师', category: '课程资料', icon: 'Reading', iconColor: '#E6A23C' }
+                ];
+                break;
+            default:
+                aiAnswer.value = `抱歉，对于“${query}”，我暂时无法提供精确的回答，但为您找到了一些可能相关的信息。`;
+                searchResults.value = [
+                    { id: 99, title: '智能帮助文档', description: '了解如何更有效地使用AI助手', category: '帮助文档', icon: 'QuestionFilled', iconColor: '#909399' }
+                ];
+        }
+        
+        searching.value = false;
+        ElMessage.success('搜索完成');
+    }, 1500);
 }
 
 // 清空查询
@@ -553,6 +601,11 @@ const handleFileSelect = (event) => {
     // 这里可以处理文件上传逻辑
   }
 }
+
+// 打开AI写作助手
+const openAIWriter = () => {
+  window.open('https://czkys.cailian.net/', '_blank')
+}
 </script>
 
 <style>
@@ -607,11 +660,12 @@ const handleFileSelect = (event) => {
 .header-left {
   display: flex;
   align-items: center;
+  gap: 10px;
 }
 
 .header-left .logo-img {
-  height: 60px;
-  width: 60px;
+  height: 25px;
+  width: 25px;
   object-fit: contain;
   border-radius: 8px;
   transition: all 0.3s ease;
@@ -631,6 +685,12 @@ const handleFileSelect = (event) => {
   font-size: 24px;
   font-weight: 700;
   letter-spacing: -0.5px;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  height: 100%;
 }
 
 .header-right .user-avatar {
@@ -679,6 +739,28 @@ const handleFileSelect = (event) => {
 }
 
 .ai-assistant-btn .el-icon {
+  margin-right: 6px;
+}
+
+/* AI写作助手按钮 */
+.ai-writer-btn {
+  margin-right: 16px;
+  border-radius: 20px;
+  padding: 8px 20px;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(103, 194, 58, 0.3);
+  transition: all 0.3s ease;
+  background: linear-gradient(135deg, #42d392 0%, #647eff 100%);
+  border: none;
+}
+
+.ai-writer-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(66, 211, 146, 0.4);
+  opacity: 0.9;
+}
+
+.ai-writer-btn .el-icon {
   margin-right: 6px;
 }
 

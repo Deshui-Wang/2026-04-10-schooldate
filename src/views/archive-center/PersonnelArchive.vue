@@ -9,25 +9,25 @@
     <el-row :gutter="16" class="stat-row">
       <el-col :span="6">
         <div class="stat-card personnel">
-          <div class="stat-value">1,234</div>
+          <div class="stat-value">{{ teacherCount }}</div>
           <div class="stat-label">教职工档案</div>
         </div>
       </el-col>
       <el-col :span="6">
         <div class="stat-card personnel">
-          <div class="stat-value">856</div>
+          <div class="stat-value">{{ cadreCount }}</div>
           <div class="stat-label">干部档案</div>
         </div>
       </el-col>
       <el-col :span="6">
         <div class="stat-card personnel">
-          <div class="stat-value">423</div>
+          <div class="stat-value">{{ contractCount }}</div>
           <div class="stat-label">合同档案</div>
         </div>
       </el-col>
       <el-col :span="6">
         <div class="stat-card personnel">
-          <div class="stat-value">67</div>
+          <div class="stat-value">{{ assessmentCount }}</div>
           <div class="stat-label">考核档案</div>
         </div>
       </el-col>
@@ -43,19 +43,21 @@
               placeholder="搜索姓名/工号/部门"
               style="width: 300px; margin-right: 15px"
               clearable
+              @keyup.enter="handleSearch"
+              @clear="handleSearch"
             >
               <template #prefix>
                 <el-icon><Search /></el-icon>
               </template>
             </el-input>
-            <el-select v-model="selectedType" placeholder="档案类型" style="width: 150px; margin-right: 15px">
+            <el-select v-model="selectedType" placeholder="档案类型" style="width: 150px; margin-right: 15px" clearable @change="handleSearch">
               <el-option label="全部" value="" />
               <el-option label="教职工档案" value="教职工档案" />
               <el-option label="干部档案" value="干部档案" />
               <el-option label="合同档案" value="合同档案" />
               <el-option label="考核档案" value="考核档案" />
             </el-select>
-            <el-select v-model="selectedDepartment" placeholder="所属部门" style="width: 150px; margin-right: 15px">
+            <el-select v-model="selectedDepartment" placeholder="所属部门" style="width: 150px; margin-right: 15px" clearable @change="handleSearch">
               <el-option label="全部" value="" />
               <el-option label="计算机学院" value="计算机学院" />
               <el-option label="经济学院" value="经济学院" />
@@ -69,7 +71,7 @@
       </template>
 
       <!-- 档案列表 -->
-      <el-table :data="archiveList" stripe style="width: 100%">
+      <el-table :data="paginatedList" stripe style="width: 100%" v-loading="loading">
         <el-table-column prop="employeeNo" label="工号" min-width="120" fixed />
         <el-table-column prop="name" label="姓名" min-width="100" />
         <el-table-column prop="type" label="档案类型" min-width="120" />
@@ -83,6 +85,16 @@
             </el-tag>
           </template>
         </el-table-column>
+        <el-table-column label="实体存放" min-width="200">
+          <template #default="scope">
+            <div v-if="scope.row.physicalStatus === 'stocked'" class="physical-location" @click="goToSmartRoom(scope.row)">
+               <el-tag type="success" effect="plain" size="small"><el-icon><OfficeBuilding /></el-icon> {{ scope.row.location }}</el-tag>
+            </div>
+            <div v-else>
+               <el-tag type="info" effect="plain" size="small">仅电子</el-tag>
+            </div>
+          </template>
+        </el-table-column>
         <el-table-column label="操作" width="200" fixed="right">
           <template #default="scope">
             <el-button link type="primary" @click="viewDetail(scope.row)">查看</el-button>
@@ -90,6 +102,17 @@
           </template>
         </el-table-column>
       </el-table>
+
+      <!-- 分页 -->
+      <el-pagination
+        background
+        layout="prev, pager, next, total, jumper"
+        :total="filteredList.length"
+        :page-size="pageSize"
+        v-model:current-page="currentPage"
+        @current-change="handlePageChange"
+        style="margin-top: 20px; justify-content: flex-end;"
+      />
     </el-card>
 
     <!-- 档案详情弹窗 -->
@@ -230,288 +253,85 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
-import { Search } from '@element-plus/icons-vue'
+import { Search, OfficeBuilding } from '@element-plus/icons-vue'
 
+const router = useRouter()
 const searchQuery = ref('')
 const selectedType = ref('')
 const selectedDepartment = ref('')
 const detailVisible = ref(false)
 const activeTab = ref('basic')
 const currentEmployee = ref(null)
+const loading = ref(false)
 
-const archiveList = ref([
-  { employeeNo: 'E2024001', name: '张教授', type: '教职工档案', department: '计算机学院', position: '教授', entryDate: '2010-09-01', status: '在职' },
-  { employeeNo: 'E2024002', name: '李副教授', type: '干部档案', department: '经济学院', position: '副院长', entryDate: '2012-03-15', status: '在职' },
-  { employeeNo: 'E2024003', name: '王老师', type: '教职工档案', department: '材料学院', position: '讲师', entryDate: '2018-07-01', status: '在职' },
-  { employeeNo: 'E2023001', name: '赵教授', type: '教职工档案', department: '信息学院', position: '教授', entryDate: '2008-09-01', status: '在职' },
-  { employeeNo: 'E2023002', name: '陈老师', type: '合同档案', department: '计算机学院', position: '助教', entryDate: '2020-09-01', status: '在职' },
-  { employeeNo: 'E2023003', name: '刘副教授', type: '考核档案', department: '经济学院', position: '副教授', entryDate: '2015-03-01', status: '在职' }
-])
+const fullArchiveList = ref([])
+const currentPage = ref(1)
+const pageSize = ref(10)
 
-// 详细数据映射
-const employeeDetails = {
-  'E2024001': {
-    employeeNo: 'E2024001',
-    name: '张教授',
-    gender: '男',
-    ethnicity: '汉族',
-    birthDate: '1975-06-15',
-    idCard: '33010619750615xxxx',
-    politicalStatus: '中共党员',
-    nativePlace: '浙江省杭州市',
-    phone: '13800001111',
-    email: 'zhang@university.edu.cn',
-    officePhone: '0571-88881234',
-    address: '杭州市西湖区xxx路xxx号',
-    department: '计算机学院',
-    position: '教授',
-    title: '教授',
-    entryDate: '2010-09-01',
-    status: '在职',
-    type: '教职工档案',
-    avatar: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',
-    contractType: '长期合同',
-    contractNo: 'HT-2010-001',
-    contractStartDate: '2010-09-01',
-    contractEndDate: '2030-08-31',
-    contractDuration: '20年',
-    contractStatus: '有效',
-    positionChanges: [
-      { date: '2010-09-01', type: '入职', department: '计算机学院', position: '讲师', reason: '新员工入职' },
-      { date: '2015-09-01', type: '晋升', department: '计算机学院', position: '副教授', reason: '职称评定' },
-      { date: '2020-09-01', type: '晋升', department: '计算机学院', position: '教授', reason: '职称评定' }
-    ],
-    evaluations: [
-      { year: '2024', quarter: 'Q1', score: 95, level: '优秀', comment: '工作表现突出，教学科研成绩优异' },
-      { year: '2023', quarter: 'Q4', score: 92, level: '优秀', comment: '教学评价优秀，科研项目进展顺利' },
-      { year: '2023', quarter: 'Q3', score: 88, level: '良好', comment: '工作认真负责，学生评价良好' }
-    ],
-    trainings: [
-      { date: '2024-03-15', name: '人工智能前沿技术培训', type: '专业培训', duration: '5天', certificate: true },
-      { date: '2023-10-20', name: '教学能力提升培训', type: '教学培训', duration: '3天', certificate: true },
-      { date: '2023-06-10', name: '科研项目管理培训', type: '管理培训', duration: '2天', certificate: false }
-    ],
-    certificates: [
-      { name: '高等学校教师资格证', issueDate: '2010-09-01', issuer: '教育部', validity: '长期有效', status: '有效' },
-      { name: '计算机软件高级工程师', issueDate: '2015-06-20', issuer: '工信部', validity: '长期有效', status: '有效' }
-    ]
-  },
-  'E2024002': {
-    employeeNo: 'E2024002',
-    name: '李副教授',
-    gender: '女',
-    ethnicity: '汉族',
-    birthDate: '1980-03-20',
-    idCard: '33010619800320xxxx',
-    politicalStatus: '中共党员',
-    nativePlace: '浙江省宁波市',
-    phone: '13900002222',
-    email: 'li@university.edu.cn',
-    officePhone: '0571-88882345',
-    address: '杭州市拱墅区xxx路xxx号',
-    department: '经济学院',
-    position: '副院长',
-    title: '副教授',
-    entryDate: '2012-03-15',
-    status: '在职',
-    type: '干部档案',
-    avatar: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',
-    contractType: '长期合同',
-    contractNo: 'HT-2012-002',
-    contractStartDate: '2012-03-15',
-    contractEndDate: '2032-03-14',
-    contractDuration: '20年',
-    contractStatus: '有效',
-    positionChanges: [
-      { date: '2012-03-15', type: '入职', department: '经济学院', position: '讲师', reason: '新员工入职' },
-      { date: '2018-09-01', type: '晋升', department: '经济学院', position: '副教授', reason: '职称评定' },
-      { date: '2023-09-01', type: '任命', department: '经济学院', position: '副院长', reason: '干部任命' }
-    ],
-    evaluations: [
-      { year: '2024', quarter: 'Q1', score: 93, level: '优秀', comment: '管理工作到位，教学科研并重' },
-      { year: '2023', quarter: 'Q4', score: 90, level: '优秀', comment: '领导能力突出，团队管理有效' }
-    ],
-    trainings: [
-      { date: '2023-11-10', name: '高校管理能力提升培训', type: '管理培训', duration: '7天', certificate: true },
-      { date: '2023-05-15', name: '经济学前沿理论培训', type: '专业培训', duration: '5天', certificate: true }
-    ],
-    certificates: [
-      { name: '高等学校教师资格证', issueDate: '2012-03-15', issuer: '教育部', validity: '长期有效', status: '有效' },
-      { name: '经济师', issueDate: '2018-06-15', issuer: '人社部', validity: '长期有效', status: '有效' }
-    ]
-  },
-  'E2024003': {
-    employeeNo: 'E2024003',
-    name: '王老师',
-    gender: '男',
-    ethnicity: '汉族',
-    birthDate: '1990-08-10',
-    idCard: '33010619900810xxxx',
-    politicalStatus: '群众',
-    nativePlace: '浙江省温州市',
-    phone: '13700003333',
-    email: 'wang@university.edu.cn',
-    officePhone: '0571-88883456',
-    address: '杭州市余杭区xxx路xxx号',
-    department: '材料学院',
-    position: '讲师',
-    title: '讲师',
-    entryDate: '2018-07-01',
-    status: '在职',
-    type: '教职工档案',
-    avatar: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',
-    contractType: '固定期限合同',
-    contractNo: 'HT-2018-003',
-    contractStartDate: '2018-07-01',
-    contractEndDate: '2028-06-30',
-    contractDuration: '10年',
-    contractStatus: '有效',
-    positionChanges: [
-      { date: '2018-07-01', type: '入职', department: '材料学院', position: '讲师', reason: '新员工入职' }
-    ],
-    evaluations: [
-      { year: '2024', quarter: 'Q1', score: 85, level: '良好', comment: '教学工作认真，有待提升科研能力' },
-      { year: '2023', quarter: 'Q4', score: 82, level: '良好', comment: '工作态度积极，学生评价良好' }
-    ],
-    trainings: [
-      { date: '2024-01-20', name: '材料科学前沿技术培训', type: '专业培训', duration: '4天', certificate: false },
-      { date: '2023-09-15', name: '青年教师教学能力培训', type: '教学培训', duration: '3天', certificate: true }
-    ],
-    certificates: [
-      { name: '高等学校教师资格证', issueDate: '2018-07-01', issuer: '教育部', validity: '长期有效', status: '有效' }
-    ]
-  },
-  'E2023001': {
-    employeeNo: 'E2023001',
-    name: '赵教授',
-    gender: '男',
-    ethnicity: '汉族',
-    birthDate: '1970-12-25',
-    idCard: '33010619701225xxxx',
-    politicalStatus: '中共党员',
-    nativePlace: '浙江省绍兴市',
-    phone: '13600004444',
-    email: 'zhao@university.edu.cn',
-    officePhone: '0571-88884567',
-    address: '杭州市上城区xxx路xxx号',
-    department: '信息学院',
-    position: '教授',
-    title: '教授',
-    entryDate: '2008-09-01',
-    status: '在职',
-    type: '教职工档案',
-    avatar: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',
-    contractType: '长期合同',
-    contractNo: 'HT-2008-001',
-    contractStartDate: '2008-09-01',
-    contractEndDate: '2028-08-31',
-    contractDuration: '20年',
-    contractStatus: '有效',
-    positionChanges: [
-      { date: '2008-09-01', type: '入职', department: '信息学院', position: '副教授', reason: '人才引进' },
-      { date: '2013-09-01', type: '晋升', department: '信息学院', position: '教授', reason: '职称评定' }
-    ],
-    evaluations: [
-      { year: '2024', quarter: 'Q1', score: 96, level: '优秀', comment: '学术成果突出，教学科研双优' },
-      { year: '2023', quarter: 'Q4', score: 94, level: '优秀', comment: '科研项目进展顺利，教学效果良好' }
-    ],
-    trainings: [
-      { date: '2023-12-05', name: '信息科学前沿技术培训', type: '专业培训', duration: '5天', certificate: true }
-    ],
-    certificates: [
-      { name: '高等学校教师资格证', issueDate: '2008-09-01', issuer: '教育部', validity: '长期有效', status: '有效' },
-      { name: '高级工程师', issueDate: '2013-06-20', issuer: '工信部', validity: '长期有效', status: '有效' }
-    ]
-  },
-  'E2023002': {
-    employeeNo: 'E2023002',
-    name: '陈老师',
-    gender: '女',
-    ethnicity: '汉族',
-    birthDate: '1992-05-18',
-    idCard: '33010619920518xxxx',
-    politicalStatus: '共青团员',
-    nativePlace: '浙江省台州市',
-    phone: '13500005555',
-    email: 'chen@university.edu.cn',
-    officePhone: '0571-88885678',
-    address: '杭州市下城区xxx路xxx号',
-    department: '计算机学院',
-    position: '助教',
-    title: '助教',
-    entryDate: '2020-09-01',
-    status: '在职',
-    type: '合同档案',
-    avatar: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',
-    contractType: '固定期限合同',
-    contractNo: 'HT-2020-005',
-    contractStartDate: '2020-09-01',
-    contractEndDate: '2025-08-31',
-    contractDuration: '5年',
-    contractStatus: '有效',
-    positionChanges: [
-      { date: '2020-09-01', type: '入职', department: '计算机学院', position: '助教', reason: '新员工入职' }
-    ],
-    evaluations: [
-      { year: '2024', quarter: 'Q1', score: 80, level: '良好', comment: '工作认真，需要继续提升' },
-      { year: '2023', quarter: 'Q4', score: 78, level: '良好', comment: '积极配合工作，表现良好' }
-    ],
-    trainings: [
-      { date: '2023-08-20', name: '新教师入职培训', type: '入职培训', duration: '5天', certificate: true }
-    ],
-    certificates: [
-      { name: '高等学校教师资格证', issueDate: '2021-06-15', issuer: '教育部', validity: '长期有效', status: '有效' }
-    ]
-  },
-  'E2023003': {
-    employeeNo: 'E2023003',
-    name: '刘副教授',
-    gender: '男',
-    ethnicity: '汉族',
-    birthDate: '1985-09-30',
-    idCard: '33010619850930xxxx',
-    politicalStatus: '中共党员',
-    nativePlace: '浙江省金华市',
-    phone: '13400006666',
-    email: 'liu@university.edu.cn',
-    officePhone: '0571-88886789',
-    address: '杭州市江干区xxx路xxx号',
-    department: '经济学院',
-    position: '副教授',
-    title: '副教授',
-    entryDate: '2015-03-01',
-    status: '在职',
-    type: '考核档案',
-    avatar: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',
-    contractType: '长期合同',
-    contractNo: 'HT-2015-004',
-    contractStartDate: '2015-03-01',
-    contractEndDate: '2035-02-28',
-    contractDuration: '20年',
-    contractStatus: '有效',
-    positionChanges: [
-      { date: '2015-03-01', type: '入职', department: '经济学院', position: '讲师', reason: '新员工入职' },
-      { date: '2021-09-01', type: '晋升', department: '经济学院', position: '副教授', reason: '职称评定' }
-    ],
-    evaluations: [
-      { year: '2024', quarter: 'Q1', score: 91, level: '优秀', comment: '教学科研并重，表现优秀' },
-      { year: '2023', quarter: 'Q4', score: 89, level: '良好', comment: '工作积极，成果显著' }
-    ],
-    trainings: [
-      { date: '2023-07-10', name: '经济学研究方法培训', type: '专业培训', duration: '4天', certificate: true },
-      { date: '2022-11-20', name: '教学技能提升培训', type: '教学培训', duration: '3天', certificate: true }
-    ],
-    certificates: [
-      { name: '高等学校教师资格证', issueDate: '2015-03-01', issuer: '教育部', validity: '长期有效', status: '有效' },
-      { name: '经济师', issueDate: '2021-06-20', issuer: '人社部', validity: '长期有效', status: '有效' }
-    ]
+const generateMockData = () => {
+  const data = []
+  const departments = ['计算机学院', '经济学院', '材料学院', '信息学院']
+  const types = ['教职工档案', '干部档案', '合同档案', '考核档案']
+  const positions = ['教授', '副教授', '讲师', '助教', '副院长']
+
+  for (let i = 1; i <= 150; i++) {
+    const year = 2005 + (i % 20)
+    const month = String((i % 12) + 1).padStart(2, '0')
+    const day = String((i % 28) + 1).padStart(2, '0')
+    const hasPhysical = Math.random() > 0.4;
+    
+    data.push({
+      employeeNo: `E${year}${String(i).padStart(4, '0')}`,
+      name: `教职工_${i}`,
+      type: types[i % types.length],
+      department: departments[i % departments.length],
+      position: positions[i % positions.length],
+      entryDate: `${year}-${month}-${day}`,
+      status: '在职',
+      physicalStatus: hasPhysical ? 'stocked' : 'only_digital',
+      location: hasPhysical ? `三号库/人事区/${String(Math.floor(Math.random()*20)+1).padStart(2,'0')}柜` : ''
+    })
   }
+  return data
 }
 
+onMounted(() => {
+  loading.value = true
+  setTimeout(() => {
+    fullArchiveList.value = generateMockData()
+    loading.value = false
+  }, 500)
+})
+
+const filteredList = computed(() => {
+  return fullArchiveList.value.filter(item => {
+    const query = searchQuery.value.toLowerCase()
+    const searchMatch =
+      item.name.toLowerCase().includes(query) ||
+      item.employeeNo.toLowerCase().includes(query) ||
+      item.department.toLowerCase().includes(query)
+    const typeMatch = selectedType.value ? item.type === selectedType.value : true
+    const deptMatch = selectedDepartment.value ? item.department === selectedDepartment.value : true
+    return searchMatch && typeMatch && deptMatch
+  })
+})
+
+const paginatedList = computed(() => {
+  const start = (currentPage.value - 1) * pageSize.value
+  const end = start + pageSize.value
+  return filteredList.value.slice(start, end)
+})
+
+const teacherCount = computed(() => fullArchiveList.value.filter(i => i.type === '教职工档案').length)
+const cadreCount = computed(() => fullArchiveList.value.filter(i => i.type === '干部档案').length)
+const contractCount = computed(() => fullArchiveList.value.filter(i => i.type === '合同档案').length)
+const assessmentCount = computed(() => fullArchiveList.value.filter(i => i.type === '考核档案').length)
+
 const handleSearch = () => {
-  ElMessage.success('查询成功')
+  currentPage.value = 1
 }
 
 const handleExport = () => {
@@ -519,32 +339,39 @@ const handleExport = () => {
 }
 
 const viewDetail = (row) => {
-  currentEmployee.value = employeeDetails[row.employeeNo] || {
+  // For mock data, we generate some placeholder details
+  currentEmployee.value = {
     ...row,
     gender: '男',
     ethnicity: '汉族',
-    birthDate: '1980-01-01',
-    idCard: '33010619800101xxxx',
-    politicalStatus: '群众',
-    nativePlace: '浙江省',
+    birthDate: '1985-01-01',
+    idCard: '33010xxxxxxxxxxxxx',
+    politicalStatus: '中共党员',
+    nativePlace: '浙江省杭州市',
     phone: '13800000000',
-    email: 'employee@university.edu.cn',
+    email: `${row.employeeNo}@university.edu.cn`,
     officePhone: '0571-88880000',
-    address: '杭州市',
+    address: '杭州市西湖区xxx路xxx号',
     title: row.position,
     avatar: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',
-    contractType: '固定期限合同',
-    contractNo: 'HT-2020-001',
+    contractType: '长期合同',
+    contractNo: `HT-${row.entryDate.split('-')[0]}-${row.employeeNo.slice(-3)}`,
     contractStartDate: row.entryDate,
-    contractEndDate: '2025-12-31',
-    contractDuration: '5年',
+    contractEndDate: '2035-12-31',
+    contractDuration: '长期',
     contractStatus: '有效',
     positionChanges: [
       { date: row.entryDate, type: '入职', department: row.department, position: row.position, reason: '新员工入职' }
     ],
-    evaluations: [],
-    trainings: [],
-    certificates: []
+    evaluations: [
+      { year: '2023', quarter: 'Q4', score: 90, level: '优秀', comment: '工作表现优异' },
+    ],
+    trainings: [
+      { date: '2023-10-20', name: '教学能力提升培训', type: '教学培训', duration: '3天', certificate: true },
+    ],
+    certificates: [
+      { name: '高等学校教师资格证', issueDate: row.entryDate, issuer: '教育部', validity: '长期有效', status: '有效' },
+    ]
   }
   activeTab.value = 'basic'
   detailVisible.value = true
@@ -552,6 +379,17 @@ const viewDetail = (row) => {
 
 const handleUpdate = (row) => {
   ElMessage.info(`更新档案: ${row.name}`)
+}
+
+const handlePageChange = (page) => {
+  currentPage.value = page
+}
+
+const goToSmartRoom = (row) => {
+  router.push({
+    path: '/archive-center/smart-room',
+    query: { archiveNo: row.employeeNo }
+  })
 }
 
 const getStatusType = (status) => {
@@ -668,5 +506,13 @@ const getEvaluationType = (level) => {
 .performance-section h4 {
   margin-bottom: 15px;
   color: #303133;
+}
+
+.physical-location {
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.physical-location:hover {
+  opacity: 0.8;
 }
 </style>

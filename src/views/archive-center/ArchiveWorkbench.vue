@@ -26,6 +26,26 @@
       </el-col>
     </el-row>
 
+    <!-- 档案菜单快捷入口 -->
+    <el-card shadow="never" class="quick-access-card">
+      <template #header>
+        <span class="card-title">档案菜单快捷入口</span>
+      </template>
+      <div class="quick-access-container">
+        <div 
+          v-for="(item, index) in quickAccessMenu" 
+          :key="index" 
+          class="quick-access-item" 
+          @click="navigateTo(item.route)"
+        >
+          <div class="icon-box" :style="{ backgroundColor: item.color + '20', color: item.color }">
+            <el-icon :size="28"><component :is="item.icon" /></el-icon>
+          </div>
+          <span class="label">{{ item.label }}</span>
+        </div>
+      </div>
+    </el-card>
+
     <!-- 中部图表和信息 -->
     <el-row :gutter="20">
       <!-- 左侧主要图表 -->
@@ -169,8 +189,14 @@
 
 <script setup>
 import { ref, onMounted, shallowRef } from 'vue';
+import { useRouter } from 'vue-router';
 import * as echarts from 'echarts';
-import { Folder, Upload, View, Document, CaretTop, CaretBottom } from '@element-plus/icons-vue';
+import { 
+  Folder, Upload, View, Document, CaretTop, CaretBottom,
+  Cpu, User, OfficeBuilding, Avatar, VideoPlay, Box 
+} from '@element-plus/icons-vue';
+
+const router = useRouter();
 
 const summaryData = ref([
   { label: '馆藏总量', value: 128456, trend: 'up', percentage: 12, icon: 'Folder', bgColor: '#e7f3ff', iconColor: '#409EFF' },
@@ -178,6 +204,20 @@ const summaryData = ref([
   { label: '数字化率', value: 87.5, trend: 'up', percentage: 3, icon: 'Document', bgColor: '#fef3e7', iconColor: '#E6A23C' },
   { label: '本月利用', value: 3892, trend: 'up', percentage: 15, icon: 'View', bgColor: '#fdeeee', iconColor: '#F56C6C' },
 ]);
+
+const quickAccessMenu = [
+  { label: '文书档案', icon: 'Document', color: '#409EFF', route: '/archive-center/documentary' },
+  { label: '科技档案', icon: 'Cpu', color: '#67C23A', route: '/archive-center/scientific' },
+  { label: '人事档案', icon: 'User', color: '#E6A23C', route: '/archive-center/personnel' },
+  { label: '基建档案', icon: 'OfficeBuilding', color: '#F56C6C', route: '/archive-center/infrastructure' },
+  { label: '学生档案', icon: 'Avatar', color: '#909399', route: '/archive-center/student' },
+  { label: '声像档案', icon: 'VideoPlay', color: '#79bbff', route: '/archive-center/audiovisual' },
+  { label: '实物档案', icon: 'Box', color: '#b88230', route: '/archive-center/physical' }
+];
+
+const navigateTo = (path) => {
+  router.push(path);
+};
 
 const selectedYear = ref(new Date());
 
@@ -436,6 +476,64 @@ onMounted(() => {
   display: flex;
   justify-content: space-between;
   margin-bottom: 5px;
+  color: #606266;
+}
+
+/* 快捷入口样式 */
+.quick-access-card {
+  margin-bottom: 0;
+  border-radius: 8px;
+}
+
+.card-title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #303133;
+}
+
+.quick-access-container {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 10px 0;
+}
+
+.quick-access-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 15px;
+  border-radius: 12px;
+  width: 100px;
+}
+
+.quick-access-item:hover {
+  background-color: #f5f7fa;
+  transform: translateY(-5px);
+}
+
+.quick-access-item .icon-box {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.quick-access-item:hover .icon-box {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.quick-access-item .label {
+  font-size: 14px;
+  font-weight: 500;
   color: #606266;
 }
 </style>

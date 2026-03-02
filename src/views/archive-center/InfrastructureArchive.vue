@@ -9,25 +9,25 @@
     <el-row :gutter="16" class="stat-row">
       <el-col :span="6">
         <div class="stat-card infra">
-          <div class="stat-value">156</div>
+          <div class="stat-value">{{ constructionCount }}</div>
           <div class="stat-label">建设项目档案</div>
         </div>
       </el-col>
       <el-col :span="6">
         <div class="stat-card infra">
-          <div class="stat-value">89</div>
+          <div class="stat-value">{{ drawingCount }}</div>
           <div class="stat-label">设计图纸档案</div>
         </div>
       </el-col>
       <el-col :span="6">
         <div class="stat-card infra">
-          <div class="stat-value">234</div>
+          <div class="stat-value">{{ processCount }}</div>
           <div class="stat-label">施工档案</div>
         </div>
       </el-col>
       <el-col :span="6">
         <div class="stat-card infra">
-          <div class="stat-value">67</div>
+          <div class="stat-value">{{ acceptanceCount }}</div>
           <div class="stat-label">验收档案</div>
         </div>
       </el-col>
@@ -43,19 +43,21 @@
               placeholder="搜索项目名称/项目编号"
               style="width: 300px; margin-right: 15px"
               clearable
+              @keyup.enter="handleSearch"
+              @clear="handleSearch"
             >
               <template #prefix>
                 <el-icon><Search /></el-icon>
               </template>
             </el-input>
-            <el-select v-model="selectedType" placeholder="档案类型" style="width: 150px; margin-right: 15px">
+            <el-select v-model="selectedType" placeholder="档案类型" style="width: 150px; margin-right: 15px" clearable @change="handleSearch">
               <el-option label="全部" value="" />
               <el-option label="建设项目" value="建设项目" />
               <el-option label="设计图纸" value="设计图纸" />
               <el-option label="施工档案" value="施工档案" />
               <el-option label="验收档案" value="验收档案" />
             </el-select>
-            <el-select v-model="selectedStatus" placeholder="项目状态" style="width: 130px; margin-right: 15px">
+            <el-select v-model="selectedStatus" placeholder="项目状态" style="width: 130px; margin-right: 15px" clearable @change="handleSearch">
               <el-option label="全部" value="" />
               <el-option label="在建" value="在建" />
               <el-option label="已竣工" value="已竣工" />
@@ -68,7 +70,7 @@
       </template>
 
       <!-- 档案列表 -->
-      <el-table :data="archiveList" stripe style="width: 100%">
+      <el-table :data="paginatedList" stripe style="width: 100%" v-loading="loading">
         <el-table-column prop="projectNo" label="项目编号" min-width="150" fixed />
         <el-table-column prop="projectName" label="项目名称" min-width="250" show-overflow-tooltip />
         <el-table-column prop="type" label="档案类型" min-width="120" />
@@ -82,6 +84,16 @@
             </el-tag>
           </template>
         </el-table-column>
+        <el-table-column label="实体存放" min-width="200">
+          <template #default="scope">
+            <div v-if="scope.row.physicalStatus === 'stocked'" class="physical-location" @click="goToSmartRoom(scope.row)">
+               <el-tag type="success" effect="plain" size="small"><el-icon><OfficeBuilding /></el-icon> {{ scope.row.location }}</el-tag>
+            </div>
+            <div v-else>
+               <el-tag type="info" effect="plain" size="small">仅电子</el-tag>
+            </div>
+          </template>
+        </el-table-column>
         <el-table-column label="操作" width="200" fixed="right">
           <template #default="scope">
             <el-button link type="primary" @click="viewDetail(scope.row)">查看</el-button>
@@ -89,27 +101,92 @@
           </template>
         </el-table-column>
       </el-table>
+
+      <!-- 分页 -->
+      <el-pagination
+        background
+        layout="prev, pager, next, total, jumper"
+        :total="filteredList.length"
+        :page-size="pageSize"
+        v-model:current-page="currentPage"
+        @current-change="handlePageChange"
+        style="margin-top: 20px; justify-content: flex-end;"
+      />
     </el-card>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
-import { Search } from '@element-plus/icons-vue'
+import { Search, OfficeBuilding } from '@element-plus/icons-vue'
 
+const router = useRouter()
 const searchQuery = ref('')
 const selectedType = ref('')
 const selectedStatus = ref('')
+const loading = ref(false)
 
-const archiveList = ref([
-  { projectNo: 'JJ-2024-001', projectName: '新校区教学楼建设项目', type: '建设项目', location: '新校区A区', startDate: '2024-01-15', endDate: '2024-12-31', status: '在建' },
-  { projectNo: 'JJ-2023-015', projectName: '图书馆扩建工程', type: '建设项目', location: '主校区', startDate: '2023-06-01', endDate: '2023-12-20', status: '已竣工' },
-  { projectNo: 'JJ-2023-008', projectName: '学生宿舍楼设计图纸', type: '设计图纸', location: '新校区B区', startDate: '2023-03-01', endDate: '2023-05-30', status: '已验收' },
-  { projectNo: 'JJ-2024-002', projectName: '实验楼施工档案', type: '施工档案', location: '主校区', startDate: '2024-02-01', endDate: '2024-11-30', status: '在建' },
-  { projectNo: 'JJ-2023-020', projectName: '体育馆验收档案', type: '验收档案', location: '主校区', startDate: '2023-01-01', endDate: '2023-10-15', status: '已验收' },
-  { projectNo: 'JJ-2024-003', projectName: '食堂改造项目', type: '建设项目', location: '主校区', startDate: '2024-03-01', endDate: '2024-08-31', status: '在建' }
-])
+const fullArchiveList = ref([])
+const currentPage = ref(1)
+const pageSize = ref(10)
+
+const generateMockData = () => {
+  const data = []
+  const types = ['建设项目', '设计图纸', '施工档案', '验收档案']
+  const statuses = ['在建', '已竣工', '已验收']
+  const locations = ['新校区A区', '主校区', '新校区B区']
+  const projectNames = ['教学楼', '图书馆', '学生宿舍', '实验楼', '体育馆', '食堂']
+
+  for (let i = 1; i <= 95; i++) {
+    const year = 2021 + (i % 4)
+    const startMonth = (i % 12) + 1
+    const endMonth = (startMonth + 5) % 12 + 1
+    const endYear = startMonth > endMonth ? year + 1 : year
+    const type = types[i % types.length]
+    const hasPhysical = Math.random() > 0.4;
+    
+    data.push({
+      projectNo: `JJ-${year}-${String(i).padStart(3, '0')}`,
+      projectName: `${projectNames[i % projectNames.length]} - ${type}`,
+      type: type,
+      location: locations[i % locations.length],
+      startDate: `${year}-${String(startMonth).padStart(2, '0')}-01`,
+      endDate: `${endYear}-${String(endMonth).padStart(2, '0')}-28`,
+      status: statuses[i % statuses.length],
+      physicalStatus: hasPhysical ? 'stocked' : 'only_digital',
+      location: hasPhysical ? `综合库/基建区/${String(Math.floor(Math.random()*20)+1).padStart(2,'0')}柜` : ''
+    })
+  }
+  return data
+}
+
+onMounted(() => {
+  fullArchiveList.value = generateMockData()
+})
+
+const filteredList = computed(() => {
+  return fullArchiveList.value.filter(item => {
+    const searchMatch = 
+      item.projectName.includes(searchQuery.value) ||
+      item.projectNo.includes(searchQuery.value)
+    const typeMatch = selectedType.value ? item.type === selectedType.value : true
+    const statusMatch = selectedStatus.value ? item.status === selectedStatus.value : true
+    return searchMatch && typeMatch && statusMatch
+  })
+})
+
+const paginatedList = computed(() => {
+  const start = (currentPage.value - 1) * pageSize.value
+  const end = start + pageSize.value
+  return filteredList.value.slice(start, end)
+})
+
+const constructionCount = computed(() => fullArchiveList.value.filter(i => i.type === '建设项目').length)
+const drawingCount = computed(() => fullArchiveList.value.filter(i => i.type === '设计图纸').length)
+const processCount = computed(() => fullArchiveList.value.filter(i => i.type === '施工档案').length)
+const acceptanceCount = computed(() => fullArchiveList.value.filter(i => i.type === '验收档案').length)
 
 const getStatusType = (status) => {
   const map = { '在建': 'primary', '已竣工': 'warning', '已验收': 'success' }
@@ -117,6 +194,7 @@ const getStatusType = (status) => {
 }
 
 const handleSearch = () => {
+  currentPage.value = 1
   ElMessage.success('查询成功')
 }
 
@@ -130,6 +208,17 @@ const viewDetail = (row) => {
 
 const handleDownload = (row) => {
   ElMessage.success(`下载档案: ${row.projectNo}`)
+}
+
+const handlePageChange = (page) => {
+  currentPage.value = page
+}
+
+const goToSmartRoom = (row) => {
+  router.push({
+    path: '/archive-center/smart-room',
+    query: { archiveNo: row.projectNo }
+  })
 }
 </script>
 
@@ -194,5 +283,13 @@ const handleDownload = (row) => {
 .left-panel {
   display: flex;
   align-items: center;
+}
+
+.physical-location {
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.physical-location:hover {
+  opacity: 0.8;
 }
 </style>

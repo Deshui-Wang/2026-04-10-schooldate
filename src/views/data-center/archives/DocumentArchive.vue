@@ -54,7 +54,7 @@
 
     <!-- 档案列表 -->
     <el-table :data="archiveList" stripe style="width: 100%" height="100%">
-      <el-table-column prop="fileNo" label="文件号" width="150" fixed />
+      <el-table-column prop="fileNo" label="文件号" width="150" fixed="left" />
       <el-table-column prop="title" label="标题" min-width="250" show-overflow-tooltip />
       <el-table-column prop="category" label="类别" width="100" />
       <el-table-column prop="responsiblePerson" label="责任者" width="120" />
@@ -73,6 +73,16 @@
           </el-tag>
         </template>
       </el-table-column>
+      <el-table-column label="实体存放" min-width="220">
+        <template #default="scope">
+          <div v-if="scope.row.physicalStatus === 'stocked'" class="physical-location" @click="goToSmartRoom(scope.row)">
+             <el-tag type="success" effect="plain" size="small"><el-icon><OfficeBuilding /></el-icon> {{ scope.row.location || '一号库/文书区' }}</el-tag>
+          </div>
+          <div v-else>
+             <el-tag type="info" effect="plain" size="small">仅电子</el-tag>
+          </div>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" width="180" fixed="right">
         <template #default="scope">
           <el-button link type="primary" @click="viewDetail(scope.row)">查看</el-button>
@@ -86,22 +96,24 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
-import { Search } from '@element-plus/icons-vue'
+import { Search, OfficeBuilding } from '@element-plus/icons-vue'
 
+const router = useRouter()
 const searchQuery = ref('')
 const selectedYear = ref('')
 const selectedCategory = ref('')
 
 const archiveList = ref([
-  { fileNo: 'WS-2024-001', title: '关于开展2024年度教学评估工作的通知', category: '教学类', responsiblePerson: '教务处', formationDate: '2024-01-15', retention: '永久', status: '已归档' },
-  { fileNo: 'WS-2024-002', title: '2024年度工作计划', category: '行政类', responsiblePerson: '校办', formationDate: '2024-01-10', retention: '永久', status: '已归档' },
-  { fileNo: 'WS-2024-003', title: '党委会议纪要（第5期）', category: '党群类', responsiblePerson: '党办', formationDate: '2024-02-20', retention: '永久', status: '已归档' },
-  { fileNo: 'WS-2024-004', title: '2024年度财务预算报告', category: '财务类', responsiblePerson: '财务处', formationDate: '2024-01-08', retention: '30年', status: '已归档' },
-  { fileNo: 'WS-2024-005', title: '教职工代表大会决议', category: '党群类', responsiblePerson: '工会', formationDate: '2024-03-15', retention: '永久', status: '待归档' },
-  { fileNo: 'WS-2023-089', title: '2023年度工作总结', category: '行政类', responsiblePerson: '校办', formationDate: '2023-12-28', retention: '永久', status: '已归档' },
-  { fileNo: 'WS-2023-088', title: '关于调整院系设置的批复', category: '行政类', responsiblePerson: '校办', formationDate: '2023-11-20', retention: '永久', status: '已归档' },
-  { fileNo: 'WS-2023-087', title: '本科教学质量报告', category: '教学类', responsiblePerson: '教务处', formationDate: '2023-10-15', retention: '30年', status: '已归档' }
+  { fileNo: 'WS-2024-001', title: '关于开展2024年度教学评估工作的通知', category: '教学类', responsiblePerson: '教务处', formationDate: '2024-01-15', retention: '永久', status: '已归档', physicalStatus: 'stocked', location: '一号库/文书区/01柜' },
+  { fileNo: 'WS-2024-002', title: '2024年度工作计划', category: '行政类', responsiblePerson: '校办', formationDate: '2024-01-10', retention: '永久', status: '已归档', physicalStatus: 'stocked', location: '一号库/文书区/02柜' },
+  { fileNo: 'WS-2024-003', title: '党委会议纪要（第5期）', category: '党群类', responsiblePerson: '党办', formationDate: '2024-02-20', retention: '永久', status: '已归档', physicalStatus: 'only_digital' },
+  { fileNo: 'WS-2024-004', title: '2024年度财务预算报告', category: '财务类', responsiblePerson: '财务处', formationDate: '2024-01-08', retention: '30年', status: '已归档', physicalStatus: 'stocked', location: '一号库/文书区/05柜' },
+  { fileNo: 'WS-2024-005', title: '教职工代表大会决议', category: '党群类', responsiblePerson: '工会', formationDate: '2024-03-15', retention: '永久', status: '待归档', physicalStatus: 'only_digital' },
+  { fileNo: 'WS-2023-089', title: '2023年度工作总结', category: '行政类', responsiblePerson: '校办', formationDate: '2023-12-28', retention: '永久', status: '已归档', physicalStatus: 'stocked', location: '一号库/文书区/03柜' },
+  { fileNo: 'WS-2023-088', title: '关于调整院系设置的批复', category: '行政类', responsiblePerson: '校办', formationDate: '2023-11-20', retention: '永久', status: '已归档', physicalStatus: 'only_digital' },
+  { fileNo: 'WS-2023-087', title: '本科教学质量报告', category: '教学类', responsiblePerson: '教务处', formationDate: '2023-10-15', retention: '30年', status: '已归档', physicalStatus: 'stocked', location: '一号库/文书区/04柜' }
 ])
 
 const getRetentionType = (retention) => {
@@ -128,6 +140,13 @@ const handleBorrow = (row) => {
 
 const handleDownload = (row) => {
   ElMessage.success(`下载档案: ${row.fileNo}`)
+}
+
+const goToSmartRoom = (row) => {
+  router.push({
+    path: '/archive-center/smart-room',
+    query: { archiveNo: row.fileNo }
+  })
 }
 </script>
 
@@ -171,5 +190,13 @@ const handleDownload = (row) => {
 
 .el-table {
   flex: 1;
+}
+
+.physical-location {
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.physical-location:hover {
+  opacity: 0.8;
 }
 </style>

@@ -55,6 +55,7 @@
           </div>
           <template #footer>
             <div class="portal-actions">
+              <el-button type="success" size="small" @click="handlePreviewPortal(portal)">预览</el-button>
               <el-button type="primary" size="small" @click="handleEditPortal(portal)">编辑</el-button>
               <el-button type="warning" size="small" @click="handleConfigurePortal(portal)">配置内容</el-button>
               <el-button :type="portal.status === '已发布' ? 'info' : 'success'" size="small" @click="handleTogglePublish(portal)">
@@ -154,12 +155,94 @@
         </el-tabs>
       </div>
     </el-drawer>
+
+    <!-- 预览门户弹窗 -->
+    <el-dialog v-model="previewVisible" :title="`门户预览 - ${previewPortal?.name}`" width="1000px" custom-class="portal-preview-dialog">
+      <div v-if="previewPortal" class="preview-container">
+        <div class="preview-banner">
+          <div class="banner-content">
+            <h2>{{ previewPortal.name }}</h2>
+            <p>{{ previewPortal.description }}</p>
+            <div class="banner-tags">
+              <el-tag size="small" effect="dark">{{ previewPortal.scene }}</el-tag>
+              <el-tag v-if="previewPortal.apiEndpoint" type="info" size="small">API 支持</el-tag>
+            </div>
+          </div>
+        </div>
+
+        <div class="preview-sections">
+          <el-row :gutter="20">
+            <el-col :span="16">
+              <div class="preview-section">
+                <div class="section-title">
+                  <el-icon><Reading /></el-icon> 知识条目
+                </div>
+                <div class="item-grid">
+                  <div v-for="item in previewPortal.knowledgeItems" :key="item.id" class="preview-item">
+                    <el-icon><Document /></el-icon>
+                    <span>{{ item.title }}</span>
+                  </div>
+                  <el-empty v-if="previewPortal.knowledgeItems.length === 0" description="暂无知识条目" :image-size="60" />
+                </div>
+              </div>
+
+              <div class="preview-section">
+                <div class="section-title">
+                  <el-icon><Files /></el-icon> 模板资源
+                </div>
+                <div class="item-grid">
+                  <div v-for="item in previewPortal.templates" :key="item.id" class="preview-item template">
+                    <el-icon><Collection /></el-icon>
+                    <span>{{ item.name }}</span>
+                  </div>
+                  <el-empty v-if="previewPortal.templates.length === 0" description="暂无模板资源" :image-size="60" />
+                </div>
+              </div>
+            </el-col>
+            
+            <el-col :span="8">
+              <div class="preview-section">
+                <div class="section-title">
+                  <el-icon><Menu /></el-icon> 关联应用
+                </div>
+                <div class="app-list">
+                  <div v-for="item in previewPortal.applications" :key="item.id" class="preview-app">
+                    <div class="app-icon">{{ item.name.charAt(0) }}</div>
+                    <div class="app-info">
+                      <div class="app-name">{{ item.name }}</div>
+                      <div class="app-type">应用系统</div>
+                    </div>
+                  </div>
+                  <el-empty v-if="previewPortal.applications.length === 0" description="暂无关联应用" :image-size="60" />
+                </div>
+              </div>
+
+              <div class="preview-section integration">
+                <div class="section-title">集成平台</div>
+                <div class="platform-tags">
+                  <el-tag v-for="platform in previewPortal.integratedPlatforms" :key="platform" size="small" type="success" effect="plain">
+                    {{ platform }}
+                  </el-tag>
+                  <span v-if="previewPortal.integratedPlatforms.length === 0" class="no-data">暂未集成外部平台</span>
+                </div>
+              </div>
+            </el-col>
+          </el-row>
+        </div>
+        
+        <div class="preview-footer">
+          <el-button type="primary" @click="visitPortal">立即进入门户</el-button>
+          <el-button @click="previewVisible = false">关闭预览</el-button>
+        </div>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import { Reading, Document, Files, Collection, Menu } from '@element-plus/icons-vue'
 import PortalConfigPanel from './components/PortalConfigPanel.vue'
 
 const scenes = ['教育教学', '科研申报中心', '招生政策库', '实验室管理', '学生服务', '教师发展']
@@ -207,6 +290,9 @@ const portalForm = ref({ id: null, name: '', scene: '', description: '', status:
 const configDrawerVisible = ref(false)
 const currentPortal = ref(null)
 const configActiveTab = ref('knowledge')
+
+const previewVisible = ref(false)
+const previewPortal = ref(null)
 
 const dialogTitle = computed(() => (isEditMode.value ? '编辑门户' : '新建门户'))
 
@@ -259,6 +345,19 @@ const handleTogglePublish = (portal) => {
   } else {
     portal.status = '已发布'
     ElMessage.success('门户已发布')
+  }
+}
+
+const handlePreviewPortal = (portal) => {
+  previewPortal.value = portal
+  previewVisible.value = true
+}
+
+const visitPortal = () => {
+  if (previewPortal.value?.externalLink) {
+    window.open(previewPortal.value.externalLink, '_blank')
+  } else {
+    ElMessage.info('门户进入功能正在开发中...')
   }
 }
 </script>
@@ -362,5 +461,159 @@ code {
 
 .config-drawer-content {
   padding: 0 20px;
+}
+
+/* 预览样式 */
+.preview-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  background: #fdfdfd;
+}
+
+.preview-banner {
+  background: linear-gradient(135deg, #1890ff 0%, #36cfc9 100%);
+  padding: 40px;
+  border-radius: 12px;
+  color: #fff;
+}
+
+.banner-content h2 {
+  margin: 0 0 12px 0;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.banner-content p {
+  margin: 0 0 20px 0;
+  font-size: 16px;
+  opacity: 0.9;
+  line-height: 1.6;
+}
+
+.banner-tags {
+  display: flex;
+  gap: 12px;
+}
+
+.preview-sections {
+  padding: 0 10px;
+}
+
+.preview-section {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 20px;
+  border: 1px solid #f0f0f0;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #262626;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-title .el-icon {
+  color: #1890ff;
+}
+
+.item-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.preview-item {
+  background: #f5f7fa;
+  padding: 16px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.3s;
+  border: 1px solid transparent;
+}
+
+.preview-item:hover {
+  background: #fff;
+  border-color: #1890ff;
+  box-shadow: 0 4px 12px rgba(24, 144, 255, 0.1);
+}
+
+.preview-item.template {
+  border-left: 4px solid #fa8c16;
+}
+
+.preview-item .el-icon {
+  font-size: 20px;
+  color: #1890ff;
+}
+
+.preview-item.template .el-icon {
+  color: #fa8c16;
+}
+
+.app-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.preview-app {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 8px;
+  background: #fff;
+  border: 1px solid #f0f0f0;
+}
+
+.app-icon {
+  width: 40px;
+  height: 40px;
+  background: #e6f7ff;
+  color: #1890ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.app-name {
+  font-weight: 500;
+  color: #262626;
+  font-size: 14px;
+}
+
+.app-type {
+  font-size: 12px;
+  color: #8c8c8c;
+}
+
+.platform-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.no-data {
+  font-size: 12px;
+  color: #bfbfbf;
+}
+
+.preview-footer {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  padding: 20px 0;
+  border-top: 1px solid #f0f0f0;
 }
 </style>

@@ -1,33 +1,42 @@
 <template>
   <div class="home fade-in-up">
     <!-- 现代化页面标题 -->
-    <div class="page-header">
-      <div class="header-content">
-        <h1 class="page-title">
-          <span class="title-icon">🚀</span>
-          校企 · 智能管理平台
-        </h1>
-        <div class="header-stats">
-          <div class="stat-badge">
-            <span class="stat-number">{{ teacherTotal }}</span>
-            <span class="stat-label">教师总数</span>
-          </div>
-          <div class="stat-badge">
-            <span class="stat-number">{{ studentTotal }}</span>
-            <span class="stat-label">学生总数</span>
-          </div>
-          <div class="stat-badge">
-            <span class="stat-number">{{ reportTotal }}</span>
-            <span class="stat-label">报告总数</span>
-          </div>
-          <div class="stat-badge">
-            <span class="stat-number">{{ archiveTotal }}</span>
-            <span class="stat-label">档案总数</span>
-          </div>
-          <div class="stat-badge">
-            <span class="stat-number">{{ dataHealth }}%</span>
-            <span class="stat-label">数据健康度</span>
-          </div>
+    <!-- 官方严谨风格页面标题 -->
+    <div class="official-header">
+      <div class="header-title-area">
+        <div class="system-logo">
+          <el-icon><School /></el-icon>
+        </div>
+        <div class="system-title-box">
+          <h1 class="system-name">校企 · 智能管理系统</h1>
+          <div class="system-sub-name">Enterprise-University Intelligent Data Platform</div>
+        </div>
+      </div>
+      
+      <div class="header-data-strip">
+        <div class="header-stat-item">
+          <div class="h-label">教师总数</div>
+          <div class="h-value">{{ teacherTotal }}</div>
+        </div>
+        <div class="h-divider"></div>
+        <div class="header-stat-item">
+          <div class="h-label">学生总数</div>
+          <div class="h-value">{{ studentTotal }}</div>
+        </div>
+        <div class="h-divider"></div>
+        <div class="header-stat-item">
+          <div class="h-label">档案归卷</div>
+          <div class="h-value">{{ archiveTotal }}</div>
+        </div>
+        <div class="h-divider"></div>
+        <div class="header-stat-item">
+          <div class="h-label">分析报告</div>
+          <div class="h-value">{{ reportTotal }}</div>
+        </div>
+        <div class="h-divider"></div>
+        <div class="header-stat-item">
+          <div class="h-label">数据健康度</div>
+          <div class="h-value highlight">{{ dataHealth }}%</div>
         </div>
       </div>
     </div>
@@ -59,18 +68,10 @@
             </div>
             <div class="quick-access-text">
               <div class="quick-access-title">{{ item.name }}</div>
-              <div class="quick-access-desc">{{ item.desc }}</div>
-              <div class="quick-access-status" v-if="item.status">
-                <el-tag :type="item.statusType" size="small">{{ item.status }}</el-tag>
-              </div>
-            </div>
-            <div class="quick-access-arrow">
-              <el-icon><ArrowRight /></el-icon>
             </div>
           </div>
           <div class="card-overlay" v-if="item.disabled">
             <el-icon><Lock /></el-icon>
-            <span>暂未开放</span>
           </div>
         </el-card>
       </div>
@@ -107,232 +108,425 @@
       </div>
     </div>
 
-    <!-- 现代化数据看板 -->
+    <!-- 档案数据看板 -->
     <div class="dashboard-section">
+
+      <!-- 全集团档案管理关键指标 -->
+      <div class="group-archive-section fade-in-up">
+        <div class="section-sub-header">
+          <h3 class="sub-title">
+            <el-icon class="title-icon"><DataLine /></el-icon>
+            档案概览
+          </h3>
+          <span class="sub-desc">Group Archive Overview</span>
+        </div>
+
+        <!-- 关键指标卡片 -->
+        <el-row :gutter="20" class="archive-metrics-row">
+          <el-col :span="6" v-for="(metric, index) in archiveMetrics" :key="index">
+            <div class="metric-card" :class="metric.type">
+              <div class="metric-icon-wrapper">
+                <el-icon><component :is="metric.icon" /></el-icon>
+              </div>
+              <div class="metric-content">
+                <div class="metric-label">{{ metric.label }}</div>
+                <div class="metric-value-group">
+                  <span class="metric-value">{{ metric.value }}</span>
+                  <span class="metric-unit" v-if="metric.unit">{{ metric.unit }}</span>
+                </div>
+                <div class="metric-trend" :class="metric.trendType">
+                  <span>{{ metric.trendLabel }}</span>
+                  <span class="trend-val">
+                    <el-icon v-if="metric.trend === 'up'"><Top /></el-icon>
+                    <el-icon v-else-if="metric.trend === 'down'"><Bottom /></el-icon>
+                    <el-icon v-else><Minus /></el-icon>
+                    {{ metric.trendValue }}
+                  </span>
+                </div>
+              </div>
+              <!-- 背景装饰 -->
+              <div class="metric-bg-icon">
+                <el-icon><component :is="metric.icon" /></el-icon>
+              </div>
+            </div>
+          </el-col>
+        </el-row>
+
+        <!-- 图表与监控区域 -->
+        <el-row :gutter="20" style="margin-top: 20px; margin-bottom: 24px;">
+          <!-- 左侧：图表分析 -->
+          <el-col :span="16">
+            <el-card class="archive-chart-card" shadow="hover">
+              <template #header>
+                <div class="card-header-flex">
+                  <div class="header-title">档案数据分析</div>
+                  <div class="header-legend">
+                    <span class="legend-item"><span class="dot line"></span>新增趋势</span>
+                    <span class="legend-item"><span class="dot bar"></span>总量分布</span>
+                    <span class="legend-item"><span class="dot mix"></span>数字化率</span>
+                  </div>
+                </div>
+              </template>
+              <el-row :gutter="0">
+                <el-col :span="12" style="border-right: 1px solid #f0f2f5;">
+                  <div class="chart-wrapper">
+                    <div class="chart-title">年度新增数量趋势</div>
+                    <div ref="archiveTrendChartRef" style="width: 100%; height: 280px;"></div>
+                  </div>
+                </el-col>
+                <el-col :span="12">
+                  <div class="chart-wrapper">
+                    <div class="chart-title">各院校总量与数字化率</div>
+                    <div ref="archiveCollegeChartRef" style="width: 100%; height: 280px;"></div>
+                  </div>
+                </el-col>
+              </el-row>
+            </el-card>
+          </el-col>
+
+          <!-- 右侧：监控预警 -->
+          <el-col :span="8">
+            <el-card class="archive-monitor-card" shadow="hover">
+              <el-tabs v-model="activeArchiveTab" class="monitor-tabs">
+                <el-tab-pane label="业务监控" name="business">
+                  <div class="monitor-list">
+                    <div class="monitor-section">
+                      <div class="section-label">业务完成度</div>
+                      <div class="task-item" v-for="task in archiveTasks" :key="task.name">
+                        <div class="task-info">
+                          <span class="task-name">{{ task.name }}</span>
+                          <el-tag :type="task.statusType" size="small" effect="plain">{{ task.status }}</el-tag>
+                        </div>
+                        <el-progress 
+                          :percentage="task.progress" 
+                          :status="task.progressStatus" 
+                          :stroke-width="6"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </el-tab-pane>
+                <el-tab-pane label="利用排名" name="ranking">
+                  <div class="ranking-list">
+                    <div class="ranking-item" v-for="(item, index) in utilizationRankings" :key="index">
+                      <div class="ranking-index" :class="{ 'top-3': index < 3 }">{{ index + 1 }}</div>
+                      <div class="ranking-content">
+                        <div class="ranking-header">
+                          <span class="ranking-name">{{ item.name }}</span>
+                          <span class="ranking-val">{{ item.count }} 次</span>
+                        </div>
+                        <el-progress 
+                          :percentage="item.percentage" 
+                          :format="() => ''"
+                          :stroke-width="6"
+                          :color="index < 3 ? '#667eea' : '#909399'"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </el-tab-pane>
+                <el-tab-pane label="存储空间预警" name="storage">
+                  <div class="monitor-list">
+                    <div class="monitor-section">
+                      <div class="section-label">存储空间预警</div>
+                      <div class="storage-item" v-for="storage in storageStatus" :key="storage.name">
+                        <div class="storage-info">
+                          <span class="storage-name">{{ storage.name }}</span>
+                          <span class="storage-val" :class="{ 'warning-text': storage.isWarning }">{{ storage.usage }}%</span>
+                        </div>
+                        <el-progress 
+                          :percentage="storage.usage" 
+                          :color="storage.color" 
+                          :stroke-width="8"
+                          :show-text="false"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </el-tab-pane>
+              </el-tabs>
+            </el-card>
+          </el-col>
+        </el-row>
+      </div>
+      
       <div class="section-header">
         <h2 class="section-title">
           <el-icon class="title-icon"><DataAnalysis /></el-icon>
-          数据看板
+          师生·教学数据概览
         </h2>
         <div class="section-actions">
           <el-button type="primary" size="small" :icon="Refresh">刷新数据</el-button>
         </div>
       </div>
-      
-      <!-- 教师数据看板 - 独立一行 -->
-      <el-row :gutter="24" style="margin-bottom: 24px;">
-        <el-col :span="24">
-          <el-card class="dashboard-card teacher-card horizontal-card">
-            <template #header>
-              <div class="card-header">
-                <div class="card-icon teacher-icon">
-                  <el-icon><User /></el-icon>
-                </div>
-                <div class="card-title">
-                  <h3>教师数据</h3>
-                  <p>Teacher Management</p>
-                </div>
-                <div class="card-trend">
-                  <span class="trend-up">↗ +12%</span>
-                </div>
+
+      <!-- 教师数据 - 官方严谨风格 -->
+      <div class="data-governance-section">
+        <el-card class="governance-card" shadow="never">
+          <template #header>
+            <div class="governance-header">
+              <div class="header-left">
+                <span class="header-line"></span>
+                <span class="header-text">教师队伍概况</span>
+                <span class="header-en">Teaching Staff Overview</span>
               </div>
-            </template>
-            <div class="horizontal-dashboard-content">
-              <div class="stat-group">
-                <div class="group-title">教师总数</div>
-                <div class="group-value">{{ teacherStats.total }}</div>
-              </div>
-              <div class="stat-divider"></div>
-              <div class="stat-group">
-                <div class="group-title">按性别统计</div>
-                <div class="group-stats">
-                  <div class="group-stat-item">
-                    <span class="stat-label-name">男</span>
-                    <span class="stat-label-value">{{ teacherStats.gender.male }}</span>
-                  </div>
-                  <div class="group-stat-item">
-                    <span class="stat-label-name">女</span>
-                    <span class="stat-label-value">{{ teacherStats.gender.female }}</span>
-                  </div>
-                </div>
+              <div class="header-right">
+                <el-tag type="info" size="small" effect="plain">数据更新于: 2024-01-15</el-tag>
               </div>
             </div>
-          </el-card>
-        </el-col>
-      </el-row>
-
-      <!-- 教师数据图表 - 环形图 -->
-      <el-row :gutter="24" style="margin-bottom: 24px;">
-        <el-col :span="8">
-          <el-card class="chart-card">
-            <template #header>
-              <div style="text-align: center; font-weight: bold;">按学历统计</div>
-            </template>
-            <div ref="educationChartRef" style="width: 100%; height: 300px;"></div>
-          </el-card>
-        </el-col>
-        <el-col :span="8">
-          <el-card class="chart-card">
-            <template #header>
-              <div style="text-align: center; font-weight: bold;">按职称统计</div>
-            </template>
-            <div ref="titleChartRef" style="width: 100%; height: 300px;"></div>
-          </el-card>
-        </el-col>
-        <el-col :span="8">
-          <el-card class="chart-card">
-            <template #header>
-              <div style="text-align: center; font-weight: bold;">按专业统计</div>
-            </template>
-            <div ref="majorChartRef" style="width: 100%; height: 300px;"></div>
-          </el-card>
-        </el-col>
-      </el-row>
-
-      <!-- 学生数据看板 - 独立一行 -->
-      <el-row :gutter="24" style="margin-bottom: 24px;">
-        <el-col :span="24">
-          <el-card class="dashboard-card student-card horizontal-card">
-            <template #header>
-              <div class="card-header">
-                <div class="card-icon student-icon">
-                  <el-icon><UserFilled /></el-icon>
-                </div>
-                <div class="card-title">
-                  <h3>学生数据</h3>
-                  <p>Student Management</p>
-                </div>
-                <div class="card-trend">
-                  <span class="trend-up">↗ +8%</span>
-                </div>
-              </div>
-            </template>
-            <div class="horizontal-dashboard-content">
-              <div class="stat-group">
-                <div class="group-title">学生总数</div>
-                <div class="group-value">{{ studentStats.total }}</div>
-              </div>
-              <div class="stat-divider"></div>
-              <div class="stat-group">
-                <div class="group-title">按性别统计</div>
-                <div class="group-stats">
-                  <div class="group-stat-item">
-                    <span class="stat-label-name">男</span>
-                    <span class="stat-label-value">{{ studentStats.gender.male }}</span>
+          </template>
+          
+          <el-row :gutter="24">
+            <!-- 左侧：核心指标摘要 -->
+            <el-col :span="6" class="summary-col">
+              <div class="summary-panel">
+                <div class="total-metric">
+                  <div class="metric-title">在职教师总数</div>
+                  <div class="metric-num-row">
+                    <span class="metric-num">{{ teacherStats.total }}</span>
+                    <span class="metric-unit">人</span>
                   </div>
-                  <div class="group-stat-item">
-                    <span class="stat-label-name">女</span>
-                    <span class="stat-label-value">{{ studentStats.gender.female }}</span>
+                  <div class="metric-trend-row">
+                    <span>较上月</span>
+                    <span class="trend-value up">+12% <el-icon><Top /></el-icon></span>
+                  </div>
+                </div>
+                
+                <div class="summary-divider"></div>
+                
+                <div class="composition-metric">
+                  <div class="sub-title">性别结构</div>
+                  <div class="gender-bar-box">
+                    <div class="gender-info">
+                      <span class="gender-label"><el-icon><Male /></el-icon> 男</span>
+                      <span class="gender-val">{{ teacherStats.gender.male }}人</span>
+                    </div>
+                    <el-progress :percentage="52" :stroke-width="8" :show-text="false" color="#409EFF" />
+                  </div>
+                  <div class="gender-bar-box">
+                    <div class="gender-info">
+                      <span class="gender-label"><el-icon><Female /></el-icon> 女</span>
+                      <span class="gender-val">{{ teacherStats.gender.female }}人</span>
+                    </div>
+                    <el-progress :percentage="48" :stroke-width="8" :show-text="false" color="#F56C6C" />
                   </div>
                 </div>
               </div>
-            </div>
-          </el-card>
-        </el-col>
-      </el-row>
-
-      <!-- 学生数据图表 -->
-      <el-row :gutter="24" style="margin-bottom: 24px;">
-        <el-col :span="8">
-          <el-card class="chart-card">
-            <template #header>
-              <div style="text-align: center; font-weight: bold;">按年级统计</div>
-            </template>
-            <div ref="studentGradeChartRef" style="width: 100%; height: 300px;"></div>
-          </el-card>
-        </el-col>
-        <el-col :span="8">
-          <el-card class="chart-card">
-            <template #header>
-              <div style="text-align: center; font-weight: bold;">按学院统计</div>
-            </template>
-            <div ref="studentCollegeChartRef" style="width: 100%; height: 300px;"></div>
-          </el-card>
-        </el-col>
-        <el-col :span="8">
-          <el-card class="chart-card">
-            <template #header>
-              <div style="text-align: center; font-weight: bold;">按专业统计</div>
-            </template>
-            <div ref="studentMajorChartRef" style="width: 100%; height: 300px;"></div>
-          </el-card>
-        </el-col>
-      </el-row>
-
-      <!-- 资源数据 -->
-      <el-row :gutter="24">
-        <el-col :span="24">
-          <el-card class="dashboard-card resource-card horizontal-card">
-            <template #header>
-              <div class="card-header">
-                <div class="card-icon resource-icon">
-                  <el-icon><Document /></el-icon>
-                </div>
-                <div class="card-title">
-                  <h3>资源数据</h3>
-                  <p>Resource Management</p>
-                </div>
+            </el-col>
+            
+            <!-- 右侧：结构分布图表 -->
+            <el-col :span="18">
+              <div class="charts-panel">
+                <el-row :gutter="16">
+                  <el-col :span="8">
+                    <div class="chart-box">
+                      <div class="chart-header">学历分布情况</div>
+                      <div ref="educationChartRef" class="chart-body"></div>
+                    </div>
+                  </el-col>
+                  <el-col :span="8">
+                    <div class="chart-box bordered">
+                      <div class="chart-header">职称结构分析</div>
+                      <div ref="titleChartRef" class="chart-body"></div>
+                    </div>
+                  </el-col>
+                  <el-col :span="8">
+                    <div class="chart-box">
+                      <div class="chart-header">学科专业分布</div>
+                      <div ref="majorChartRef" class="chart-body"></div>
+                    </div>
+                  </el-col>
+                </el-row>
               </div>
-            </template>
-            <div class="dashboard-content multi-stat">
-              <div class="stat-item" v-for="stat in resourceStats" :key="stat.key">
-                <div class="stat-number">{{ stat.value }}</div>
-                <div class="stat-label">{{ stat.label }}</div>
-                <div class="stat-progress">
-                  <el-progress :percentage="stat.percentage" :show-text="false" stroke-width="6" />
-                </div>
+            </el-col>
+          </el-row>
+        </el-card>
+      </div>
+
+      <!-- 学生数据 - 官方严谨风格 -->
+      <div class="data-governance-section">
+        <el-card class="governance-card" shadow="never">
+          <template #header>
+            <div class="governance-header">
+              <div class="header-left">
+                <span class="header-line"></span>
+                <span class="header-text">学生学籍概况</span>
+                <span class="header-en">Student Enrollment Overview</span>
+              </div>
+              <div class="header-right">
+                <el-tag type="info" size="small" effect="plain">数据更新于: 2024-01-15</el-tag>
               </div>
             </div>
-          </el-card>
-        </el-col>
-      </el-row>
+          </template>
+          
+          <el-row :gutter="24">
+            <!-- 左侧：核心指标摘要 -->
+            <el-col :span="6" class="summary-col">
+              <div class="summary-panel">
+                <div class="total-metric">
+                  <div class="metric-title">在校学生总数</div>
+                  <div class="metric-num-row">
+                    <span class="metric-num">{{ studentStats.total }}</span>
+                    <span class="metric-unit">人</span>
+                  </div>
+                  <div class="metric-trend-row">
+                    <span>较上月</span>
+                    <span class="trend-value up">+8% <el-icon><Top /></el-icon></span>
+                  </div>
+                </div>
+                
+                <div class="summary-divider"></div>
+                
+                <div class="composition-metric">
+                  <div class="sub-title">性别结构</div>
+                  <div class="gender-bar-box">
+                    <div class="gender-info">
+                      <span class="gender-label"><el-icon><Male /></el-icon> 男</span>
+                      <span class="gender-val">{{ studentStats.gender.male }}人</span>
+                    </div>
+                    <el-progress :percentage="50" :stroke-width="8" :show-text="false" color="#409EFF" />
+                  </div>
+                  <div class="gender-bar-box">
+                    <div class="gender-info">
+                      <span class="gender-label"><el-icon><Female /></el-icon> 女</span>
+                      <span class="gender-val">{{ studentStats.gender.female }}人</span>
+                    </div>
+                    <el-progress :percentage="50" :stroke-width="8" :show-text="false" color="#F56C6C" />
+                  </div>
+                </div>
+              </div>
+            </el-col>
+            
+            <!-- 右侧：结构分布图表 -->
+            <el-col :span="18">
+              <div class="charts-panel">
+                <el-row :gutter="16">
+                  <el-col :span="8">
+                    <div class="chart-box">
+                      <div class="chart-header">年级分布情况</div>
+                      <div ref="studentGradeChartRef" class="chart-body"></div>
+                    </div>
+                  </el-col>
+                  <el-col :span="8">
+                    <div class="chart-box bordered">
+                      <div class="chart-header">学院分布统计</div>
+                      <div ref="studentCollegeChartRef" class="chart-body"></div>
+                    </div>
+                  </el-col>
+                  <el-col :span="8">
+                    <div class="chart-box">
+                      <div class="chart-header">主要专业分布</div>
+                      <div ref="studentMajorChartRef" class="chart-body"></div>
+                    </div>
+                  </el-col>
+                </el-row>
+              </div>
+            </el-col>
+          </el-row>
+        </el-card>
+      </div>
 
-      <!-- 资源数据图表 -->
-      <el-row :gutter="24" style="margin-top: 24px;">
-        <el-col :span="8">
-          <el-card class="chart-card">
-            <template #header>
-              <div style="text-align: center; font-weight: bold;">课件 vs 课程·按专业统计对比</div>
-            </template>
-            <div ref="coursewareCourseComparisonRef" style="width: 100%; height: 300px;"></div>
-          </el-card>
-        </el-col>
-        <el-col :span="8">
-          <el-card class="chart-card">
-            <template #header>
-              <div style="text-align: center; font-weight: bold;">知识库·按专业统计</div>
-            </template>
-            <div ref="knowledgeBaseChartRef" style="width: 100%; height: 300px;"></div>
-          </el-card>
-        </el-col>
-        <el-col :span="8">
-          <el-card class="chart-card">
-            <template #header>
-              <div style="text-align: center; font-weight: bold;">数字人·按专业统计</div>
-            </template>
-            <div ref="digitalHumanChartRef" style="width: 100%; height: 300px;"></div>
-          </el-card>
-        </el-col>
-      </el-row>
+      <!-- 资源数据 - 官方严谨风格 -->
+      <div class="data-governance-section">
+        <el-card class="governance-card" shadow="never">
+          <template #header>
+            <div class="governance-header">
+              <div class="header-left">
+                <span class="header-line"></span>
+                <span class="header-text">教学资源概览</span>
+                <span class="header-en">Teaching Resources Overview</span>
+              </div>
+              <div class="header-right">
+                <el-tag type="info" size="small" effect="plain">数据更新于: 2024-01-15</el-tag>
+              </div>
+            </div>
+          </template>
+          
+          <el-row :gutter="24">
+            <!-- 左侧：核心指标摘要 -->
+            <el-col :span="6" class="summary-col">
+              <div class="summary-panel">
+                <div class="total-metric">
+                  <div class="metric-title">教学数字资产总量</div>
+                  <div class="metric-num-row">
+                    <span class="metric-num">2,759</span>
+                    <span class="metric-unit">个</span>
+                  </div>
+                  <div class="metric-trend-row">
+                    <span>持续增长</span>
+                    <span class="trend-value up">+15.4% <el-icon><Top /></el-icon></span>
+                  </div>
+                </div>
+                
+                <div class="summary-divider"></div>
+                
+                <div class="resource-list-box">
+                  <div class="sub-title">资产明细</div>
+                  <div class="resource-stat-list">
+                    <div class="resource-stat-item" v-for="stat in resourceStats" :key="stat.key">
+                      <div class="stat-row-header">
+                        <span class="stat-label">{{ stat.label }}</span>
+                        <span class="stat-val">{{ stat.value }}</span>
+                      </div>
+                      <el-progress 
+                        :percentage="stat.percentage" 
+                        :show-text="false" 
+                        :stroke-width="6" 
+                        :color="stat.percentage > 80 ? '#67C23A' : '#409EFF'"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </el-col>
+            
+            <!-- 右侧：结构分布图表 -->
+            <el-col :span="18">
+              <div class="charts-panel">
+                <!-- 第一行：基础教学资源 -->
+                <div class="chart-section-title">基础教学资源分布</div>
+                <el-row :gutter="16" style="margin-bottom: 24px;">
+                  <el-col :span="8">
+                    <div class="chart-box">
+                      <div class="chart-header">课件与课程对比</div>
+                      <div ref="coursewareCourseComparisonRef" class="chart-body"></div>
+                    </div>
+                  </el-col>
+                  <el-col :span="8">
+                    <div class="chart-box bordered">
+                      <div class="chart-header">知识库分类统计</div>
+                      <div ref="knowledgeBaseChartRef" class="chart-body"></div>
+                    </div>
+                  </el-col>
+                  <el-col :span="8">
+                    <div class="chart-box">
+                      <div class="chart-header">数字人资源统计</div>
+                      <div ref="digitalHumanChartRef" class="chart-body"></div>
+                    </div>
+                  </el-col>
+                </el-row>
 
-      <el-row :gutter="24" style="margin-top: 24px;">
-        <el-col :span="12">
-          <el-card class="chart-card">
-            <template #header>
-              <div style="text-align: center; font-weight: bold;">工作流 vs 智能体·按专业统计对比</div>
-            </template>
-            <div ref="workflowAgentComparisonRef" style="width: 100%; height: 350px;"></div>
-          </el-card>
-        </el-col>
-        <el-col :span="12">
-          <el-card class="chart-card">
-            <template #header>
-              <div style="text-align: center; font-weight: bold;">知识图谱 vs 能力图谱·按专业统计对比</div>
-            </template>
-            <div ref="knowledgeAbilityComparisonRef" style="width: 100%; height: 350px;"></div>
-          </el-card>
-        </el-col>
-      </el-row>
+                <!-- 第二行：AI 智能资产 -->
+                <div class="chart-section-title">AI 智能资产构建</div>
+                <el-row :gutter="16">
+                  <el-col :span="12">
+                    <div class="chart-box">
+                      <div class="chart-header">工作流与智能体对比</div>
+                      <div ref="workflowAgentComparisonRef" class="chart-body" style="height: 250px;"></div>
+                    </div>
+                  </el-col>
+                  <el-col :span="12">
+                    <div class="chart-box bordered-left">
+                      <div class="chart-header">图谱建设情况 (知识/能力)</div>
+                      <div ref="knowledgeAbilityComparisonRef" class="chart-body" style="height: 250px;"></div>
+                    </div>
+                  </el-col>
+                </el-row>
+              </div>
+            </el-col>
+          </el-row>
+        </el-card>
+      </div>
     </div>
 
     <!-- 现代化最近活动 -->
@@ -370,7 +564,9 @@ import { ref, onMounted, nextTick, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import * as echarts from 'echarts'
-import { Star, Grid, DataAnalysis, Clock, User, Refresh } from '@element-plus/icons-vue'
+import { Star, Grid, DataAnalysis, Clock, User, Refresh, DataLine, Files, Top, Bottom, Minus, Warning, UserFilled, Male, Female, School, Monitor } from '@element-plus/icons-vue'
+
+
 
 export default {
   name: 'Home',
@@ -380,7 +576,18 @@ export default {
     DataAnalysis,
     Clock,
     User,
-    Refresh
+    Refresh,
+    DataLine,
+    Files,
+    Top,
+    Bottom,
+    Minus,
+    Warning,
+    UserFilled,
+    Male,
+    Female,
+    School,
+    Monitor
   },
   setup() {
     const router = useRouter()
@@ -399,6 +606,78 @@ export default {
     const workflowAgentComparisonRef = ref(null)
     const knowledgeAbilityComparisonRef = ref(null)
     const coursewareCourseComparisonRef = ref(null)
+    const archiveTrendChartRef = ref(null)
+    const archiveCollegeChartRef = ref(null)
+    
+    // 全集团档案数据
+    const activeArchiveTab = ref('business')
+    const archiveMetrics = ref([
+      {
+        label: '档案总量',
+        value: '125,890',
+        unit: '卷',
+        icon: 'Files',
+        type: 'blue-gradient',
+        trendLabel: '年度新增',
+        trendValue: '15.2%',
+        trend: 'up',
+        trendType: 'trend-up'
+      },
+      {
+        label: '平均数字化率',
+        value: '88.5',
+        unit: '%',
+        icon: 'DataAnalysis',
+        type: 'purple-gradient',
+        trendLabel: '同比提升',
+        trendValue: '5.3%',
+        trend: 'up',
+        trendType: 'trend-up'
+      },
+      {
+        label: '近期利用次数',
+        value: '5,678',
+        unit: '次',
+        icon: 'Clock',
+        type: 'green-gradient',
+        trendLabel: '环比增长',
+        trendValue: '12.4%',
+        trend: 'up',
+        trendType: 'trend-up'
+      },
+      {
+        label: '存储空间使用',
+        value: '78',
+        unit: '%',
+        icon: 'Warning',
+        type: 'orange-gradient',
+        trendLabel: '剩余空间',
+        trendValue: '2.4TB',
+        trend: 'down',
+        trendType: 'trend-warning'
+      }
+    ])
+
+    const archiveTasks = ref([
+      { name: '2023年度归档', status: '进行中', statusType: 'primary', progress: 85, progressStatus: '' },
+      { name: '数字化加工', status: '正常', statusType: 'success', progress: 92, progressStatus: 'success' },
+      { name: '档案销毁审核', status: '待审核', statusType: 'warning', progress: 30, progressStatus: 'warning' },
+      { name: '年度库房盘点', status: '延迟', statusType: 'danger', progress: 15, progressStatus: 'exception' }
+    ])
+
+    const storageStatus = ref([
+      { name: '主存储区 (NAS-01)', usage: 88, color: '#e6a23c', isWarning: true },
+      { name: '备份存储区 (NAS-02)', usage: 45, color: '#67c23a', isWarning: false },
+      { name: '冷存储区 (Tape)', usage: 92, color: '#f56c6c', isWarning: true }
+    ])
+
+    const utilizationRankings = ref([
+      { name: '计算机学院', count: 1205, percentage: 90 },
+      { name: '工程学院', count: 980, percentage: 75 },
+      { name: '经管学院', count: 856, percentage: 65 },
+      { name: '人文学院', count: 654, percentage: 50 },
+      { name: '艺术学院', count: 432, percentage: 35 }
+    ])
     
     let educationChartInstance = null
     let titleChartInstance = null
@@ -413,6 +692,8 @@ export default {
     let workflowAgentComparisonInstance = null
     let knowledgeAbilityComparisonInstance = null
     let coursewareCourseComparisonInstance = null
+    let archiveTrendChartInstance = null
+    let archiveCollegeChartInstance = null
 
     // 教师数据
     const teacherStats = ref({
@@ -491,7 +772,7 @@ export default {
     const teacherTotal = ref(156)
     const studentTotal = ref(2847)
     const reportTotal = ref(89)
-    const archiveTotal = ref(234)
+    const archiveTotal = ref('125,890')
     const dataHealth = ref(96)
 
     // 现代化快捷入口
@@ -558,11 +839,11 @@ export default {
         disabled: false
       },
       {
-        name: '档案报告',
+        name: '档案工作台',
         desc: '管理师生档案',
         icon: 'Files',
         color: '#fa709a',
-        path: '/teacher-management/archive-report',
+        path: '/archive-center/workbench',
         status: '活跃',
         statusType: 'success',
         disabled: false
@@ -1630,6 +1911,107 @@ export default {
       coursewareCourseComparisonInstance.setOption(option)
     }
 
+    // 初始化集团档案相关图表
+    const initArchiveCharts = () => {
+      // 1. 年度新增趋势
+      if (archiveTrendChartRef.value) {
+        archiveTrendChartInstance = echarts.init(archiveTrendChartRef.value)
+        const trendOption = {
+           tooltip: { trigger: 'axis' },
+           grid: { left: '3%', right: '4%', bottom: '3%', containLabel: true },
+           xAxis: {
+             type: 'category',
+             boundaryGap: false,
+             data: ['2019', '2020', '2021', '2022', '2023', '2024'],
+             axisLabel: { color: '#666' },
+             axisLine: { lineStyle: { color: '#ddd' } }
+           },
+           yAxis: { 
+             type: 'value',
+             splitLine: { lineStyle: { type: 'dashed', color: '#eee' } }
+           },
+           series: [
+             {
+               name: '新增档案',
+               type: 'line',
+               smooth: true,
+               data: [8500, 9200, 10500, 12800, 15600, 18500],
+               areaStyle: {
+                  color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                    { offset: 0, color: 'rgba(102, 126, 234, 0.4)' },
+                    { offset: 1, color: 'rgba(102, 126, 234, 0.05)' }
+                  ])
+               },
+               itemStyle: { color: '#667eea' },
+               lineStyle: { width: 3 }
+             }
+           ]
+        }
+        archiveTrendChartInstance.setOption(trendOption)
+      }
+
+      // 2. 各院校总量与数字化率
+      if (archiveCollegeChartRef.value) {
+        archiveCollegeChartInstance = echarts.init(archiveCollegeChartRef.value)
+        const collegeOption = {
+          tooltip: {
+            trigger: 'axis',
+            axisPointer: { type: 'cross' }
+          },
+          legend: { 
+            data: ['档案总量', '数字化率'],
+            bottom: 0
+          },
+          grid: { left: '3%', right: '4%', bottom: '10%', top: '15%', containLabel: true },
+          xAxis: {
+            type: 'category',
+            data: ['计算机', '经管', '人文', '工程', '艺术'],
+            axisPointer: { type: 'shadow' },
+            axisLine: { lineStyle: { color: '#ddd' } }
+          },
+          yAxis: [
+            { 
+              type: 'value', 
+              name: '总量', 
+              min: 0, 
+              max: 20000,
+              splitLine: { show: false }
+            },
+            { 
+              type: 'value', 
+              name: '率(%)', 
+              min: 0, 
+              max: 100,
+              splitLine: { lineStyle: { type: 'dashed', color: '#eee' } }
+            }
+          ],
+          series: [
+            {
+              name: '档案总量',
+              type: 'bar',
+              data: [15000, 12000, 8000, 18000, 5000],
+              itemStyle: { 
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                  { offset: 0, color: '#4facfe' },
+                  { offset: 1, color: '#00f2fe' }
+                ])
+              },
+              barWidth: 20
+            },
+            {
+              name: '数字化率',
+              type: 'line',
+              yAxisIndex: 1,
+              data: [95, 88, 75, 92, 60],
+              itemStyle: { color: '#f5576c' },
+              lineStyle: { width: 3 }
+            }
+          ]
+        }
+        archiveCollegeChartInstance.setOption(collegeOption)
+      }
+    }
+
     // 处理窗口大小变化
     const handleResize = () => {
       if (educationChartInstance) educationChartInstance.resize()
@@ -1643,6 +2025,8 @@ export default {
       if (workflowAgentComparisonInstance) workflowAgentComparisonInstance.resize()
       if (knowledgeAbilityComparisonInstance) knowledgeAbilityComparisonInstance.resize()
       if (coursewareCourseComparisonInstance) coursewareCourseComparisonInstance.resize()
+      if (archiveTrendChartInstance) archiveTrendChartInstance.resize()
+      if (archiveCollegeChartInstance) archiveCollegeChartInstance.resize()
     }
 
     onMounted(() => {
@@ -1658,6 +2042,7 @@ export default {
         initWorkflowAgentComparison()
         initKnowledgeAbilityComparison()
         initCoursewareCourseComparison()
+        initArchiveCharts()
         window.addEventListener('resize', handleResize)
       })
     })
@@ -1674,6 +2059,8 @@ export default {
       if (workflowAgentComparisonInstance) workflowAgentComparisonInstance.dispose()
       if (knowledgeAbilityComparisonInstance) knowledgeAbilityComparisonInstance.dispose()
       if (coursewareCourseComparisonInstance) coursewareCourseComparisonInstance.dispose()
+      if (archiveTrendChartInstance) archiveTrendChartInstance.dispose()
+      if (archiveCollegeChartInstance) archiveCollegeChartInstance.dispose()
       window.removeEventListener('resize', handleResize)
     })
 
@@ -1701,7 +2088,14 @@ export default {
       digitalHumanChartRef,
       workflowAgentComparisonRef,
       knowledgeAbilityComparisonRef,
-      coursewareCourseComparisonRef
+      coursewareCourseComparisonRef,
+      archiveTrendChartRef,
+      archiveCollegeChartRef,
+      archiveMetrics,
+      activeArchiveTab,
+      archiveTasks,
+      storageStatus,
+      utilizationRankings
     }
   }
 }
@@ -1713,29 +2107,121 @@ export default {
   animation: fadeInUp 0.8s ease-out;
 }
 
-/* 现代化页面标题 */
-.page-header {
-  margin-bottom: 40px;
-  background-image: url('/images/home.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  border-radius: 20px;
-  padding: 32px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-  position: relative;
-  overflow: hidden;
-  animation: fadeInUpHeader 1s ease-out;
+/* 官方风格页面标题 */
+.official-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 32px;
+  background: #fff;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  border-left: 5px solid #0052cc;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
 }
 
-@keyframes fadeInUpHeader {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
+.header-title-area {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.system-logo {
+  width: 56px;
+  height: 56px;
+  background: #eff6ff;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0052cc;
+  font-size: 32px;
+}
+
+.system-title-box {
+  display: flex;
+  flex-direction: column;
+}
+
+.system-name {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  color: #172b4d;
+  letter-spacing: 0.5px;
+}
+
+.system-sub-name {
+  font-size: 13px;
+  color: #6b778c;
+  text-transform: uppercase;
+  margin-top: 4px;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+.header-data-strip {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.header-stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.h-label {
+  font-size: 12px;
+  color: #7a869a;
+  margin-bottom: 4px;
+}
+
+.h-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: #172b4d;
+  font-family: 'DIN Alternate', 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1;
+}
+
+.h-value.highlight {
+  color: #0052cc;
+}
+
+.h-divider {
+  width: 1px;
+  height: 32px;
+  background: #dfe1e6;
+}
+
+@media (max-width: 992px) {
+  .official-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+    padding: 20px;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  
+  .header-data-strip {
+    width: 100%;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  
+  .h-value {
+    font-size: 20px;
+  }
+  
+  .system-logo {
+    width: 48px;
+    height: 48px;
+    font-size: 28px;
+  }
+  
+  .system-name {
+    font-size: 20px;
   }
 }
 
@@ -1824,7 +2310,7 @@ export default {
 
 .stat-badge .stat-number {
   font-size: 34px;
-  font-weight: 700;
+  font-weight: 400;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -1849,7 +2335,7 @@ export default {
 .section-title {
   margin: 0;
   color: #1f2937;
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 700;
   display: flex;
   align-items: center;
@@ -1883,62 +2369,62 @@ export default {
 .teacher-star-container {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 24px;
-  margin-top: 24px;
+  gap: 12px;
+  margin-top: 16px;
 }
 
 .teacher-star-card {
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  min-height: 260px;
+  min-height: auto;
   position: relative;
 }
 
 .teacher-star-card .el-card__body {
-  padding: 20px;
+  padding: 12px;
 }
 
 .teacher-star-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
 
 .teacher-avatar-wrapper {
   position: relative;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .teacher-avatar {
-  width: 80px;
-  height: 80px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid #e4e7ed;
+  border: 2px solid #e4e7ed;
   transition: all 0.3s ease;
 }
 
 .teacher-star-card:hover .teacher-avatar {
   border-color: #409eff;
-  transform: scale(1.1);
+  transform: scale(1.05);
 }
 
 .teacher-badge {
   position: absolute;
-  top: -5px;
-  right: -5px;
-  width: 32px;
-  height: 32px;
+  top: -2px;
+  right: -2px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: bold;
   border: 2px solid #fff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 .teacher-badge.gold {
@@ -1958,26 +2444,37 @@ export default {
 }
 
 .teacher-name {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: bold;
   color: #303133;
-  margin-bottom: 10px;
+  margin-bottom: 4px;
 }
 
 .teacher-desc {
   font-size: 12px;
   color: #606266;
-  margin-bottom: 12px;
-  line-height: 1.6;
-  min-height: 40px;
-  padding: 0 4px;
+  margin-bottom: 6px;
+  line-height: 1.4;
+  height: 34px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  padding: 0 2px;
 }
 
 .teacher-award {
   display: flex;
   justify-content: center;
   gap: 8px;
-  margin-top: 8px;
+  margin-top: 4px;
+}
+
+.teacher-award .el-tag {
+  height: 20px;
+  padding: 0 6px;
+  font-size: 11px;
 }
 
 /* 现代化数据卡片 */
@@ -2205,15 +2702,16 @@ export default {
 /* 现代化快捷入口 */
 .quick-access-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 24px;
-  margin-top: 24px;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 12px;
+  margin-top: 16px;
 }
 
 .quick-access-card {
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  height: 120px;
+  height: auto;
+  min-height: 100px;
   position: relative;
   overflow: hidden;
   border: 1px solid rgba(0, 0, 0, 0.06);
@@ -2221,8 +2719,8 @@ export default {
 }
 
 .quick-access-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
   border-color: rgba(102, 126, 234, 0.2);
 }
 
@@ -2240,31 +2738,34 @@ export default {
 
 .quick-access-content {
   display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
   height: 100%;
-  padding: 16px;
+  padding: 12px 8px;
   position: relative;
 }
 
 .quick-access-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 14px;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 14px;
-  font-size: 22px;
+  margin-right: 0;
+  margin-bottom: 8px;
+  font-size: 20px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   background: #ffffff;
   border: 2px solid currentColor;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
 .quick-access-card:hover .quick-access-icon {
-  transform: scale(1.1) rotate(5deg);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  transform: scale(1.1);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
   background: #ffffff;
 }
 
@@ -2276,51 +2777,32 @@ export default {
   color: white;
   font-size: 10px;
   font-weight: 600;
-  padding: 4px 8px;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(255, 107, 107, 0.4);
+  padding: 2px 6px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(255, 107, 107, 0.4);
   animation: pulse 2s infinite;
+  transform: scale(0.8);
 }
 
 @keyframes pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.1); }
+  0%, 100% { transform: scale(0.8); }
+  50% { transform: scale(0.9); }
 }
 
 .quick-access-text {
-  flex: 1;
+  width: 100%;
+  text-align: center;
 }
 
 .quick-access-title {
-  font-size: 16px;
-  font-weight: 700;
-  color: #1f2937;
-  margin-bottom: 6px;
-  line-height: 1.2;
-}
-
-.quick-access-desc {
   font-size: 12px;
-  color: #6b7280;
-  line-height: 1.4;
-  margin-bottom: 4px;
-}
-
-.quick-access-status {
-  margin-top: 4px;
-}
-
-.quick-access-arrow {
-  color: #9ca3af;
-  font-size: 16px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  opacity: 0.7;
-}
-
-.quick-access-card:hover .quick-access-arrow {
-  color: #667eea;
-  transform: translateX(6px);
-  opacity: 1;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .card-overlay {
@@ -2336,13 +2818,13 @@ export default {
   align-items: center;
   justify-content: center;
   color: #6b7280;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 500;
 }
 
 .card-overlay .el-icon {
-  font-size: 32px;
-  margin-bottom: 8px;
+  font-size: 20px;
+  margin-bottom: 4px;
   color: #9ca3af;
 }
 
@@ -2370,14 +2852,15 @@ export default {
 
 /* 响应式设计 */
 @media (max-width: 1200px) {
-  .quick-access-grid {
-    grid-template-columns: repeat(4, 1fr);
+  /* Removed quick-access-grid override to keep 10 columns */
+  .chart-card {
+    height: 350px;
   }
 }
 
 @media (max-width: 992px) {
   .quick-access-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(5, 1fr);
   }
   
   .teacher-star-container {
@@ -2557,14 +3040,546 @@ export default {
 }
 
 @media (max-width: 1200px) {
-  .chart-card {
-    height: 350px;
-  }
 }
 
+/* 官方严谨数据风格 */
+.data-governance-section {
+  margin-bottom: 32px;
+}
+
+.governance-card {
+  border: 1px solid #e4e7ed;
+  border-radius: 8px; /* 较小的圆角体现严谨 */
+  background: #fff;
+}
+
+.governance-card :deep(.el-card__header) {
+  padding: 16px 24px;
+  background: #f8f9fa; /* 极淡的灰色背景 */
+  border-bottom: 1px solid #ebeef5;
+}
+
+.governance-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-line {
+  width: 4px;
+  height: 18px;
+  background: #0052cc; /* 官方蓝 */
+  border-radius: 2px;
+}
+
+.header-text {
+  font-size: 16px;
+  font-weight: 700;
+  color: #303133;
+  letter-spacing: 0.5px;
+}
+
+.header-en {
+  font-size: 13px;
+  color: #909399;
+  font-weight: 500;
+  margin-left: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* 摘要面板 */
+.summary-col {
+  border-right: 1px solid #f0f2f5;
+  padding-right: 24px !important;
+}
+
+.summary-panel {
+  padding: 10px 0;
+}
+
+.metric-title {
+  font-size: 14px;
+  color: #606266;
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+
+.metric-num-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.metric-num {
+  font-size: 36px;
+  font-weight: 700;
+  color: #303133;
+  font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
+  line-height: 1;
+}
+
+.metric-unit {
+  font-size: 14px;
+  color: #909399;
+}
+
+.metric-trend-row {
+  font-size: 13px;
+  color: #909399;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.trend-value.up {
+  color: #f56c6c;
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  gap: 2px;
+}
+
+.summary-divider {
+  height: 1px;
+  background: #ebeef5;
+  margin: 24px 0;
+}
+
+/* 性别结构 */
+.sub-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #303133;
+  margin-bottom: 16px;
+}
+
+.gender-bar-box {
+  margin-bottom: 16px;
+}
+
+.gender-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+
+.gender-label {
+  color: #606266;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.gender-val {
+  color: #303133;
+  font-weight: 600;
+}
+
+/* 图表网格 */
+.charts-panel {
+  padding: 10px 0;
+}
+
+.chart-box {
+  background: #fff;
+  padding: 0 12px;
+}
+
+.chart-box.bordered {
+  border-left: 1px dashed #e4e7ed;
+  border-right: 1px dashed #e4e7ed;
+}
+
+.chart-header {
+  font-size: 14px;
+  color: #303133;
+  font-weight: 600;
+  margin-bottom: 16px;
+  text-align: center;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #f2f6fc;
+  display: inline-block;
+  width: 100%;
+}
+
+.chart-body {
+  width: 100%;
+  height: 220px; /* 图表高度适度缩减，更紧凑 */
+}
+
+/* 资源列表样式 */
+.resource-list-box {
+  margin-top: 20px;
+}
+
+.resource-stat-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.resource-stat-item {
+  width: 100%;
+}
+
+.stat-row-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  font-size: 13px;
+}
+
+.stat-label {
+  color: #606266;
+}
+
+.stat-val {
+  color: #303133;
+  font-weight: 600;
+}
+
+.chart-section-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #909399;
+  margin-bottom: 16px;
+  padding-left: 12px;
+  border-left: 3px solid #ebeef5;
+}
+
+.bordered-left {
+  border-left: 1px dashed #e4e7ed;
+}
+
+/* 集团档案概览样式 */
+.group-archive-section {
+  margin-bottom: 32px;
+}
+
+.section-sub-header {
+  display: flex;
+  align-items: baseline;
+  margin-bottom: 20px;
+  gap: 12px;
+}
+
+.sub-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.sub-title .title-icon {
+  color: #667eea;
+  font-size: 20px;
+}
+
+.sub-desc {
+  font-size: 14px;
+  color: #9ca3af;
+  font-weight: 500;
+}
+
+/* 关键指标卡片 */
+.metric-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  height: 140px;
+}
+
+.metric-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+}
+
+.metric-card.blue-gradient::before { background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1)); }
+.metric-card.purple-gradient::before { background: linear-gradient(135deg, rgba(240, 147, 251, 0.1), rgba(245, 87, 108, 0.1)); }
+.metric-card.green-gradient::before { background: linear-gradient(135deg, rgba(67, 233, 123, 0.1), rgba(56, 249, 215, 0.1)); }
+.metric-card.orange-gradient::before { background: linear-gradient(135deg, rgba(250, 112, 154, 0.1), rgba(254, 225, 64, 0.1)); }
+
+.metric-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+}
+
+.metric-icon-wrapper {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  margin-right: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.metric-card.blue-gradient .metric-icon-wrapper { background: rgba(102, 126, 234, 0.1); color: #667eea; }
+.metric-card.purple-gradient .metric-icon-wrapper { background: rgba(245, 87, 108, 0.1); color: #f5576c; }
+.metric-card.green-gradient .metric-icon-wrapper { background: rgba(67, 233, 123, 0.1); color: #10b981; }
+.metric-card.orange-gradient .metric-icon-wrapper { background: rgba(250, 112, 154, 0.1); color: #f97316; }
+
+.metric-content {
+  flex: 1;
+  position: relative;
+  z-index: 1;
+}
+
+.metric-label {
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 8px;
+}
+
+.metric-value-group {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.metric-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1f2937;
+  line-height: 1;
+}
+
+.metric-unit {
+  font-size: 14px;
+  color: #9ca3af;
+  font-weight: 500;
+}
+
+.metric-trend {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.metric-trend .trend-val {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font-weight: 600;
+}
+
+.metric-trend.trend-up .trend-val { color: #f5576c; }
+.metric-trend.trend-down .trend-val { color: #10b981; }
+.metric-trend.trend-warning .trend-val { color: #f97316; }
+
+.metric-bg-icon {
+  position: absolute;
+  right: -20px;
+  bottom: -20px;
+  font-size: 100px;
+  opacity: 0.05;
+  color: #000;
+  z-index: 0;
+  transform: rotate(-15deg);
+}
+
+/* 图表与监控卡片 */
+.archive-chart-card, .archive-monitor-card {
+  height: 380px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.archive-chart-card :deep(.el-card__header) {
+  padding: 16px 20px;
+  border-bottom: 1px solid #f0f2f5;
+}
+
+.card-header-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.header-legend {
+  display: flex;
+  gap: 16px;
+}
+
+.legend-item {
+  font-size: 12px;
+  color: #6b7280;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legend-item .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+.legend-item .dot.line { background: #667eea; }
+.legend-item .dot.bar { background: #4facfe; }
+.legend-item .dot.mix { background: #f5576c; }
+
+.chart-wrapper {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.chart-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #4b5563;
+  margin-bottom: 12px;
+}
+
+/* 监控列表样式 */
+.monitor-tabs :deep(.el-tabs__header) {
+  margin: 0;
+}
+.monitor-tabs :deep(.el-tabs__nav-wrap::after) {
+  height: 1px;
+}
+
+.monitor-list {
+  padding: 20px;
+  height: 320px;
+  overflow-y: auto;
+}
+
+.monitor-section {
+  margin-bottom: 20px;
+}
+
+.section-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #9ca3af;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.task-item, .storage-item {
+  margin-bottom: 16px;
+}
+
+.task-info, .storage-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.task-name, .storage-name {
+  font-size: 13px;
+  color: #4b5563;
+  font-weight: 500;
+}
+
+.storage-val {
+  font-size: 12px;
+  color: #6b7280;
+}
+.storage-val.warning-text { color: #f56c6c; font-weight: bold; }
+
+.monitor-divider {
+  height: 1px;
+  background: #f0f2f5;
+  margin: 16px 0;
+}
+
+.ranking-list {
+  padding: 12px;
+}
+
+.ranking-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 8px;
+  border-bottom: 1px dashed #f0f2f5;
+}
+
+.ranking-item:last-child {
+  border-bottom: none;
+}
+
+.ranking-index {
+  width: 24px;
+  height: 24px;
+  background: #f3f4f6;
+  color: #9ca3af;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.ranking-index.top-3 {
+  background: #e0e7ff;
+  color: #667eea;
+}
+
+.ranking-content {
+  flex: 1;
+}
+
+.ranking-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
+.ranking-name { color: #374151; font-weight: 500; }
+.ranking-val { color: #667eea; font-weight: 600; }
+
 @media (max-width: 768px) {
-  .chart-card {
-    height: 320px;
+  .metric-card {
+    height: auto;
+    flex-direction: column;
+    padding: 16px;
+  }
+  .metric-icon-wrapper {
+    margin-bottom: 12px;
   }
 }
 </style>

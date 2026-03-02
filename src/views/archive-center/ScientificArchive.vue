@@ -9,25 +9,25 @@
     <el-row :gutter="16" class="stat-row">
       <el-col :span="6">
         <div class="stat-card tech">
-          <div class="stat-value">856</div>
+          <div class="stat-value">{{ projectCount }}</div>
           <div class="stat-label">科研项目档案</div>
         </div>
       </el-col>
       <el-col :span="6">
         <div class="stat-card tech">
-          <div class="stat-value">1,234</div>
+          <div class="stat-value">{{ patentCount }}</div>
           <div class="stat-label">论文专利档案</div>
         </div>
       </el-col>
       <el-col :span="6">
         <div class="stat-card tech">
-          <div class="stat-value">423</div>
+          <div class="stat-value">{{ achievementCount }}</div>
           <div class="stat-label">科技成果档案</div>
         </div>
       </el-col>
       <el-col :span="6">
         <div class="stat-card tech">
-          <div class="stat-value">67</div>
+          <div class="stat-value">{{ equipmentCount }}</div>
           <div class="stat-label">设备仪器档案</div>
         </div>
       </el-col>
@@ -43,19 +43,21 @@
               placeholder="搜索项目名称/课题编号/负责人"
               style="width: 300px; margin-right: 15px"
               clearable
+              @keyup.enter="handleSearch"
+              @clear="handleSearch"
             >
               <template #prefix>
                 <el-icon><Search /></el-icon>
               </template>
             </el-input>
-            <el-select v-model="selectedType" placeholder="档案类型" style="width: 150px; margin-right: 15px">
+            <el-select v-model="selectedType" placeholder="档案类型" style="width: 150px; margin-right: 15px" clearable @change="handleSearch">
               <el-option label="全部" value="" />
               <el-option label="科研项目" value="科研项目" />
               <el-option label="论文专利" value="论文专利" />
               <el-option label="科技成果" value="科技成果" />
               <el-option label="设备仪器" value="设备仪器" />
             </el-select>
-            <el-select v-model="selectedLevel" placeholder="项目级别" style="width: 130px; margin-right: 15px">
+            <el-select v-model="selectedLevel" placeholder="项目级别" style="width: 130px; margin-right: 15px" clearable @change="handleSearch">
               <el-option label="全部" value="" />
               <el-option label="国家级" value="国家级" />
               <el-option label="省部级" value="省部级" />
@@ -68,7 +70,7 @@
       </template>
 
       <!-- 档案列表 -->
-      <el-table :data="archiveList" stripe style="width: 100%">
+      <el-table :data="paginatedList" stripe style="width: 100%" v-loading="loading">
         <el-table-column prop="projectNo" label="课题编号" min-width="150" fixed />
         <el-table-column prop="projectName" label="项目名称" min-width="280" show-overflow-tooltip />
         <el-table-column prop="type" label="类型" min-width="100" />
@@ -89,6 +91,16 @@
             </el-tag>
           </template>
         </el-table-column>
+        <el-table-column label="实体存放" min-width="200">
+          <template #default="scope">
+            <div v-if="scope.row.physicalStatus === 'stocked'" class="physical-location" @click="goToSmartRoom(scope.row)">
+               <el-tag type="success" effect="plain" size="small"><el-icon><OfficeBuilding /></el-icon> {{ scope.row.location }}</el-tag>
+            </div>
+            <div v-else>
+               <el-tag type="info" effect="plain" size="small">仅电子</el-tag>
+            </div>
+          </template>
+        </el-table-column>
         <el-table-column label="操作" width="200" fixed="right">
           <template #default="scope">
             <el-button link type="primary" @click="viewDetail(scope.row)">查看</el-button>
@@ -96,27 +108,100 @@
           </template>
         </el-table-column>
       </el-table>
+
+       <!-- 分页 -->
+      <el-pagination
+        background
+        layout="prev, pager, next, total, jumper"
+        :total="filteredList.length"
+        :page-size="pageSize"
+        v-model:current-page="currentPage"
+        @current-change="handlePageChange"
+        style="margin-top: 20px; justify-content: flex-end;"
+      />
     </el-card>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
-import { Search } from '@element-plus/icons-vue'
+import { Search, OfficeBuilding } from '@element-plus/icons-vue'
 
+const router = useRouter()
 const searchQuery = ref('')
 const selectedType = ref('')
 const selectedLevel = ref('')
+const loading = ref(false)
 
-const archiveList = ref([
-  { projectNo: 'NSFC-2024-001', projectName: '基于深度学习的智能教育系统研究', type: '科研项目', level: '国家级', leader: '张教授', department: '计算机学院', startDate: '2024-01', status: '进行中' },
-  { projectNo: 'NSFC-2023-015', projectName: '新型纳米材料在能源领域的应用研究', type: '科研项目', level: '国家级', leader: '李教授', department: '材料学院', startDate: '2023-06', status: '已结题' },
-  { projectNo: 'PROV-2024-008', projectName: '区域经济协调发展政策研究', type: '科研项目', level: '省部级', leader: '王教授', department: '经济学院', startDate: '2024-03', status: '进行中' },
-  { projectNo: 'PAT-2024-023', projectName: '一种新型智能传感器及其应用方法', type: '论文专利', level: '国家级', leader: '赵教授', department: '电子学院', startDate: '2024-02', status: '已授权' },
-  { projectNo: 'ACH-2023-056', projectName: '人工智能辅助医疗诊断系统', type: '科技成果', level: '省部级', leader: '陈教授', department: '信息学院', startDate: '2023-12', status: '已鉴定' },
-  { projectNo: 'SCH-2024-012', projectName: '高校创新创业教育模式探索', type: '科研项目', level: '校级', leader: '刘副教授', department: '创业学院', startDate: '2024-01', status: '进行中' }
-])
+const fullArchiveList = ref([])
+const currentPage = ref(1)
+const pageSize = ref(10)
+
+const generateMockData = () => {
+  const data = []
+  const types = ['科研项目', '论文专利', '科技成果', '设备仪器']
+  const levels = ['国家级', '省部级', '校级']
+  const leaders = ['张教授', '李教授', '王教授', '赵教授', '陈教授', '刘副教授']
+  const departments = ['计算机学院', '材料学院', '经济学院', '电子学院', '信息学院', '创业学院']
+  const statuses = { 
+    '科研项目': ['进行中', '已结题'], 
+    '论文专利': ['已授权', '审核中'], 
+    '科技成果': ['已鉴定', '已转化'],
+    '设备仪器': ['在用', '报废']
+  }
+
+  for (let i = 1; i <= 125; i++) {
+    const type = types[i % types.length]
+    const level = levels[i % levels.length]
+    const year = 2022 + (i % 3)
+    const month = String(Math.floor(i / 12) + 1).padStart(2, '0')
+    const prefix = type === '科研项目' ? 'PRO' : type === '论文专利' ? 'PAT' : 'ACH'
+    const hasPhysical = Math.random() > 0.4;
+    
+    data.push({
+      projectNo: `${prefix}-${year}-${String(i).padStart(3, '0')}`,
+      projectName: `${departments[i % departments.length]}的${level}${type}研究与应用_${i}`,
+      type: type,
+      level: level,
+      leader: leaders[i % leaders.length],
+      department: departments[i % departments.length],
+      startDate: `${year}-${month}`,
+      status: statuses[type][i % statuses[type].length],
+      physicalStatus: hasPhysical ? 'stocked' : 'only_digital',
+      location: hasPhysical ? `二号库/科技区/${String(Math.floor(Math.random()*20)+1).padStart(2,'0')}柜` : ''
+    })
+  }
+  return data
+}
+
+onMounted(() => {
+  fullArchiveList.value = generateMockData()
+})
+
+const filteredList = computed(() => {
+  return fullArchiveList.value.filter(item => {
+    const searchMatch = 
+      item.projectName.includes(searchQuery.value) ||
+      item.projectNo.includes(searchQuery.value) ||
+      item.leader.includes(searchQuery.value)
+    const typeMatch = selectedType.value ? item.type === selectedType.value : true
+    const levelMatch = selectedLevel.value ? item.level === selectedLevel.value : true
+    return searchMatch && typeMatch && levelMatch
+  })
+})
+
+const paginatedList = computed(() => {
+  const start = (currentPage.value - 1) * pageSize.value
+  const end = start + pageSize.value
+  return filteredList.value.slice(start, end)
+})
+
+const projectCount = computed(() => fullArchiveList.value.filter(item => item.type === '科研项目').length)
+const patentCount = computed(() => fullArchiveList.value.filter(item => item.type === '论文专利').length)
+const achievementCount = computed(() => fullArchiveList.value.filter(item => item.type === '科技成果').length)
+const equipmentCount = computed(() => fullArchiveList.value.filter(item => item.type === '设备仪器').length)
 
 const getLevelType = (level) => {
   const map = { '国家级': 'danger', '省部级': 'warning', '校级': 'info' }
@@ -124,11 +209,12 @@ const getLevelType = (level) => {
 }
 
 const getStatusType = (status) => {
-  const map = { '进行中': 'primary', '已结题': 'success', '已授权': 'success', '已鉴定': 'success' }
+  const map = { '进行中': 'primary', '已结题': 'success', '已授权': 'success', '已鉴定': 'success', '审核中': 'warning', '已转化': 'success', '在用': 'primary', '报废': 'info' }
   return map[status] || 'info'
 }
 
 const handleSearch = () => {
+  currentPage.value = 1
   ElMessage.success('查询成功')
 }
 
@@ -142,6 +228,17 @@ const viewDetail = (row) => {
 
 const handleDownload = (row) => {
   ElMessage.success(`下载档案: ${row.projectNo}`)
+}
+
+const goToSmartRoom = (row) => {
+  router.push({
+    path: '/archive-center/smart-room',
+    query: { archiveNo: row.projectNo }
+  })
+}
+
+const handlePageChange = (page) => {
+  currentPage.value = page
 }
 </script>
 
@@ -206,5 +303,13 @@ const handleDownload = (row) => {
 .left-panel {
   display: flex;
   align-items: center;
+}
+
+.physical-location {
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.physical-location:hover {
+  opacity: 0.8;
 }
 </style>

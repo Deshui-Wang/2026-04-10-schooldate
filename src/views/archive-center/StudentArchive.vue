@@ -10,37 +10,35 @@
       <el-col :span="6">
         <el-card class="stat-card">
           <div class="stat-content">
-            <div class="stat-value">12,450</div>
+            <div class="stat-value">{{ totalStudents }}</div>
             <div class="stat-label">在校生总数</div>
           </div>
           <div class="stat-footer">
-            <span class="primary">本科: 8,500</span>
-            <span class="success">研究生: 3,950</span>
+            <span class="primary">本科: {{ undergraduateCount }}</span>
+            <span class="success">研究生: {{ postgraduateCount }}</span>
           </div>
         </el-card>
       </el-col>
       <el-col :span="6">
         <el-card class="stat-card">
           <div class="stat-content">
-            <div class="stat-value">45</div>
-            <div class="stat-label">学籍异动待办</div>
+            <div class="stat-value">{{ changesCount }}</div>
+            <div class="stat-label">学籍异动</div>
           </div>
           <div class="stat-footer">
-            <span class="warning">休学: 12</span>
-            <span class="info">复学: 8</span>
-            <span class="danger">退学: 2</span>
+            <span class="warning">休学: {{ suspendedCount }}</span>
+            <span class="danger">退学: {{ withdrawnCount }}</span>
           </div>
         </el-card>
       </el-col>
       <el-col :span="6">
         <el-card class="stat-card">
           <div class="stat-content">
-            <div class="stat-value">2,800</div>
-            <div class="stat-label">应届毕业生</div>
+            <div class="stat-value">{{ graduateCount }}</div>
+            <div class="stat-label">已毕业学生</div>
           </div>
-          <div class="stat-footer">
-            <span>已就业: 1,200</span>
-            <span>升学: 800</span>
+           <div class="stat-footer">
+            <span>总毕业人数</span>
           </div>
         </el-card>
       </el-col>
@@ -64,6 +62,8 @@
               placeholder="搜索姓名/学号/专业"
               style="width: 300px; margin-right: 15px"
               clearable
+              @keyup.enter="handleSearch"
+              @clear="handleSearch"
             >
               <template #prefix>
                 <el-icon><Search /></el-icon>
@@ -76,7 +76,7 @@
       </template>
 
       <!-- 档案列表 -->
-      <el-table :data="filteredStudents" stripe style="width: 100%">
+      <el-table :data="paginatedList" stripe style="width: 100%" v-loading="loading">
         <el-table-column prop="name" label="姓名" min-width="100" fixed />
         <el-table-column prop="studentId" label="学号" min-width="120" />
         <el-table-column prop="college" label="学院" min-width="150" />
@@ -89,6 +89,16 @@
             </el-tag>
           </template>
         </el-table-column>
+        <el-table-column label="实体存放" min-width="200">
+          <template #default="scope">
+            <div v-if="scope.row.physicalStatus === 'stocked'" class="physical-location" @click="goToSmartRoom(scope.row)">
+               <el-tag type="success" effect="plain" size="small"><el-icon><OfficeBuilding /></el-icon> {{ scope.row.location }}</el-tag>
+            </div>
+            <div v-else>
+               <el-tag type="info" effect="plain" size="small">仅电子</el-tag>
+            </div>
+          </template>
+        </el-table-column>
         <el-table-column label="操作" width="250" fixed="right">
           <template #default="scope">
             <el-button link type="primary" @click="viewDetail(scope.row)">查看档案</el-button>
@@ -97,6 +107,17 @@
           </template>
         </el-table-column>
       </el-table>
+
+      <!-- 分页 -->
+      <el-pagination
+        background
+        layout="prev, pager, next, total, jumper"
+        :total="filteredList.length"
+        :page-size="pageSize"
+        v-model:current-page="currentPage"
+        @current-change="handlePageChange"
+        style="margin-top: 20px; justify-content: flex-end;"
+      />
     </el-card>
 
     <!-- 档案详情弹窗 -->
@@ -190,10 +211,10 @@
           <el-tab-pane label="毕业信息" name="graduation">
             <div v-if="currentStudent.status === '毕业'">
               <el-descriptions title="证书信息" :column="2" border>
-                <el-descriptions-item label="毕业证书编号">1000120240600123</el-descriptions-item>
-                <el-descriptions-item label="学位证书编号">1000120240600456</el-descriptions-item>
+                <el-descriptions-item label="毕业证书编号">10001{{ currentStudent.gradDate.split('-')[0] }}0600123</el-descriptions-item>
+                <el-descriptions-item label="学位证书编号">10001{{ currentStudent.gradDate.split('-')[0] }}0600456</el-descriptions-item>
                 <el-descriptions-item label="学位授予">工学学士</el-descriptions-item>
-                <el-descriptions-item label="授予日期">2024-06-20</el-descriptions-item>
+                <el-descriptions-item label="授予日期">{{ currentStudent.gradDate }}-20</el-descriptions-item>
               </el-descriptions>
               <br />
               <el-descriptions title="毕业去向" :column="1" border>
@@ -211,134 +232,117 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
-import { Search, User } from '@element-plus/icons-vue'
+import { Search, User, OfficeBuilding } from '@element-plus/icons-vue'
 
+const router = useRouter()
 const searchQuery = ref('')
 const detailVisible = ref(false)
 const activeTab = ref('basic')
 const currentStudent = ref(null)
+const loading = ref(false)
 
-// Mock Data
-const students = [
-  {
-    id: 1,
-    name: '王小明',
-    studentId: '2021001001',
-    college: '计算机科学与技术学院',
-    major: '计算机科学与技术',
-    grade: '2021级',
-    class: '计科2101班',
-    status: '在读',
-    gender: '男',
-    ethnicity: '汉族',
-    birthDate: '2003-05-15',
-    idCard: '33010620030515xxxx',
-    candidateId: '21330101xxxx',
-    origin: '浙江省杭州市',
-    phone: '15800001111',
-    email: 'wang@student.edu.cn',
-    familyPhone: '13900002222',
-    address: '杭州市西湖区xxx路xxx号',
-    avatar: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',
-    enrollDate: '2021-09-01',
-    duration: 4,
-    gradDate: '2025-06',
-    statusChanges: [
-      { date: '2021-09-01', type: '入学', reason: '新生报到' }
-    ],
-    gpa: 3.8,
-    grades: [
-      { semester: '2021-2022-1', course: '高等数学A', score: 95, credit: 5.0 },
-      { semester: '2021-2022-1', course: '程序设计基础', score: 98, credit: 4.0 },
-      { semester: '2021-2022-2', course: '线性代数', score: 92, credit: 3.0 }
-    ],
-    rewards: [
-      { date: '2022-10', name: '国家奖学金', type: '奖励', level: '国家级' },
-      { date: '2022-05', name: '优秀团员', type: '奖励', level: '校级' }
-    ]
-  },
-  {
-    id: 2,
-    name: '赵丽',
-    studentId: '2020002005',
-    college: '软件学院',
-    major: '软件工程',
-    grade: '2020级',
-    class: '软工2002班',
-    status: '毕业',
-    gender: '女',
-    ethnicity: '汉族',
-    birthDate: '2002-08-20',
-    idCard: '32050120020820xxxx',
-    candidateId: '20320501xxxx',
-    origin: '江苏省苏州市',
-    phone: '13700003333',
-    email: 'zhao@student.edu.cn',
-    familyPhone: '13600004444',
-    address: '苏州市姑苏区xxx路xxx号',
-    avatar: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',
-    enrollDate: '2020-09-01',
-    duration: 4,
-    gradDate: '2024-06',
-    statusChanges: [
-      { date: '2020-09-01', type: '入学', reason: '新生报到' },
-      { date: '2024-06-20', type: '毕业', reason: '修完学分，准予毕业' }
-    ],
-    gpa: 3.6,
-    grades: [
-      { semester: '2020-2021-1', course: '高等数学A', score: 88, credit: 5.0 }
-    ],
-    rewards: [
-      { date: '2021-10', name: '校三好学生', type: '奖励', level: '校级' }
-    ]
-  },
-  {
-    id: 3,
-    name: '孙强',
-    studentId: '2022003010',
-    college: '大数据学院',
-    major: '数据科学',
-    grade: '2022级',
-    class: '数据2201班',
-    status: '休学',
-    gender: '男',
-    ethnicity: '汉族',
-    birthDate: '2004-01-10',
-    idCard: '31010120040110xxxx',
-    candidateId: '22310101xxxx',
-    origin: '上海市黄浦区',
-    phone: '13900005555',
-    email: 'sun@student.edu.cn',
-    familyPhone: '13800006666',
-    address: '上海市黄浦区xxx路xxx号',
-    avatar: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',
-    enrollDate: '2022-09-01',
-    duration: 4,
-    gradDate: '2026-06',
-    statusChanges: [
-      { date: '2022-09-01', type: '入学', reason: '新生报到' },
-      { date: '2023-10-15', type: '休学', reason: '因病休学一年' }
-    ],
-    gpa: 3.2,
-    grades: [],
-    rewards: []
+const fullStudentList = ref([])
+const currentPage = ref(1)
+const pageSize = ref(10)
+
+const generateMockData = () => {
+  const data = []
+  const colleges = ['计算机科学与技术学院', '软件学院', '大数据学院', '信息学院']
+  const majors = {
+    '计算机科学与技术学院': ['计算机科学与技术', '网络工程'],
+    '软件学院': ['软件工程', '数字媒体技术'],
+    '大数据学院': ['数据科学', '人工智能'],
+    '信息学院': ['电子信息工程', '通信工程']
   }
-]
+  const statuses = ['在读', '毕业', '休学', '退学']
 
-const filteredStudents = computed(() => {
-  if (!searchQuery.value) return students
-  const query = searchQuery.value.toLowerCase()
-  return students.filter(s => 
-    s.name.includes(query) || 
-    s.studentId.includes(query) || 
-    s.major.includes(query)
-  )
+  for (let i = 1; i <= 200; i++) {
+    const college = colleges[i % colleges.length]
+    const major = majors[college][i % majors[college].length]
+    const enrollYear = 2020 + (i % 5)
+    const gradYear = enrollYear + 4
+    const status = statuses[i % statuses.length]
+    const hasPhysical = Math.random() > 0.4;
+    
+    data.push({
+      id: i,
+      name: `学生_${i}`,
+      studentId: `${enrollYear}${String(i).padStart(6, '0')}`,
+      college,
+      major,
+      grade: `${enrollYear}级`,
+      class: `${major.slice(0, 2)}${enrollYear % 100}0${(i % 3) + 1}班`,
+      status,
+      physicalStatus: hasPhysical ? 'stocked' : 'only_digital',
+      location: hasPhysical ? `二号库/学籍区/${String(Math.floor(Math.random()*20)+1).padStart(2,'0')}柜` : '',
+      gender: i % 2 === 0 ? '女' : '男',
+      ethnicity: '汉族',
+      birthDate: `${enrollYear - 18}-${String((i % 12) + 1).padStart(2, '0')}-${String((i % 28) + 1).padStart(2, '0')}`,
+      idCard: `330106${enrollYear - 18}${String((i % 12) + 1).padStart(2, '0')}${String((i % 28) + 1).padStart(2, '0')}xxxx`,
+      candidateId: `${enrollYear % 100}330101xxxx`,
+      origin: '浙江省杭州市',
+      phone: `138${String(i).padStart(8, '0')}`,
+      email: `student_${i}@student.edu.cn`,
+      familyPhone: `139${String(i).padStart(8, '0')}`,
+      address: '杭州市西湖区xxx路xxx号',
+      avatar: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',
+      enrollDate: `${enrollYear}-09-01`,
+      duration: 4,
+      gradDate: `${gradYear}-06`,
+      statusChanges: [
+        { date: `${enrollYear}-09-01`, type: '入学', reason: '新生报到' },
+        ...(status === '休学' ? [{ date: `${enrollYear + 1}-10-15`, type: '休学', reason: '因病休学一年' }] : []),
+        ...(status === '毕业' ? [{ date: `${gradYear}-06-20`, type: '毕业', reason: '修完学分，准予毕业' }] : []),
+      ],
+      gpa: (3.0 + (i % 10) / 10).toFixed(1),
+      grades: [
+        { semester: `${enrollYear}-${enrollYear + 1}-1`, course: '高等数学A', score: 80 + (i % 15), credit: 5.0 },
+      ],
+      rewards: [
+        ...(i % 5 === 0 ? [{ date: `${enrollYear + 1}-10`, name: '校级奖学金', type: '奖励', level: '校级' }] : []),
+      ]
+    })
+  }
+  return data
+}
+
+onMounted(() => {
+  loading.value = true
+  setTimeout(() => {
+    fullStudentList.value = generateMockData()
+    loading.value = false
+  }, 500)
 })
 
+const filteredList = computed(() => {
+  return fullStudentList.value.filter(s => {
+    const query = searchQuery.value.toLowerCase()
+    return s.name.toLowerCase().includes(query) || 
+           s.studentId.includes(query) || 
+           s.major.toLowerCase().includes(query)
+  })
+})
+
+const paginatedList = computed(() => {
+  const start = (currentPage.value - 1) * pageSize.value
+  const end = start + pageSize.value
+  return filteredList.value.slice(start, end)
+})
+
+// Computed properties for dashboard
+const totalStudents = computed(() => fullStudentList.value.length)
+const undergraduateCount = computed(() => fullStudentList.value.filter(s => s.grade.includes('202')).length) // Simple mock logic
+const postgraduateCount = computed(() => totalStudents.value - undergraduateCount.value)
+const changesCount = computed(() => fullStudentList.value.filter(s => s.status === '休学' || s.status === '退学').length)
+const suspendedCount = computed(() => fullStudentList.value.filter(s => s.status === '休学').length)
+const withdrawnCount = computed(() => fullStudentList.value.filter(s => s.status === '退学').length)
+const graduateCount = computed(() => fullStudentList.value.filter(s => s.status === '毕业').length)
+
 const handleSearch = () => {
-  ElMessage.success('查询成功')
+  currentPage.value = 1
 }
 
 const handleExport = () => {
@@ -363,6 +367,10 @@ const handlePrint = (row) => {
   ElMessage.success(`正在生成 ${row.name} 的在读证明...`)
 }
 
+const handlePageChange = (page) => {
+  currentPage.value = page
+}
+
 const getStatusType = (status) => {
   const map = {
     '在读': 'success',
@@ -372,6 +380,13 @@ const getStatusType = (status) => {
     '结业': 'info'
   }
   return map[status] || ''
+}
+
+const goToSmartRoom = (row) => {
+  router.push({
+    path: '/archive-center/smart-room',
+    query: { archiveNo: row.studentId }
+  })
 }
 </script>
 

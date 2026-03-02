@@ -264,6 +264,7 @@ const initGrowthChart = () => {
       data: ['知识总量', '新增知识', '活跃用户']
     },
     grid: {
+      top: '15%',
       left: '3%',
       right: '4%',
       bottom: '3%',
@@ -324,14 +325,16 @@ const initUserDistributionChart = () => {
       formatter: '{a} <br/>{b}: {c} ({d}%)'
     },
     legend: {
-      orient: 'vertical',
-      left: 'left'
+      orient: 'horizontal',
+      bottom: '0',
+      left: 'center'
     },
     series: [
       {
         name: '活跃用户',
         type: 'pie',
-        radius: ['40%', '70%'],
+        radius: ['40%', '65%'],
+        center: ['50%', '45%'],
         avoidLabelOverlap: false,
         itemStyle: {
           borderRadius: 10,
@@ -392,6 +395,7 @@ const initDimensionChart = () => {
       data: ['贡献量', '被引用量', '解决问题数']
     },
     grid: {
+      top: '15%',
       left: '3%',
       right: '4%',
       bottom: '3%',
@@ -655,6 +659,7 @@ const initConsumptionChart = () => {
       data: ['查看次数', '下载次数', '分享次数']
     },
     grid: {
+      top: '15%',
       left: '3%',
       right: '4%',
       bottom: '3%',

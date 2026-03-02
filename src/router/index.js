@@ -46,6 +46,7 @@ import NoticeManagement from '../views/consultation-center/NoticeManagement.vue'
 
 // 档案中心
 import ArchiveWorkbench from '../views/archive-center/ArchiveWorkbench.vue'
+import SmartArchiveRoom from '../views/archive-center/SmartArchiveRoom.vue'
 import DocumentaryArchive from '../views/archive-center/DocumentaryArchive.vue'
 import ScientificArchive from '../views/archive-center/ScientificArchive.vue'
 import PersonnelArchive from '../views/archive-center/PersonnelArchive.vue'
@@ -64,6 +65,7 @@ import SmartDecision from '../views/intelligent-decision/SmartDecision.vue'
 import SmartMonitoring from '../views/intelligent-decision/SmartMonitoring.vue'
 import SmartRecommendation from '../views/intelligent-decision/SmartRecommendation.vue'
 import SmartAnalysis from '../views/intelligent-decision/SmartAnalysis.vue'
+import SmartEvaluation from '../views/intelligent-decision/SmartEvaluation.vue'
 
 // 学校管理
 import SchoolManagement from '../views/school-management/SchoolManagement.vue'
@@ -277,6 +279,12 @@ const routes = [
     meta: { title: '档案工作台' }
   },
   {
+    path: '/archive-center/smart-room',
+    name: 'SmartArchiveRoom',
+    component: SmartArchiveRoom,
+    meta: { title: '智能档案室' }
+  },
+  {
     path: '/archive-center/documentary',
     name: 'DocumentaryArchive',
     component: DocumentaryArchive,
@@ -360,6 +368,12 @@ const routes = [
     component: SmartAnalysis,
     meta: { title: '智能分析' }
   },
+  {
+    path: '/intelligent-decision/smart-evaluation',
+    name: 'SmartEvaluation',
+    component: SmartEvaluation,
+    meta: { title: '智能评价' }
+  },
   // 学校管理相关路由
   {
     path: '/school-management/school',
@@ -401,7 +415,7 @@ const routes = [
   // 知识中心相关路由
   {
     path: '/knowledge-center',
-    redirect: '/knowledge-center/graph'
+    redirect: '/knowledge-center/operation'
   },
   {
     path: '/knowledge-center/graph',
