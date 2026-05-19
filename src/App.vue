@@ -46,6 +46,11 @@
               <span>首页</span>
             </el-menu-item>
             
+            <el-menu-item index="/campus-cockpit">
+              <el-icon><Odometer /></el-icon>
+              <span>校园驾驶舱</span>
+            </el-menu-item>
+            
             <el-sub-menu index="/consultation-center">
               <template #title>
                 <el-icon><Document /></el-icon>
@@ -366,7 +371,8 @@ import {
   Connection,
   School,
   Reading,
-  EditPen
+  EditPen,
+  Odometer
 } from '@element-plus/icons-vue'
 
 // AI 助手状态

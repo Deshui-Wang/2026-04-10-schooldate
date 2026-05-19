@@ -2147,8 +2147,23 @@ export default {
   margin: 0;
   font-size: 24px;
   font-weight: 700;
-  color: #172b4d;
   letter-spacing: 0.5px;
+  color: #172b4d;
+}
+
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .system-name {
+    background: linear-gradient(
+      105deg,
+      #0f2740 0%,
+      #172b4d 42%,
+      #1a4d8c 78%,
+      #0052cc 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
 }
 
 .system-sub-name {

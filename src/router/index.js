@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 // 首页
 import Home from '../views/Home.vue'
+import CampusCockpit from '../views/CampusCockpit.vue'
 
 // 数据对接
 import DataDashboard from '../views/data-integration/DataDashboard.vue'
@@ -94,6 +95,12 @@ const routes = [
     name: 'Home',
     component: Home,
     meta: { title: '首页' }
+  },
+  {
+    path: '/campus-cockpit',
+    name: 'CampusCockpit',
+    component: CampusCockpit,
+    meta: { title: '校园驾驶舱' }
   },
   {
     path: '/data-integration/dashboard',
